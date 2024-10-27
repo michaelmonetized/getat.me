@@ -1,7 +1,3 @@
-import Image from "next/image";
-
 export default function Home() {
-  return (
-    {"It Works!"}
-  );
+  return <h1>{"It Works!"}</h1>;
 }
