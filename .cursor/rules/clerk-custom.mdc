@@ -2879,5 +2879,4 @@ import { ClerkProvider } from '@clerk/nextjs';
 
   </Tab>
 </Tabs>
-
 ````
