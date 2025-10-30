@@ -37,7 +37,7 @@ export function LimitBanner() {
         <Button variant="outline" className="flex-1">
           Compare Plans
         </Button>
-        <Button className="flex-1 bg-green-600 hover:bg-green-700 text-white border-green-600">
+        <Button className="flex-1 bg-primary hover:bg-primary-hover border-primary">
           Get ProMax
         </Button>
       </div>

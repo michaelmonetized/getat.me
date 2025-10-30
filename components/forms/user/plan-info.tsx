@@ -29,13 +29,13 @@ export function PlanInfo() {
         <CardContent className="px-0 space-y-2">
           <Button
             variant="outline"
-            className="w-full justify-start bg-blue-600 hover:bg-blue-700 text-white border-blue-600"
+            className="w-full justify-start bg-accent hover:bg-accent-hover border-accent text-accent-foreground"
           >
             Pro - $0.99/mo
           </Button>
           <Button
             variant="outline"
-            className="w-full justify-start bg-green-600 hover:bg-green-700 text-white border-green-600"
+            className="w-full justify-start bg-secondary hover:bg-secondary-hover border-secondary text-secondary-foreground"
           >
             ProMax - $4.99/mo
           </Button>

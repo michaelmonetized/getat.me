@@ -23,28 +23,28 @@ const config: Config = {
         },
         primary: {
           DEFAULT: "var(--primary)",
-          foreground: "var(--primary-foreground)",
           hover: "var(--primary-hover)",
+          foreground: "var(--primary-foreground)",
         },
         secondary: {
           DEFAULT: "var(--secondary)",
-          foreground: "var(--secondary-foreground)",
           hover: "var(--secondary-hover)",
+          foreground: "var(--secondary-foreground)",
         },
         muted: {
           DEFAULT: "var(--muted)",
-          foreground: "var(--muted-foreground)",
           hover: "var(--muted-hover)",
+          foreground: "var(--muted-foreground)",
         },
         accent: {
           DEFAULT: "var(--accent)",
-          foreground: "var(--accent-foreground)",
           hover: "var(--accent-hover)",
+          foreground: "var(--accent-foreground)",
         },
         destructive: {
           DEFAULT: "var(--destructive)",
-          foreground: "var(--destructive-foreground)",
           hover: "var(--destructive-hover)",
+          foreground: "var(--destructive-foreground)",
         },
         border: "var(--border)",
         input: "var(--input)",

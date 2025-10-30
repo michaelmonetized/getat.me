@@ -41,12 +41,12 @@ export function LinkItem({ link, onEdit }: LinkItemProps) {
   };
 
   return (
-    <div className="w-full bg-primary hover:bg-primary-hover text-white rounded-lg px-6 py-4 flex items-center justify-between transition-colors cursor-pointer">
+    <div className="w-full bg-primary hover:bg-primary-hover rounded-lg px-6 py-4 flex items-center justify-between transition-colors cursor-pointer">
       <Link
         href={link.href}
         target="_blank"
         rel="noopener noreferrer"
-        className="flex items-center gap-4 flex-1 min-w-0"
+        className="flex items-center gap-4 flex-1 min-w-0 text-primary-foreground"
         onClick={(e) => e.stopPropagation()}
       >
         {link.icon && <div className="text-2xl flex-shrink-0">{link.icon}</div>}
@@ -60,7 +60,7 @@ export function LinkItem({ link, onEdit }: LinkItemProps) {
             e.stopPropagation();
             onEdit?.();
           }}
-          className="p-2 hover:bg-primary-hover/50 rounded transition-colors"
+          className="p-2 hover:bg-primary-hover/50 rounded transition-colors text-primary-foreground"
           disabled={isDeleting}
           aria-label="Edit link"
         >
@@ -69,7 +69,7 @@ export function LinkItem({ link, onEdit }: LinkItemProps) {
         <Button
           variant="ghost"
           onClick={handleDelete}
-          className="p-2 hover:bg-primary-hover/50 rounded transition-colors"
+          className="p-2 hover:bg-primary-hover/50 rounded transition-colors text-primary-foreground"
           disabled={isDeleting}
           aria-label="Delete link"
         >
