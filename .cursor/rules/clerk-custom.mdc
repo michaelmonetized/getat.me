@@ -2720,7 +2720,8 @@ The CAPTCHA widget language/locale. When setting the language for CAPTCHA, this 
 
 <Tabs items={["Next.js", "Astro", "React", "Remix", "Nuxt", "Vue"]}>
 <Tab>
-```tsx {{ prettier: false, filename: 'app.tsx' }}
+
+````tsx {{ prettier: false, filename: 'app.tsx' }}
 import { ClerkProvider } from '@clerk/nextjs';
 
     <ClerkProvider
@@ -2878,3 +2879,5 @@ import { ClerkProvider } from '@clerk/nextjs';
 
   </Tab>
 </Tabs>
+
+````
