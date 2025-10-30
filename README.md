@@ -1,36 +1,36 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# [Get At Me](https://getat.me)
 
-## Getting Started
+A link page you can personalize and share on your social media profiles.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Personalize your link page with a profile picture, cover photo, name, bio, and links to your social media profiles.
+- Share your link page on your social media profiles.
+- Customize the colors and order of your links.
+- Add emojis and icons to your links.
+- Add your phone, email and even a contact form to your link page.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Pro features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Add a booking form to your link page that syncs with your google calendar.
+- Add a rate/review form to your link page and prominently display your overall rating and top reviews.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Platinum features
 
-## Learn More
+- Remove branding and ads.
+- Charge for appointments.
+- Have threaded public conversations with visitors.
+- Embed your profile badge, rating widget, testimonials, live social proof widget, live booking widget, contact form and live chat widget anywhere.
 
-To learn more about Next.js, take a look at the following resources:
+## Purchase Addons
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Display a verified badge with an annual subscription.
+- Get vetted and display your vetted badge on your link page with an annual subscription.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Advertisers
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Advertise your business with prominent display ads to millions of people on influencer pages with a daily budget.
+- Manage your campaigns with granular tools for time of day, days of the week, demographic targeting and more.
+- Schedule campaigns to run on a specific date or recurring schedule.
+- See your ads in real time and get performance insights.
+- Choose influencer categories you want to prioritize and exclude.

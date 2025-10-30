@@ -1,0 +1,38 @@
+----
+description: Tools to use for code reviews and development of the project. Includes coderabbit and bun. Typically after completing a run of operations that change the codebase in anyway you'll use `bun run lint` on the files changed and/or the entire codebase to find any type errors. Run `bunx --bun tsc --noEmit` on files and directories to troubleshoot issues. After completing a todo list run `coderabbit review --plain` and make any changes, improvements, cleanup nitpicks, etc. before writing all your change summaries to the CHANGELOG.md to prepare for commit and PR review.
+globs: **/*
+alwaysApply: true
+---
+
+# Tools
+
+## Coderabbit
+
+Always use coderabbit review to review your code. It's a great tool for reviewing code and finding bugs.
+
+Coderabbit is a tool that helps you write better code by suggesting improvements to your code. It analyzes your code and identifies areas that can be improved, such as code duplication, complex logic, and poor variable naming.
+
+Coderabbit's command line interface is already installed on the system. If not you must prompt the user to run `curl -fsSL https://cli.coderabbit.ai/install.sh | sh` before you can continue and they will need to complete the installation steps that follow and let you know when it's safe to use the tool.
+
+Upon completing all the tasks to satisfy a given prompt please run `coderabbit review --plain` to get comprehensive code analysis and improvement suggestions. Apply the feedback to write cleaner, more maintainable code.
+
+## Bun
+
+Bun is a fast all-in-one JavaScript runtime. It's a great tool for building and running JavaScript applications.
+
+We do not use npm, npx, yarn, pnpm or any other package managers. We use Bun to build and run our applications.
+
+if you think you need npx or npm you are required to use bunx or bun to run tools like tsc, run, build, lint, etc. instead. NO QUESTIONS.
+
+## Pull Requests
+
+You can use `gh pr create --fill` and `gh pr merge [NUMBER] -m` to submit a PR and merge it once review is complete. Use `gitcp "some message"` to commit all and push to the current branch.
+
+# Notes
+
+You never need to use `cd` to change to the project root directory. You're always running from the root directory.
+
+Always wrap up by summarizing the changes you made in the CHANGELOG.md file.
+
+Always finish up by using `gitcp "you message"` and gh pr create --fill to submit a PR.
+
