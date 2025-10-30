@@ -41,7 +41,7 @@ export function LinkItem({ link, onEdit }: LinkItemProps) {
   };
 
   return (
-    <div className="w-full bg-teal-600 hover:bg-teal-700 text-white rounded-lg px-6 py-4 flex items-center justify-between transition-colors cursor-pointer">
+    <div className="w-full bg-primary hover:bg-primary-hover text-white rounded-lg px-6 py-4 flex items-center justify-between transition-colors cursor-pointer">
       <Link
         href={link.href}
         target="_blank"
@@ -53,26 +53,28 @@ export function LinkItem({ link, onEdit }: LinkItemProps) {
         <span className="text-lg font-medium truncate">{link.anchor}</span>
       </Link>
       <div className="flex items-center gap-2 flex-shrink-0">
-        <button
+        <Button
+          variant="ghost"
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
             onEdit?.();
           }}
-          className="p-2 hover:bg-teal-800/50 rounded transition-colors"
+          className="p-2 hover:bg-primary-hover/50 rounded transition-colors"
           disabled={isDeleting}
           aria-label="Edit link"
         >
           <Pencil className="h-4 w-4" />
-        </button>
-        <button
+        </Button>
+        <Button
+          variant="ghost"
           onClick={handleDelete}
-          className="p-2 hover:bg-teal-800/50 rounded transition-colors"
+          className="p-2 hover:bg-primary-hover/50 rounded transition-colors"
           disabled={isDeleting}
           aria-label="Delete link"
         >
           <Trash2 className="h-4 w-4" />
-        </button>
+        </Button>
       </div>
     </div>
   );

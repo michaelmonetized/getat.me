@@ -9,7 +9,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const themes = [
   "Mocha",
-  "Frapaccino",
+  "Frappe",
+  "Macchiato",
   "Monokai",
   "Tokyo",
   "Tomorrow",

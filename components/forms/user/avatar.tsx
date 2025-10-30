@@ -108,7 +108,7 @@ export function AvatarUpload() {
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         className={`
-          relative w-32 h-32 rounded-full overflow-hidden border-4 border-orange-500 shadow-lg
+          relative w-64 h-64 rounded-full overflow-hidden border-4 border-background shadow-lg bg-background
           ${avatarUrl ? "cursor-pointer" : "border-dashed bg-muted"}
           ${isHovering ? "ring-2 ring-primary ring-offset-2" : ""}
           ${isUploading ? "opacity-50" : ""}

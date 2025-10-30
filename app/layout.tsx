@@ -3,6 +3,7 @@ import "./fonts/max.css";
 import "./globals.css";
 import Providers from "@/context";
 import { SetHandleModal } from "@/components/set-handle-modal";
+import { Navbar } from "@/components/navbar";
 
 export const metadata: Metadata = {
   title: "Get At Me",
@@ -18,6 +19,7 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <body className="antialiased">
         <Providers>
+          <Navbar />
           {children}
           <SetHandleModal />
         </Providers>

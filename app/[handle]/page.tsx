@@ -89,7 +89,7 @@ export default function ProfilePage() {
       {/* Main Content */}
       <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8">
         {/* Profile Picture + Handle/Bio Section - Overlapping the banner */}
-        <div className="relative -mt-16 mb-12">
+        <div className="relative -mt-32 mb-12">
           <div className="flex flex-col md:flex-row items-center md:items-center gap-6">
             {/* Profile Picture */}
             <div className="flex-shrink-0">
@@ -101,7 +101,7 @@ export default function ProfilePage() {
                   <img
                     src={userByHandle.avatarUrl}
                     alt="Profile"
-                    className="w-32 h-32 rounded-full object-cover border-4 border-orange-500 shadow-lg"
+                    className="w-64 h-64 rounded-full object-cover border-4 border-background shadow-lg bg-background"
                   />
                 )
               )}
