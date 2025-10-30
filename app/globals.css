@@ -289,8 +289,26 @@
     color: var(--foreground);
   }
 
-  a {
-    @apply underline-offset-4 hover:underline transition-all ease-out duration-300 focus:outline-none;
+  a,
+  a:link,
+  a:visited,
+  a:hover,
+  a:active,
+  a:focus {
+    @apply underline-offset-4 hover:underline transition-all ease-out duration-300 focus:outline-none text-primary;
+  }
+
+  a:hover {
+    @apply text-primary-hover;
+  }
+
+  a:active,
+  a:focus {
+    @apply text-secondary;
+  }
+
+  a:visited {
+    @apply text-muted;
   }
 
   strong {

@@ -1,10 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
-import { useUser } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -29,7 +28,6 @@ interface EditLinkFormProps {
 }
 
 export function EditLinkForm({ link, onClose }: EditLinkFormProps) {
-  const { user } = useUser();
   const [anchor, setAnchor] = useState(link.anchor);
   const [href, setHref] = useState(link.href);
   const [isSubmitting, setIsSubmitting] = useState(false);
