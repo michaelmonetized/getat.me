@@ -2,7 +2,7 @@
 
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { useUser } from "@clerk/nextjs";
+import { useUser, useAuth } from "@clerk/nextjs";
 import { useParams } from "next/navigation";
 import { useMemo, useState, useEffect } from "react";
 import { Id } from "@/convex/_generated/dataModel";
@@ -20,6 +20,7 @@ export default function ProfilePage() {
   const params = useParams();
   const handle = params.handle as string;
   const { user: currentUser } = useUser();
+  const { has } = useAuth();
   const [editingLink, setEditingLink] = useState<Id<"links"> | null>(null);
 
   const userByHandle = useQuery(api.users.getUserByHandle, { handle });
@@ -29,11 +30,8 @@ export default function ProfilePage() {
   );
   const links = useQuery(api.links.getUserLinksByHandle, { handle });
 
-  // Check if user has unlimited_links feature
-  const hasUnlimitedLinks = useQuery(
-    api.users.userHasFeature,
-    currentUser?.id ? { userId: currentUser.id, feature: "unlimited_links" } : "skip"
-  );
+  // Check if user has unlimited_links feature from Clerk
+  const hasUnlimitedLinks = has?.({ feature: "unlimited_links" }) ?? false;
 
   const isOwner = useMemo(() => {
     return (
@@ -143,7 +141,9 @@ export default function ProfilePage() {
           <div className={isOwner ? "lg:col-span-9" : "lg:col-span-12"}>
             <div className="space-y-6">
               {/* Add Link Form */}
-              {isOwner && (links.length < 3 || hasUnlimitedLinks) && <AddLinkForm />}
+              {isOwner && (links.length < 3 || hasUnlimitedLinks) && (
+                <AddLinkForm />
+              )}
 
               {/* Links List */}
               {links.length === 0 ? (
