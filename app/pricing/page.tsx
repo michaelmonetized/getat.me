@@ -1,10 +1,13 @@
-import React from "react";
+import { PricingTable } from "@clerk/nextjs";
 
 const PricingPage = () => {
   return (
-    <div>
-      <h1>Pricing</h1>
-      <p>Explore our pricing plans.</p>
+    <div className="container mx-auto p-4">
+      <h1 className="text-2xl font-bold">Pricing</h1>
+      <p className="text-sm text-muted-foreground">
+        Explore our pricing plans.
+      </p>
+      <PricingTable />
     </div>
   );
 };

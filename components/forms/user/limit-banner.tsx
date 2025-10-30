@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
+import Link from "next/link";
+import { CheckoutButton } from "@clerk/nextjs/experimental";
 
 export function LimitBanner() {
   const [isDismissed, setIsDismissed] = useState(false);
@@ -34,12 +36,14 @@ export function LimitBanner() {
         </div>
       </div>
       <div className="flex gap-3 pt-2">
-        <Button variant="outline" className="flex-1">
-          Compare Plans
+        <Button variant="outline" className="flex-1" asChild>
+          <Link href="/pricing">Compare Plans</Link>
         </Button>
-        <Button className="flex-1 bg-primary hover:bg-primary-hover border-primary">
-          Get ProMax
-        </Button>
+        <CheckoutButton planId="cplan_34mwfWNyDG0w7w1feCVi4tmm6y9">
+          <Button className="flex-1 bg-primary hover:bg-primary-hover border-primary">
+            Get ProMax
+          </Button>
+        </CheckoutButton>
       </div>
     </div>
   );

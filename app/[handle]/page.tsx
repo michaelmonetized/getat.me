@@ -29,6 +29,12 @@ export default function ProfilePage() {
   );
   const links = useQuery(api.links.getUserLinksByHandle, { handle });
 
+  // Check if user has unlimited_links feature
+  const hasUnlimitedLinks = useQuery(
+    api.users.userHasFeature,
+    currentUser?.id ? { userId: currentUser.id, feature: "unlimited_links" } : "skip"
+  );
+
   const isOwner = useMemo(() => {
     return (
       currentUserProfile &&
@@ -137,7 +143,7 @@ export default function ProfilePage() {
           <div className={isOwner ? "lg:col-span-9" : "lg:col-span-12"}>
             <div className="space-y-6">
               {/* Add Link Form */}
-              {isOwner && links.length < 3 && <AddLinkForm />}
+              {isOwner && (links.length < 3 || hasUnlimitedLinks) && <AddLinkForm />}
 
               {/* Links List */}
               {links.length === 0 ? (
@@ -161,7 +167,9 @@ export default function ProfilePage() {
               )}
 
               {/* Limit Banner */}
-              {isOwner && links.length >= 3 && <LimitBanner />}
+              {isOwner && links.length >= 3 && !hasUnlimitedLinks && (
+                <LimitBanner />
+              )}
             </div>
           </div>
         </div>

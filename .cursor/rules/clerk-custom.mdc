@@ -1,0 +1,2880 @@
+---
+title: Build your own sign-in-or-up page for your Next.js app with Clerk
+description: Learn how to add a custom sign-in-or-up page to your Next.js app
+  with Clerk's prebuilt components.
+sdk: nextjs, react-router, remix, tanstack-react-start
+sdkScoped: "true"
+canonical: /docs/:sdk:/guides/development/custom-sign-in-or-up-page
+lastUpdated: 2025-10-28T19:57:28.000Z
+availableSdks: nextjs,react-router,remix,tanstack-react-start
+notAvailableSdks: react,js-frontend,chrome-extension,expo,android,ios,expressjs,fastify,go,astro,nuxt,vue,ruby,js-backend
+activeSdk: nextjs
+---
+
+This guide shows you how to use the <SDKLink href="/docs/:sdk:/reference/components/authentication/sign-in" sdks={["astro","chrome-extension","expo","nextjs","nuxt","react","react-router","remix","tanstack-react-start","vue","js-frontend"]} code={true}>\<SignIn /></SDKLink> component to build a custom page that **allows users to sign in or sign up within a single flow**.
+
+To set up separate sign-in and sign-up pages, follow this guide, and then follow the <SDKLink href="/docs/nextjs/guides/development/custom-sign-up-page" sdks={["nextjs","react-router","remix","tanstack-react-start"]}>custom sign-up page guide</SDKLink>.
+
+> \[!NOTE]
+> Just getting started with Clerk and Next.js? See the <SDKLink href="/docs/nextjs/getting-started/quickstart" sdks={["nextjs","react","js-frontend","chrome-extension","expo","android","ios","expressjs","fastify","react-router","remix","tanstack-react-start","go","astro","nuxt","vue","ruby","js-backend"]}>quickstart tutorial</SDKLink>!
+
+<Steps>
+  ## Build a sign-in-or-up page
+
+The following example demonstrates how to render the <SDKLink href="/docs/:sdk:/reference/components/authentication/sign-in" sdks={["astro","chrome-extension","expo","nextjs","nuxt","react","react-router","remix","tanstack-react-start","vue","js-frontend"]} code={true}>\<SignIn /></SDKLink> component on a dedicated page using the [Next.js optional catch-all route](https://nextjs.org/docs/pages/building-your-application/routing/dynamic-routes#catch-all-segments).
+
+```tsx {{ filename: 'app/sign-in/[[...sign-in]]/page.tsx' }}
+import { SignIn } from "@clerk/nextjs";
+
+export default function Page() {
+  return <SignIn />;
+}
+```
+
+## Make the sign-in-or-up route public
+
+By default, `clerkMiddleware()` makes all routes public. **This step is specifically for applications that have configured `clerkMiddleware()` to make [all routes protected](/docs/reference/nextjs/clerk-middleware#protect-all-routes).** If you have not configured `clerkMiddleware()` to protect all routes, you can skip this step.
+
+    <If sdk="nextjs">
+      > \[!IMPORTANT]
+      >
+      > If you're using Next.js ≤15, name your file `middleware.ts` instead of `proxy.ts`. The code itself remains the same; only the filename changes.
+    </If>
+
+To make the sign-in route public:
+
+- Navigate to your `proxy.ts` file.
+- Create a new [route matcher](/docs/reference/nextjs/clerk-middleware#create-route-matcher) that matches the sign-in route, or you can add it to your existing route matcher that is making routes public.
+- Create a check to see if the user's current route is a public route. If it is not a public route, use [`auth.protect()`](/docs/reference/nextjs/app-router/auth#auth-protect) to protect the route.
+
+```tsx {{ filename: 'proxy.ts' }}
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+
+const isPublicRoute = createRouteMatcher(["/sign-in(.*)"]);
+
+export default clerkMiddleware(async (auth, req) => {
+  if (!isPublicRoute(req)) {
+    await auth.protect();
+  }
+});
+
+export const config = {
+  matcher: [
+    // Skip Next.js internals and all static files, unless found in search params
+    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
+    // Always run for API routes
+    "/(api|trpc)(.*)",
+  ],
+};
+```
+
+## Update your environment variables
+
+- Set the `CLERK_SIGN_IN_URL` environment variable to tell Clerk where the `<SignIn />` component is being hosted.
+- Set `CLERK_SIGN_IN_FALLBACK_REDIRECT_URL` as a fallback URL incase users visit the `/sign-in` route directly.
+- Set `CLERK_SIGN_UP_FALLBACK_REDIRECT_URL` as a fallback URL incase users select the 'Don't have an account? Sign up' link at the bottom of the component.
+
+Learn more about these environment variables and how to customize Clerk's redirect behavior in the [dedicated guide](/docs/guides/development/customize-redirect-urls).
+
+```env {{ filename: '.env' }}
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL=/
+NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL=/
+```
+
+## Visit your new page
+
+Run your project with the following command:
+
+<CodeBlockTabs options={["npm", "yarn", "pnpm", "bun"]}>
+`bash {{ filename: 'terminal' }}
+    npm run dev
+    `
+
+    ```bash {{ filename: 'terminal' }}
+    yarn dev
+    ```
+
+    ```bash {{ filename: 'terminal' }}
+    pnpm dev
+    ```
+
+    ```bash {{ filename: 'terminal' }}
+    bun dev
+    ```
+
+  </CodeBlockTabs>
+
+Visit your new custom page locally at [localhost:3000/sign-in](http://localhost:3000/sign-in).
+</Steps>
+
+## Next steps
+
+<Cards>
+  * [Custom sign-up page](/docs/nextjs/guides/development/custom-sign-up-page)
+  * Learn how to add a custom sign-up page to your Next.js app with Clerk's prebuilt components.
+
+---
+
+- [Protect content and read user data](/docs/nextjs/guides/users/reading)
+- Learn how to use Clerk's hooks and helpers to access the session and user data in your Next.js application.
+
+---
+
+- [Client-side helpers](/docs/reference/nextjs/overview#client-side-helpers)
+- Learn more about Next.js client-side helpers and how to use them.
+
+---
+
+- [Next.js SDK Reference](/docs/reference/nextjs/overview)
+- Learn more about additional Next.js methods.
+
+---
+
+- [Clerk components](/docs/reference/components/overview)
+- Learn more about Clerk's prebuilt components that make authentication and user management easy.
+  </Cards>
+
+# Custom Clerk Sign Up Page
+
+By default, the <SDKLink href="/docs/:sdk:/reference/components/authentication/sign-in" sdks={["astro","chrome-extension","expo","nextjs","nuxt","react","react-router","remix","tanstack-react-start","vue","js-frontend"]} code={true}>\<SignIn /></SDKLink> component handles signing in and signing up, but if you'd like to have a dedicated sign-up page, this guide shows you how to use the <SDKLink href="/docs/:sdk:/reference/components/authentication/sign-up" sdks={["astro","chrome-extension","expo","nextjs","nuxt","react","react-router","remix","tanstack-react-start","vue","js-frontend"]} code={true}>\<SignUp /></SDKLink> component to build a custom sign-up page.
+
+To set up a single sign-in-or-up page, follow the <SDKLink href="/docs/nextjs/guides/development/custom-sign-in-or-up-page" sdks={["nextjs","react-router","remix","tanstack-react-start"]}>custom sign-in-or-up page guide</SDKLink>.
+
+> \[!NOTE]
+> Just getting started with Clerk and Next.js? See the <SDKLink href="/docs/nextjs/getting-started/quickstart" sdks={["nextjs","react","js-frontend","chrome-extension","expo","android","ios","expressjs","fastify","react-router","remix","tanstack-react-start","go","astro","nuxt","vue","ruby","js-backend"]}>quickstart tutorial</SDKLink>!
+
+<Steps>
+  ## Build a sign-up page
+
+The following example demonstrates how to render the <SDKLink href="/docs/:sdk:/reference/components/authentication/sign-up" sdks={["astro","chrome-extension","expo","nextjs","nuxt","react","react-router","remix","tanstack-react-start","vue","js-frontend"]} code={true}>\<SignUp /></SDKLink> component on a dedicated sign-up page using the [Next.js optional catch-all route](https://nextjs.org/docs/pages/building-your-application/routing/dynamic-routes#catch-all-segments).
+
+```tsx {{ filename: 'app/sign-up/[[...sign-up]]/page.tsx' }}
+import { SignUp } from "@clerk/nextjs";
+
+export default function Page() {
+  return <SignUp />;
+}
+```
+
+## Make the sign-up route public
+
+By default, `clerkMiddleware()` makes all routes public. **This step is specifically for applications that have configured `clerkMiddleware()` to make [all routes protected](/docs/reference/nextjs/clerk-middleware#protect-all-routes).** If you have not configured `clerkMiddleware()` to protect all routes, you can skip this step.
+
+    <If sdk="nextjs">
+      > \[!IMPORTANT]
+      >
+      > If you're using Next.js ≤15, name your file `middleware.ts` instead of `proxy.ts`. The code itself remains the same; only the filename changes.
+    </If>
+
+To make the sign-up route public:
+
+- Navigate to your `proxy.ts` file.
+- Add the sign-up route to your existing route matcher that is making routes public.
+
+```tsx {{ filename: 'proxy.ts', ins: [5] }}
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+
+// prettier-ignore
+const isPublicRoute = createRouteMatcher([
+  '/sign-in(.*)',
+  '/sign-up(.*)'
+])
+
+export default clerkMiddleware(async (auth, req) => {
+  if (!isPublicRoute(req)) {
+    await auth.protect();
+  }
+});
+
+export const config = {
+  matcher: [
+    // Skip Next.js internals and all static files, unless found in search params
+    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
+    // Always run for API routes
+    "/(api|trpc)(.*)",
+  ],
+};
+```
+
+## Update your environment variables
+
+- Set the `CLERK_SIGN_UP_URL` environment variable to tell Clerk where the `<SignUp />` component is being hosted.
+- Set `CLERK_SIGN_UP_FALLBACK_REDIRECT_URL` as a fallback URL incase users visit the `/sign-up` route directly.
+- Set `CLERK_SIGN_IN_FALLBACK_REDIRECT_URL` as a fallback URL incase users select the 'Already have an account? Sign in' link at the bottom of the component.
+
+Learn more about these environment variables and how to customize Clerk's redirect behavior in the [dedicated guide](/docs/guides/development/customize-redirect-urls).
+
+```env {{ filename: '.env' }}
+NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL=/
+NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL=/
+```
+
+## Visit your new page
+
+Run your project with the following command:
+
+<CodeBlockTabs options={["npm", "yarn", "pnpm", "bun"]}>
+`bash {{ filename: 'terminal' }}
+    npm run dev
+    `
+
+    ```bash {{ filename: 'terminal' }}
+    yarn dev
+    ```
+
+    ```bash {{ filename: 'terminal' }}
+    pnpm dev
+    ```
+
+    ```bash {{ filename: 'terminal' }}
+    bun dev
+    ```
+
+  </CodeBlockTabs>
+
+Visit your new custom page locally at [localhost:3000/sign-up](http://localhost:3000/sign-up).
+</Steps>
+
+## Next steps
+
+<Cards>
+  * [Protect content and read user data](/docs/nextjs/guides/users/reading)
+  * Learn how to use Clerk's hooks and helpers to access the session and user data in your Next.js application.
+
+---
+
+- [Client-side helpers](/docs/reference/nextjs/overview#client-side-helpers)
+- Learn more about Next.js client-side helpers and how to use them.
+
+---
+
+- [Next.js SDK Reference](/docs/reference/nextjs/overview)
+- Learn more about additional Next.js methods.
+
+---
+
+- [Clerk components](/docs/reference/components/overview)
+- Learn more about Clerk's prebuilt components that make authentication and user management easy.
+  </Cards>
+
+# Components
+
+## Overview
+
+{/_ JS file: https://github.com/clerk/javascript/blob/main/packages/types/src/appearance.ts#L619 _/}
+
+Customizing the appearance of Clerk components is a powerful way to make your application look and feel unique. Clerk provides a way to customize the appearance of its components using the `appearance` prop.
+
+The `appearance` prop can be applied to <SDKLink href="/docs/:sdk:/reference/components/clerk-provider" sdks={["chrome-extension","expo","nextjs","react","react-router","tanstack-react-start"]} code={true}>\<ClerkProvider></SDKLink> to share styles across every component, or individually to any of the Clerk components.
+
+This applies to all of the React-based packages, like <SDKLink href="/docs/nextjs/getting-started/quickstart" sdks={["nextjs","react","js-frontend","chrome-extension","expo","android","ios","expressjs","fastify","react-router","remix","tanstack-react-start","go","astro","nuxt","vue","ruby","js-backend"]}>Next.js</SDKLink>, as well as <SDKLink href="/docs/reference/javascript/overview" sdks={["js-frontend"]}>the pure JavaScript ClerkJS package</SDKLink>.
+
+## Properties
+
+The `appearance` prop accepts the following properties:
+
+<Properties>
+  * `theme?`
+  * `BaseTheme | BaseTheme[]`
+
+A theme used as the base theme for the components. For more information, see [Themes](/docs/guides/customizing-clerk/appearance-prop/themes).
+
+---
+
+- `layout?`
+- `Layout`
+
+Configuration options that affect the layout of the components, allowing customizations that are hard to implement with just CSS. For more information, see [Layout](/docs/guides/customizing-clerk/appearance-prop/layout).
+
+---
+
+- `variables?`
+- `Variables`
+
+General theme overrides. This styles will be merged with our base theme. Can override global styles like colors, fonts, etc. For more information, see [Variables](/docs/guides/customizing-clerk/appearance-prop/variables).
+
+---
+
+- `elements?`
+- `Elements`
+
+Fine-grained theme overrides. Useful when you want to style specific elements or elements that are under a specific state. For more information, see the [Customize elements of a Clerk component](#customize-elements-of-a-clerk-component) section.
+
+---
+
+- `captcha?`
+- `Captcha`
+
+Configuration options that affect the appearance of the CAPTCHA widget. For more information, see the [dedicated guide](/docs/guides/customizing-clerk/appearance-prop/captcha).
+
+---
+
+- `cssLayerName?`
+- `string`
+
+The name of the CSS layer for Clerk component styles. This is useful for advanced CSS customization, allowing you to control the cascade and prevent style conflicts by isolating Clerk's styles within a specific layer. For more information on CSS layers, see the [MDN documentation on @layer](https://developer.mozilla.org/en-US/docs/Web/CSS/@layer).
+</Properties>
+
+## Using a prebuilt theme
+
+Clerk offers a set of prebuilt themes that can be used to quickly style Clerk components. See the [Themes](/docs/guides/customizing-clerk/appearance-prop/themes) docs for more information.
+
+## Customize the layout
+
+The `layout` property is used to adjust the layout of the <SDKLink href="/docs/:sdk:/reference/components/authentication/sign-in" sdks={["astro","chrome-extension","expo","nextjs","nuxt","react","react-router","remix","tanstack-react-start","vue","js-frontend"]} code={true}>\<SignIn/></SDKLink> and <SDKLink href="/docs/:sdk:/reference/components/authentication/sign-up" sdks={["astro","chrome-extension","expo","nextjs","nuxt","react","react-router","remix","tanstack-react-start","vue","js-frontend"]} code={true}>\<SignUp/></SDKLink> components, as well as set important links to your support, terms, and privacy pages. See the [Layout](/docs/guides/customizing-clerk/appearance-prop/layout) docs for more information.
+
+## Customize the base theme
+
+The `variables` property is used to adjust the general styles of a component's base theme, like colors, backgrounds, and typography. See the [Variables](/docs/guides/customizing-clerk/appearance-prop/variables) docs for more information.
+
+## Customize elements of a Clerk component
+
+If you want full control over the appearance of a Clerk component, you can target the underlying elements by using their CSS classes and then apply your own styles.
+
+First, you need to identify the underlying element of the Clerk component you want to style. You can do this by **inspecting** the HTML of the component.
+
+For example, if you want to style the primary button in a Clerk component, you can right-click on the primary button and select "Inspect" from the menu. This will open the browser's developer tools and highlight the element in the HTML, as shown in the following image:
+
+![The inspect element tab opened with an element selected. It shows a list of classes and a lock icon in between human-readable classnames and randomly generated ones](/docs/images/customization/identifying_elements.png)
+
+When you select an element that is part of a Clerk component, you'll notice a list of classes like so:
+
+```html
+cl-formButtonPrimary cl-button 🔒️ cl-internal-1ta0xpz
+```
+
+Any of the classes listed before the lock icon (🔒️) are safe to rely on, such as `cl-formButtonPrimary` or `cl-button` from the previous example. You'll use these classes to target the necessary elements of the Clerk component.
+
+> \[!NOTE]
+> Anything after the lock icon (🔒️) are internal classes used for Clerk's internal styling and should not be modified.
+
+Once you have identified the classes of the element you want to target, there are many ways to apply your custom styles depending on your preference:
+
+1. [Use global CSS styling](#use-global-css-to-style-clerk-components)
+2. [Pass custom CSS classes](#use-custom-css-classes-to-style-clerk-components)
+   - [Using Tailwind](#use-tailwind-classes-to-style-clerk-components)
+   - [Using CSS modules](#use-css-modules-to-style-clerk-components)
+3. [Pass inline CSS to your Clerk options](#use-inline-css-objects-to-style-clerk-components)
+
+### Use global CSS to style Clerk components
+
+You can style the elements of a Clerk component with global CSS.
+
+For this example, say you want to style the primary button in a Clerk component. You inspect the primary button to find the classes that you can use to target the element:
+
+```html
+cl-formButtonPrimary cl-button 🔒️ cl-internal-1ta0xpz
+```
+
+You can then create a global CSS file, use the classes you identified to target the primary button, and apply your custom styles. In this case, `cl-formButtonPrimary` is the class you want to use because it's specific to the primary button:
+
+```css {{ filename: 'styles/global.css' }}
+.cl-formButtonPrimary {
+  font-size: 14px;
+  text-transform: none;
+  background-color: #611bbd;
+}
+
+.cl-formButtonPrimary:hover,
+.cl-formButtonPrimary:focus,
+.cl-formButtonPrimary:active {
+  background-color: #49247a;
+}
+```
+
+### Use custom CSS classes to style Clerk components
+
+You can pass additional classes to Clerk component elements by using the `elements` property on the `appearance` prop.
+
+For example, an element in a Clerk component will have classes that look something like this:
+
+```html
+cl-formButtonPrimary cl-button 🔒️ cl-internal-1ta0xpz
+```
+
+Remove the `cl-` prefix from a class and use it as the key for a new object in the `elements` property. The value of this object should be the string of classes you want to apply to the element.
+
+The following example shows how to style the primary button in a `<SignIn />` component with custom CSS classes:
+
+```tsx {{ mark: [4] }}
+<SignIn
+  appearance={{
+    elements: {
+      formButtonPrimary: "your-org-button org-red-button",
+    },
+  }}
+/>
+```
+
+#### Use Tailwind classes to style Clerk components
+
+To use Tailwind CSS v4, you must set the `cssLayerName` property to ensure that Tailwind's utility styles are applied after Clerk's styles. It's recommended to add this to the `<ClerkProvider>` that wraps your app so that it's applied to all Clerk components, as shown in the following example. The example names the layer `clerk` but you can name it anything you want.
+
+<Tabs items={["Next.js", "Astro", "Vue", "JavaScript"]}>
+<Tab>
+<CodeBlockTabs options={["layout.tsx", "global.css"]}>
+
+````tsx {{ mark: ["cssLayerName: 'clerk'"] }}
+import { ClerkProvider } from '@clerk/nextjs'
+
+      export default function RootLayout({ children }: { children: React.ReactNode }) {
+        return (
+          <ClerkProvider
+            appearance={{
+              cssLayerName: 'clerk',
+            }}
+          >
+            <html lang="en">
+              <body>{children}</body>
+            </html>
+          </ClerkProvider>
+        )
+      }
+      ```
+
+      ```css {{ mark: ['clerk'] }}
+      @layer theme, base, clerk, components, utilities;
+      @import 'tailwindcss';
+      ```
+    </CodeBlockTabs>
+
+  </Tab>
+
+  <Tab>
+    <CodeBlockTabs options={["astro.config.mjs", "global.css"]}>
+      ```ts {{ mark: ["cssLayerName: 'clerk'"] }}
+      import { defineConfig } from 'astro/config'
+      import node from '@astrojs/node'
+      import clerk from '@clerk/astro'
+      import tailwind from '@tailwindcss/vite'
+
+      export default defineConfig({
+        integrations: [
+          clerk({
+            appearance: {
+              cssLayerName: 'clerk',
+            },
+          }),
+        ],
+        output: 'server',
+        adapter: node({
+          mode: 'standalone',
+        }),
+        vite: {
+          plugins: [tailwind()],
+        },
+      })
+      ```
+
+      ```css {{ mark: ['clerk'] }}
+      @layer theme, base, clerk, components, utilities;
+      @import 'tailwindcss';
+      ```
+    </CodeBlockTabs>
+
+  </Tab>
+
+  <Tab>
+    <CodeBlockTabs options={["main.js", "global.css"]}>
+      ```tsx {{ mark: ["cssLayerName: 'clerk'"] }}
+      import { createApp } from 'vue'
+      import './style.css'
+      import App from './App.vue'
+      import { clerkPlugin } from '@clerk/vue'
+
+      const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
+
+      if (!PUBLISHABLE_KEY) {
+        throw new Error('Add your Clerk Publishable Key to the .env file')
+      }
+
+      const app = createApp(App)
+      app.use(clerkPlugin, {
+        appearance: {
+          cssLayerName: 'clerk',
+        },
+        publishableKey: PUBLISHABLE_KEY,
+      })
+      app.mount('#app')
+      ```
+
+      ```css {{ mark: ['clerk'] }}
+      @layer theme, base, clerk, components, utilities;
+      @import 'tailwindcss';
+      ```
+    </CodeBlockTabs>
+
+  </Tab>
+
+  <Tab>
+    <CodeBlockTabs options={["index.html", "global.css"]}>
+      ```html {{ mark: ["cssLayerName: 'clerk'"] }}
+      <script>
+        window.addEventListener('load', async function () {
+          await Clerk.load({
+            appearance: {
+              cssLayerName: 'clerk',
+            },
+          })
+        })
+      </script>
+      ```
+
+      ```css {{ mark: ['clerk'] }}
+      @layer theme, base, clerk, components, utilities;
+      @import 'tailwindcss';
+      ```
+    </CodeBlockTabs>
+
+  </Tab>
+</Tabs>
+
+Then, you can use Tailwind's classes to style the elements of the Clerk component. The following example shows how to use Tailwind classes to style the primary button in a `<SignIn />` component:
+
+```tsx {{ mark: [4] }}
+<SignIn
+  appearance={{
+    elements: {
+      formButtonPrimary: "bg-slate-500 hover:bg-slate-400 text-sm",
+    },
+  }}
+/>
+````
+
+#### Use CSS modules to style Clerk components
+
+CSS modules are a great way to scope your CSS to a specific component.
+
+Create your module file and add the CSS you want to apply, as shown in the following example for the `<SignIn />` component:
+
+```css {{ filename: 'styles/SignIn.module.css' }}
+.primaryColor {
+  background-color: bisque;
+  color: black;
+}
+```
+
+Then you can apply this by importing the file and using the classes whenever required:
+
+<Tabs items={["Next.js"]}>
+<Tab>
+<CodeBlockTabs options={["App Router", "Pages Router"]}>
+
+````tsx {{ filename: 'app/layout.tsx', mark: [[9, 15]] }}
+import styles from '../styles/SignIn.module.css'
+import { ClerkProvider, SignIn } from '@clerk/nextjs'
+
+      export default function RootLayout({ children }: { children: React.ReactNode }) {
+        return (
+          <ClerkProvider>
+            <html lang="en">
+              <body>
+                <SignIn
+                  appearance={{
+                    elements: {
+                      formButtonPrimary: styles.primaryColor,
+                    },
+                  }}
+                />
+              </body>
+            </html>
+          </ClerkProvider>
+        )
+      }
+      ```
+
+      ```tsx {{ filename: 'app.tsx', mark: [[8, 14]] }}
+      import styles from '../styles/SignIn.module.css'
+      import { ClerkProvider, SignIn } from '@clerk/nextjs'
+      import type { AppProps } from 'next/app'
+
+      function MyApp({ pageProps }: AppProps) {
+        return (
+          <ClerkProvider {...pageProps}>
+            <SignIn
+              appearance={{
+                elements: {
+                  formButtonPrimary: styles.primaryColor,
+                },
+              }}
+            />
+          </ClerkProvider>
+        )
+      }
+
+      export default MyApp
+      ```
+    </CodeBlockTabs>
+
+  </Tab>
+</Tabs>
+
+### Use inline CSS objects to style Clerk components
+
+You can style the elements of a Clerk component with inline CSS objects.
+
+The following example shows how to style the primary button in a `<SignIn />` component with an inline CSS object:
+
+<Tabs items={["Next.js"]}>
+<Tab>
+<CodeBlockTabs options={["App Router", "Pages Router"]}>
+```tsx {{ filename: 'app/layout.tsx', mark: [[9, 22]] }}
+import styles from '../styles/SignIn.module.css'
+import { ClerkProvider, SignIn } from '@clerk/nextjs'
+
+      export default function RootLayout({ children }: { children: React.ReactNode }) {
+        return (
+          <ClerkProvider>
+            <html lang="en">
+              <body>
+                <SignIn
+                  appearance={{
+                    elements: {
+                      formButtonPrimary: {
+                        fontSize: 14,
+                        textTransform: 'none',
+                        backgroundColor: '#611BBD',
+                        '&:hover, &:focus, &:active': {
+                          backgroundColor: '#49247A',
+                        },
+                      },
+                    },
+                  }}
+                />
+              </body>
+            </html>
+          </ClerkProvider>
+        )
+      }
+      ```
+
+      ```tsx {{ filename: 'app.tsx', mark: [[7, 20]] }}
+      import { ClerkProvider, SignIn } from '@clerk/nextjs'
+      import type { AppProps } from 'next/app'
+
+      function MyApp({ pageProps }: AppProps) {
+        return (
+          <ClerkProvider {...pageProps}>
+            <SignIn
+              appearance={{
+                elements: {
+                  formButtonPrimary: {
+                    fontSize: 14,
+                    textTransform: 'none',
+                    backgroundColor: '#611BBD',
+                    '&:hover, &:focus, &:active': {
+                      backgroundColor: '#49247A',
+                    },
+                  },
+                },
+              }}
+            />
+          </ClerkProvider>
+        )
+      }
+
+      export default MyApp
+      ```
+    </CodeBlockTabs>
+
+  </Tab>
+</Tabs>
+
+## Next steps
+
+Here are a few resources you can utilize to customize your Clerk components further:
+
+<Cards>
+  * [Localization](/docs/guides/customizing-clerk/localization)
+  * Learn how to localize your Clerk components.
+
+---
+
+- [prebuilt themes](/docs/guides/customizing-clerk/appearance-prop/themes)
+- Explore the prebuilt themes that you can use to quickly style your Clerk components.
+
+---
+
+- [Customize layouts](/docs/guides/customizing-clerk/appearance-prop/layout)
+- Learn how to change the layout and links of your Clerk components.
+  </Cards>
+
+## Layout
+
+{/* JS file: https://github.com/clerk/javascript/blob/main/packages/types/src/appearance.ts#L538 */}
+
+The `layout` property can be used to change the layout of the <SDKLink href="/docs/:sdk:/reference/components/authentication/sign-in" sdks={["astro","chrome-extension","expo","nextjs","nuxt","react","react-router","remix","tanstack-react-start","vue","js-frontend"]} code={true}>\<SignIn/></SDKLink> and <SDKLink href="/docs/:sdk:/reference/components/authentication/sign-up" sdks={["astro","chrome-extension","expo","nextjs","nuxt","react","react-router","remix","tanstack-react-start","vue","js-frontend"]} code={true}>\<SignUp/></SDKLink> components, as well as set important links to your support, terms, and privacy pages.
+
+## Properties
+
+<Properties>
+  * `animations`
+  * `boolean`
+
+  Whether to enable animations inside the components. Defaults to `true`.
+
+  ***
+
+  * `helpPageUrl`
+  * `string`
+
+  The URL to your help page.
+
+  ***
+
+  * `logoImageUrl`
+  * `string`
+
+  The URL to your logo image. By default, the components will use the logo you've set in the Clerk Dashboard. This option is helpful when you need to display different logos for different themes, for example: white logo on dark themes, black logo on light themes.
+
+  ***
+
+  * `logoLinkUrl`
+  * `string`
+
+  Controls where the browser will redirect to after the user clicks the application logo. If a URL is provided, it will be used as the `href` of the link. If a value is not passed in, the components will use the Home URL as set in the Clerk Dashboard. Defaults to `undefined`.
+
+  ***
+
+  * `logoPlacement`
+  * `'inside' | 'outside'`
+
+  The placement of your logo. Defaults to `'inside'`.
+
+  ***
+
+  * `privacyPageUrl`
+  * `string`
+
+  The URL to your privacy page.
+
+  ***
+
+  * `shimmer`
+  * `boolean`
+
+  This option enables the shimmer animation for the avatars of `<UserButton />` and `<OrganizationSwitcher />`. Defaults to `true`.
+
+  ***
+
+  * `showOptionalFields`
+  * `boolean`
+
+  Whether to show optional fields on the sign in and sign up forms. Defaults to `true`.
+
+  ***
+
+  * `socialButtonsPlacement`
+  * `'bottom' | 'top'`
+
+  The placement of your social buttons. Defaults to `'top'`.
+
+  ***
+
+  * `socialButtonsVariant`
+  * `'blockButton' | 'iconButton' | 'auto'`
+
+  The variant of your social buttons. By default, the components will use `blockButton` if you have less than 3 social providers enabled, otherwise `iconButton` will be used.
+
+  ***
+
+  * `termsPageUrl`
+  * `string`
+
+  The URL to your terms page.
+
+  ***
+
+  * `unsafe_disableDevelopmentModeWarnings`
+  * `boolean`
+
+  Whether development warnings show up in development mode. **Only enable this if you want to preview how the components will look in production.**
+</Properties>
+
+## Usage
+
+<Tabs items={["Next.js", "Astro", "Vue", "Nuxt"]}>
+  <Tab>
+    ```tsx {{ prettier: false, filename: 'app.tsx' }}
+    import { ClerkProvider } from '@clerk/nextjs';
+
+    <ClerkProvider
+      appearance={{
+        layout: {
+          socialButtonsPlacement: 'bottom',
+          socialButtonsVariant: 'iconButton',
+          termsPageUrl: 'https://clerk.com/terms'
+        }
+      }}
+    >
+      {/* ... */}
+    </ClerkProvider>;
+    ```
+  </Tab>
+
+  <Tab>
+    ```js {{ filename: 'astro.config.mjs' }}
+    import clerk from '@clerk/astro'
+
+    export default defineConfig({
+      integrations: [
+        clerk({
+          appearance: {
+            layout: {
+              socialButtonsPlacement: 'bottom',
+              socialButtonsVariant: 'iconButton',
+              termsPageUrl: 'https://clerk.com/terms',
+            },
+          },
+        }),
+      ],
+    })
+    ```
+  </Tab>
+
+  <Tab>
+    ```ts {{ filename: 'src/main.ts' }}
+    import { createApp } from 'vue'
+    import App from './App.vue'
+    import { clerkPlugin } from '@clerk/vue'
+
+    const app = createApp(App)
+    app.use(clerkPlugin, {
+      appearance: {
+        layout: {
+          socialButtonsPlacement: 'bottom',
+          socialButtonsVariant: 'iconButton',
+          termsPageUrl: 'https://clerk.com/terms',
+        },
+      },
+    })
+    app.mount('#app')
+    ```
+  </Tab>
+
+  <Tab>
+    ```ts {{ filename: 'nuxt.config.ts' }}
+    export default defineNuxtConfig({
+      modules: ['@clerk/nuxt'],
+      clerk: {
+        appearance: {
+          layout: {
+            socialButtonsPlacement: 'bottom',
+            socialButtonsVariant: 'iconButton',
+            termsPageUrl: 'https://clerk.com/terms',
+          },
+        },
+      },
+    })
+    ```
+  </Tab>
+</Tabs>
+
+## Themes
+
+Clerk currently offers six prebuilt themes:
+
+* [The default theme](#default-theme)
+* [The "shadcn" theme](#shadcn-theme)
+* [The "Dark" theme](#dark-theme)
+* [The "Shades of Purple" theme](#shades-of-purple-theme)
+* [The "Neobrutalism" theme](#neobrutalism-theme)
+* [The "Simple" theme](#simple-theme)
+
+## Default theme
+
+Applied by default when no other theme is provided.
+
+<div style={{padding: "1rem 0", filter: "drop-shadow(rgba(0, 0, 0, 0.16) 0px 12px 24px)"}}>
+  ![A sign-in form with a light theme](/docs/images/themes/default.png){{ style: { maxWidth: '400px', width: '100%' } }}
+</div>
+
+## "shadcn" theme
+
+> \[!IMPORTANT]
+> This theme is compatible with Tailwind CSS v4 usage. If you need support for Tailwind CSS v3, pass the shadcn variables manually to your `<ClerkProvider />`'s [`variables`](/docs/guides/customizing-clerk/appearance-prop/variables) object.
+
+When using the [shadcn/ui](https://ui.shadcn.com/) library, you can use the `shadcn` theme to apply the shadcn/ui styles to your Clerk components. This will adapt to both light and dark mode automatically.
+
+> \[!IMPORTANT]
+> It's recommended to also import the `shadcn.css` file within your `global.css` file. Tailwind scans source files as plain text to detect which classes to generate - classes that only exist in external configurations won't be included in the final CSS.
+>
+> ```css
+> @import 'tailwindcss';
+> @import '@clerk/themes/shadcn.css';
+> ```
+
+<Tabs items={["Light mode", "Dark mode"]}>
+  <div style={{padding: "1rem 0", filter: "drop-shadow(rgba(0, 0, 0, 0.16) 0px 12px 24px)"}}>
+    ![A sign-in form with a shadcn theme in light mode](/docs/images/themes/shadcn_light_mode.png){{ style: { maxWidth: '400px', width: '100%' } }}
+  </div>
+
+  <div style={{padding: "1rem 0", filter: "drop-shadow(rgba(0, 0, 0, 0.16) 0px 12px 24px)"}}>
+    ![A sign-in form with a shadcn theme in dark mode](/docs/images/themes/shadcn_dark_mode.png){{ style: { maxWidth: '400px', width: '100%' } }}
+  </div>
+</Tabs>
+
+## "Dark" theme
+
+<div style={{padding: "1rem 0", filter: "drop-shadow(rgba(0, 0, 0, 0.16) 0px 12px 24px)"}}>
+  ![A sign-in form with a dark theme](/docs/images/themes/dark.png){{ style: { maxWidth: '400px', width: '100%' } }}
+</div>
+
+## "Shades of purple" theme
+
+<div style={{padding: "1rem 0", filter: "drop-shadow(rgba(0, 0, 0, 0.16) 0px 12px 24px)"}}>
+  ![A sign-in form with a purple and yellow theme](/docs/images/themes/shades_of_purple.png){{ style: { maxWidth: '400px', width: '100%' } }}
+</div>
+
+## "Neobrutalism" theme
+
+<div style={{padding: "1rem 0", filter: "drop-shadow(rgba(0, 0, 0, 0.16) 0px 12px 24px)"}}>
+  ![A sign-in form with a neobrutalist red theme](/docs/images/themes/neobrutalism.png){{ style: { maxWidth: '400px', width: '100%' } }}
+</div>
+
+## "Simple" theme
+
+This theme is a stripped down "Default" theme that removes some more advanced styling techniques, making it easier to apply your own custom styles.
+
+To use the simple theme, set `theme` to `simple`:
+
+```tsx {{ mark: ['simple'] }}
+<ClerkProvider
+  appearance={{
+    theme: 'simple',
+  }}
+/>
+````
+
+<div style={{padding: "1rem 0"}}>
+  ![A sign-in form with a simple theme](/docs/images/themes/simple.png){{ style: { maxWidth: '400px', width: '100%' } }}
+</div>
+
+## Usage
+
+1. To get started, install the `@clerk/themes` package.
+
+   <CodeBlockTabs options={["npm", "yarn", "pnpm", "bun"]}>
+
+   ```bash {{ filename: 'terminal' }}
+   npm install @clerk/themes
+   ```
+
+   ```bash {{ filename: 'terminal' }}
+   yarn add @clerk/themes
+   ```
+
+   ```bash {{ filename: 'terminal' }}
+   pnpm add @clerk/themes
+   ```
+
+   ```bash {{ filename: 'terminal' }}
+   bun add @clerk/themes
+   ```
+
+   </CodeBlockTabs>
+
+2. To use a theme, import it from `@clerk/themes` and pass it to the `appearance` prop of a Clerk component.
+
+### Apply a theme to all Clerk components
+
+To apply a theme to all Clerk components, pass the `appearance` prop to the <SDKLink href="/docs/:sdk:/reference/components/clerk-provider" sdks={["chrome-extension","expo","nextjs","react","react-router","tanstack-react-start"]} code={true}>\<ClerkProvider></SDKLink> component. The `appearance` prop accepts the property `theme`, which can be set to a theme.
+
+In the following example, the "Dark" theme is applied to all Clerk components.
+
+<Tabs items={["Next.js", "React", "Astro", "Remix", "Vue", "Nuxt"]}>
+<Tab>
+<CodeBlockTabs options={["App Router", "Pages Router"]}>
+
+````tsx {{ filename: '/src/app/layout.tsx', mark: [2, [7, 9]] }}
+import { ClerkProvider } from '@clerk/nextjs'
+import { dark } from '@clerk/themes'
+
+      export default function RootLayout({ children }: { children: React.ReactNode }) {
+        return (
+          <ClerkProvider
+            appearance={{
+              theme: dark,
+            }}
+          >
+            <html lang="en">
+              <body>{children}</body>
+            </html>
+          </ClerkProvider>
+        )
+      }
+      ```
+
+      ```tsx {{ filename: '_app.tsx', mark: [2, 8, 9, 10] }}
+      import { ClerkProvider } from '@clerk/nextjs'
+      import { dark } from '@clerk/themes'
+      import type { AppProps } from 'next/app'
+
+      function MyApp({ Component, pageProps }: AppProps) {
+        return (
+          <ClerkProvider
+            appearance={{
+              theme: dark,
+            }}
+          >
+            <Component {...pageProps} />
+          </ClerkProvider>
+        )
+      }
+
+      export default MyApp
+      ```
+    </CodeBlockTabs>
+
+  </Tab>
+
+  <Tab>
+    ```tsx {{ filename: 'app.tsx', mark: [3, [14, 16]] }}
+    import React from 'react'
+    import './App.css'
+    import { dark } from '@clerk/themes'
+    import { ClerkProvider } from '@clerk/clerk-react'
+
+    if (!process.env.REACT_APP_CLERK_PUBLISHABLE_KEY) {
+      throw new Error('Missing Publishable Key')
+    }
+    const clerkPubKey = process.env.REACT_APP_CLERK_PUBLISHABLE_KEY
+
+    function App() {
+      return (
+        <ClerkProvider
+          appearance={{
+            theme: dark,
+          }}
+          publishableKey={clerkPubKey}
+        >
+          <div>Hello from clerk</div>
+        </ClerkProvider>
+      )
+    }
+
+    export default App
+    ```
+
+  </Tab>
+
+  <Tab>
+    ```js {{ filename: 'astro.config.mjs', mark: [2, [7, 9]] }}
+    import clerk from '@clerk/astro'
+    import { dark } from '@clerk/themes'
+
+    export default defineConfig({
+      integrations: [
+        clerk({
+          appearance: {
+            theme: dark,
+          },
+        }),
+      ],
+    })
+    ```
+
+  </Tab>
+
+  <Tab>
+    ```tsx {{ filename: 'app/root.tsx', mark: [3, [36, 38]] }}
+    // Import ClerkApp
+    import { ClerkApp } from '@clerk/remix'
+    import { dark } from '@clerk/themes'
+    import type { MetaFunction, LoaderFunction } from '@remix-run/node'
+
+    import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react'
+
+    import { rootAuthLoader } from '@clerk/remix/ssr.server'
+
+    export const meta: MetaFunction = () => ({
+      charset: 'utf-8',
+      title: 'New Remix App',
+      viewport: 'width=device-width,initial-scale=1',
+    })
+
+    export const loader: LoaderFunction = (args) => rootAuthLoader(args)
+
+    function App() {
+      return (
+        <html lang="en">
+          <head>
+            <Meta />
+            <Links />
+          </head>
+          <body>
+            <Outlet />
+            <ScrollRestoration />
+            <Scripts />
+            <LiveReload />
+          </body>
+        </html>
+      )
+    }
+
+    export default ClerkApp(App, {
+      appearance: {
+        theme: dark,
+      },
+    })
+    ```
+
+  </Tab>
+
+  <Tab>
+    ```ts {{ filename: 'src/main.ts', mark: [4, [8, 10]] }}
+    import { createApp } from 'vue'
+    import App from './App.vue'
+    import { clerkPlugin } from '@clerk/vue'
+    import { dark } from '@clerk/themes'
+
+    const app = createApp(App)
+    app.use(clerkPlugin, {
+      appearance: {
+        theme: dark,
+      },
+    })
+    app.mount('#app')
+    ```
+
+  </Tab>
+
+  <Tab>
+    ```ts {{ filename: 'nuxt.config.ts', mark: [1, [6, 8]] }}
+    import { dark } from '@clerk/themes'
+
+    export default defineNuxtConfig({
+      modules: ['@clerk/nuxt'],
+      clerk: {
+        appearance: {
+          theme: dark,
+        },
+      },
+    })
+    ```
+
+  </Tab>
+</Tabs>
+
+### Apply multiple themes
+
+You can also stack themes by passing an array of themes to the `theme` property of the `appearance` prop. The themes will be applied in the order they are listed. If styles overlap, the last defined theme will take precedence.
+
+In the following example, the "Dark" theme is applied first, then the "Neobrutalism" theme is applied on top of it.
+
+<Tabs items={["Next.js", "React", "Astro", "Remix", "Vue", "Nuxt"]}>
+<Tab>
+<CodeBlockTabs options={["App Router", "Pages Router"]}>
+```tsx {{ filename: '/src/app/layout.tsx', mark: [2, [7, 9]] }}
+import { ClerkProvider } from '@clerk/nextjs'
+import { dark, neobrutalism } from '@clerk/themes'
+
+      export default function RootLayout({ children }: { children: React.ReactNode }) {
+        return (
+          <ClerkProvider
+            appearance={{
+              theme: [dark, neobrutalism],
+            }}
+          >
+            <html lang="en">
+              <body>{children}</body>
+            </html>
+          </ClerkProvider>
+        )
+      }
+      ```
+
+      ```tsx {{ filename: '_app.tsx', mark: [2, [8, 10]] }}
+      import { ClerkProvider, SignIn } from '@clerk/nextjs'
+      import { dark, neobrutalism } from '@clerk/themes'
+      import type { AppProps } from 'next/app'
+
+      function MyApp({ Component, pageProps }: AppProps) {
+        return (
+          <ClerkProvider
+            appearance={{
+              theme: [dark, neobrutalism],
+            }}
+          >
+            <Component {...pageProps} />
+          </ClerkProvider>
+        )
+      }
+
+      export default MyApp
+      ```
+    </CodeBlockTabs>
+
+  </Tab>
+
+  <Tab>
+    ```tsx {{ filename: 'app.tsx', mark: [3, [14, 16]] }}
+    import React from 'react'
+    import './App.css'
+    import { dark, neobrutalism } from '@clerk/themes'
+    import { ClerkProvider } from '@clerk/clerk-react'
+
+    if (!process.env.REACT_APP_CLERK_PUBLISHABLE_KEY) {
+      throw new Error('Missing Publishable Key')
+    }
+    const clerkPubKey = process.env.REACT_APP_CLERK_PUBLISHABLE_KEY
+
+    function App() {
+      return (
+        <ClerkProvider
+          appearance={{
+            theme: [dark, neobrutalism],
+          }}
+          publishableKey={clerkPubKey}
+        >
+          <div>Hello from clerk</div>
+        </ClerkProvider>
+      )
+    }
+
+    export default App
+    ```
+
+  </Tab>
+
+  <Tab>
+    ```js {{ filename: 'astro.config.mjs', mark: [2, [7, 9]] }}
+    import clerk from '@clerk/astro'
+    import { dark, neobrutalism } from '@clerk/themes'
+
+    export default defineConfig({
+      integrations: [
+        clerk({
+          appearance: {
+            theme: [dark, neobrutalism],
+          },
+        }),
+      ],
+    })
+    ```
+
+  </Tab>
+
+  <Tab>
+    ```tsx {{ filename: 'app/root.tsx', mark: [3, [36, 38]] }}
+    // Import ClerkApp
+    import { ClerkApp } from '@clerk/remix'
+    import { dark, neobrutalism } from '@clerk/themes'
+    import type { MetaFunction, LoaderFunction } from '@remix-run/node'
+
+    import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react'
+
+    import { rootAuthLoader } from '@clerk/remix/ssr.server'
+
+    export const meta: MetaFunction = () => ({
+      charset: 'utf-8',
+      title: 'New Remix App',
+      viewport: 'width=device-width,initial-scale=1',
+    })
+
+    export const loader: LoaderFunction = (args) => rootAuthLoader(args)
+
+    function App() {
+      return (
+        <html lang="en">
+          <head>
+            <Meta />
+            <Links />
+          </head>
+          <body>
+            <Outlet />
+            <ScrollRestoration />
+            <Scripts />
+            <LiveReload />
+          </body>
+        </html>
+      )
+    }
+
+    export default ClerkApp(App, {
+      appearance: {
+        theme: [dark, neobrutalism],
+      },
+    })
+    ```
+
+  </Tab>
+
+  <Tab>
+    ```ts {{ filename: 'src/main.ts', mark: [4, [8, 10]] }}
+    import { createApp } from 'vue'
+    import App from './App.vue'
+    import { clerkPlugin } from '@clerk/vue'
+    import { dark, neobrutalism } from '@clerk/themes'
+
+    const app = createApp(App)
+    app.use(clerkPlugin, {
+      appearance: {
+        theme: [dark, neobrutalism],
+      },
+    })
+    app.mount('#app')
+    ```
+
+  </Tab>
+
+  <Tab>
+    ```ts {{ filename: 'nuxt.config.ts', mark: [1, [6, 8]] }}
+    import { dark, neobrutalism } from '@clerk/themes'
+
+    export default defineNuxtConfig({
+      modules: ['@clerk/nuxt'],
+      clerk: {
+        appearance: {
+          theme: [dark, neobrutalism],
+        },
+      },
+    })
+    ```
+
+  </Tab>
+</Tabs>
+
+### Apply a theme to all instances of a Clerk component
+
+You can apply a theme to all instances of a Clerk component by passing the component to the `appearance` prop of the `<ClerkProvider>`. The `appearance` prop accepts the name of the Clerk component you want to style as a key.
+
+In the following example, the "Neobrutalism" theme is applied to all instances of the <SDKLink href="/docs/:sdk:/reference/components/authentication/sign-in" sdks={["astro","chrome-extension","expo","nextjs","nuxt","react","react-router","remix","tanstack-react-start","vue","js-frontend"]} code={true}>\<SignIn /></SDKLink> component.
+
+<Tabs items={["Next.js", "React", "Astro", "Remix", "Vue", "Nuxt"]}>
+<Tab>
+<CodeBlockTabs options={["App Router", "Pages Router"]}>
+```tsx {{ filename: '/src/app/layout.tsx', mark: [2, [7, 10]] }}
+import { ClerkProvider } from '@clerk/nextjs'
+import { dark, neobrutalism } from '@clerk/themes'
+
+      export default function RootLayout({ children }: { children: React.ReactNode }) {
+        return (
+          <ClerkProvider
+            appearance={{
+              theme: dark,
+              signIn: { theme: neobrutalism },
+            }}
+          >
+            <html lang="en">
+              <body>{children}</body>
+            </html>
+          </ClerkProvider>
+        )
+      }
+      ```
+
+      ```tsx {{ filename: '_app.tsx', mark: [2, [8, 11]] }}
+      import { ClerkProvider, SignIn } from '@clerk/nextjs'
+      import { dark } from '@clerk/themes'
+      import type { AppProps } from 'next/app'
+
+      function MyApp({ Component, pageProps }: AppProps) {
+        return (
+          <ClerkProvider
+            appearance={{
+              theme: dark,
+              signIn: { theme: neobrutalism },
+            }}
+          >
+            <Component {...pageProps} />
+          </ClerkProvider>
+        )
+      }
+
+      export default MyApp
+      ```
+    </CodeBlockTabs>
+
+  </Tab>
+
+  <Tab>
+    ```tsx {{ filename: 'app.tsx', mark: [3, [14, 17]] }}
+    import React from 'react'
+    import './App.css'
+    import { dark } from '@clerk/themes'
+    import { ClerkProvider } from '@clerk/clerk-react'
+
+    if (!process.env.REACT_APP_CLERK_PUBLISHABLE_KEY) {
+      throw new Error('Missing Publishable Key')
+    }
+    const clerkPubKey = process.env.REACT_APP_CLERK_PUBLISHABLE_KEY
+
+    function App() {
+      return (
+        <ClerkProvider
+          appearance={{
+            theme: dark,
+            signIn: { theme: neobrutalism },
+          }}
+          publishableKey={clerkPubKey}
+        >
+          <div>Hello from clerk</div>
+        </ClerkProvider>
+      )
+    }
+
+    export default App
+    ```
+
+  </Tab>
+
+  <Tab>
+    ```js {{ filename: 'astro.config.mjs', mark: [2, [7, 10]] }}
+    import clerk from '@clerk/astro'
+    import { dark } from '@clerk/themes'
+
+    export default defineConfig({
+      integrations: [
+        clerk({
+          appearance: {
+            theme: dark,
+            signIn: { theme: neobrutalism },
+          },
+        }),
+      ],
+    })
+    ```
+
+  </Tab>
+
+  <Tab>
+    ```tsx {{ filename: 'app/root.tsx', mark: [3, [36, 39]] }}
+    // Import ClerkApp
+    import { ClerkApp } from '@clerk/remix'
+    import { dark } from '@clerk/themes'
+    import type { MetaFunction, LoaderFunction } from '@remix-run/node'
+
+    import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react'
+
+    import { rootAuthLoader } from '@clerk/remix/ssr.server'
+
+    export const meta: MetaFunction = () => ({
+      charset: 'utf-8',
+      title: 'New Remix App',
+      viewport: 'width=device-width,initial-scale=1',
+    })
+
+    export const loader: LoaderFunction = (args) => rootAuthLoader(args)
+
+    function App() {
+      return (
+        <html lang="en">
+          <head>
+            <Meta />
+            <Links />
+          </head>
+          <body>
+            <Outlet />
+            <ScrollRestoration />
+            <Scripts />
+            <LiveReload />
+          </body>
+        </html>
+      )
+    }
+
+    export default ClerkApp(App, {
+      appearance: {
+        theme: dark,
+        signIn: { theme: neobrutalism },
+      },
+    })
+    ```
+
+  </Tab>
+
+  <Tab>
+    ```ts {{ filename: 'src/main.ts', mark: [4, [8, 11]] }}
+    import { createApp } from 'vue'
+    import App from './App.vue'
+    import { clerkPlugin } from '@clerk/vue'
+    import { dark, neobrutalism } from '@clerk/themes'
+
+    const app = createApp(App)
+    app.use(clerkPlugin, {
+      appearance: {
+        theme: dark,
+        signIn: { theme: neobrutalism },
+      },
+    })
+    app.mount('#app')
+    ```
+
+  </Tab>
+
+  <Tab>
+    ```ts {{ filename: 'nuxt.config.ts', mark: [1, [6, 9]] }}
+    import { dark, neobrutalism } from '@clerk/themes'
+
+    export default defineNuxtConfig({
+      modules: ['@clerk/nuxt'],
+      clerk: {
+        appearance: {
+          theme: dark,
+          signIn: { theme: neobrutalism },
+        },
+      },
+    })
+    ```
+
+  </Tab>
+</Tabs>
+
+### Apply a theme to a single Clerk component
+
+To apply a theme to a single Clerk component, pass the `appearance` prop to the component. The `appearance` prop accepts the property `theme`, which can be set to a theme.
+
+<Tabs items={["Next.js", "React", "Astro", "Remix", "Vue", "Nuxt"]}>
+<Tab>
+<CodeBlockTabs options={["App Router", "Pages Router"]}>
+```tsx {{ filename: 'app/sign-in/[[...sign-in]]/page.tsx', mark: [2, [7, 9]] }}
+import { SignIn } from '@clerk/nextjs'
+import { dark } from '@clerk/themes'
+
+      export default function Page() {
+        return (
+          <SignIn
+            appearance={{
+              theme: dark,
+            }}
+          />
+        )
+      }
+      ```
+
+      ```tsx {{ filename: '/pages/sign-in/[[...index]].tsx', mark: [2, [6, 8]] }}
+      import { SignIn } from '@clerk/nextjs'
+      import { dark } from '@clerk/themes'
+
+      const SignInPage = () => (
+        <SignIn
+          appearance={{
+            theme: dark,
+          }}
+        />
+      )
+
+      export default SignInPage
+      ```
+    </CodeBlockTabs>
+
+  </Tab>
+
+  <Tab>
+    ```tsx {{ filename: '/src/sign-in/[[...index]].tsx', mark: [2, [6, 8]] }}
+    import { SignIn } from '@clerk/clerk-react'
+    import { dark } from '@clerk/themes'
+
+    const SignInPage = () => (
+      <SignIn
+        appearance={{
+          theme: dark,
+        }}
+      />
+    )
+
+    export default SignInPage
+    ```
+
+  </Tab>
+
+  <Tab>
+    ```astro {{ filename: 'pages/sign-in.astro', mark: [3, [9, 11]] }}
+    ---
+    import { SignIn } from '@clerk/astro/components'
+    import { dark } from '@clerk/themes'
+    ---
+
+    <SignIn
+      appearance={{
+        theme: dark,
+      }}
+    />
+    ```
+
+  </Tab>
+
+  <Tab>
+    ```tsx {{ filename: 'app/routes/sign-in/$.tsx', mark: [2, [9, 11]] }}
+    import { SignIn } from '@clerk/remix'
+    import { dark } from '@clerk/themes'
+
+    export default function SignInPage() {
+      return (
+        <div style={{ border: '2px solid blue', padding: '2rem' }}>
+          <h1>Sign In route</h1>
+          <SignIn
+            appearance={{
+              theme: dark,
+            }}
+          />
+        </div>
+      )
+    }
+    ```
+
+  </Tab>
+
+  <Tab>
+    ```vue {{ filename: 'src/pages/sign-in.vue' }}
+    <script setup lang="ts">
+    import { SignIn } from '@clerk/vue'
+    import { dark } from '@clerk/themes'
+    </script>
+
+    <template>
+      <SignIn :appearance="{ theme: dark }" />
+    </template>
+    ```
+
+  </Tab>
+
+  <Tab>
+    ```vue {{ filename: 'pages/sign-in.vue' }}
+    <script setup lang="ts">
+    // Components are automatically imported
+    import { dark } from '@clerk/themes'
+    </script>
+
+    <template>
+      <SignIn :appearance="{ theme: dark }" />
+    </template>
+    ```
+
+  </Tab>
+</Tabs>
+
+## Customize a theme using variables
+
+You can customize a theme by passing an object of variables to the `variables` property of the `appearance` prop. The `variables` property is used to adjust the general styles of the component's base theme, like colors, backgrounds, typography.
+
+In the following example, the primary color of the themes are customized.
+
+> \[!IMPORTANT]
+> For a list of all of the variables you can customize, and for more examples on how to use the `variables` property, see the [Variables](/docs/guides/customizing-clerk/appearance-prop/variables) docs.
+
+<Tabs items={["Next.js", "React", "Astro", "Remix", "Vue", "Nuxt"]}>
+<Tab>
+<CodeBlockTabs options={["App Router", "Pages Router"]}>
+```tsx {{ filename: '/src/app/layout.tsx', mark: [2, [7, 14]] }}
+import { ClerkProvider } from '@clerk/nextjs'
+import { dark, neobrutalism, shadesOfPurple } from '@clerk/themes'
+
+      export default function RootLayout({ children }: { children: React.ReactNode }) {
+        return (
+          <ClerkProvider
+            appearance={{
+              theme: [dark, neobrutalism],
+              variables: { colorPrimary: 'blue' },
+              signIn: {
+                theme: [shadesOfPurple],
+                variables: { colorPrimary: 'green' },
+              },
+            }}
+          >
+            <html lang="en">
+              <body>{children}</body>
+            </html>
+          </ClerkProvider>
+        )
+      }
+      ```
+
+      ```tsx {{ filename: '_app.tsx', mark: [2, [8, 15]] }}
+      import { ClerkProvider } from '@clerk/nextjs'
+      import { dark, neobrutalism, shadesOfPurple } from '@clerk/themes'
+      import type { AppProps } from 'next/app'
+
+      function MyApp({ Component, pageProps }: AppProps) {
+        return (
+          <ClerkProvider
+            appearance={{
+              theme: [dark, neobrutalism],
+              variables: { colorPrimary: 'blue' },
+              signIn: {
+                theme: [shadesOfPurple],
+                variables: { colorPrimary: 'blue' },
+              },
+            }}
+          >
+            <Component {...pageProps} />
+          </ClerkProvider>
+        )
+      }
+
+      export default MyApp
+      ```
+    </CodeBlockTabs>
+
+  </Tab>
+
+  <Tab>
+    ```tsx {{ filename: 'app.tsx', mark: [3, [14, 21]] }}
+    import React from 'react'
+    import './App.css'
+    import { dark, neobrutalism, shadesOfPurple } from '@clerk/themes'
+    import { ClerkProvider } from '@clerk/clerk-react'
+
+    if (!process.env.REACT_APP_CLERK_PUBLISHABLE_KEY) {
+      throw new Error('Missing Publishable Key')
+    }
+    const clerkPubKey = process.env.REACT_APP_CLERK_PUBLISHABLE_KEY
+
+    function App() {
+      return (
+        <ClerkProvider
+          appearance={{
+            theme: [dark, neobrutalism],
+            variables: { colorPrimary: 'blue' },
+            signIn: {
+              theme: [shadesOfPurple],
+              variables: { colorPrimary: 'blue' },
+            },
+          }}
+          publishableKey={clerkPubKey}
+        >
+          <div>Hello from clerk</div>
+        </ClerkProvider>
+      )
+    }
+
+    export default App
+    ```
+
+  </Tab>
+
+  <Tab>
+    ```js {{ filename: 'astro.config.mjs', mark: [2, [7, 14]] }}
+    import clerk from '@clerk/astro'
+    import { dark, neobrutalism, shadesOfPurple } from '@clerk/themes'
+
+    export default defineConfig({
+      integrations: [
+        clerk({
+          appearance: {
+            theme: [dark, neobrutalism],
+            variables: { colorPrimary: 'blue' },
+            signIn: {
+              theme: [shadesOfPurple],
+              variables: { colorPrimary: 'blue' },
+            },
+          },
+        }),
+      ],
+    })
+    ```
+
+  </Tab>
+
+  <Tab>
+    ```tsx {{ filename: 'app/root.tsx', mark: [3, [36, 43]] }}
+    // Import ClerkApp
+    import { ClerkApp } from '@clerk/remix'
+    import { dark, neobrutalism, shadesOfPurple } from '@clerk/themes'
+    import type { MetaFunction, LoaderFunction } from '@remix-run/node'
+
+    import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react'
+
+    import { rootAuthLoader } from '@clerk/remix/ssr.server'
+
+    export const meta: MetaFunction = () => ({
+      charset: 'utf-8',
+      title: 'New Remix App',
+      viewport: 'width=device-width,initial-scale=1',
+    })
+
+    export const loader: LoaderFunction = (args) => rootAuthLoader(args)
+
+    function App() {
+      return (
+        <html lang="en">
+          <head>
+            <Meta />
+            <Links />
+          </head>
+          <body>
+            <Outlet />
+            <ScrollRestoration />
+            <Scripts />
+            <LiveReload />
+          </body>
+        </html>
+      )
+    }
+
+    export default ClerkApp(App, {
+      appearance: {
+        theme: [dark, neobrutalism],
+        variables: { colorPrimary: 'blue' },
+        signIn: {
+          theme: [shadesOfPurple],
+          variables: { colorPrimary: 'blue' },
+        },
+      },
+    })
+    ```
+
+  </Tab>
+
+  <Tab>
+    ```ts {{ filename: 'src/main.ts', mark: [4, [8, 15]] }}
+    import { createApp } from 'vue'
+    import App from './App.vue'
+    import { clerkPlugin } from '@clerk/vue'
+    import { dark, neobrutalism, shadesOfPurple } from '@clerk/themes'
+
+    const app = createApp(App)
+    app.use(clerkPlugin, {
+      appearance: {
+        theme: [dark, neobrutalism],
+        variables: { colorPrimary: 'blue' },
+        signIn: {
+          theme: [shadesOfPurple],
+          variables: { colorPrimary: 'blue' },
+        },
+      },
+    })
+    app.mount('#app')
+    ```
+
+  </Tab>
+
+  <Tab>
+    ```ts {{ filename: 'nuxt.config.ts', mark: [1, [6, 13]] }}
+    import { dark, neobrutalism, shadesOfPurple } from '@clerk/themes'
+
+    export default defineNuxtConfig({
+      modules: ['@clerk/nuxt'],
+      clerk: {
+        appearance: {
+          theme: [dark, neobrutalism],
+          variables: { colorPrimary: 'blue' },
+          signIn: {
+            theme: [shadesOfPurple],
+            variables: { colorPrimary: 'blue' },
+          },
+        },
+      },
+    })
+    ```
+
+  </Tab>
+</Tabs>
+
+## Variables
+
+{/* JS file: https://github.com/clerk/javascript/blob/main/packages/types/src/appearance.ts#L399 */}
+
+The `variables` property is used to adjust the general styles of the component's base theme, like colors, backgrounds, and typography.
+
+## Properties
+
+<Properties>
+  * `colorPrimary`
+  * `string`
+
+  The primary color used throughout the components.
+
+  CSS variable: `--clerk-color-primary`
+
+  ***
+
+  * `colorDanger`
+  * `string`
+
+  The color used for error states.
+
+  CSS variable: `--clerk-color-danger`
+
+  ***
+
+  * `colorSuccess`
+  * `string`
+
+  The color used for success states.
+
+  CSS variable: `--clerk-color-success`
+
+  ***
+
+  * `colorWarning`
+  * `string`
+
+  The color used for warning states.
+
+  CSS variable: `--clerk-color-warning`
+
+  ***
+
+  * `colorNeutral`
+  * `string`
+
+  The color that will be used for all to generate the neutral shades the components use. This option applies to borders, backgrounds for hovered elements, hovered dropdown options.
+
+  CSS variable: `--clerk-color-neutral`
+
+  ***
+
+  * `colorForeground`
+  * `string`
+
+  The color used for text.
+
+  CSS variable: `--clerk-color-foreground`
+
+  ***
+
+  * `colorPrimaryForeground`
+  * `string`
+
+  The color used for text on the primary background.
+
+  CSS variable: `--clerk-color-primary-foreground`
+
+  ***
+
+  * `colorMutedForeground`
+  * `string`
+
+  The color used for secondary text.
+
+  CSS variable: `--clerk-color-muted-foreground`
+
+  ***
+
+  * `colorMuted`
+  * `string`
+
+  The color used for muted backgrounds.
+
+  CSS variable: `--clerk-color-muted`
+
+  ***
+
+  * `colorBackground`
+  * `string`
+
+  The background color for the card container.
+
+  CSS variable: `--clerk-color-background`
+
+  ***
+
+  * `colorInputForeground`
+  * `string`
+
+  The color used for text in input fields.
+
+  CSS variable: `--clerk-color-input-foreground`
+
+  ***
+
+  * `colorInput`
+  * `string`
+
+  The background color used for input fields.
+
+  CSS variable: `--clerk-color-input`
+
+  ***
+
+  * `colorShimmer`
+  * `string`
+
+  The color of the avatar shimmer.
+
+  CSS variable: `--clerk-color-shimmer`
+
+  ***
+
+  * `colorRing`
+  * `string`
+
+  The color of the ring when an interactive element is focused.
+
+  CSS variable: `--clerk-color-ring`
+
+  ***
+
+  * `colorShadow`
+  * `string`
+
+  The base shadow color used in the components.
+
+  CSS variable: `--clerk-color-shadow`
+
+  ***
+
+  * `colorBorder`
+  * `string`
+
+  The base border color used in the components.
+
+  CSS variable: `--clerk-color-border`
+
+  ***
+
+  * `colorModalBackdrop`
+  * `string`
+
+  The background color of the modal backdrop.
+
+  CSS variable: `--clerk-color-modal-backdrop`
+
+  ***
+
+  * `fontFamily`
+  * `string`
+
+  The font family used throughout the components. By default, it is set to `inherit`.
+
+  CSS variable: `--clerk-font-family`
+
+  ***
+
+  * `fontFamilyButtons`
+  * `string`
+
+  The font family used for buttons. By default, it is set to `inherit`.
+
+  CSS variable: `--clerk-font-family-buttons`
+
+  ***
+
+  * `fontSize`
+  * `string` | `{xs: string, sm: string, md: string, lg: string, xl: string}`
+
+  The font size used throughout the components. By default, this is set to `0.8125rem`.
+
+  CSS variable: `--clerk-font-size`
+
+  ***
+
+  * `fontWeight`
+  * `{normal: number, medium: number, semibold: number, bold: number}`
+
+  The font weight used throughout the components. By default, this is set to `{normal: 400, medium: 500, semibold: 600, bold: 700}`.
+
+  CSS variable: `--clerk-font-weight`
+
+  ***
+
+  * `borderRadius`
+  * `string`
+
+  The border radius used throughout the components. By default, this is set to `0.375rem`.
+
+  CSS variable: `--clerk-border-radius`
+
+  ***
+
+  * `spacing`
+  * `string`
+
+  The spacing unit used throughout the components. By default, this is set to `1rem`.
+
+  CSS variable: `--clerk-spacing`
+</Properties>
+
+### Deprecated properties  {{ toc: false }}
+
+The following properties are deprecated as of 2025-07-15 and will be removed in the next major version of Clerk.
+
+* `colorText` (use `colorForeground` instead)
+* `colorTextOnPrimaryBackground` (use `colorPrimaryForeground` instead)
+* `colorTextSecondary` (use `colorMutedForeground` instead)
+* `spacingUnit` (use `spacing` instead)
+* `colorInputText` (use `colorInputForeground` instead)
+* `colorInputBackground` (use `colorInput` instead)
+
+## Usage
+
+You can customize Clerk components by passing an object of variables to the `variables` property of the [`appearance`](/docs/guides/customizing-clerk/appearance-prop/overview) prop.
+
+> \[!NOTE browser-compatibility-considerations]
+> **Browser Compatibility Considerations**
+>
+> Clerk's theming system uses modern CSS features like [`color-mix()`](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/color-mix) and [relative color syntax](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_colors/Relative_colors) to automatically generate color variations from your base colors. These features require:
+>
+> * **`color-mix()`**: Chrome 111+, Firefox 113+, Safari 16.2+
+> * **Relative color syntax**: Chrome 119+, Firefox 120+, Safari 16.4+
+>
+> For broader browser support, when using the `variables` prop, **use direct color values** (e.g. `colorPrimary: '#6c47ff'`) instead of CSS variables or modern color functions.
+
+### Apply `variables` to all Clerk components
+
+To customize all Clerk components, pass the `variables` property to the `appearance` prop of the <SDKLink href="/docs/:sdk:/reference/components/clerk-provider" sdks={["chrome-extension","expo","nextjs","react","react-router","tanstack-react-start"]} code={true}>\<ClerkProvider></SDKLink> component.
+
+In the following example, the primary color is set to blue and the text color is set to black. Because these styles are applied to the `<ClerkProvider>`, which wraps the entire application, these styles will be applied to all Clerk components that use the primary color and text color.
+
+<Tabs items={["Next.js", "React", "Remix", "Astro", "Vue", "Nuxt"]}>
+  <Tab>
+    <CodeBlockTabs options={["App Router", "Pages Router"]}>
+      ```tsx {{ filename: '/src/app/layout.tsx', mark: [[6, 11]] }}
+      import { ClerkProvider } from '@clerk/nextjs'
+
+      export default function RootLayout({ children }: { children: React.ReactNode }) {
+        return (
+          <ClerkProvider
+            appearance={{
+              variables: {
+                colorPrimary: '#0000ff', // blue
+                colorForeground: '#000000', // black
+              },
+            }}
+          >
+            <html lang="en">
+              <body>{children}</body>
+            </html>
+          </ClerkProvider>
+        )
+      }
+      ```
+
+      ```tsx {{ filename: '_app.tsx', mark: [[7, 12]] }}
+      import { ClerkProvider } from '@clerk/nextjs'
+      import type { AppProps } from 'next/app'
+
+      function MyApp({ Component, pageProps }: AppProps) {
+        return (
+          <ClerkProvider
+            appearance={{
+              variables: {
+                colorPrimary: '#0000ff', // blue
+                colorForeground: '#000000', // black
+              },
+            }}
+          >
+            <Component {...pageProps} />
+          </ClerkProvider>
+        )
+      }
+
+      export default MyApp
+      ```
+    </CodeBlockTabs>
+  </Tab>
+
+  <Tab>
+    ```tsx {{ filename: 'app.tsx', mark: [[13, 18]] }}
+    import React from 'react'
+    import './App.css'
+    import { ClerkProvider } from '@clerk/clerk-react'
+
+    if (!process.env.REACT_APP_CLERK_PUBLISHABLE_KEY) {
+      throw new Error('Missing Publishable Key')
+    }
+    const clerkPubKey = process.env.REACT_APP_CLERK_PUBLISHABLE_KEY
+
+    function App() {
+      return (
+        <ClerkProvider
+          appearance={{
+            variables: {
+              colorPrimary: '#0000ff', // blue
+              colorForeground: '#000000', // black
+            },
+          }}
+          publishableKey={clerkPubKey}
+        >
+          <div>Hello from clerk</div>
+        </ClerkProvider>
+      )
+    }
+
+    export default App
+    ```
+  </Tab>
+
+  <Tab>
+    ```tsx {{ filename: 'app/root.tsx', mark: [[35, 40]] }}
+    // Import ClerkApp
+    import { ClerkApp } from '@clerk/remix'
+    import type { MetaFunction, LoaderFunction } from '@remix-run/node'
+
+    import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react'
+
+    import { rootAuthLoader } from '@clerk/remix/ssr.server'
+
+    export const meta: MetaFunction = () => ({
+      charset: 'utf-8',
+      title: 'New Remix App',
+      viewport: 'width=device-width,initial-scale=1',
+    })
+
+    export const loader: LoaderFunction = (args) => rootAuthLoader(args)
+
+    function App() {
+      return (
+        <html lang="en">
+          <head>
+            <Meta />
+            <Links />
+          </head>
+          <body>
+            <Outlet />
+            <ScrollRestoration />
+            <Scripts />
+            <LiveReload />
+          </body>
+        </html>
+      )
+    }
+
+    export default ClerkApp(App, {
+      appearance: {
+        variables: {
+          colorPrimary: '#0000ff', // blue
+          colorForeground: '#000000', // black
+        },
+      },
+    })
+    ```
+  </Tab>
+
+  <Tab>
+    ```js {{ filename: 'astro.config.mjs', mark: [[6, 11]] }}
+    import clerk from '@clerk/astro'
+
+    export default defineConfig({
+      integrations: [
+        clerk({
+          appearance: {
+            variables: {
+              colorPrimary: '#0000ff', // blue
+              colorForeground: '#000000', // black
+            },
+          },
+        }),
+      ],
+    })
+    ```
+  </Tab>
+
+  <Tab>
+    ```ts {{ filename: 'src/main.ts', mark: [[7, 12]] }}
+    import { createApp } from 'vue'
+    import App from './App.vue'
+    import { clerkPlugin } from '@clerk/vue'
+
+    const app = createApp(App)
+    app.use(clerkPlugin, {
+      appearance: {
+        variables: {
+          colorPrimary: '#0000ff', // blue
+          colorForeground: '#000000', // black
+        },
+      },
+    })
+    app.mount('#app')
+    ```
+  </Tab>
+
+  <Tab>
+    ```ts {{ filename: 'nuxt.config.ts', mark: [[4, 9]] }}
+    export default defineNuxtConfig({
+      modules: ['@clerk/nuxt'],
+      clerk: {
+        appearance: {
+          variables: {
+            colorPrimary: '#0000ff', // blue
+            colorForeground: '#000000', // black
+          },
+        },
+      },
+    })
+    ```
+  </Tab>
+</Tabs>
+
+### Apply `variables` to all instances of a Clerk component
+
+You can customize all instances of a Clerk component by passing the component to the `appearance` prop of the `<ClerkProvider>`. The `appearance` prop accepts the name of the Clerk component you want to style as a key.
+
+In the following example, the primary color is set to blue and the text color is set to black for all instances of the <SDKLink href="/docs/:sdk:/reference/components/authentication/sign-in" sdks={["astro","chrome-extension","expo","nextjs","nuxt","react","react-router","remix","tanstack-react-start","vue","js-frontend"]} code={true}>\<SignIn /></SDKLink> component.
+
+<Tabs items={["Next.js", "React", "Remix", "Astro", "Vue", "Nuxt"]}>
+  <Tab>
+    <CodeBlockTabs options={["App Router", "Pages Router"]}>
+      ```tsx {{ filename: '/src/app/layout.tsx', mark: [[6, 13]] }}
+      import { ClerkProvider } from '@clerk/nextjs'
+
+      export default function RootLayout({ children }: { children: React.ReactNode }) {
+        return (
+          <ClerkProvider
+            appearance={{
+              signIn: {
+                variables: {
+                  colorPrimary: '#0000ff', // blue
+                  colorForeground: '#000000', // black
+                },
+              },
+            }}
+          >
+            <html lang="en">
+              <body>{children}</body>
+            </html>
+          </ClerkProvider>
+        )
+      }
+      ```
+
+      ```tsx {{ filename: '_app.tsx', mark: [[7, 14]] }}
+      import { ClerkProvider } from '@clerk/nextjs'
+      import type { AppProps } from 'next/app'
+
+      function MyApp({ Component, pageProps }: AppProps) {
+        return (
+          <ClerkProvider
+            appearance={{
+              signIn: {
+                variables: {
+                  colorPrimary: '#0000ff', // blue
+                  colorForeground: '#000000', // black
+                },
+              },
+            }}
+          >
+            <Component {...pageProps} />
+          </ClerkProvider>
+        )
+      }
+
+      export default MyApp
+      ```
+    </CodeBlockTabs>
+  </Tab>
+
+  <Tab>
+    ```tsx {{ filename: 'app.tsx', mark: [[13, 20]] }}
+    import React from 'react'
+    import './App.css'
+    import { ClerkProvider } from '@clerk/clerk-react'
+
+    if (!process.env.REACT_APP_CLERK_PUBLISHABLE_KEY) {
+      throw new Error('Missing Publishable Key')
+    }
+    const clerkPubKey = process.env.REACT_APP_CLERK_PUBLISHABLE_KEY
+
+    function App() {
+      return (
+        <ClerkProvider
+          appearance={{
+            signIn: {
+              variables: {
+                colorPrimary: '#0000ff', // blue
+                colorForeground: '#000000', // black
+              },
+            },
+          }}
+          publishableKey={clerkPubKey}
+        >
+          <div>Hello from clerk</div>
+        </ClerkProvider>
+      )
+    }
+
+    export default App
+    ```
+  </Tab>
+
+  <Tab>
+    ```tsx {{ filename: 'app/root.tsx', mark: [[35, 42]] }}
+    // Import ClerkApp
+    import { ClerkApp } from '@clerk/remix'
+    import type { MetaFunction, LoaderFunction } from '@remix-run/node'
+
+    import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react'
+
+    import { rootAuthLoader } from '@clerk/remix/ssr.server'
+
+    export const meta: MetaFunction = () => ({
+      charset: 'utf-8',
+      title: 'New Remix App',
+      viewport: 'width=device-width,initial-scale=1',
+    })
+
+    export const loader: LoaderFunction = (args) => rootAuthLoader(args)
+
+    function App() {
+      return (
+        <html lang="en">
+          <head>
+            <Meta />
+            <Links />
+          </head>
+          <body>
+            <Outlet />
+            <ScrollRestoration />
+            <Scripts />
+            <LiveReload />
+          </body>
+        </html>
+      )
+    }
+
+    export default ClerkApp(App, {
+      appearance: {
+        signIn: {
+          variables: {
+            colorPrimary: '#0000ff', // blue
+            colorForeground: '#000000', // black
+          },
+        },
+      },
+    })
+    ```
+  </Tab>
+
+  <Tab>
+    ```js {{ filename: 'astro.config.mjs', mark: [[6, 13]] }}
+    import clerk from '@clerk/astro'
+
+    export default defineConfig({
+      integrations: [
+        clerk({
+          appearance: {
+            signIn: {
+              variables: {
+                colorPrimary: '#0000ff', // blue
+                colorForeground: '#000000', // black
+              },
+            },
+          },
+        }),
+      ],
+    })
+    ```
+  </Tab>
+
+  <Tab>
+    ```ts {{ filename: 'src/main.ts', mark: [[7, 14]] }}
+    import { createApp } from 'vue'
+    import App from './App.vue'
+    import { clerkPlugin } from '@clerk/vue'
+
+    const app = createApp(App)
+    app.use(clerkPlugin, {
+      appearance: {
+        signIn: {
+          variables: {
+            colorPrimary: '#0000ff', // blue
+            colorForeground: '#000000', // black
+          },
+        },
+      },
+    })
+    app.mount('#app')
+    ```
+  </Tab>
+
+  <Tab>
+    ```ts {{ filename: 'nuxt.config.ts', mark: [[4, 11]] }}
+    export default defineNuxtConfig({
+      modules: ['@clerk/nuxt'],
+      clerk: {
+        appearance: {
+          signIn: {
+            variables: {
+              colorPrimary: '#0000ff', // blue
+              colorForeground: '#000000', // black
+            },
+          },
+        },
+      },
+    })
+    ```
+  </Tab>
+</Tabs>
+
+### Apply `variables` to a single Clerk component
+
+To customize a single Clerk component, pass the `variables` property to the `appearance` prop of the Clerk component.
+
+The following example shows how to customize the <SDKLink href="/docs/:sdk:/reference/components/authentication/sign-in" sdks={["astro","chrome-extension","expo","nextjs","nuxt","react","react-router","remix","tanstack-react-start","vue","js-frontend"]} code={true}>\<SignIn /></SDKLink> component by setting the primary color to blue and the text color to black.
+
+<Tabs items={["Next.js", "React", "Remix", "Astro", "Vue", "Nuxt"]}>
+  <Tab>
+    <CodeBlockTabs options={["App Router", "Pages Router"]}>
+      ```tsx {{ filename: 'app/sign-in/[[...sign-in]]/page.tsx', mark: [[6, 11]] }}
+      import { SignIn } from '@clerk/nextjs'
+
+      export default function Page() {
+        return (
+          <SignIn
+            appearance={{
+              variables: {
+                colorPrimary: '#0000ff', // blue
+                colorForeground: '#000000', // black
+              },
+            }}
+          />
+        )
+      }
+      ```
+
+      ```tsx {{ filename: '/pages/sign-in/[[...index]].tsx', mark: [[5, 10]] }}
+      import { SignIn } from '@clerk/nextjs'
+
+      const SignInPage = () => (
+        <SignIn
+          appearance={{
+            variables: {
+              colorPrimary: '#0000ff', // blue
+              colorForeground: '#000000', // black
+            },
+          }}
+        />
+      )
+
+      export default SignInPage
+      ```
+    </CodeBlockTabs>
+  </Tab>
+
+  <Tab>
+    ```tsx {{ filename: '/src/sign-in/[[...index]].tsx', mark: [[5, 10]] }}
+    import { SignIn } from '@clerk/clerk-react'
+
+    const SignInPage = () => (
+      <SignIn
+        appearance={{
+          variables: {
+            colorPrimary: '#0000ff', // blue
+            colorForeground: '#000000', // black
+          },
+        }}
+      />
+    )
+
+    export default SignInPage
+    ```
+  </Tab>
+
+  <Tab>
+    ```tsx {{ filename: 'app/routes/sign-in/$.tsx', mark: [[8, 13]] }}
+    import { SignIn } from '@clerk/remix'
+
+    export default function SignInPage() {
+      return (
+        <div style={{ border: '2px solid blue', padding: '2rem' }}>
+          <h1>Sign In route</h1>
+          <SignIn
+            appearance={{
+              variables: {
+                colorPrimary: '#0000ff', // blue
+                colorForeground: '#000000', // black
+              },
+            }}
+          />
+        </div>
+      )
+    }
+    ```
+  </Tab>
+
+  <Tab>
+    ```astro {{ filename: 'pages/sign-in.astro', mark: [[7, 10]] }}
+    ---
+    import { SignIn } from '@clerk/astro/components'
+    ---
+
+    <SignIn
+      appearance={{
+        colorPrimary: '#0000ff', // blue
+        colorForeground: '#000000', // black
+      }}
+    />
+    ```
+  </Tab>
+
+  <Tab>
+    ```vue {{ filename: 'src/pages/sign-in.vue', mark: [6] }}
+    <script setup lang="ts">
+    import { SignIn } from '@clerk/vue'
+    </script>
+
+    <template>
+      <SignIn :appearance="{ variables: { colorPrimary: '#0000ff', colorForeground: '#000000' } }" />
+    </template>
+    ```
+  </Tab>
+
+  <Tab>
+    ```vue {{ filename: 'pages/sign-in.vue', mark: [6] }}
+    <script setup lang="ts">
+    // Components are automatically imported
+    </script>
+
+    <template>
+      <SignIn :appearance="{ colorPrimary: '#0000ff', colorForeground: '#000000' }" />
+    </template>
+    ```
+  </Tab>
+</Tabs>
+
+### Using CSS variables
+
+> \[!WARNING]
+> Please consider this approach with browser compatibility in mind, as it may not work in older browsers. See [Browser Compatibility Considerations](#browser-compatibility-considerations) for details.
+
+You can also use CSS variables to customize the appearance of Clerk components. This approach is particularly useful when:
+
+* You have a pre-defined design system with CSS custom properties
+* You want to support automatic dark/light mode switching
+* You need to dynamically update colors based on user preferences
+* You're integrating Clerk into an existing application with established CSS variables
+
+The following example demonstrates how to use CSS variables to customize the appearance of Clerk components, but for maximum browser compatibility, it's recommended to use direct color values instead.
+
+<CodeBlockTabs options={["global.css", "layout.tsx"]}>
+  ```css {{ filename: '/src/app/global.css' }}
+  :root {
+    --brand-primary: oklch(49.1% 0.27 292.581);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --brand-primary: oklch(54.1% 0.281 293.009);
+    }
+  }
+````
+
+```tsx {{ filename: '/src/app/layout.tsx', mark: [9] }}
+import { ClerkProvider } from "@clerk/nextjs";
+import "./global.css";
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <ClerkProvider
+      appearance={{
+        variables: {
+          colorPrimary: "var(--brand-primary)",
+        },
+      }}
+    >
+      <html lang="en">
+        <body>{children}</body>
+      </html>
+    </ClerkProvider>
+  );
+}
+```
+
+</CodeBlockTabs>
+
+### Clerk CSS variables
+
+Clerk exposes native CSS variables if you would prefer to define variables directly in your application's stylesheet. All variables exposed through the `appearance` object are also exposed as CSS variables; see the [properties](#properties) section for a list of the available variables.
+
+The Clerk CSS variables are prefixed with `clerk-` and are in kebab-case:
+
+```css
+:root {
+  --clerk-color-primary: #0000ff; /* colorPrimary */
+  --clerk-color-foreground: #000000; /* colorForeground */
+}
+```
+
+## CAPTHCA
+
+{/_ JS file: https://github.com/clerk/javascript/blob/main/packages/types/src/appearance.ts#L538 _/}
+
+The `captcha` property can be used to change the appearance of the CAPTCHA widget. It is passed as a parameter to the [`appearance` prop](/docs/guides/customizing-clerk/appearance-prop/overview).
+
+## Properties
+
+<Properties>
+  * `theme`
+  * `'auto' | 'light' | 'dark'`
+
+The CAPTCHA widget theme. Defaults to `auto`.
+
+---
+
+- `size`
+- `'normal' | 'flexible' | 'compact'`
+
+The CAPTCHA widget size. Defaults to `normal`.
+
+---
+
+- `language`
+- `string`
+
+The CAPTCHA widget language/locale. When setting the language for CAPTCHA, this is how localization is prioritized:
+
+- `appearance.captcha.language`: Set by this `language` property.
+- `localization.locale`: Set by the [`localization` prop on `<ClerkProvider>`](/docs/guides/customizing-clerk/localization). Some languages are [supported by Clerk](/docs/guides/customizing-clerk/localization) but not by Cloudflare Turnstile, which is used for the CAPTCHA widget. See [Cloudflare Turnstile's supported languages](https://developers.cloudflare.com/turnstile/reference/supported-languages).
+- `en-US`: Clerk's default language.
+  </Properties>
+
+## Usage
+
+<Tabs items={["Next.js", "Astro", "React", "Remix", "Nuxt", "Vue"]}>
+<Tab>
+```tsx {{ prettier: false, filename: 'app.tsx' }}
+import { ClerkProvider } from '@clerk/nextjs';
+
+    <ClerkProvider
+      appearance={{
+        captcha: {
+          theme: 'dark',
+          size: 'flexible',
+          language: 'es-ES',
+        }
+      }}
+    >
+      {/* ... */}
+    </ClerkProvider>;
+    ```
+
+  </Tab>
+
+  <Tab>
+    ```js {{ filename: 'astro.config.mjs' }}
+    import clerk from '@clerk/astro'
+
+    export default defineConfig({
+      integrations: [
+        clerk({
+          appearance: {
+            captcha: {
+              theme: 'dark',
+              size: 'flexible',
+              language: 'es-ES',
+            },
+          },
+        }),
+      ],
+    })
+    ```
+
+  </Tab>
+
+  <Tab>
+    ```tsx {{ filename: 'app.tsx', mark: [[13, 18]] }}
+    import React from 'react'
+    import './App.css'
+    import { ClerkProvider } from '@clerk/clerk-react'
+
+    if (!process.env.REACT_APP_CLERK_PUBLISHABLE_KEY) {
+      throw new Error('Missing Publishable Key')
+    }
+    const clerkPubKey = process.env.REACT_APP_CLERK_PUBLISHABLE_KEY
+
+    function App() {
+      return (
+        <ClerkProvider
+          appearance={{
+            captcha: {
+              theme: 'dark',
+              size: 'flexible',
+              language: 'es-ES',
+            },
+          }}
+          publishableKey={clerkPubKey}
+        >
+          {/* ... */}
+        </ClerkProvider>
+      )
+    }
+
+    export default App
+    ```
+
+  </Tab>
+
+  <Tab>
+    ```tsx {{ filename: 'app/root.tsx', mark: [[35, 40]] }}
+    // Import ClerkApp
+    import { ClerkApp } from '@clerk/remix'
+    import type { MetaFunction, LoaderFunction } from '@remix-run/node'
+
+    import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react'
+
+    import { rootAuthLoader } from '@clerk/remix/ssr.server'
+
+    export const meta: MetaFunction = () => ({
+      charset: 'utf-8',
+      title: 'New Remix App',
+      viewport: 'width=device-width,initial-scale=1',
+    })
+
+    export const loader: LoaderFunction = (args) => rootAuthLoader(args)
+
+    function App() {
+      return (
+        <html lang="en">
+          <head>
+            <Meta />
+            <Links />
+          </head>
+          <body>
+            <Outlet />
+            <ScrollRestoration />
+            <Scripts />
+            <LiveReload />
+          </body>
+        </html>
+      )
+    }
+
+    export default ClerkApp(App, {
+      appearance: {
+        captcha: {
+          theme: 'dark',
+          size: 'flexible',
+          language: 'es-ES',
+        },
+      },
+    })
+    ```
+
+  </Tab>
+
+  <Tab>
+    ```ts {{ filename: 'nuxt.config.ts' }}
+    export default defineNuxtConfig({
+      modules: ['@clerk/nuxt'],
+      clerk: {
+        appearance: {
+          captcha: {
+            theme: 'dark',
+            size: 'flexible',
+            language: 'es-ES',
+          },
+        },
+      },
+    })
+    ```
+  </Tab>
+
+  <Tab>
+    ```ts {{ filename: 'src/main.ts' }}
+    import { createApp } from 'vue'
+    import App from './App.vue'
+    import { clerkPlugin } from '@clerk/vue'
+
+    const app = createApp(App)
+    app.use(clerkPlugin, {
+      appearance: {
+        captcha: {
+          theme: 'dark',
+          size: 'flexible',
+          language: 'es-ES',
+        },
+      },
+    })
+    app.mount('#app')
+    ```
+
+  </Tab>
+</Tabs>

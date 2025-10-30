@@ -238,6 +238,38 @@ export const getUserSubscriptions = query({
   },
 });
 
+export const userHasFeature = query({
+  args: {
+    userId: v.string(),
+    feature: v.string(),
+  },
+  returns: v.boolean(),
+  handler: async (ctx, args) => {
+    // Map of feature names to price IDs that grant those features
+    // ProMax plan has unlimited_links feature
+    const featurePriceIds: Record<string, string[]> = {
+      unlimited_links: ["cplan_34mvyFU9PuD9UMnKRtBd8SKF8Lf", "cplan_34mwfWNyDG0w7w1feCVi4tmm6y9"], // Pro and ProMax
+    };
+
+    const priceIds = featurePriceIds[args.feature];
+    if (!priceIds || priceIds.length === 0) {
+      return false;
+    }
+
+    // Get all subscriptions for this user
+    const subscriptions = await ctx.db
+      .query("subscriptions")
+      .withIndex("by_userId", (q) => q.eq("userId", args.userId))
+      .collect();
+
+    // Check if user has an active subscription with any of the price IDs that grant this feature
+    const now = Date.now();
+    return subscriptions.some(
+      (sub) => priceIds.includes(sub.priceId) && sub.expires > now
+    );
+  },
+});
+
 export const isHandleUnique = query({
   args: {
     handle: v.string(),

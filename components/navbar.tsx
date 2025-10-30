@@ -19,8 +19,22 @@ export function Navbar() {
         <Link href="/" className="text-xl font-bold">
           Get At Me
         </Link>
-        
+
         <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4">
+            <Link href="/pricing" className="text-sm hover:underline">
+              Pricing
+            </Link>
+            <Link href="/features" className="text-sm hover:underline">
+              Features
+            </Link>
+            <Link href="/faq" className="text-sm hover:underline">
+              FAQ
+            </Link>
+            <Link href="/contact" className="text-sm hover:underline">
+              Contact
+            </Link>
+          </div>
           {isSignedIn && userProfile?.handle ? (
             <Link
               href={`/${userProfile.handle}`}
@@ -35,4 +49,3 @@ export function Navbar() {
     </nav>
   );
 }
-
