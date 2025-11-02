@@ -720,3 +720,8 @@ body:has(button:hover > span > span.theme-dracula) {
   --input: #44475a;
   --ring: #6272a4;
 }
+
+/* View transition for handle heading to smoothly animate across page states */
+.handle-heading {
+  view-transition-name: handle-heading;
+}

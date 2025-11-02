@@ -4,6 +4,7 @@ import "./globals.css";
 import Providers from "@/context";
 import { SetHandleModal } from "@/components/set-handle-modal";
 import { Navbar } from "@/components/navbar";
+import { ClerkLoaded } from "@clerk/nextjs";
 
 export const metadata: Metadata = {
   title: "Get At Me",
@@ -23,7 +24,9 @@ export default function RootLayout({
           <div className="flex flex-col items-center justify-center min-h-dvh min-w-dvw max-w-dvw">
             {children}
           </div>
-          <SetHandleModal />
+          <ClerkLoaded>
+            <SetHandleModal />
+          </ClerkLoaded>
         </Providers>
       </body>
     </html>

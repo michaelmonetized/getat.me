@@ -15,6 +15,8 @@ import { PlanInfo } from "@/components/forms/user/plan-info";
 import { LinkItem } from "@/components/forms/user/link-item";
 import { LimitBanner } from "@/components/forms/user/limit-banner";
 import { EditLinkForm } from "@/components/forms/user/edit-link";
+import { Button } from "@/components/ui/button";
+import { SignUpButton } from "@clerk/nextjs";
 
 export default function ProfilePage() {
   const params = useParams();
@@ -52,7 +54,8 @@ export default function ProfilePage() {
   if (links === undefined || userByHandle === undefined) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <div className="text-center">
+        <div className="text-center space-y-4">
+          <h1 className="text-2xl font-black handle-heading">@{handle}</h1>
           <div className="text-muted-foreground">Loading...</div>
         </div>
       </div>
@@ -62,70 +65,84 @@ export default function ProfilePage() {
   if (!userByHandle) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <div className="text-center space-y-4"></div>
-        <h1 className="text-2xl font-bold">User not found</h1>
-        <p className="text-muted-foreground">
-          The user @{handle} doesn&apos;t exist.
-        </p>
+        <div className="text-center space-y-4">
+          <h1 className="text-2xl font-black handle-heading">
+            @{handle} not found
+          </h1>
+          <p className="text-muted-foreground">
+            The user @{handle} doesn&apos;t exist.
+          </p>
+          <div className="space-y-4">
+            <h2 className="text-lg font-bold">Claim this handle</h2>
+            <SignUpButton>
+              <Button variant="outline">Claim @{handle} now!</Button>
+            </SignUpButton>
+          </div>
+        </div>
       </div>
     );
   }
 
   const linkToEdit = editingLink
-    ? links.find((l) => l._id === editingLink)
+    ? links?.find((l) => l._id === editingLink)
     : null;
 
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-screen flex-col w-full">
       {/* Cover Photo Banner */}
-      <div className="w-full h-64 bg-muted relative overflow-hidden">
-        {userByHandle.coverUrl && (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={userByHandle.coverUrl}
-            alt="Cover"
-            className="w-full h-full object-cover"
-          />
-        )}
-        {isOwner && <CoverUpload />}
-      </div>
+      {userByHandle && (
+        <div className="w-full h-64 bg-muted relative overflow-hidden">
+          {userByHandle.coverUrl && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={userByHandle.coverUrl}
+              alt="Cover"
+              className="w-full h-full object-cover"
+            />
+          )}
+          {isOwner && <CoverUpload />}
+        </div>
+      )}
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8">
         {/* Profile Picture + Handle/Bio Section - Overlapping the banner */}
-        <div className="relative -mt-32 mb-12">
-          <div className="flex flex-col md:flex-row items-center md:items-center gap-6">
-            {/* Profile Picture */}
-            <div className="flex-shrink-0">
-              {isOwner ? (
-                <AvatarUpload />
-              ) : (
-                userByHandle.avatarUrl && (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={userByHandle.avatarUrl}
-                    alt="Profile"
-                    className="w-64 h-64 rounded-full object-cover border-4 border-background shadow-lg bg-background"
-                  />
-                )
-              )}
-            </div>
-
-            {/* Handle and Bio - Positioned to the right, vertically centered */}
-            <div className="flex-1 min-w-0 space-y-1">
-              <h1 className="text-4xl font-bold">@{handle}</h1>
-              {isOwner ? (
-                <BioForm />
-              ) : (
-                userByHandle.bio && (
-                  <p className="text-base text-muted-foreground">
-                    {userByHandle.bio}
-                  </p>
-                )
-              )}
+        {userByHandle && (
+          <div className="relative -mt-32 mb-12">
+            <div className="flex flex-col md:flex-row items-center md:items-center gap-6">
+              {/* Profile Picture */}
+              <div className="flex-shrink-0">
+                {isOwner ? (
+                  <AvatarUpload />
+                ) : (
+                  userByHandle.avatarUrl && (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={userByHandle.avatarUrl}
+                      alt="Profile"
+                      className="w-64 h-64 rounded-full object-cover border-4 border-background shadow-lg bg-background"
+                    />
+                  )
+                )}
+              </div>
+              {/* Handle and Bio - Positioned to the right, vertically centered */}
+              <div className="flex-1 min-w-0 space-y-1">
+                <h1 className="text-2xl font-black handle-heading">
+                  @{handle}
+                </h1>
+                {isOwner ? (
+                  <BioForm />
+                ) : (
+                  userByHandle.bio && (
+                    <p className="text-base text-muted-foreground">
+                      {userByHandle.bio}
+                    </p>
+                  )
+                )}
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
         {/* Two Column Layout */}
         <div className="grid lg:grid-cols-12 gap-8 pb-12">
@@ -141,12 +158,12 @@ export default function ProfilePage() {
           <div className={isOwner ? "lg:col-span-9" : "lg:col-span-12"}>
             <div className="space-y-6">
               {/* Add Link Form */}
-              {isOwner && (links.length < 3 || hasUnlimitedLinks) && (
+              {isOwner && links && (links.length < 3 || hasUnlimitedLinks) && (
                 <AddLinkForm />
               )}
 
               {/* Links List */}
-              {links.length === 0 ? (
+              {links && links.length === 0 ? (
                 <div className="text-center py-12">
                   <p className="text-muted-foreground">
                     {isOwner
@@ -156,7 +173,7 @@ export default function ProfilePage() {
                 </div>
               ) : (
                 <div className="space-y-3">
-                  {links.map((link) => (
+                  {links?.map((link) => (
                     <LinkItem
                       key={link._id}
                       link={link}
@@ -167,7 +184,7 @@ export default function ProfilePage() {
               )}
 
               {/* Limit Banner */}
-              {isOwner && links.length >= 3 && !hasUnlimitedLinks && (
+              {isOwner && links && links.length >= 3 && !hasUnlimitedLinks && (
                 <LimitBanner />
               )}
             </div>
