@@ -478,7 +478,8 @@
   }
 }
 
-.theme-frappe {
+.theme-frappe,
+body:has(button:hover > span > span.theme-frappe) {
   --background: hsl(var(--ctp-frappe-base-hsl));
   --foreground: hsl(var(--ctp-frappe-text-hsl));
   --card: hsl(var(--ctp-frappe-mantle-hsl));
@@ -504,7 +505,8 @@
   --ring: hsl(var(--ctp-frappe-surface1-hsl));
 }
 
-.theme-mocha {
+.theme-mocha,
+body:has(button:hover > span > span.theme-mocha) {
   --background: hsl(var(--ctp-mocha-base-hsl));
   --foreground: hsl(var(--ctp-mocha-text-hsl));
   --card: hsl(var(--ctp-mocha-mantle-hsl));
@@ -530,7 +532,8 @@
   --ring: hsl(var(--ctp-mocha-overlay0-hsl));
 }
 
-.theme-macchiato {
+.theme-macchiato,
+body:has(button:hover > span > span.theme-macchiato) {
   --background: hsl(var(--ctp-macchiato-base-hsl));
   --foreground: hsl(var(--ctp-macchiato-text-hsl));
   --card: hsl(var(--ctp-macchiato-mantle-hsl));
@@ -556,7 +559,8 @@
   --ring: hsl(var(--ctp-macchiato-surface1-hsl));
 }
 
-.theme-monokai {
+.theme-monokai,
+body:has(button:hover > span > span.theme-monokai) {
   --background: #272822;
   --foreground: #f8f8f2;
   --card: #2e2f28;
@@ -582,7 +586,8 @@
   --ring: #49483e;
 }
 
-.theme-tokyo {
+.theme-tokyo,
+body:has(button:hover > span > span.theme-tokyo) {
   --background: #1a1b2e;
   --foreground: #a9b1d6;
   --card: #16213e;
@@ -608,7 +613,8 @@
   --ring: #414868;
 }
 
-.theme-tomorrow {
+.theme-tomorrow,
+body:has(button:hover > span > span.theme-tomorrow) {
   --background: #1d1f21;
   --foreground: #c5c8c6;
   --card: #282a2e;
@@ -634,7 +640,8 @@
   --ring: #373b41;
 }
 
-.theme-one {
+.theme-one,
+body:has(button:hover > span > span.theme-one) {
   --background: #282c34;
   --foreground: #abb2bf;
   --card: #21252b;
@@ -660,7 +667,8 @@
   --ring: #4b5363;
 }
 
-.theme-rosepine {
+.theme-rosepine,
+body:has(button:hover > span > span.theme-rosepine) {
   --background: #191724;
   --foreground: #e0def4;
   --card: #1f1d2e;
@@ -686,7 +694,8 @@
   --ring: #403d52;
 }
 
-.theme-dracula {
+.theme-dracula,
+body:has(button:hover > span > span.theme-dracula) {
   --background: #282a36;
   --foreground: #f8f8f2;
   --card: #21222c;
@@ -710,4 +719,9 @@
   --border: #6272a4;
   --input: #44475a;
   --ring: #6272a4;
+}
+
+/* View transition for handle heading to smoothly animate across page states */
+.handle-heading {
+  view-transition-name: handle-heading;
 }

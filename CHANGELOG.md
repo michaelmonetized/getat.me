@@ -1,5 +1,16 @@
 ## 2025-10-31
 
 - Fix: Use `@clerk/nextjs` in `context/convex.tsx` so Clerk sessions are propagated to Convex. This resolves errors like: `User not found. Please sign in.` when calling `links:updateLink`.
-
-
+- Feature: Enhanced `PlanInfo` component to dynamically display user's current plan and conditional upgrade options
+  - Uses Clerk's `has()` function to check user's active subscription tier (as Clerk handles all billing)
+  - Implemented intelligent upgrade display: Premium users see Pro & ProMax, Pro users see ProMax only, ProMax users see nothing
+  - Supports three-tier plan structure: Premium ($3.99/mo), Pro ($7.99/mo), and ProMax ($14.99/mo)
+  - Removed obsolete `getCurrentPlan` Convex query since billing is managed entirely by Clerk
+- Refactor: Centralized plan configuration in `.config/plans.ts` to eliminate hardcoded plan IDs across components
+  - Updated `PlanInfo` and `LimitBanner` to import from centralized config
+  - Added `@/config/*` path alias for cleaner imports
+  - Fixed brittle array indexing by using `getPlanByName` helper function
+- Fix: Eliminated SetHandleModal flash by removing loading state and only showing modal when user definitively lacks a handle
+  - Modal now appears only after confirming the user doesn't exist in Convex (`userProfile === null`) or has no handle
+  - Removed temporary "Setting up your profile..." loading message to allow page to render naturally
+- Enhancement: Added CSS view transition for handle heading to smoothly animate across loading, error, and loaded states

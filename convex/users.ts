@@ -248,7 +248,10 @@ export const userHasFeature = query({
     // Map of feature names to price IDs that grant those features
     // ProMax plan has unlimited_links feature
     const featurePriceIds: Record<string, string[]> = {
-      unlimited_links: ["cplan_34mvyFU9PuD9UMnKRtBd8SKF8Lf", "cplan_34mwfWNyDG0w7w1feCVi4tmm6y9"], // Pro and ProMax
+      unlimited_links: [
+        "cplan_34mvyFU9PuD9UMnKRtBd8SKF8Lf",
+        "cplan_34mwfWNyDG0w7w1feCVi4tmm6y9",
+      ], // Pro and ProMax
     };
 
     const priceIds = featurePriceIds[args.feature];
