@@ -63,7 +63,7 @@ const PricingPage = () => {
 
                 // Badge elements
                 badge:
-                  "inline-block bg-primary/10 text-primary text-xs font-medium px-2 py-1 rounded-md",
+                  "inline-block bg-secondary text-secondary-foreground text-xs font-medium px-2 py-1 rounded-md",
 
                 // Plan Details Drawer (cl-planDetails-root)
                 planDetailsRoot: "w-full max-w-2xl",
@@ -77,7 +77,7 @@ const PricingPage = () => {
                 drawerContent: "bg-card rounded-t-xl md:rounded-xl",
 
                 // Drawer header
-                drawerHeader: "border-b border-border px-8 py-8 relative",
+                drawerHeader: "border-b border-border px-6 pt-12 pb-6 relative",
                 planDetailHeader: "space-y-6",
                 planDetailBadgeAvatarTitleDescriptionContainer: "space-y-4",
                 planDetailTitleDescriptionContainer: "space-y-3",
@@ -95,11 +95,11 @@ const PricingPage = () => {
 
                 // Drawer close button
                 drawerClose:
-                  "absolute top-6 right-6 hover:bg-accent rounded-full p-2 transition-colors",
+                  "absolute top-4 right-4 hover:bg-accent rounded-full p-2 transition-colors",
 
                 // Drawer body
                 drawerBody:
-                  "px-8 py-8 max-h-[calc(100vh-300px)] overflow-y-auto",
+                  "px-6 py-6 max-h-[calc(100vh-300px)] overflow-y-auto",
                 planDetailCaption:
                   "text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-6",
 

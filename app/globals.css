@@ -728,7 +728,10 @@ body:has(button:hover > span > span.theme-dracula) {
 
 /* Clerk PricingTable drawer styling overrides */
 .cl-drawerHeader {
-  padding: 2rem !important;
+  padding-left: 1.5rem !important;
+  padding-right: 1.5rem !important;
+  padding-top: 3rem !important;
+  padding-bottom: 1.5rem !important;
 }
 
 .cl-planDetailHeader {
@@ -740,7 +743,10 @@ body:has(button:hover > span > span.theme-dracula) {
 }
 
 .cl-drawerBody {
-  padding: 2rem !important;
+  padding-left: 1.5rem !important;
+  padding-right: 1.5rem !important;
+  padding-top: 1.5rem !important;
+  padding-bottom: 1.5rem !important;
 }
 
 .cl-planDetailFeaturesListItem {
