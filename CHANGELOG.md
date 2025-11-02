@@ -11,7 +11,9 @@
   - Beautifully styled plan details drawer with backdrop blur, proper spacing, and elegant typography
   - Enhanced drawer with feature list dividers, improved readability, and smooth scrolling
   - Added global CSS overrides with !important flags to ensure drawer styling applies properly
-  - Generous padding throughout (px-8 py-8) for drawer header and body sections
+  - Reduced drawer horizontal padding and added proper top padding for better spacing
+  - Fixed badge contrast by using secondary background/foreground colors
+  - Fixed pricing card footer alignment with flexbox (mt-auto on footer, flex-1 on feature areas)
   - Improved typography with larger titles, better spacing, and enhanced feature list styling
 - Fix: Use `@clerk/nextjs` in `context/convex.tsx` so Clerk sessions are propagated to Convex. This resolves errors like: `User not found. Please sign in.` when calling `links:updateLink`.
 - Feature: Enhanced `PlanInfo` component to dynamically display user's current plan and conditional upgrade options
