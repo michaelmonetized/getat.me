@@ -7,16 +7,16 @@ import { useAuth } from "@clerk/nextjs";
 
 export function PlanInfo() {
   const { has } = useAuth();
-  
-  // Check which plans the user has access to from Clerk
-  const hasProMax = has?.({ plan: "cplan_34mwfWNyDG0w7w1feCVi4tmm6y9" }) ?? false;
-  const hasPro = has?.({ plan: "cplan_34mvyFU9PuD9UMnKRtBd8SKF8Lf" }) ?? false;
-  const hasPremium = has?.({ plan: "cplan_34pOGvuXdApGqi7sL9jOGmt0NUu" }) ?? false;
-  
+
+  // Check which plans the user has access to from Clerk using planKeys
+  const hasProMax = has?.({ plan: "promax" }) ?? false;
+  const hasPro = has?.({ plan: "pro" }) ?? false;
+  const hasPremium = has?.({ plan: "premium" }) ?? false;
+
   // Determine current plan based on highest tier
-  let planName = "Basic";
+  let planName = "FREE";
   let planPrice = "$0/mo";
-  
+
   if (hasProMax) {
     planName = "ProMax";
     planPrice = "$14.99/mo";
@@ -56,7 +56,7 @@ export function PlanInfo() {
     } else if (planName === "Premium") {
       return [allPlans[1], allPlans[2]]; // Show Pro and ProMax for Premium users
     } else {
-      // Basic users see all upgrades
+      // FREE users see all upgrades
       return allPlans;
     }
   };
