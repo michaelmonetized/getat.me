@@ -20,7 +20,6 @@ export function SetHandleModal() {
   const [handle, setHandle] = useState("");
   const [error, setError] = useState("");
   const [isChecking, setIsChecking] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const { isSignedIn, user, isLoaded: userLoaded } = useUser();
   const userProfile = useQuery(
@@ -29,23 +28,15 @@ export function SetHandleModal() {
   );
   const setHandleMutation = useMutation(api.users.setHandle);
 
-  // Early return checks - return null as soon as we know we shouldn't show the modal
+  // Don't show modal if user is not signed in or not loaded
   if (!userLoaded || !isSignedIn || !user?.id) return null;
-  if (userProfile === undefined) return null; // Still loading
-  if (userProfile?.handle) return null; // Already has handle
-
-  // If submitted successfully but query hasn't updated yet, show loading state
-  if (isSubmitted && !userProfile?.handle) {
-    return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-        <Card className="w-full max-w-md mx-4">
-          <CardContent className="p-6 text-center">
-            <p className="text-muted-foreground">Setting up your profile...</p>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
+  
+  // Show modal only when we know for sure the user doesn't have a handle
+  // userProfile === null means user doesn't exist in Convex yet
+  // userProfile?.handle is falsy means user exists but has no handle
+  const shouldShowModal = userProfile === null || !userProfile?.handle;
+  
+  if (!shouldShowModal) return null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -72,9 +63,9 @@ export function SetHandleModal() {
         handle: handle.trim().toLowerCase(),
         userId: user?.id,
       });
-      setIsSubmitted(true);
-      // Clear form
+      // Clear form - modal will disappear when query updates
       setHandle("");
+      setIsChecking(false);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to set handle");
       setIsChecking(false);

@@ -10,4 +10,6 @@
   - Updated `PlanInfo` and `LimitBanner` to import from centralized config
   - Added `@/config/*` path alias for cleaner imports
   - Fixed brittle array indexing by using `getPlanByName` helper function
-- Fix: Eliminated SetHandleModal flash by checking `isLoaded` before rendering modal content
+- Fix: Eliminated SetHandleModal flash by removing loading state and only showing modal when user definitively lacks a handle
+  - Modal now appears only after confirming the user doesn't exist in Convex (`userProfile === null`) or has no handle
+  - Removed temporary "Setting up your profile..." loading message to allow page to render naturally
