@@ -387,9 +387,9 @@
       @apply absolute rounded-lg;
       background: conic-gradient(
         from var(--i),
-        var(--Rosewater),
-        var(--Sky),
-        var(--Rosewater)
+        var(--primary),
+        var(--secondary),
+        var(--primary)
       );
       width: calc(100% + 3px);
       height: calc(100% + 3px);
@@ -413,9 +413,9 @@
     &::after {
       background: conic-gradient(
         from var(--i),
-        var(--Crust),
-        var(--Surface2),
-        var(--Crust)
+        var(--background),
+        var(--card),
+        var(--background)
       );
     }
   }
@@ -436,9 +436,9 @@
     &::after {
       background: conic-gradient(
         from var(--i),
-        var(--Pink),
-        var(--Teal),
-        var(--Pink)
+        var(--ctp-frappe-pink),
+        var(--ctp-frappe-teal),
+        var(--ctp-frappe-pink)
       );
     }
   }
