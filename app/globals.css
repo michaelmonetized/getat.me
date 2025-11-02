@@ -724,4 +724,5 @@ body:has(button:hover > span > span.theme-dracula) {
 /* View transition for handle heading to smoothly animate across page states */
 .handle-heading {
   view-transition-name: handle-heading;
+  transition: view-transition-name 0.3s ease-in-out;
 }
