@@ -13,3 +13,4 @@
 - Fix: Eliminated SetHandleModal flash by removing loading state and only showing modal when user definitively lacks a handle
   - Modal now appears only after confirming the user doesn't exist in Convex (`userProfile === null`) or has no handle
   - Removed temporary "Setting up your profile..." loading message to allow page to render naturally
+- Enhancement: Added CSS view transition for handle heading to smoothly animate across loading, error, and loaded states
