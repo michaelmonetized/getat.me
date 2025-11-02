@@ -8,53 +8,42 @@ import { useAuth } from "@clerk/nextjs";
 export function PlanInfo() {
   const { has } = useAuth();
 
-  // Check which plans the user has access to from Clerk using planKeys
-  const hasProMax = has?.({ plan: "promax" }) ?? false;
-  const hasPro = has?.({ plan: "pro" }) ?? false;
-  const hasPremium = has?.({ plan: "premium" }) ?? false;
-
-  // Determine current plan based on highest tier
-  let planName = "FREE";
-  let planPrice = "$0/mo";
-
-  if (hasProMax) {
-    planName = "ProMax";
-    planPrice = "$14.99/mo";
-  } else if (hasPro) {
-    planName = "Pro";
-    planPrice = "$7.99/mo";
-  } else if (hasPremium) {
-    planName = "Premium";
-    planPrice = "$3.99/mo";
-  }
-
-  // Define all available plans
+  // Define all available plans with planKeys and ordered by priority (highest first)
   const allPlans = [
     {
-      name: "Premium",
-      price: "$3.99/mo",
-      planId: "cplan_34pOGvuXdApGqi7sL9jOGmt0NUu",
+      name: "ProMax",
+      price: "$14.99/mo",
+      planKey: "promax",
+      planId: "cplan_34mwfWNyDG0w7w1feCVi4tmm6y9",
     },
     {
       name: "Pro",
       price: "$7.99/mo",
+      planKey: "pro",
       planId: "cplan_34mvyFU9PuD9UMnKRtBd8SKF8Lf",
     },
     {
-      name: "ProMax",
-      price: "$14.99/mo",
-      planId: "cplan_34mwfWNyDG0w7w1feCVi4tmm6y9",
+      name: "Premium",
+      price: "$3.99/mo",
+      planKey: "premium",
+      planId: "cplan_34pOGvuXdApGqi7sL9jOGmt0NUu",
     },
   ];
 
+  // Determine current plan based on highest tier
+  // Since plans are ordered by priority (highest first), find first matching plan
+  const currentPlan = allPlans.find((plan) =>
+    has?.({ plan: plan.planKey })
+  ) || { name: "FREE", price: "$0/mo" };
+
   // Filter plans to show only upgrades based on current plan
   const getUpgradePlans = () => {
-    if (planName === "ProMax") {
+    if (currentPlan.name === "ProMax") {
       return []; // Don't show anything if they have ProMax
-    } else if (planName === "Pro") {
-      return [allPlans[2]]; // Show ProMax for Pro users
-    } else if (planName === "Premium") {
-      return [allPlans[1], allPlans[2]]; // Show Pro and ProMax for Premium users
+    } else if (currentPlan.name === "Pro") {
+      return [allPlans[0]]; // Show ProMax for Pro users
+    } else if (currentPlan.name === "Premium") {
+      return [allPlans[1], allPlans[0]]; // Show Pro and ProMax for Premium users
     } else {
       // FREE users see all upgrades
       return allPlans;
@@ -73,9 +62,9 @@ export function PlanInfo() {
         </CardHeader>
         <CardContent className="px-0">
           <p className="text-sm font-medium">
-            {planName}{" "}
+            {currentPlan.name}{" "}
             <span className="text-muted-foreground font-normal">
-              {planPrice}
+              {currentPlan.price}
             </span>
           </p>
         </CardContent>

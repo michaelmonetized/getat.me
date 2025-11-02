@@ -60,26 +60,27 @@ export function ThemeSelector() {
             onClick={() => handleThemeChange(theme)}
             className={`w-full flex items-center justify-between px-3 py-2 rounded-md transition-colors text-sm ${
               selectedTheme === theme ? "bg-muted/50" : "hover:bg-muted/30"
-            }`}
+            } space-x-4`}
           >
             <span className={selectedTheme === theme ? "font-medium" : ""}>
               {theme}
             </span>
-
-            <span
-              className={`theme-${theme.toLowerCase()} flex items-center justify-center space-x-4 justify-self-end`}
-            >
-              <span className="w-4 h-4 rounded-[3px] block bg-primary"></span>
-              <span className="w-4 h-4 rounded-[3px] block bg-secondary"></span>
-              <span className="w-4 h-4 rounded-[3px] block bg-muted"></span>
-              <span className="w-4 h-4 rounded-[3px] block bg-accent"></span>
-              <span className="w-4 h-4 rounded-[3px] block bg-destructive"></span>
+            <span className="flex items-center justify-end space-x-4 justify-self-end">
+              <span
+                className={`theme-${theme.toLowerCase()} flex items-center justify-center space-x-4`}
+              >
+                <span className="w-4 h-4 rounded-[3px] block bg-primary"></span>
+                <span className="w-4 h-4 rounded-[3px] block bg-secondary"></span>
+                <span className="w-4 h-4 rounded-[3px] block bg-muted"></span>
+                <span className="w-4 h-4 rounded-[3px] block bg-accent"></span>
+                <span className="w-4 h-4 rounded-[3px] block bg-destructive"></span>
+              </span>
+              {selectedTheme === theme ? (
+                <Check className="h-4 w-4 text-foreground block" />
+              ) : (
+                <span className="w-4 h-4 block"></span>
+              )}
             </span>
-            {selectedTheme === theme ? (
-              <Check className="h-4 w-4 text-foreground justify-self-end block" />
-            ) : (
-              <span className="w-4 h-4 justify-self-end block"></span>
-            )}
           </button>
         ))}
       </CardContent>
