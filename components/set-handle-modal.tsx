@@ -32,6 +32,9 @@ export function SetHandleModal() {
   // Show modal only when signed in and user has no handle (including no profile yet)
   if (!isSignedIn || !user?.id) return null;
   
+  // Don't show anything while loading to prevent flash
+  if (userProfile === undefined) return null;
+  
   // If user already has a handle, don't show modal
   if (userProfile?.handle) {
     return null;
