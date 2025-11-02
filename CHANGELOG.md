@@ -1,4 +1,4 @@
-## 2025-10-31
+## 2025-11-02
 
 - Fix: Use `@clerk/nextjs` in `context/convex.tsx` so Clerk sessions are propagated to Convex. This resolves errors like: `User not found. Please sign in.` when calling `links:updateLink`.
 - Feature: Enhanced `PlanInfo` component to dynamically display user's current plan and conditional upgrade options
