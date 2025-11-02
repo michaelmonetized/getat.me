@@ -65,8 +65,20 @@ export function ThemeSelector() {
             <span className={selectedTheme === theme ? "font-medium" : ""}>
               {theme}
             </span>
-            {selectedTheme === theme && (
-              <Check className="h-4 w-4 text-foreground" />
+
+            <span
+              className={`theme-${theme.toLowerCase()} flex items-center justify-center space-x-4 justify-self-end`}
+            >
+              <span className="w-4 h-4 rounded-[3px] block bg-primary"></span>
+              <span className="w-4 h-4 rounded-[3px] block bg-secondary"></span>
+              <span className="w-4 h-4 rounded-[3px] block bg-muted"></span>
+              <span className="w-4 h-4 rounded-[3px] block bg-accent"></span>
+              <span className="w-4 h-4 rounded-[3px] block bg-destructive"></span>
+            </span>
+            {selectedTheme === theme ? (
+              <Check className="h-4 w-4 text-foreground justify-self-end block" />
+            ) : (
+              <span className="w-4 h-4 justify-self-end block"></span>
             )}
           </button>
         ))}

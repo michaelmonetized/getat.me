@@ -238,6 +238,79 @@ export const getUserSubscriptions = query({
   },
 });
 
+export const getCurrentPlan = query({
+  args: {
+    userId: v.optional(v.string()),
+  },
+  returns: v.union(
+    v.object({
+      name: v.string(),
+      priceId: v.string(),
+      price: v.string(),
+    }),
+    v.null()
+  ),
+  handler: async (ctx, args) => {
+    let userId = args.userId;
+
+    // Try to get from auth if userId not provided
+    if (!userId) {
+      const user = await ctx.auth.getUserIdentity();
+      if (user) {
+        userId = user.subject;
+      }
+    }
+
+    if (!userId) {
+      return null;
+    }
+
+    // Map of price IDs to plan details
+    const planMap: Record<string, { name: string; price: string }> = {
+      "cplan_34mwfWNyDG0w7w1feCVi4tmm6y9": { name: "ProMax", price: "$14.99/mo" },
+      "cplan_34mvyFU9PuD9UMnKRtBd8SKF8Lf": { name: "Pro", price: "$7.99/mo" },
+      "cplan_34pOGvuXdApGqi7sL9jOGmt0NUu": { name: "Premium", price: "$3.99/mo" },
+    };
+    
+    // Priority order for tier comparison
+    const planPriority: Record<string, number> = {
+      "ProMax": 3,
+      "Pro": 2,
+      "Premium": 1,
+    };
+
+    // Get active subscriptions
+    const subscriptions = await ctx.db
+      .query("subscriptions")
+      .withIndex("by_userId", (q) => q.eq("userId", userId))
+      .collect();
+
+    const now = Date.now();
+    
+    // Find the highest tier active subscription
+    // Priority: ProMax > Pro > Premium > Basic
+    let highestPlan: { name: string; priceId: string; price: string } | null = null;
+    let highestPriority = 0;
+    
+    for (const sub of subscriptions) {
+      if (sub.expires > now && sub.priceId in planMap) {
+        const plan = planMap[sub.priceId];
+        const priority = planPriority[plan.name] || 0;
+        if (priority > highestPriority) {
+          highestPriority = priority;
+          highestPlan = {
+            name: plan.name,
+            priceId: sub.priceId,
+            price: plan.price,
+          };
+        }
+      }
+    }
+
+    return highestPlan; // Returns null for Basic plan
+  },
+});
+
 export const userHasFeature = query({
   args: {
     userId: v.string(),

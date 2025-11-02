@@ -20,7 +20,9 @@ export default function RootLayout({
       <body className="antialiased">
         <Providers>
           <Navbar />
-          {children}
+          <div className="flex flex-col items-center justify-center min-h-dvh min-w-dvw max-w-dvw">
+            {children}
+          </div>
           <SetHandleModal />
         </Providers>
       </body>
