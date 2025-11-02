@@ -1,21 +1,32 @@
 "use client";
 
-import { useQuery } from "convex/react";
-import { api } from "@/convex/_generated/api";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CheckoutButton } from "@clerk/clerk-react/experimental";
-import { useUser } from "@clerk/nextjs";
+import { useAuth } from "@clerk/nextjs";
 
 export function PlanInfo() {
-  const { user } = useUser();
-  const currentPlan = useQuery(
-    api.users.getCurrentPlan,
-    user?.id ? { userId: user.id } : "skip"
-  );
-
-  const planName = currentPlan?.name || "Basic";
-  const planPrice = currentPlan?.price || "$0/mo";
+  const { has } = useAuth();
+  
+  // Check which plans the user has access to from Clerk
+  const hasProMax = has?.({ plan: "cplan_34mwfWNyDG0w7w1feCVi4tmm6y9" }) ?? false;
+  const hasPro = has?.({ plan: "cplan_34mvyFU9PuD9UMnKRtBd8SKF8Lf" }) ?? false;
+  const hasPremium = has?.({ plan: "cplan_34pOGvuXdApGqi7sL9jOGmt0NUu" }) ?? false;
+  
+  // Determine current plan based on highest tier
+  let planName = "Basic";
+  let planPrice = "$0/mo";
+  
+  if (hasProMax) {
+    planName = "ProMax";
+    planPrice = "$14.99/mo";
+  } else if (hasPro) {
+    planName = "Pro";
+    planPrice = "$7.99/mo";
+  } else if (hasPremium) {
+    planName = "Premium";
+    planPrice = "$3.99/mo";
+  }
 
   // Define all available plans
   const allPlans = [
