@@ -19,9 +19,21 @@ export function PlanInfo() {
 
   // Define all available plans
   const allPlans = [
-    { name: "Premium", price: "$3.99/mo", planId: "cplan_34pOGvuXdApGqi7sL9jOGmt0NUu" },
-    { name: "Pro", price: "$7.99/mo", planId: "cplan_34mvyFU9PuD9UMnKRtBd8SKF8Lf" },
-    { name: "ProMax", price: "$14.99/mo", planId: "cplan_34mwfWNyDG0w7w1feCVi4tmm6y9" },
+    {
+      name: "Premium",
+      price: "$3.99/mo",
+      planId: "cplan_34pOGvuXdApGqi7sL9jOGmt0NUu",
+    },
+    {
+      name: "Pro",
+      price: "$7.99/mo",
+      planId: "cplan_34mvyFU9PuD9UMnKRtBd8SKF8Lf",
+    },
+    {
+      name: "ProMax",
+      price: "$14.99/mo",
+      planId: "cplan_34mwfWNyDG0w7w1feCVi4tmm6y9",
+    },
   ];
 
   // Filter plans to show only upgrades based on current plan
@@ -51,7 +63,9 @@ export function PlanInfo() {
         <CardContent className="px-0">
           <p className="text-sm font-medium">
             {planName}{" "}
-            <span className="text-muted-foreground font-normal">{planPrice}</span>
+            <span className="text-muted-foreground font-normal">
+              {planPrice}
+            </span>
           </p>
         </CardContent>
       </Card>
