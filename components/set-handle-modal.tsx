@@ -21,25 +21,19 @@ export function SetHandleModal() {
   const [error, setError] = useState("");
   const [isChecking, setIsChecking] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  
-  const { isSignedIn, user } = useUser();
+
+  const { isSignedIn, user, isLoaded: userLoaded } = useUser();
   const userProfile = useQuery(
     api.users.getCurrentUserProfile,
     user?.id ? { userId: user.id } : "skip"
   );
   const setHandleMutation = useMutation(api.users.setHandle);
 
-  // Show modal only when signed in and user has no handle (including no profile yet)
-  if (!isSignedIn || !user?.id) return null;
-  
-  // Don't show anything while loading to prevent flash
-  if (userProfile === undefined) return null;
-  
-  // If user already has a handle, don't show modal
-  if (userProfile?.handle) {
-    return null;
-  }
-  
+  // Early return checks - return null as soon as we know we shouldn't show the modal
+  if (!userLoaded || !isSignedIn || !user?.id) return null;
+  if (userProfile === undefined) return null; // Still loading
+  if (userProfile?.handle) return null; // Already has handle
+
   // If submitted successfully but query hasn't updated yet, show loading state
   if (isSubmitted && !userProfile?.handle) {
     return (
@@ -66,15 +60,17 @@ export function SetHandleModal() {
 
     // Check handle format (alphanumeric, underscore, hyphen)
     if (!/^[a-z0-9_-]+$/.test(handle.trim())) {
-      setError("Handle can only contain lowercase letters, numbers, underscores, and hyphens");
+      setError(
+        "Handle can only contain lowercase letters, numbers, underscores, and hyphens"
+      );
       setIsChecking(false);
       return;
     }
 
     try {
-      await setHandleMutation({ 
+      await setHandleMutation({
         handle: handle.trim().toLowerCase(),
-        userId: user?.id 
+        userId: user?.id,
       });
       setIsSubmitted(true);
       // Clear form
@@ -102,18 +98,19 @@ export function SetHandleModal() {
                 id="handle"
                 value={handle}
                 onChange={(e) => {
-                  setHandle(e.target.value.toLowerCase().replace(/[^a-z0-9_-]/g, ""));
+                  setHandle(
+                    e.target.value.toLowerCase().replace(/[^a-z0-9_-]/g, "")
+                  );
                   setError("");
                 }}
                 placeholder="yourhandle"
                 disabled={isChecking}
                 className="font-mono"
               />
-              {error && (
-                <p className="text-sm text-destructive">{error}</p>
-              )}
+              {error && <p className="text-sm text-destructive">{error}</p>}
               <p className="text-xs text-muted-foreground">
-                Must be unique and contain only lowercase letters, numbers, underscores, and hyphens
+                Must be unique and contain only lowercase letters, numbers,
+                underscores, and hyphens
               </p>
             </div>
           </CardContent>

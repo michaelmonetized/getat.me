@@ -6,3 +6,8 @@
   - Implemented intelligent upgrade display: Premium users see Pro & ProMax, Pro users see ProMax only, ProMax users see nothing
   - Supports three-tier plan structure: Premium ($3.99/mo), Pro ($7.99/mo), and ProMax ($14.99/mo)
   - Removed obsolete `getCurrentPlan` Convex query since billing is managed entirely by Clerk
+- Refactor: Centralized plan configuration in `.config/plans.ts` to eliminate hardcoded plan IDs across components
+  - Updated `PlanInfo` and `LimitBanner` to import from centralized config
+  - Added `@/config/*` path alias for cleaner imports
+  - Fixed brittle array indexing by using `getPlanByName` helper function
+- Fix: Eliminated SetHandleModal flash by checking `isLoaded` before rendering modal content
