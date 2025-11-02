@@ -18,7 +18,44 @@ const PricingPage = () => {
           <PricingTable
             appearance={{
               elements: {
+                // Root container
                 rootBox: "w-full",
+                
+                // Main pricing table container
+                pricingTable: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6",
+                
+                // Individual pricing card
+                pricingTableCard: "rounded-lg border border-border bg-card p-6 shadow-sm hover:shadow-md transition-all duration-200 flex flex-col",
+                
+                // Card header
+                pricingTableCardHeader: "space-y-4 mb-6",
+                pricingTableCardTitleContainer: "space-y-2",
+                pricingTableCardTitle: "text-2xl font-bold text-card-foreground",
+                pricingTableCardDescription: "text-sm text-muted-foreground",
+                
+                // Price/fee display
+                pricingTableCardFeeContainer: "flex items-baseline gap-2 mb-2",
+                pricingTableCardFee: "text-3xl font-bold text-primary",
+                pricingTableCardFeePeriod: "text-sm text-muted-foreground",
+                pricingTableCardFeePeriodNotice: "text-xs text-muted-foreground font-medium",
+                
+                // Period toggle switch
+                pricingTableCardPeriodToggle: "mt-4",
+                
+                // Features list
+                pricingTableCardFeatures: "flex-1",
+                pricingTableCardFeaturesList: "space-y-3",
+                pricingTableCardFeaturesListItem: "flex items-start gap-2 text-sm",
+                pricingTableCardFeaturesListItemContent: "flex-1",
+                pricingTableCardFeaturesListItemTitle: "text-muted-foreground",
+                
+                // Card footer
+                pricingTableCardFooter: "mt-6 pt-4 border-t border-border",
+                pricingTableCardFooterButton: "w-full",
+                pricingTableCardFooterNotice: "text-xs text-center text-muted-foreground",
+                
+                // Badge elements
+                badge: "inline-block bg-primary/10 text-primary text-xs font-medium px-2 py-1 rounded-md",
               },
             }}
           />
