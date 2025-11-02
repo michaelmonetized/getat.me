@@ -77,40 +77,40 @@ const PricingPage = () => {
                 drawerContent: "bg-card rounded-t-xl md:rounded-xl",
 
                 // Drawer header
-                drawerHeader: "border-b border-border px-6 py-4",
-                planDetailHeader: "space-y-4",
-                planDetailBadgeAvatarTitleDescriptionContainer: "space-y-3",
-                planDetailTitleDescriptionContainer: "space-y-2",
+                drawerHeader: "border-b border-border px-8 py-8 relative",
+                planDetailHeader: "space-y-6",
+                planDetailBadgeAvatarTitleDescriptionContainer: "space-y-4",
+                planDetailTitleDescriptionContainer: "space-y-3",
                 planDetailTitle: "text-3xl font-bold text-card-foreground",
-                planDetailDescription: "text-sm text-muted-foreground",
+                planDetailDescription: "text-base text-muted-foreground leading-relaxed",
 
                 // Plan detail fee container
-                planDetailFeeContainer: "flex items-baseline gap-2",
-                planDetailFee: "text-3xl font-bold text-primary",
+                planDetailFeeContainer: "flex items-baseline gap-2 my-4",
+                planDetailFee: "text-4xl font-bold text-primary",
                 planDetailFeePeriod: "text-base text-muted-foreground",
 
                 // Plan detail period toggle
-                planDetailPeriodToggle: "mt-2",
+                planDetailPeriodToggle: "mt-4",
 
                 // Drawer close button
                 drawerClose:
-                  "absolute top-4 right-4 hover:bg-accent rounded-full p-2",
+                  "absolute top-6 right-6 hover:bg-accent rounded-full p-2 transition-colors",
 
                 // Drawer body
                 drawerBody:
-                  "px-6 py-6 max-h-[calc(100vh-300px)] overflow-y-auto",
+                  "px-8 py-8 max-h-[calc(100vh-300px)] overflow-y-auto",
                 planDetailCaption:
-                  "text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-4",
+                  "text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-6",
 
                 // Plan detail features list
-                planDetailFeaturesList: "space-y-4",
+                planDetailFeaturesList: "space-y-1",
                 planDetailFeaturesListItem:
-                  "border-b border-border pb-4 last:border-0 last:pb-0",
-                planDetailFeaturesListItemContent: "space-y-1",
+                  "border-b border-border last:border-0 py-6",
+                planDetailFeaturesListItemContent: "space-y-2",
                 planDetailFeaturesListItemTitle:
-                  "text-base font-semibold text-card-foreground",
+                  "text-lg font-semibold text-card-foreground mb-2",
                 planDetailFeaturesListItemDescription:
-                  "text-sm text-muted-foreground",
+                  "text-sm text-muted-foreground leading-relaxed",
               },
             }}
           />
