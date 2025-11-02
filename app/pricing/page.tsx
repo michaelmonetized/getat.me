@@ -82,7 +82,8 @@ const PricingPage = () => {
                 planDetailBadgeAvatarTitleDescriptionContainer: "space-y-4",
                 planDetailTitleDescriptionContainer: "space-y-3",
                 planDetailTitle: "text-3xl font-bold text-card-foreground",
-                planDetailDescription: "text-base text-muted-foreground leading-relaxed",
+                planDetailDescription:
+                  "text-base text-muted-foreground leading-relaxed",
 
                 // Plan detail fee container
                 planDetailFeeContainer: "flex items-baseline gap-2 my-4",
