@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const PricingPage = () => {
   return (
-    <div className="container mx-auto p-4 space-y-8">
+    <div className="container mx-auto p-4 pt-24 space-y-8">
       <div className="text-center space-y-4">
         <h1 className="text-4xl font-bold tracking-tight">Pricing Plans</h1>
         <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -64,6 +64,46 @@ const PricingPage = () => {
                 // Badge elements
                 badge:
                   "inline-block bg-primary/10 text-primary text-xs font-medium px-2 py-1 rounded-md",
+
+                // Plan Details Drawer (cl-planDetails-root)
+                planDetailsRoot: "w-full max-w-2xl",
+                
+                // Drawer backdrop
+                drawerBackdrop: "bg-black/50 backdrop-blur-sm",
+                
+                // Drawer root
+                drawerRoot: "bg-card border border-border shadow-xl rounded-t-xl md:rounded-xl",
+                drawerContent: "bg-card rounded-t-xl md:rounded-xl",
+                
+                // Drawer header
+                drawerHeader: "border-b border-border px-6 py-4",
+                planDetailHeader: "space-y-4",
+                planDetailBadgeAvatarTitleDescriptionContainer: "space-y-3",
+                planDetailTitleDescriptionContainer: "space-y-2",
+                planDetailTitle: "text-3xl font-bold text-card-foreground",
+                planDetailDescription: "text-sm text-muted-foreground",
+                
+                // Plan detail fee container
+                planDetailFeeContainer: "flex items-baseline gap-2",
+                planDetailFee: "text-3xl font-bold text-primary",
+                planDetailFeePeriod: "text-base text-muted-foreground",
+                
+                // Plan detail period toggle
+                planDetailPeriodToggle: "mt-2",
+                
+                // Drawer close button
+                drawerClose: "absolute top-4 right-4 hover:bg-accent rounded-full p-2",
+                
+                // Drawer body
+                drawerBody: "px-6 py-6 max-h-[calc(100vh-300px)] overflow-y-auto",
+                planDetailCaption: "text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-4",
+                
+                // Plan detail features list
+                planDetailFeaturesList: "space-y-4",
+                planDetailFeaturesListItem: "border-b border-border pb-4 last:border-0 last:pb-0",
+                planDetailFeaturesListItemContent: "space-y-1",
+                planDetailFeaturesListItemTitle: "text-base font-semibold text-card-foreground",
+                planDetailFeaturesListItemDescription: "text-sm text-muted-foreground",
               },
             }}
           />
