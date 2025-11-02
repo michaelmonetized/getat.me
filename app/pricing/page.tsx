@@ -24,7 +24,7 @@ const PricingPage = () => {
 
                 // Main pricing table container
                 pricingTable:
-                  "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6",
+                  "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full",
 
                 // Individual pricing card
                 pricingTableCard:
@@ -48,7 +48,7 @@ const PricingPage = () => {
                 pricingTableCardPeriodToggle: "mt-4",
 
                 // Features list
-                pricingTableCardFeatures: "flex-1",
+                pricingTableCardFeatures: "flex-0 grow-1 shrink-0",
                 pricingTableCardFeaturesList: "space-y-3",
                 pricingTableCardFeaturesListItem:
                   "flex items-start gap-2 text-sm",
@@ -56,8 +56,10 @@ const PricingPage = () => {
                 pricingTableCardFeaturesListItemTitle: "text-muted-foreground",
 
                 // Card footer
-                pricingTableCardFooter: "mt-6 pt-4 border-t border-border",
-                pricingTableCardFooterButton: "w-full",
+                pricingTableCardFooter:
+                  "mt-6 pt-4 border-t border-border flex justify-center items-center w-full grow-0 shrink-1 self-end justify-self-end",
+                pricingTableCardFooterButton:
+                  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 w-auto px-4 py-2 m-auto self-center align-middle mx-auto justify-self-center",
                 pricingTableCardFooterNotice:
                   "text-xs text-center text-muted-foreground",
 
@@ -112,6 +114,11 @@ const PricingPage = () => {
                   "text-lg font-semibold text-card-foreground mb-2",
                 planDetailFeaturesListItemDescription:
                   "text-sm text-muted-foreground leading-relaxed",
+
+                // Ultrafine customizations
+                pricingTableCard__promax:
+                  "md:order-first md:col-span-full lg:col-span-1 lg:order-[3]",
+                pricingTableCard__free_user: "order-last col-span-full",
               },
             }}
           />
