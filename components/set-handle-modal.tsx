@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { User } from "@/convex/schema";
 
 export function SetHandleModal() {
   const [handle, setHandle] = useState("");
@@ -28,14 +29,23 @@ export function SetHandleModal() {
   );
   const setHandleMutation = useMutation(api.users.setHandle);
 
+  // Don't show modal if user is not signed in or not loaded
+  if (
+    !userLoaded ||
+    !isSignedIn ||
+    !user?.id ||
+    userProfile !== null ||
+    (userProfile !== null && (userProfile as User).handle)
+  )
+    return <></>;
+
   // Show modal only when we know for sure the user doesn't have a handle
   // userProfile === null means user doesn't exist in Convex yet
   // userProfile?.handle is falsy means user exists but has no handle
   const shouldShowModal =
     userLoaded &&
     isSignedIn &&
-    user?.id &&
-    (userProfile === null || !userProfile?.handle);
+    (userProfile === null || !(userProfile as User).handle);
 
   if (!shouldShowModal) return <></>;
 
@@ -73,7 +83,7 @@ export function SetHandleModal() {
     }
   };
 
-  return (
+  return shouldShowModal ? (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
       <Card className="w-full max-w-md mx-4">
         <CardHeader>
@@ -114,5 +124,7 @@ export function SetHandleModal() {
         </form>
       </Card>
     </div>
+  ) : (
+    <></>
   );
 }
