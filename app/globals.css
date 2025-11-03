@@ -762,3 +762,11 @@ body:has(button:hover > span > span.theme-dracula) {
 .cl-planDetailFeaturesListItemDescription {
   line-height: 1.625 !important;
 }
+
+/* Grid pattern background for modern landing pages */
+.bg-grid-pattern {
+  background-image: 
+    linear-gradient(to right, hsl(var(--border)) 1px, transparent 1px),
+    linear-gradient(to bottom, hsl(var(--border)) 1px, transparent 1px);
+  background-size: 32px 32px;
+}

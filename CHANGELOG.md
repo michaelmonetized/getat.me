@@ -1,3 +1,16 @@
+## 2025-01-27
+
+- Feature: Created modern, beautiful features landing page inspired by Raycast and Linear
+  - Designed comprehensive hero section with gradient backgrounds and grid patterns
+  - Organized features into three sections: Core Features, Pro Features, and ProMax Features
+  - Added 20+ feature cards with Lucide icons, hover animations, and category badges
+  - Implemented smooth transitions and modern card designs with backdrop blur effects
+  - Added grid pattern background utility to globals.css for subtle texture
+  - Included call-to-action sections with multiple buttons for conversion
+  - Features organized by plan tier with clear visual hierarchy
+  - Responsive grid layout that works on all screen sizes
+  - Modern typography with gradient text accents and proper spacing
+
 ## 2025-10-31
 
 - Enhancement: Redesigned pricing page with improved layout, custom header, and FAQ section
