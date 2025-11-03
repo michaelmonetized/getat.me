@@ -68,11 +68,11 @@ export function Navbar() {
         <div className="md:hidden fixed inset-0 z-40" role="dialog" aria-modal="true">
           {/* Scrim */}
           <div
-            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+            className="absolute inset-0 bg-black/70 backdrop-blur-md"
             onClick={() => setMobileOpen(false)}
           />
           {/* Panel */}
-          <div className="absolute top-14 left-0 right-0 bg-background/98 border-b border-border shadow-lg">
+          <div className="absolute top-14 left-0 right-0 bg-background/98 border-b border-border shadow-xl">
             <div className="container mx-auto px-4 py-4 flex flex-col gap-2">
               <Link
                 href="/pricing"
