@@ -33,7 +33,8 @@ export default function ContactPage() {
       setName("");
       setEmail("");
       setMessage("");
-    } catch (err) {
+    } catch (error) {
+      console.error("Contact form submission failed", error);
       toast({ title: "Something went wrong", description: "Please try again later.", variant: "destructive" });
     } finally {
       setIsSubmitting(false);
