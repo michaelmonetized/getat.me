@@ -10,6 +10,9 @@
   - Features organized by plan tier with clear visual hierarchy
   - Responsive grid layout that works on all screen sizes
   - Modern typography with gradient text accents and proper spacing
+- Fix: Resolved TypeScript lint errors in features page
+  - Removed unused `CardContent` import
+  - Replaced `any` types with proper `React.ComponentType<{ className?: string }>` for icon props
 
 ## 2025-10-31
 
