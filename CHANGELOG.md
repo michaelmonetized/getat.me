@@ -16,6 +16,9 @@
 - Feature: Added sitewide footer with privacy and terms links
   - New `components/footer.tsx` and wired into `app/layout.tsx`
   - Includes copyright line and links to `/privacy` and `/terms`
+- Enhancement: Expanded Privacy Policy and Terms pages with clear sections and anchors
+  - Redesigned layout with hero, sidebar table of contents, and readable sections
+  - Added last-updated metadata and cross-links between Terms and Privacy
 
 ## 2025-10-31
 
