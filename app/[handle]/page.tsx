@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button";
 import { SignUpButton } from "@clerk/nextjs";
 import { ProFeatures } from "@/components/features/pro-features";
 import { ProMaxFeatures } from "@/components/features/promax-features";
+import { PublicBookingWidget } from "@/components/features/public-booking-widget";
 
 export default function ProfilePage() {
   const params = useParams();
@@ -188,6 +189,11 @@ export default function ProfilePage() {
               {/* Limit Banner */}
               {isOwner && links && links.length >= 3 && !hasUnlimitedLinks && (
                 <LimitBanner />
+              )}
+
+              {/* Public Booking Widget - Only show to visitors when booking is enabled */}
+              {!isOwner && userByHandle && (
+                <PublicBookingWidget userId={userByHandle.userId} />
               )}
 
               {/* Pro Features Section */}

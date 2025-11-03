@@ -1,5 +1,11 @@
 ## 2025-01-27 (RC Branch)
 
+- Feature: Added public booking widget for profile pages
+  - Created `PublicBookingWidget` component that displays on public profile pages
+  - Shows availability hours and days based on user's booking settings
+  - Includes booking request form with name, email, and message fields
+  - Only visible to visitors (not owners) when booking is enabled
+  - Displays between links section and Pro Features on profile page
 - Fix: Fixed FeatureGate plan access logic to properly check tiered access (ProMax users get Pro features)
 - Feature: Implemented booking widget and availability management UI
   - Created `bookingAvailability` table in Convex schema with M-F 9-5 defaults
