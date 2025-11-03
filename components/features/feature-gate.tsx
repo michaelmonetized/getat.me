@@ -1,7 +1,13 @@
 "use client";
 
 import { useAuth } from "@clerk/nextjs";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CheckoutButton } from "@clerk/clerk-react/experimental";
 import Link from "next/link";
@@ -31,7 +37,13 @@ export function FeatureGate({
     ? (() => {
         if (has?.({ plan: "promax" })) return true; // ProMax gets everything
         if (requiredPlan === "pro" && has?.({ plan: "pro" })) return true;
-        if (requiredPlan === "premium" && (has?.({ plan: "premium" }) || has?.({ plan: "pro" }) || has?.({ plan: "promax" }))) return true;
+        if (
+          requiredPlan === "premium" &&
+          (has?.({ plan: "premium" }) ||
+            has?.({ plan: "pro" }) ||
+            has?.({ plan: "promax" }))
+        )
+          return true;
         if (requiredPlan === "promax" && has?.({ plan: "promax" })) return true;
         return has?.({ plan: requiredPlan }) ?? false;
       })()
@@ -46,10 +58,10 @@ export function FeatureGate({
     requiredPlan === "premium"
       ? plans.premium
       : requiredPlan === "pro"
-      ? plans.pro
-      : requiredPlan === "promax"
-      ? plans.promax
-      : null;
+        ? plans.pro
+        : requiredPlan === "promax"
+          ? plans.promax
+          : null;
 
   return (
     <Card className="border-dashed">
@@ -72,7 +84,13 @@ export function FeatureGate({
       <CardContent>
         <div className="space-y-4">
           <p className="text-sm text-muted-foreground">
-            This feature is available on the {requiredPlan === "premium" ? "Premium" : requiredPlan === "pro" ? "Pro" : "ProMax"} plan.
+            This feature is available on the{" "}
+            {requiredPlan === "premium"
+              ? "Premium"
+              : requiredPlan === "pro"
+                ? "Pro"
+                : "ProMax"}{" "}
+            plan.
           </p>
           {upgradePlan && (
             <div className="flex gap-2">

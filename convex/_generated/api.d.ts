@@ -8,6 +8,7 @@
  * @module
  */
 
+import type * as booking from "../booking.js";
 import type * as clerk from "../clerk.js";
 import type * as files from "../files.js";
 import type * as http from "../http.js";
@@ -31,6 +32,7 @@ import type {
  * ```
  */
 declare const fullApi: ApiFromModules<{
+  booking: typeof booking;
   clerk: typeof clerk;
   files: typeof files;
   http: typeof http;

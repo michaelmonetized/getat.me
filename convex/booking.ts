@@ -71,7 +71,20 @@ export const updateBookingAvailability = mutation({
 
     if (existing) {
       // Only update fields that were provided
-      const updateData: typeof data = { userId: args.userId };
+      const updateData: {
+        userId: string;
+        enabled?: boolean;
+        defaultStartTime?: string;
+        defaultEndTime?: string;
+        monday?: boolean;
+        tuesday?: boolean;
+        wednesday?: boolean;
+        thursday?: boolean;
+        friday?: boolean;
+        saturday?: boolean;
+        sunday?: boolean;
+      } = { userId: args.userId };
+      
       if (args.enabled !== undefined) updateData.enabled = args.enabled;
       if (args.defaultStartTime !== undefined) updateData.defaultStartTime = args.defaultStartTime;
       if (args.defaultEndTime !== undefined) updateData.defaultEndTime = args.defaultEndTime;
