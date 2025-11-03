@@ -59,45 +59,54 @@ export function Navbar() {
           className="md:hidden inline-flex items-center justify-center rounded-md p-2 hover:bg-accent focus:outline-hidden focus:ring-2 focus:ring-ring"
           onClick={() => setMobileOpen((v) => !v)}
         >
-          {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          {mobileOpen ? (
+            <X className="h-6 w-6" />
+          ) : (
+            <Menu className="h-6 w-6" />
+          )}
         </button>
       </div>
 
       {/* Mobile sheet */}
       {mobileOpen ? (
-        <div className="md:hidden fixed inset-0 z-[70]" role="dialog" aria-modal="true">
+        <div
+          className="md:hidden fixed inset-0 z-[70]"
+          role="dialog"
+          aria-modal="true"
+          onClick={() => setMobileOpen(false)}
+        >
           {/* Scrim */}
           <div
-            className="fixed inset-0 bg-black/80 backdrop-blur-md"
+            className="fixed inset-0 bg-background opacity-50 backdrop-blur-md"
             onClick={() => setMobileOpen(false)}
           />
           {/* Panel */}
           <div className="fixed top-14 left-0 right-0 z-[80] bg-background/98 border-b border-border shadow-2xl">
-            <div className="container mx-auto px-4 py-4 flex flex-col gap-2">
+            <div className="container mx-auto px-4 py-4 flex flex-col gap-2 bg-background opacity-90 backdrop-blur-md">
               <Link
                 href="/pricing"
-                className="rounded-md px-3 py-2 text-base hover:bg-accent"
+                className="rounded-md px-3 py-2 text-foreground hover:bg-accent"
                 onClick={() => setMobileOpen(false)}
               >
                 Pricing
               </Link>
               <Link
                 href="/features"
-                className="rounded-md px-3 py-2 text-base hover:bg-accent"
+                className="rounded-md px-3 py-2 text-foreground hover:bg-accent"
                 onClick={() => setMobileOpen(false)}
               >
                 Features
               </Link>
               <Link
                 href="/faq"
-                className="rounded-md px-3 py-2 text-base hover:bg-accent"
+                className="rounded-md px-3 py-2 text-foreground hover:bg-accent"
                 onClick={() => setMobileOpen(false)}
               >
                 FAQ
               </Link>
               <Link
                 href="/contact"
-                className="rounded-md px-3 py-2 text-base hover:bg-accent"
+                className="rounded-md px-3 py-2 text-foreground hover:bg-accent"
                 onClick={() => setMobileOpen(false)}
               >
                 Contact
@@ -105,7 +114,7 @@ export function Navbar() {
               {isSignedIn && userProfile?.handle ? (
                 <Link
                   href={`/${userProfile.handle}`}
-                  className="rounded-md px-3 py-2 text-base hover:bg-accent"
+                  className="rounded-md px-3 py-2 text-foreground hover:bg-accent"
                   onClick={() => setMobileOpen(false)}
                 >
                   View Profile
