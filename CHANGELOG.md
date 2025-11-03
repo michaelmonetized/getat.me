@@ -1,5 +1,16 @@
 ## 2025-01-27 (RC Branch)
 
+- Feature: Completely redesigned booking widget with calendar interface
+  - Replaced simple contact form with interactive calendar view
+  - Shows next 3 available days in columns based on availability settings
+  - Displays time slots in 30-minute intervals (9:00 AM - 5:00 PM default)
+  - Time slots show as booked/past and are disabled
+  - Selecting a time slot slides columns away and reveals booking form
+  - Form includes name, email, phone (optional), and message fields
+  - Appointments are tracked in database and prevent double-booking
+  - Auto-initializes booking with M-F 9-5 defaults on first access (no save required)
+  - Added appointments table to track all bookings
+  - Added slide animation when transitioning between calendar and form views
 - Feature: Added public booking widget for profile pages
   - Created `PublicBookingWidget` component that displays on public profile pages
   - Shows availability hours and days based on user's booking settings
