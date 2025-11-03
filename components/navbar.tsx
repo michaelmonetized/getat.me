@@ -20,7 +20,8 @@ export function Navbar() {
           Get At Me
         </Link>
 
-        <div className="flex items-center gap-4">
+        {/* Desktop nav */}
+        <div className="hidden md:flex items-center gap-4">
           <div className="flex items-center gap-4">
             <Link href="/pricing" className="text-sm hover:underline">
               Pricing
@@ -45,6 +46,40 @@ export function Navbar() {
           ) : null}
           <UserButton afterSignOutUrl="/" />
         </div>
+
+        {/* Mobile menu button */}
+        <details className="md:hidden">
+          <summary className="list-none cursor-pointer rounded-md px-2 py-1 text-sm hover:bg-accent">
+            Menu
+          </summary>
+          <div className="absolute left-0 right-0 top-14 border-b border-border bg-background/98 backdrop-blur">
+            <div className="container mx-auto px-4 py-4 flex flex-col gap-3">
+              <Link href="/pricing" className="text-sm hover:underline">
+                Pricing
+              </Link>
+              <Link href="/features" className="text-sm hover:underline">
+                Features
+              </Link>
+              <Link href="/faq" className="text-sm hover:underline">
+                FAQ
+              </Link>
+              <Link href="/contact" className="text-sm hover:underline">
+                Contact
+              </Link>
+              {isSignedIn && userProfile?.handle ? (
+                <Link
+                  href={`/${userProfile.handle}`}
+                  className="text-sm hover:underline"
+                >
+                  View Profile
+                </Link>
+              ) : null}
+              <div className="pt-2">
+                <UserButton afterSignOutUrl="/" />
+              </div>
+            </div>
+          </div>
+        </details>
       </div>
     </nav>
   );

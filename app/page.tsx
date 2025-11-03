@@ -1,6 +1,12 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 export default function HomePage() {
   return (
@@ -17,11 +23,15 @@ export default function HomePage() {
           </div>
           <h1 className="text-5xl md:text-7xl font-bold tracking-tight leading-tight">
             Turn your audience into
-            <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent"> fans & customers</span>
+            <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+              {" "}
+              fans & customers
+            </span>
           </h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Get At Me gives you a beautiful, high-converting link page with bookings, payments, referrals, and live messaging—
-            everything you need to grow your brand from a single link.
+            Get At Me gives you a beautiful, high-converting link page with
+            bookings, payments, referrals, and live messaging— everything you
+            need to grow your brand from a single link.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button asChild size="lg" className="text-base">
@@ -31,7 +41,9 @@ export default function HomePage() {
               <Link href="/pricing">See Plans & Pricing</Link>
             </Button>
           </div>
-          <div className="text-xs text-muted-foreground">No credit card required</div>
+          <div className="text-xs text-muted-foreground">
+            No credit card required
+          </div>
         </div>
       </section>
 
@@ -41,41 +53,44 @@ export default function HomePage() {
           <h2 className="text-3xl font-bold text-center mb-12">
             Why Choose Get At Me?
           </h2>
-          
+
           <div className="grid md:grid-cols-3 gap-6">
             <Card>
               <CardHeader>
                 <CardTitle>Customizable</CardTitle>
-                <CardDescription>
-                  Design your page your way
-                </CardDescription>
+                <CardDescription>Design your page your way</CardDescription>
               </CardHeader>
               <CardContent>
-                <p>Personalize your link page with custom colors, fonts, and layouts that match your brand.</p>
+                <p>
+                  Personalize your link page with custom colors, fonts, and
+                  layouts that match your brand.
+                </p>
               </CardContent>
             </Card>
 
             <Card>
               <CardHeader>
                 <CardTitle>Easy to Use</CardTitle>
-                <CardDescription>
-                  Simple link management
-                </CardDescription>
+                <CardDescription>Simple link management</CardDescription>
               </CardHeader>
               <CardContent>
-                <p>Add, edit, and organize your links with our intuitive interface. No coding required.</p>
+                <p>
+                  Add, edit, and organize your links with our intuitive
+                  interface. No coding required.
+                </p>
               </CardContent>
             </Card>
 
             <Card>
               <CardHeader>
                 <CardTitle>Professional</CardTitle>
-                <CardDescription>
-                  Stand out from the crowd
-                </CardDescription>
+                <CardDescription>Stand out from the crowd</CardDescription>
               </CardHeader>
               <CardContent>
-                <p>Create a professional link page that showcases your work and helps you grow your audience.</p>
+                <p>
+                  Create a professional link page that showcases your work and
+                  helps you grow your audience.
+                </p>
               </CardContent>
             </Card>
           </div>

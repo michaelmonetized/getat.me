@@ -23,6 +23,10 @@
   - Added grid texture, gradient accents, and stronger copy
   - Dual CTAs: Create Free Page and See Plans & Pricing
   - Kept consistent with features/pricing button styles
+- Enhancement: Responsive Navbar with mobile menu
+  - Desktop keeps inline links; mobile uses details/summary dropdown
+- Feature: Expanded FAQ page with structured Q&A and collapsible sections
+- Feature: Contact page form with validation and email via Resend
 
 ## 2025-10-31
 
