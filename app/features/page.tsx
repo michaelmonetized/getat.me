@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Link as LinkIcon,
   Palette,
@@ -32,7 +32,7 @@ const FeatureCard = ({
   description,
   category,
 }: {
-  icon: any;
+  icon: React.ComponentType<{ className?: string }>;
   title: string;
   description: string;
   category?: string;
@@ -63,7 +63,7 @@ const FeatureSection = ({
   title: string;
   description: string;
   features: Array<{
-    icon: any;
+    icon: React.ComponentType<{ className?: string }>;
     title: string;
     description: string;
     category?: string;
