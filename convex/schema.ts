@@ -52,6 +52,19 @@ export default defineSchema({
     sunday: v.boolean(),
   })
     .index("by_userId", ["userId"]),
+  appointments: defineTable({
+    userId: v.string(), // The user being booked
+    name: v.string(),
+    email: v.string(),
+    phone: v.optional(v.string()),
+    message: v.optional(v.string()),
+    appointmentDate: v.string(), // ISO date string
+    appointmentTime: v.string(), // "09:00" format
+    status: v.union(v.literal("pending"), v.literal("confirmed"), v.literal("cancelled")),
+    createdAt: v.number(),
+  })
+    .index("by_userId", ["userId"])
+    .index("by_userId_date", ["userId", "appointmentDate"]),
 });
 
 export const userObject = z.object({

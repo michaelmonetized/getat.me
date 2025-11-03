@@ -1,5 +1,5 @@
 import { v } from "convex/values";
-import { mutation, query } from "./_generated/server";
+import { mutation, query, internalMutation } from "./_generated/server";
 
 export const getBookingAvailability = query({
   args: {
@@ -29,7 +29,6 @@ export const getBookingAvailability = query({
       .withIndex("by_userId", (q) => q.eq("userId", args.userId))
       .first();
 
-    // If no availability exists, return null (components will show defaults)
     return existing;
   },
 });
@@ -101,5 +100,95 @@ export const updateBookingAvailability = mutation({
       // Create new with defaults
       return await ctx.db.insert("bookingAvailability", data);
     }
+  },
+});
+
+export const getAppointments = query({
+  args: {
+    userId: v.string(),
+    startDate: v.string(), // ISO date string
+    endDate: v.string(), // ISO date string
+  },
+  handler: async (ctx, args) => {
+    return await ctx.db
+      .query("appointments")
+      .withIndex("by_userId", (q) => q.eq("userId", args.userId))
+      .filter((q) =>
+        q.and(
+          q.gte(q.field("appointmentDate"), args.startDate),
+          q.lte(q.field("appointmentDate"), args.endDate)
+        )
+      )
+      .collect();
+  },
+});
+
+export const createAppointment = mutation({
+  args: {
+    userId: v.string(),
+    name: v.string(),
+    email: v.string(),
+    phone: v.optional(v.string()),
+    message: v.optional(v.string()),
+    appointmentDate: v.string(),
+    appointmentTime: v.string(),
+  },
+  handler: async (ctx, args) => {
+    // Check if this time slot is already booked
+    const existing = await ctx.db
+      .query("appointments")
+      .withIndex("by_userId_date", (q) =>
+        q.eq("userId", args.userId).eq("appointmentDate", args.appointmentDate)
+      )
+      .filter((q) => q.eq(q.field("appointmentTime"), args.appointmentTime))
+      .filter((q) => q.neq(q.field("status"), "cancelled"))
+      .first();
+
+    if (existing) {
+      throw new Error("This time slot is already booked");
+    }
+
+    return await ctx.db.insert("appointments", {
+      userId: args.userId,
+      name: args.name,
+      email: args.email,
+      phone: args.phone,
+      message: args.message,
+      appointmentDate: args.appointmentDate,
+      appointmentTime: args.appointmentTime,
+      status: "pending",
+      createdAt: Date.now(),
+    });
+  },
+});
+
+// Internal mutation to auto-initialize booking availability
+export const initializeBookingAvailability = internalMutation({
+  args: {
+    userId: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const existing = await ctx.db
+      .query("bookingAvailability")
+      .withIndex("by_userId", (q) => q.eq("userId", args.userId))
+      .first();
+
+    if (!existing) {
+      return await ctx.db.insert("bookingAvailability", {
+        userId: args.userId,
+        enabled: true,
+        defaultStartTime: "09:00",
+        defaultEndTime: "17:00",
+        monday: true,
+        tuesday: true,
+        wednesday: true,
+        thursday: true,
+        friday: true,
+        saturday: false,
+        sunday: false,
+      });
+    }
+
+    return existing._id;
   },
 });

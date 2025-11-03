@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { Calendar } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export function BookingWidget() {
   const { user } = useUser();
@@ -19,6 +20,29 @@ export function BookingWidget() {
     user?.id ? { userId: user.id } : "skip"
   );
   const updateAvailability = useMutation(api.booking.updateBookingAvailability);
+
+  // Auto-initialize booking availability if it doesn't exist
+  const [hasInitialized, setHasInitialized] = useState(false);
+  useEffect(() => {
+    if (user?.id && availability === null && !hasInitialized) {
+      setHasInitialized(true);
+      updateAvailability({
+        userId: user.id,
+        enabled: true,
+        defaultStartTime: "09:00",
+        defaultEndTime: "17:00",
+        monday: true,
+        tuesday: true,
+        wednesday: true,
+        thursday: true,
+        friday: true,
+        saturday: false,
+        sunday: false,
+      }).catch(() => {
+        // Silently fail - might already exist
+      });
+    }
+  }, [user?.id, availability, hasInitialized, updateAvailability]);
 
   const handleToggle = async (enabled: boolean) => {
     if (!user?.id) return;
