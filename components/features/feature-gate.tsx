@@ -25,9 +25,16 @@ export function FeatureGate({
 }: FeatureGateProps) {
   const { has } = useAuth();
 
-  // Check if user has the required plan
+  // Check if user has the required plan or higher tier
+  // ProMax users should have access to Pro features, etc.
   const hasAccess = requiredPlan
-    ? has?.({ plan: requiredPlan }) ?? false
+    ? (() => {
+        if (has?.({ plan: "promax" })) return true; // ProMax gets everything
+        if (requiredPlan === "pro" && has?.({ plan: "pro" })) return true;
+        if (requiredPlan === "premium" && (has?.({ plan: "premium" }) || has?.({ plan: "pro" }) || has?.({ plan: "promax" }))) return true;
+        if (requiredPlan === "promax" && has?.({ plan: "promax" })) return true;
+        return has?.({ plan: requiredPlan }) ?? false;
+      })()
     : true;
 
   if (hasAccess && children) {
@@ -69,7 +76,7 @@ export function FeatureGate({
           </p>
           {upgradePlan && (
             <div className="flex gap-2">
-              <CheckoutButton planId={upgradePlan.id} mode="subscription">
+              <CheckoutButton planId={upgradePlan.id}>
                 <Button>Upgrade to {upgradePlan.name}</Button>
               </CheckoutButton>
               <Button asChild variant="outline">

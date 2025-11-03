@@ -2,6 +2,7 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { FeatureGate } from "./feature-gate";
+import { AvailabilityForm } from "./availability-form";
 import {
   CreditCard,
   Clock,
@@ -51,19 +52,7 @@ export function ProMaxFeatures() {
           requiredPlan="promax"
           icon={Clock}
         >
-          <Card>
-            <CardHeader>
-              <CardTitle>Custom Availability</CardTitle>
-              <CardDescription>
-                Configure your booking availability
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground">
-                Availability settings coming soon
-              </p>
-            </CardContent>
-          </Card>
+          <AvailabilityForm />
         </FeatureGate>
 
         <FeatureGate

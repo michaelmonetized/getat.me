@@ -1,5 +1,13 @@
 ## 2025-01-27 (RC Branch)
 
+- Fix: Fixed FeatureGate plan access logic to properly check tiered access (ProMax users get Pro features)
+- Feature: Implemented booking widget and availability management UI
+  - Created `bookingAvailability` table in Convex schema with M-F 9-5 defaults
+  - Added `BookingWidget` component for Pro/ProMax users to enable/disable booking
+  - Added `AvailabilityForm` component for ProMax users to set custom schedules
+  - Default availability set to Monday-Friday 9:00 AM - 5:00 PM
+  - Auto-initializes with defaults on first access
+  - Full CRUD operations for booking availability settings
 - Feature: Complete user flow overhaul with dedicated pages and feature gates
   - Created `/thanks/` page for contact form submissions with thank you message and navigation
   - Created `/onboarding/` page for handle setup after sign-up with validation and redirect

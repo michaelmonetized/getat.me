@@ -2,6 +2,7 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { FeatureGate } from "./feature-gate";
+import { BookingWidget } from "./booking-widget";
 import { Calendar, Users, Star, MessageCircle, BarChart3, Bell } from "lucide-react";
 
 export function ProFeatures() {
@@ -21,19 +22,7 @@ export function ProFeatures() {
           requiredPlan="pro"
           icon={Calendar}
         >
-          <Card>
-            <CardHeader>
-              <CardTitle>Booking Form</CardTitle>
-              <CardDescription>
-                Configure your booking availability and calendar sync
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground">
-                Booking form management UI coming soon
-              </p>
-            </CardContent>
-          </Card>
+          <BookingWidget />
         </FeatureGate>
 
         <FeatureGate

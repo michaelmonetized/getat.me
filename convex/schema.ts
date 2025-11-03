@@ -38,6 +38,20 @@ export default defineSchema({
     color: v.optional(v.string()),
     icon: v.optional(v.string()),
   }).index("by_userId", ["userId"]),
+  bookingAvailability: defineTable({
+    userId: v.string(),
+    enabled: v.boolean(),
+    defaultStartTime: v.string(), // "09:00" format
+    defaultEndTime: v.string(), // "17:00" format
+    monday: v.boolean(),
+    tuesday: v.boolean(),
+    wednesday: v.boolean(),
+    thursday: v.boolean(),
+    friday: v.boolean(),
+    saturday: v.boolean(),
+    sunday: v.boolean(),
+  })
+    .index("by_userId", ["userId"]),
 });
 
 export const userObject = z.object({
