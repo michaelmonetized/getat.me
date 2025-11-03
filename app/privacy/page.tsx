@@ -24,7 +24,7 @@ export default function PrivacyPage() {
               <li><a href="#retention" className="hover:text-foreground">Data retention</a></li>
               <li><a href="#security" className="hover:text-foreground">Security</a></li>
               <li><a href="#rights" className="hover:text-foreground">Your rights</a></li>
-              <li><a href="#children" className="hover:text-foreground">Children's privacy</a></li>
+              <li><a href="#children" className="hover:text-foreground">Children&rsquo;s privacy</a></li>
               <li><a href="#changes" className="hover:text-foreground">Changes</a></li>
               <li><a href="#contact" className="hover:text-foreground">Contact</a></li>
             </ul>
@@ -98,7 +98,7 @@ export default function PrivacyPage() {
             </section>
 
             <section id="children" className="space-y-3">
-              <h2 className="text-2xl font-semibold">Children's privacy</h2>
+              <h2 className="text-2xl font-semibold">Children&rsquo;s privacy</h2>
               <p className="text-muted-foreground">Get At Me is not directed to children under 13. We do not knowingly collect personal information from children.</p>
             </section>
 
