@@ -19,6 +19,10 @@
 - Enhancement: Expanded Privacy Policy and Terms pages with clear sections and anchors
   - Redesigned layout with hero, sidebar table of contents, and readable sections
   - Added last-updated metadata and cross-links between Terms and Privacy
+- Enhancement: Redesigned homepage hero with modern gradients and clearer value prop
+  - Added grid texture, gradient accents, and stronger copy
+  - Dual CTAs: Create Free Page and See Plans & Pricing
+  - Kept consistent with features/pricing button styles
 
 ## 2025-10-31
 

@@ -6,32 +6,37 @@ export default function HomePage() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
-      <section className="flex-1 flex items-center justify-center px-4 py-20">
-        <div className="max-w-4xl mx-auto text-center space-y-8">
-          <h1 className="text-6xl font-bold tracking-tight">
-            Get At Me
+      <section className="relative flex-1 flex items-center justify-center px-4 py-28 overflow-hidden">
+        <div className="absolute inset-0 bg-grid-pattern opacity-10" />
+        <div className="absolute -top-40 left-1/2 h-[600px] w-[900px] -translate-x-1/2 rounded-full bg-radial-[at_50%_0%] from-primary/25 via-transparent to-transparent blur-3xl" />
+        <div className="absolute bottom-0 left-0 h-64 w-64 bg-linear-to-tr from-secondary/20 to-transparent blur-3xl" />
+
+        <div className="relative max-w-5xl mx-auto text-center space-y-8">
+          <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-2 text-sm font-semibold text-primary">
+            <span>Launch your link page in minutes</span>
+          </div>
+          <h1 className="text-5xl md:text-7xl font-bold tracking-tight leading-tight">
+            Turn your audience into
+            <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent"> fans & customers</span>
           </h1>
-          <p className="text-2xl text-muted-foreground">
-            Truly Engaging Link Pages
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+            Get At Me gives you a beautiful, high-converting link page with bookings, payments, referrals, and live messaging—
+            everything you need to grow your brand from a single link.
           </p>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Create a beautiful, customizable link page that truly represents you.
-            Share your links, showcase your work, and connect with your audience.
-          </p>
-          
-          <div className="flex gap-4 justify-center">
-            <Button asChild size="lg">
-              <Link href="/register">Get Started</Link>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button asChild size="lg" className="text-base">
+              <Link href="/register">Create Your Free Page</Link>
             </Button>
-            <Button asChild variant="outline" size="lg">
-              <Link href="/login">Sign In</Link>
+            <Button asChild variant="outline" size="lg" className="text-base">
+              <Link href="/pricing">See Plans & Pricing</Link>
             </Button>
           </div>
+          <div className="text-xs text-muted-foreground">No credit card required</div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section className="py-20 px-4 bg-muted/30">
+      <section className="py-20 px-4 bg-muted/20 border-t border-border/60">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl font-bold text-center mb-12">
             Why Choose Get At Me?
