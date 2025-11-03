@@ -17,6 +17,8 @@ import { LimitBanner } from "@/components/forms/user/limit-banner";
 import { EditLinkForm } from "@/components/forms/user/edit-link";
 import { Button } from "@/components/ui/button";
 import { SignUpButton } from "@clerk/nextjs";
+import { ProFeatures } from "@/components/features/pro-features";
+import { ProMaxFeatures } from "@/components/features/promax-features";
 
 export default function ProfilePage() {
   const params = useParams();
@@ -186,6 +188,20 @@ export default function ProfilePage() {
               {/* Limit Banner */}
               {isOwner && links && links.length >= 3 && !hasUnlimitedLinks && (
                 <LimitBanner />
+              )}
+
+              {/* Pro Features Section */}
+              {isOwner && (
+                <>
+                  <div className="border-t border-border/50 pt-8">
+                    <ProFeatures />
+                  </div>
+
+                  {/* ProMax Features Section */}
+                  <div className="border-t border-border/50 pt-8">
+                    <ProMaxFeatures />
+                  </div>
+                </>
               )}
             </div>
           </div>

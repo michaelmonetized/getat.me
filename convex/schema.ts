@@ -14,6 +14,7 @@ export default defineSchema({
     cover: v.optional(v.id("_storage")),
     bio: v.optional(v.string()),
     theme: v.optional(v.string()),
+    subscriptionPlan: v.optional(v.string()),
   })
     .searchIndex("search_by_handle", { searchField: "handle" })
     .index("by_userId", ["userId"])

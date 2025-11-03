@@ -191,6 +191,7 @@ export const updateUser = mutation({
     cover: v.optional(v.id("_storage")),
     bio: v.optional(v.string()),
     theme: v.optional(v.string()),
+    subscriptionPlan: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
     // we won't update the userId so clone args and drop it

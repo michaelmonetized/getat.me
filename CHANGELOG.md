@@ -1,3 +1,23 @@
+## 2025-01-27 (RC Branch)
+
+- Feature: Complete user flow overhaul with dedicated pages and feature gates
+  - Created `/thanks/` page for contact form submissions with thank you message and navigation
+  - Created `/onboarding/` page for handle setup after sign-up with validation and redirect
+  - Created `/account/` page as smart gate that redirects to profile or onboarding based on handle status
+  - Updated Clerk sign-up redirect to `/onboarding/` and sign-in redirect to `/account/`
+  - Removed SetHandleModal component and all related logic from layout
+  - Created `/upgraded/` page with thank you message, subscription plan detection using Clerk's `has()`, and auto-redirect
+  - Updated Stripe checkout success URL to redirect to `/upgraded/`
+  - Added `subscriptionPlan` field to users schema with mutation to update on successful checkout
+  - Implemented priceId to plan slug mapping in subscription webhook handler
+- Feature: Added comprehensive feature gates to profile page
+  - Created `FeatureGate` component for conditional feature access with upgrade prompts
+  - Added Pro Features section with gates for: Booking Form, Referrals, Social Proof, Live Messaging, Analytics, Notifications
+  - Added ProMax Features section with gates for: Accept Payments, Custom Availability, Verification Badge, Rich Media Posts, Referral Commissions, Vetted Badge, No Branding, Embed Widgets
+  - Features show management UI when user has access, upgrade prompts when locked
+  - All features use Clerk's `has()` function to check plan access
+  - Feature sections only visible to profile owners
+
 ## 2025-01-27
 
 - Feature: Created modern, beautiful features landing page inspired by Raycast and Linear
