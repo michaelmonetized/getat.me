@@ -13,6 +13,9 @@
 - Fix: Resolved TypeScript lint errors in features page
   - Removed unused `CardContent` import
   - Replaced `any` types with proper `React.ComponentType<{ className?: string }>` for icon props
+- Feature: Added sitewide footer with privacy and terms links
+  - New `components/footer.tsx` and wired into `app/layout.tsx`
+  - Includes copyright line and links to `/privacy` and `/terms`
 
 ## 2025-10-31
 
