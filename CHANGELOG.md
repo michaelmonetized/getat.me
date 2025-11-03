@@ -1,5 +1,14 @@
 ## 2025-01-27 (RC Branch)
 
+- Feature: Added appointments management table with calendar export and email notifications
+  - Created `AppointmentsTable` component showing all appointments in organized sections
+  - "Add to Calendar" button downloads .ics file for calendar import
+  - "Reschedule" button marks slot as available and emails booker with profile link to pick new time
+  - "Cancel" button sends cancellation email to booker
+  - Table shows upcoming appointments, past appointments, and cancelled appointments separately
+  - All actions use icon buttons (Download, RefreshCw, X icons)
+  - Integrated into Booking Widget for Pro/ProMax users
+  - Email notifications sent via Resend API
 - Feature: Completely redesigned booking widget with calendar interface
   - Replaced simple contact form with interactive calendar view
   - Shows next 3 available days in columns based on availability settings

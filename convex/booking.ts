@@ -123,6 +123,25 @@ export const getAppointments = query({
   },
 });
 
+export const getAllAppointments = query({
+  args: {
+    userId: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const appointments = await ctx.db
+      .query("appointments")
+      .withIndex("by_userId", (q) => q.eq("userId", args.userId))
+      .collect();
+    
+    // Sort by date and time (most recent first)
+    return appointments.sort((a, b) => {
+      const dateA = new Date(`${a.appointmentDate}T${a.appointmentTime}`).getTime();
+      const dateB = new Date(`${b.appointmentDate}T${b.appointmentTime}`).getTime();
+      return dateB - dateA;
+    });
+  },
+});
+
 export const createAppointment = mutation({
   args: {
     userId: v.string(),
@@ -159,6 +178,37 @@ export const createAppointment = mutation({
       status: "pending",
       createdAt: Date.now(),
     });
+  },
+});
+
+export const cancelAppointment = mutation({
+  args: {
+    appointmentId: v.id("appointments"),
+  },
+  handler: async (ctx, args) => {
+    const appointment = await ctx.db.get(args.appointmentId);
+    if (!appointment) {
+      throw new Error("Appointment not found");
+    }
+
+    await ctx.db.patch(args.appointmentId, { status: "cancelled" });
+    return appointment;
+  },
+});
+
+export const rescheduleAppointment = mutation({
+  args: {
+    appointmentId: v.id("appointments"),
+  },
+  handler: async (ctx, args) => {
+    const appointment = await ctx.db.get(args.appointmentId);
+    if (!appointment) {
+      throw new Error("Appointment not found");
+    }
+
+    // Mark as cancelled (which frees up the slot)
+    await ctx.db.patch(args.appointmentId, { status: "cancelled" });
+    return appointment;
   },
 });
 
