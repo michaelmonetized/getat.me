@@ -11,7 +11,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Users } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
-import { useQuery } from "convex/react";
 
 interface ReferralsWidgetProps {
   userId: string;
