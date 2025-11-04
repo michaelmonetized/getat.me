@@ -129,12 +129,7 @@ export function PublicBookingWidget({ userId }: PublicBookingWidgetProps) {
   const [message, setMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Generate available days and time slots
-  const availableDays = useMemo(() => {
-    if (!availability) return [];
-    return getAvailableDays(availability, 3);
-  }, [availability]);
-
+  // Generate time slots
   const timeSlots = useMemo(() => {
     if (!availability) return [];
     return generateTimeSlots(availability.defaultStartTime, availability.defaultEndTime);
@@ -154,6 +149,31 @@ export function PublicBookingWidget({ userId }: PublicBookingWidgetProps) {
         .map((apt) => apt.appointmentTime)
     );
   };
+
+  // Generate available days and filter out days with no available slots
+  const availableDays = useMemo(() => {
+    if (!availability) return [];
+    const days = getAvailableDays(availability, 10); // Get more days to filter from
+    
+    // Filter out days that have no available slots
+    const now = new Date();
+    return days.filter((date) => {
+      const dateStr = date.toISOString().split("T")[0];
+      const bookedSlots = getBookedSlots(dateStr);
+      
+      // Check if there's at least one available slot
+      return timeSlots.some((time) => {
+        const [hours, minutes] = time.split(":").map(Number);
+        const slotTime = new Date(date);
+        slotTime.setHours(hours, minutes, 0, 0);
+        
+        const isBooked = bookedSlots.has(time);
+        const isPast = slotTime < now;
+        
+        return !isBooked && !isPast;
+      });
+    }).slice(0, 3); // Take only the first 3 days with available slots
+  }, [availability, appointments, timeSlots]);
 
   const handleTimeSelect = (date: Date, time: string) => {
     const dateStr = date.toISOString().split("T")[0];
@@ -330,12 +350,17 @@ export function PublicBookingWidget({ userId }: PublicBookingWidgetProps) {
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 transition-all duration-300">
-          {availableDays.map((date, idx) => {
-            const dateStr = date.toISOString().split("T")[0];
-            const dayName = getDayName(date);
-            const bookedSlots = getBookedSlots(dateStr);
-            const isToday = date.toDateString() === new Date().toDateString();
-            const dateLabel = date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+          {availableDays.length === 0 ? (
+            <div className="col-span-3 text-center py-8 text-muted-foreground">
+              No available time slots in the next few days. Please check back later.
+            </div>
+          ) : (
+            availableDays.map((date, idx) => {
+              const dateStr = date.toISOString().split("T")[0];
+              const dayName = getDayName(date);
+              const bookedSlots = getBookedSlots(dateStr);
+              const isToday = date.toDateString() === new Date().toDateString();
+              const dateLabel = date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
 
             return (
               <div key={dateStr} className="space-y-2">
@@ -368,7 +393,8 @@ export function PublicBookingWidget({ userId }: PublicBookingWidgetProps) {
                 </div>
               </div>
             );
-          })}
+          })
+          )}
         </div>
       </CardContent>
     </Card>
