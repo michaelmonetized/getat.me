@@ -26,10 +26,28 @@ export const getUserByID = query({
     userId: v.string(),
   },
   handler: async (ctx, args) => {
-    return await ctx.db
+    const user = await ctx.db
       .query("users")
       .withIndex("by_userId", (q) => q.eq("userId", args.userId))
       .first();
+
+    if (!user) {
+      return null;
+    }
+
+    // Get URLs for avatar and cover
+    const avatarUrl = user.avatar
+      ? await ctx.storage.getUrl(user.avatar)
+      : undefined;
+    const coverUrl = user.cover
+      ? await ctx.storage.getUrl(user.cover)
+      : undefined;
+
+    return {
+      ...user,
+      avatarUrl: avatarUrl ?? undefined,
+      coverUrl: coverUrl ?? undefined,
+    };
   },
 });
 

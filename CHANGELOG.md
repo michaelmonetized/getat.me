@@ -1,5 +1,22 @@
 ## 2025-01-27 (RC Branch)
 
+- Feature: Comprehensive profile enhancements with recommendations, referrals, messaging, and posts
+  - Added recommendations system with 5-star rating widget and "Recommend Me" form
+  - Recommendations widget shows in public profile sidebar with auth flow (stores state, redirects to sign-up, saves on return)
+  - "Recommended by X" section displays count, average rating, and avatar grid of recommenders
+  - Added referrals widget with form to refer contacts, sends emails to both parties
+  - Created referrals tables view for owners showing sent and received referrals
+  - Built floating live chat widget (bottom-right) with real-time Convex sync
+  - Added message threads view for owners with sidebar conversations and main message view
+  - Implemented posts feature for ProMax users to create and manage posts
+  - Reorganized owner profile view:
+    - Booking section with appointments table moved to separate section
+    - Availability settings form now collapsible behind button (ProMax only)
+    - Referrals tables (sent/received) in dedicated section
+    - Message threads view with conversation sidebar
+  - Removed Google Calendar connection box from booking widget
+  - Public profile sidebar shows recommendations and referrals widgets
+  - Live chat widget floats in bottom-right for visitors
 - Feature: Added appointments management table with calendar export and email notifications
   - Created `AppointmentsTable` component showing all appointments in organized sections
   - "Add to Calendar" button downloads .ics file for calendar import

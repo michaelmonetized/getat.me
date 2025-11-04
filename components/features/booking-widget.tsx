@@ -121,21 +121,8 @@ export function BookingWidget() {
         </div>
 
         {isEnabled && (
-          <div className="space-y-6">
-            <div className="rounded-lg border border-border bg-muted/50 p-4 space-y-2">
-              <p className="text-sm font-medium">Booking Widget Preview</p>
-              <p className="text-sm text-muted-foreground">
-                Visitors will see a booking form on your profile page. Connect
-                your calendar to sync availability automatically.
-              </p>
-              <Button variant="outline" size="sm" className="mt-2">
-                Connect Google Calendar
-              </Button>
-            </div>
-
-            <div className="border-t border-border pt-6">
-              <AppointmentsTable />
-            </div>
+          <div className="border-t border-border pt-6">
+            <AppointmentsTable />
           </div>
         )}
       </CardContent>

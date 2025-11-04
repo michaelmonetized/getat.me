@@ -65,6 +65,45 @@ export default defineSchema({
   })
     .index("by_userId", ["userId"])
     .index("by_userId_date", ["userId", "appointmentDate"]),
+  recommendations: defineTable({
+    recommendedUserId: v.string(), // User being recommended
+    recommenderUserId: v.string(), // User making the recommendation
+    rating: v.number(), // 1-5 stars
+    review: v.optional(v.string()),
+    createdAt: v.number(),
+  })
+    .index("by_recommendedUserId", ["recommendedUserId"])
+    .index("by_recommenderUserId", ["recommenderUserId"])
+    .index("by_recommended_recommender", ["recommendedUserId", "recommenderUserId"]),
+  referrals: defineTable({
+    referrerUserId: v.string(), // User sending the referral
+    referredUserId: v.string(), // User being referred
+    referredFirstName: v.string(),
+    referredEmail: v.string(),
+    referredPhone: v.optional(v.string()),
+    message: v.optional(v.string()),
+    createdAt: v.number(),
+  })
+    .index("by_referrerUserId", ["referrerUserId"])
+    .index("by_referredUserId", ["referredUserId"]),
+  messages: defineTable({
+    conversationId: v.string(), // Composite: userId1_userId2 (sorted)
+    senderUserId: v.string(),
+    receiverUserId: v.string(),
+    content: v.string(),
+    read: v.boolean(),
+    createdAt: v.number(),
+  })
+    .index("by_conversationId", ["conversationId"])
+    .index("by_receiverUserId", ["receiverUserId"])
+    .index("by_senderUserId", ["senderUserId"]),
+  posts: defineTable({
+    userId: v.string(),
+    content: v.string(),
+    media: v.optional(v.array(v.id("_storage"))),
+    createdAt: v.number(),
+  })
+    .index("by_userId", ["userId"]),
 });
 
 export const userObject = z.object({

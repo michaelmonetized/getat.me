@@ -20,6 +20,12 @@ import { SignUpButton } from "@clerk/nextjs";
 import { ProFeatures } from "@/components/features/pro-features";
 import { ProMaxFeatures } from "@/components/features/promax-features";
 import { PublicBookingWidget } from "@/components/features/public-booking-widget";
+import { RecommendationsWidget } from "@/components/features/recommendations-widget";
+import { ReferralsWidget } from "@/components/features/referrals-widget";
+import { LiveChatWidget } from "@/components/features/live-chat-widget";
+import { ReferralsTables } from "@/components/features/referrals-tables";
+import { MessageThreads } from "@/components/features/message-threads";
+import { BookingSection } from "@/components/features/booking-section";
 
 export default function ProfilePage() {
   const params = useParams();
@@ -149,16 +155,25 @@ export default function ProfilePage() {
 
         {/* Two Column Layout */}
         <div className="grid lg:grid-cols-12 gap-8 pb-12">
-          {/* Left Column - Settings (Owner Only) */}
-          {isOwner && (
+          {/* Left Column - Settings (Owner) or Sidebar (Public) */}
+          {isOwner ? (
             <div className="lg:col-span-3 space-y-6">
               <ThemeSelector />
               <PlanInfo />
             </div>
+          ) : (
+            <div className="lg:col-span-3 space-y-6">
+              {userByHandle && (
+                <>
+                  <RecommendationsWidget userId={userByHandle.userId} handle={handle} />
+                  <ReferralsWidget userId={userByHandle.userId} handle={handle} />
+                </>
+              )}
+            </div>
           )}
 
           {/* Right Column - Profile Content */}
-          <div className={isOwner ? "lg:col-span-9" : "lg:col-span-12"}>
+          <div className={isOwner ? "lg:col-span-9" : "lg:col-span-9"}>
             <div className="space-y-6">
               {/* Add Link Form */}
               {isOwner && links && (links.length < 3 || hasUnlimitedLinks) && (
@@ -196,9 +211,30 @@ export default function ProfilePage() {
                 <PublicBookingWidget userId={userByHandle.userId} />
               )}
 
-              {/* Pro Features Section */}
+              {/* Live Chat Widget - Floating */}
+              {!isOwner && userByHandle && (
+                <LiveChatWidget profileUserId={userByHandle.userId} profileHandle={handle} />
+              )}
+
+              {/* Owner-only sections */}
               {isOwner && (
                 <>
+                  {/* Booking Section - Separate from features */}
+                  <div className="border-t border-border/50 pt-8">
+                    <BookingSection />
+                  </div>
+
+                  {/* Referrals Tables */}
+                  <div className="border-t border-border/50 pt-8">
+                    <ReferralsTables />
+                  </div>
+
+                  {/* Message Threads */}
+                  <div className="border-t border-border/50 pt-8">
+                    <MessageThreads />
+                  </div>
+
+                  {/* Pro Features Section */}
                   <div className="border-t border-border/50 pt-8">
                     <ProFeatures />
                   </div>

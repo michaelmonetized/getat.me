@@ -3,6 +3,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { FeatureGate } from "./feature-gate";
 import { AvailabilityForm } from "./availability-form";
+import { PostsWidget } from "./posts-widget";
 import {
   CreditCard,
   Clock,
@@ -82,19 +83,7 @@ export function ProMaxFeatures() {
           requiredPlan="promax"
           icon={Sparkles}
         >
-          <Card>
-            <CardHeader>
-              <CardTitle>Media Posts</CardTitle>
-              <CardDescription>
-                Create and manage rich media posts
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground">
-                Media post editor coming soon
-              </p>
-            </CardContent>
-          </Card>
+          <PostsWidget />
         </FeatureGate>
 
         <FeatureGate
