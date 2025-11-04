@@ -76,12 +76,19 @@ export function LiveChatWidget({ profileUserId, profileHandle }: LiveChatWidgetP
     }
   };
 
-  if (!isSignedIn) {
-    return null; // Only show to signed-in users
-  }
-
   if (user?.id === profileUserId) {
     return null; // Don't show chat to yourself
+  }
+
+  if (!isSignedIn) {
+    // Show button but prompt to sign in when clicked
+    return (
+      <SignInButton mode="modal">
+        <Button className="fixed bottom-6 right-6 h-14 w-14 rounded-full shadow-lg z-50" size="icon">
+          <MessageCircle className="h-6 w-6" />
+        </Button>
+      </SignInButton>
+    );
   }
 
   return (

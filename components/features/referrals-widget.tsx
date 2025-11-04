@@ -11,6 +11,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Users } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { SignInButton } from "@clerk/nextjs";
 
 interface ReferralsWidgetProps {
   userId: string;
@@ -125,10 +126,6 @@ export function ReferralsWidget({ userId, handle }: ReferralsWidgetProps) {
     }
   };
 
-  if (!user) {
-    return null; // Only show to signed-in users
-  }
-
   return (
     <Card>
       <CardHeader>
@@ -143,7 +140,17 @@ export function ReferralsWidget({ userId, handle }: ReferralsWidgetProps) {
         </div>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        {!user ? (
+          <div className="space-y-4">
+            <p className="text-sm text-muted-foreground">
+              Sign in to refer someone to @{handle}
+            </p>
+            <SignInButton mode="modal">
+              <Button className="w-full">Sign In to Send Referral</Button>
+            </SignInButton>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="first-name">First Name *</Label>
             <Input
@@ -194,6 +201,7 @@ export function ReferralsWidget({ userId, handle }: ReferralsWidgetProps) {
             {isSubmitting ? "Sending..." : "Send Referral"}
           </Button>
         </form>
+        )}
       </CardContent>
     </Card>
   );
