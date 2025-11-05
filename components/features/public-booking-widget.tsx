@@ -2,7 +2,13 @@
 
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -26,7 +32,9 @@ function generateTimeSlots(startTime: string, endTime: string): string[] {
   for (let minutes = start; minutes < end; minutes += 30) {
     const hour = Math.floor(minutes / 60);
     const min = minutes % 60;
-    slots.push(`${String(hour).padStart(2, "0")}:${String(min).padStart(2, "0")}`);
+    slots.push(
+      `${String(hour).padStart(2, "0")}:${String(min).padStart(2, "0")}`
+    );
   }
 
   return slots;
@@ -64,7 +72,15 @@ function getAvailableDays(
   today.setHours(0, 0, 0, 0);
 
   const currentDate = new Date(today);
-  const dayNames: (keyof typeof availability)[] = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+  const dayNames: (keyof typeof availability)[] = [
+    "sunday",
+    "monday",
+    "tuesday",
+    "wednesday",
+    "thursday",
+    "friday",
+    "saturday",
+  ];
 
   // Skip today if it's in the past or not available, start from tomorrow
   const todayDayName = dayNames[currentDate.getDay()];
@@ -127,11 +143,16 @@ export function PublicBookingWidget({ userId }: PublicBookingWidgetProps) {
 
   const appointments = useQuery(
     api.booking.getAppointments,
-    userId && availability ? { userId, startDate: startDateStr, endDate: endDateStr } : "skip"
+    userId && availability
+      ? { userId, startDate: startDateStr, endDate: endDateStr }
+      : "skip"
   );
   const createAppointment = useMutation(api.booking.createAppointment);
 
-  const [selectedTime, setSelectedTime] = useState<{ date: string; time: string } | null>(null);
+  const [selectedTime, setSelectedTime] = useState<{
+    date: string;
+    time: string;
+  } | null>(null);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -141,42 +162,50 @@ export function PublicBookingWidget({ userId }: PublicBookingWidgetProps) {
   // Generate time slots
   const timeSlots = useMemo(() => {
     if (!availability) return [];
-    return generateTimeSlots(availability.defaultStartTime, availability.defaultEndTime);
+    return generateTimeSlots(
+      availability.defaultStartTime,
+      availability.defaultEndTime
+    );
   }, [availability]);
 
   // Get booked time slots for a specific date
-  const getBookedSlots = useCallback((dateStr: string): Set<string> => {
-    if (!appointments) return new Set();
-    return new Set(
-      appointments
-        .filter(
-          (apt) =>
-            apt.appointmentDate === dateStr &&
-            apt.status !== "cancelled" &&
-            apt.appointmentTime
-        )
-        .map((apt) => apt.appointmentTime)
-    );
-  }, [appointments]);
+  const getBookedSlots = useCallback(
+    (dateStr: string): Set<string> => {
+      if (!appointments) return new Set();
+      return new Set(
+        appointments
+          .filter(
+            (apt) =>
+              apt.appointmentDate === dateStr &&
+              apt.status !== "cancelled" &&
+              apt.appointmentTime
+          )
+          .map((apt) => apt.appointmentTime)
+      );
+    },
+    [appointments]
+  );
 
   // Generate available days and filter out days with no available slots
   const availableDays = useMemo(() => {
     if (!availability) return [];
     const days = getAvailableDays(availability, 10); // Get more days to filter from
-    
+
     // Filter out days that have no available slots
-    return days.filter((date) => {
-      const dateStr = date.toISOString().split("T")[0];
-      const bookedSlots = getBookedSlots(dateStr);
-      
-      // Check if there's at least one available slot
-      return timeSlots.some((time) => {
-        const isBooked = bookedSlots.has(time);
-        const isPast = isSlotInPast(date, time);
-        
-        return !isBooked && !isPast;
-      });
-    }).slice(0, 3); // Take only the first 3 days with available slots
+    return days
+      .filter((date) => {
+        const dateStr = date.toISOString().split("T")[0];
+        const bookedSlots = getBookedSlots(dateStr);
+
+        // Check if there's at least one available slot
+        return timeSlots.some((time) => {
+          const isBooked = bookedSlots.has(time);
+          const isPast = isSlotInPast(date, time);
+
+          return !isBooked && !isPast;
+        });
+      })
+      .slice(0, 3); // Take only the first 3 days with available slots
     // availability is intentionally omitted since timeSlots already depends on it
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [appointments, timeSlots, getBookedSlots]);
@@ -211,7 +240,8 @@ export function PublicBookingWidget({ userId }: PublicBookingWidgetProps) {
 
       toast({
         title: "Booking confirmed!",
-        description: "Your appointment has been scheduled. You'll receive a confirmation email shortly.",
+        description:
+          "Your appointment has been scheduled. You'll receive a confirmation email shortly.",
       });
 
       // Reset form
@@ -223,7 +253,10 @@ export function PublicBookingWidget({ userId }: PublicBookingWidgetProps) {
     } catch (error) {
       toast({
         title: "Error",
-        description: error instanceof Error ? error.message : "Failed to book appointment. Please try again.",
+        description:
+          error instanceof Error
+            ? error.message
+            : "Failed to book appointment. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -358,7 +391,8 @@ export function PublicBookingWidget({ userId }: PublicBookingWidgetProps) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 transition-all duration-300">
           {availableDays.length === 0 ? (
             <div className="col-span-3 text-center py-8 text-muted-foreground">
-              No available time slots in the next few days. Please check back later.
+              No available time slots in the next few days. Please check back
+              later.
             </div>
           ) : (
             availableDays.map((date) => {
@@ -366,40 +400,51 @@ export function PublicBookingWidget({ userId }: PublicBookingWidgetProps) {
               const dayName = getDayName(date);
               const bookedSlots = getBookedSlots(dateStr);
               const isToday = date.toDateString() === new Date().toDateString();
-              const dateLabel = date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+              const dateLabel = date.toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+              });
 
-            return (
-              <div key={dateStr} className="space-y-2">
-                <div className="text-center">
-                  <p className="font-semibold">{dayName}</p>
-                  <p className="text-sm text-muted-foreground">
-                    {isToday ? "Today" : dateLabel}
-                  </p>
-                </div>
-                <div className="space-y-1 max-h-64 overflow-y-auto">
-                  {timeSlots.map((time) => {
-                    const isBooked = bookedSlots.has(time);
-                    const isPast = isSlotInPast(date, time);
+              return (
+                <div key={dateStr} className="space-y-2">
+                  <div className="text-center">
+                    <p className="font-semibold">{dayName}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {isToday ? "Today" : dateLabel}
+                    </p>
+                  </div>
+                  <div className="space-y-1 max-h-64 overflow-y-auto">
+                    {timeSlots.map((time) => {
+                      const isBooked = bookedSlots.has(time);
+                      const isPast = isSlotInPast(date, time);
 
-                    return (
-                      <Button
-                        key={time}
-                        variant={isBooked || isPast ? "outline" : "default"}
-                        className="w-full justify-start text-sm"
-                        disabled={isBooked || isPast}
-                        onClick={() => handleTimeSelect(date, time)}
-                      >
-                        <Clock className="h-3 w-3 mr-2" />
-                        {time}
-                        {isBooked && <span className="ml-auto text-xs text-muted-foreground">Booked</span>}
-                        {isPast && <span className="ml-auto text-xs text-muted-foreground">Past</span>}
-                      </Button>
-                    );
-                  })}
+                      return (
+                        <Button
+                          key={time}
+                          variant={isBooked || isPast ? "outline" : "default"}
+                          className="w-full justify-start text-sm"
+                          disabled={isBooked || isPast}
+                          onClick={() => handleTimeSelect(date, time)}
+                        >
+                          <Clock className="h-3 w-3 mr-2" />
+                          {time}
+                          {isBooked && (
+                            <span className="ml-auto text-xs text-muted-foreground">
+                              Booked
+                            </span>
+                          )}
+                          {isPast && (
+                            <span className="ml-auto text-xs text-muted-foreground">
+                              Past
+                            </span>
+                          )}
+                        </Button>
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
-            );
-          })
+              );
+            })
           )}
         </div>
       </CardContent>
