@@ -3,15 +3,18 @@
 import { useUser } from "@clerk/nextjs";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { Calendar } from "lucide-react";
 import { useEffect, useState } from "react";
-import { AppointmentsTable } from "./appointments-table";
 
 export function BookingWidget() {
   const { user } = useUser();
@@ -39,11 +42,19 @@ export function BookingWidget() {
         friday: true,
         saturday: false,
         sunday: false,
-      }).catch(() => {
-        // Silently fail - might already exist
+      }).catch((error) => {
+        console.error(error);
+
+        toast({
+          title: "Error",
+          description: "Failed to initialize booking availability",
+          variant: "destructive",
+        });
+
+        throw error;
       });
     }
-  }, [user?.id, availability, hasInitialized, updateAvailability]);
+  }, [user?.id, availability, hasInitialized, updateAvailability, toast]);
 
   const handleToggle = async (enabled: boolean) => {
     if (!user?.id) return;
@@ -69,11 +80,15 @@ export function BookingWidget() {
           : "Booking is now disabled",
       });
     } catch (error) {
+      console.error(error);
+
       toast({
         title: "Error",
         description: "Failed to update booking settings",
         variant: "destructive",
       });
+
+      throw error;
     }
   };
 
@@ -119,12 +134,6 @@ export function BookingWidget() {
             onCheckedChange={handleToggle}
           />
         </div>
-
-        {isEnabled && (
-          <div className="border-t border-border pt-6">
-            <AppointmentsTable />
-          </div>
-        )}
       </CardContent>
     </Card>
   );

@@ -104,6 +104,62 @@ export default defineSchema({
     createdAt: v.number(),
   })
     .index("by_userId", ["userId"]),
+  paymentSettings: defineTable({
+    userId: v.string(),
+    enabled: v.boolean(),
+    currency: v.string(), // "USD", "EUR", etc.
+    defaultPrice: v.number(), // Default price in cents
+    stripeAccountId: v.optional(v.string()),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  })
+    .index("by_userId", ["userId"]),
+  commissions: defineTable({
+    referrerUserId: v.string(), // User who earned the commission
+    referralId: v.id("referrals"), // Reference to the referral
+    amount: v.number(), // Commission amount in cents
+    status: v.union(v.literal("pending"), v.literal("paid"), v.literal("cancelled")),
+    paidAt: v.optional(v.number()),
+    createdAt: v.number(),
+  })
+    .index("by_referrerUserId", ["referrerUserId"])
+    .index("by_referralId", ["referralId"]),
+  verifications: defineTable({
+    userId: v.string(),
+    type: v.union(v.literal("verified"), v.literal("vetted")),
+    status: v.union(v.literal("pending"), v.literal("approved"), v.literal("rejected")),
+    applicationData: v.optional(v.object({
+      documentUrl: v.optional(v.id("_storage")),
+      additionalInfo: v.optional(v.string()),
+    })),
+    reviewedAt: v.optional(v.number()),
+    createdAt: v.number(),
+  })
+    .index("by_userId", ["userId"])
+    .index("by_userId_type", ["userId", "type"]),
+  analytics: defineTable({
+    userId: v.string(), // The page owner
+    eventType: v.string(), // "page_view", "link_click", "booking_request", etc.
+    eventData: v.optional(v.object({
+      linkId: v.optional(v.string()),
+      referrer: v.optional(v.string()),
+      userAgent: v.optional(v.string()),
+    })),
+    createdAt: v.number(),
+  })
+    .index("by_userId", ["userId"])
+    .index("by_userId_eventType", ["userId", "eventType"])
+    .index("by_userId_createdAt", ["userId", "createdAt"]),
+  notificationSettings: defineTable({
+    userId: v.string(),
+    emailNotifications: v.boolean(),
+    bookingNotifications: v.boolean(),
+    messageNotifications: v.boolean(),
+    referralNotifications: v.boolean(),
+    reviewNotifications: v.boolean(),
+    updatedAt: v.number(),
+  })
+    .index("by_userId", ["userId"]),
 });
 
 export const userObject = z.object({

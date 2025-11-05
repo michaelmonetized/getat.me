@@ -1,9 +1,20 @@
 "use client";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { FeatureGate } from "./feature-gate";
 import { BookingWidget } from "./booking-widget";
-import { Calendar, Users, Star, MessageCircle, BarChart3, Bell } from "lucide-react";
+import { ReferralsManagement } from "./referrals-management";
+import { SocialProofWidget } from "./social-proof-widget";
+import { LiveMessagingWidget } from "./live-messaging-widget";
+import { AnalyticsDashboard } from "./analytics-dashboard";
+import { NotificationsWidget } from "./notifications-widget";
+import {
+  Calendar,
+  Users,
+  Star,
+  MessageCircle,
+  BarChart3,
+  Bell,
+} from "lucide-react";
 
 export function ProFeatures() {
   return (
@@ -31,19 +42,7 @@ export function ProFeatures() {
           requiredPlan="pro"
           icon={Users}
         >
-          <Card>
-            <CardHeader>
-              <CardTitle>Referrals</CardTitle>
-              <CardDescription>
-                Manage your professional referrals
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground">
-                Referral management UI coming soon
-              </p>
-            </CardContent>
-          </Card>
+          <ReferralsManagement />
         </FeatureGate>
 
         <FeatureGate
@@ -52,19 +51,7 @@ export function ProFeatures() {
           requiredPlan="pro"
           icon={Star}
         >
-          <Card>
-            <CardHeader>
-              <CardTitle>Social Proof</CardTitle>
-              <CardDescription>
-                Manage your ratings and reviews
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground">
-                Social proof management UI coming soon
-              </p>
-            </CardContent>
-          </Card>
+          <SocialProofWidget />
         </FeatureGate>
 
         <FeatureGate
@@ -73,19 +60,7 @@ export function ProFeatures() {
           requiredPlan="pro"
           icon={MessageCircle}
         >
-          <Card>
-            <CardHeader>
-              <CardTitle>Live Messaging</CardTitle>
-              <CardDescription>
-                Chat with visitors in real-time
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground">
-                Live messaging UI coming soon
-              </p>
-            </CardContent>
-          </Card>
+          <LiveMessagingWidget />
         </FeatureGate>
 
         <FeatureGate
@@ -94,19 +69,7 @@ export function ProFeatures() {
           requiredPlan="pro"
           icon={BarChart3}
         >
-          <Card>
-            <CardHeader>
-              <CardTitle>Analytics</CardTitle>
-              <CardDescription>
-                View your page performance metrics
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground">
-                Analytics dashboard coming soon
-              </p>
-            </CardContent>
-          </Card>
+          <AnalyticsDashboard />
         </FeatureGate>
 
         <FeatureGate
@@ -115,19 +78,7 @@ export function ProFeatures() {
           requiredPlan="pro"
           icon={Bell}
         >
-          <Card>
-            <CardHeader>
-              <CardTitle>Notifications</CardTitle>
-              <CardDescription>
-                Manage your notification preferences
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground">
-                Notification settings coming soon
-              </p>
-            </CardContent>
-          </Card>
+          <NotificationsWidget />
         </FeatureGate>
       </div>
     </div>

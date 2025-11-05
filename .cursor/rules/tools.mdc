@@ -6,6 +6,20 @@ alwaysApply: true
 
 # Tools
 
+## Vercel Deployments
+
+To debug deployments you can list all recent deployments with `vercel list`.
+
+You can then pull the build log for a deployment with vercel inspect [url], where url is a specific deployment url from `vercel list`
+
+I created a wrapper tool in ~/bin called `vl` this tool will repeatedly run vercel list --no-color 2&>1 | head -n 6 to only get the latest deployment until the status changes from "Building" to "Ready" or "Error" if the deployment status is ready the new build was successful and the vl program exits otherwise (if error) the program exits with a successful status but spits out the build logs for you to inspect them and find the errors.
+
+You can run `cat ~/bin/vl` to see the logic for yourself.
+
+You can run `vercel --help` or `tldr vercel` to get more info on how the vercel cli interface works.
+
+Typically after merging a PR or pushing to a dev or staging branch, you'll want to see if the project was able to build on vercel, all you have to do now is run `vl` to find out.
+
 ## Coderabbit
 
 Always use coderabbit review to review your code. It's a great tool for reviewing code and finding bugs.
@@ -35,4 +49,3 @@ You never need to use `cd` to change to the project root directory. You're alway
 Always wrap up by summarizing the changes you made in the CHANGELOG.md file.
 
 Always finish up by using `gitcp "you message"` and gh pr create --fill to submit a PR.
-

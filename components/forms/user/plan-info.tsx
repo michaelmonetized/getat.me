@@ -5,9 +5,15 @@ import { Button } from "@/components/ui/button";
 import { CheckoutButton } from "@clerk/clerk-react/experimental";
 import { useAuth } from "@clerk/nextjs";
 import plans from "@/config/plans";
+import { useState } from "react";
+import { BillingSubscriptionPlanPeriod } from "@clerk/types";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 
 export function PlanInfo() {
   const { has } = useAuth();
+  const [planPeriod, setPlanPeriod] =
+    useState<BillingSubscriptionPlanPeriod>("annual");
 
   // Convert plans object to array with planKey and ordered by priority (highest first)
   const allPlans = [
@@ -23,7 +29,7 @@ export function PlanInfo() {
   // Since plans are ordered by priority (highest first), find first matching plan
   const currentPlan = allPlans.find((plan) =>
     has?.({ plan: plan.planKey })
-  ) || { name: "FREE", price: "$0/mo" };
+  ) || { name: "FREE", price: { annual: "$0/mo", month: "$0/mo" } };
 
   // Filter plans to show only upgrades based on current plan
   const getUpgradePlans = () => {
@@ -57,7 +63,7 @@ export function PlanInfo() {
           <p className="text-sm font-medium">
             {currentPlan.name}{" "}
             <span className="text-muted-foreground font-normal">
-              {currentPlan.price}
+              {currentPlan.price[planPeriod as BillingSubscriptionPlanPeriod]}
             </span>
           </p>
         </CardContent>
@@ -71,14 +77,32 @@ export function PlanInfo() {
             </CardTitle>
           </CardHeader>
           <CardContent className="px-0 space-y-2">
+            <Label htmlFor="plan-period">
+              <Switch
+                id="plan-period"
+                checked={planPeriod === "annual"}
+                onCheckedChange={(checked) =>
+                  setPlanPeriod(checked ? "annual" : "month")
+                }
+              />
+              <span className="text-sm font-medium">
+                {planPeriod === "annual" ? "Annually" : "Monthly"}
+              </span>
+            </Label>
             {upgradePlans.map((plan) => (
-              <CheckoutButton key={plan.id} planId={plan.id}>
+              <CheckoutButton
+                key={plan.id}
+                planId={plan.id}
+                planPeriod={planPeriod}
+              >
                 <Button
                   variant="outline"
                   className="w-full justify-between bg-accent hover:bg-accent-hover border-accent text-accent-foreground"
                 >
                   <strong>{plan.name}</strong>
-                  <small>{plan.price}</small>
+                  <small>
+                    {plan.price[planPeriod as BillingSubscriptionPlanPeriod]}
+                  </small>
                 </Button>
               </CheckoutButton>
             ))}

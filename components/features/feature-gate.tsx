@@ -35,17 +35,36 @@ export function FeatureGate({
   // ProMax users should have access to Pro features, etc.
   const hasAccess = requiredPlan
     ? (() => {
-        if (has?.({ plan: "promax" })) return true; // ProMax gets everything
-        if (requiredPlan === "pro" && has?.({ plan: "pro" })) return true;
+        if (
+          has?.({ plan: "promax" }) ||
+          process.env.NEXT_PUBLIC_DOMAIN?.includes("localhost")
+        )
+          return true; // ProMax gets everything
+        if (
+          requiredPlan === "pro" &&
+          (has?.({ plan: "pro" }) ||
+            process.env.NEXT_PUBLIC_DOMAIN?.includes("localhost"))
+        )
+          return true;
         if (
           requiredPlan === "premium" &&
           (has?.({ plan: "premium" }) ||
             has?.({ plan: "pro" }) ||
-            has?.({ plan: "promax" }))
+            has?.({ plan: "promax" }) ||
+            process.env.NEXT_PUBLIC_DOMAIN?.includes("localhost"))
         )
           return true;
-        if (requiredPlan === "promax" && has?.({ plan: "promax" })) return true;
-        return has?.({ plan: requiredPlan }) ?? false;
+        if (
+          requiredPlan === "promax" &&
+          (has?.({ plan: "promax" }) ||
+            process.env.NEXT_PUBLIC_DOMAIN?.includes("localhost"))
+        )
+          return true;
+        return (
+          (has?.({ plan: requiredPlan }) ||
+            process.env.NEXT_PUBLIC_DOMAIN?.includes("localhost")) ??
+          false
+        );
       })()
     : true;
 

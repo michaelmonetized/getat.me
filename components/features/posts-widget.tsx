@@ -3,13 +3,20 @@
 import { useUser } from "@clerk/nextjs";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Sparkles, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { Id } from "@/convex/_generated/dataModel";
 
 export function PostsWidget() {
   const { user } = useUser();
@@ -17,7 +24,10 @@ export function PostsWidget() {
   const [content, setContent] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const posts = useQuery(api.posts.getPosts, user?.id ? { userId: user.id } : "skip");
+  const posts = useQuery(
+    api.posts.getPosts,
+    user?.id ? { userId: user.id } : "skip"
+  );
   const createPost = useMutation(api.posts.createPost);
   const deletePost = useMutation(api.posts.deletePost);
 
@@ -49,6 +59,7 @@ export function PostsWidget() {
         description: "Failed to create post",
         variant: "destructive",
       });
+      console.error(error);
     } finally {
       setIsSubmitting(false);
     }
@@ -58,7 +69,7 @@ export function PostsWidget() {
     if (!confirm("Are you sure you want to delete this post?")) return;
 
     try {
-      await deletePost({ postId: postId as any });
+      await deletePost({ postId: postId as Id<"posts"> });
       toast({
         title: "Post deleted",
         description: "Your post has been removed.",
@@ -69,6 +80,7 @@ export function PostsWidget() {
         description: "Failed to delete post",
         variant: "destructive",
       });
+      console.error(error);
     }
   };
 
@@ -113,7 +125,7 @@ export function PostsWidget() {
             <p className="text-center text-muted-foreground py-8">Loading...</p>
           ) : posts.length === 0 ? (
             <p className="text-center text-muted-foreground py-8">
-              You haven't created any posts yet
+              You {"haven't"} created any posts yet
             </p>
           ) : (
             posts.map((post) => (
@@ -144,4 +156,3 @@ export function PostsWidget() {
     </Card>
   );
 }
-
