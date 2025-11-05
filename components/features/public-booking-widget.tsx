@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Calendar, Clock, Mail, User, Phone, ArrowLeft } from "lucide-react";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useCallback } from "react";
 import { useToast } from "@/hooks/use-toast";
 
 interface PublicBookingWidgetProps {
@@ -37,6 +37,15 @@ function getDayName(date: Date): string {
   return date.toLocaleDateString("en-US", { weekday: "long" });
 }
 
+// Check if a time slot is in the past
+function isSlotInPast(date: Date, time: string): boolean {
+  const [hours, minutes] = time.split(":").map(Number);
+  const slotTime = new Date(date);
+  slotTime.setHours(hours, minutes, 0, 0);
+  const now = new Date();
+  return slotTime < now;
+}
+
 // Get next N available days based on availability settings
 function getAvailableDays(
   availability: {
@@ -54,7 +63,7 @@ function getAvailableDays(
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  let currentDate = new Date(today);
+  const currentDate = new Date(today);
   const dayNames: (keyof typeof availability)[] = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
 
   // Skip today if it's in the past or not available, start from tomorrow
@@ -136,7 +145,7 @@ export function PublicBookingWidget({ userId }: PublicBookingWidgetProps) {
   }, [availability]);
 
   // Get booked time slots for a specific date
-  const getBookedSlots = (dateStr: string): Set<string> => {
+  const getBookedSlots = useCallback((dateStr: string): Set<string> => {
     if (!appointments) return new Set();
     return new Set(
       appointments
@@ -148,7 +157,7 @@ export function PublicBookingWidget({ userId }: PublicBookingWidgetProps) {
         )
         .map((apt) => apt.appointmentTime)
     );
-  };
+  }, [appointments]);
 
   // Generate available days and filter out days with no available slots
   const availableDays = useMemo(() => {
@@ -156,24 +165,21 @@ export function PublicBookingWidget({ userId }: PublicBookingWidgetProps) {
     const days = getAvailableDays(availability, 10); // Get more days to filter from
     
     // Filter out days that have no available slots
-    const now = new Date();
     return days.filter((date) => {
       const dateStr = date.toISOString().split("T")[0];
       const bookedSlots = getBookedSlots(dateStr);
       
       // Check if there's at least one available slot
       return timeSlots.some((time) => {
-        const [hours, minutes] = time.split(":").map(Number);
-        const slotTime = new Date(date);
-        slotTime.setHours(hours, minutes, 0, 0);
-        
         const isBooked = bookedSlots.has(time);
-        const isPast = slotTime < now;
+        const isPast = isSlotInPast(date, time);
         
         return !isBooked && !isPast;
       });
     }).slice(0, 3); // Take only the first 3 days with available slots
-  }, [availability, appointments, timeSlots]);
+    // availability is intentionally omitted since timeSlots already depends on it
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [appointments, timeSlots, getBookedSlots]);
 
   const handleTimeSelect = (date: Date, time: string) => {
     const dateStr = date.toISOString().split("T")[0];
@@ -355,7 +361,7 @@ export function PublicBookingWidget({ userId }: PublicBookingWidgetProps) {
               No available time slots in the next few days. Please check back later.
             </div>
           ) : (
-            availableDays.map((date, idx) => {
+            availableDays.map((date) => {
               const dateStr = date.toISOString().split("T")[0];
               const dayName = getDayName(date);
               const bookedSlots = getBookedSlots(dateStr);
@@ -373,7 +379,7 @@ export function PublicBookingWidget({ userId }: PublicBookingWidgetProps) {
                 <div className="space-y-1 max-h-64 overflow-y-auto">
                   {timeSlots.map((time) => {
                     const isBooked = bookedSlots.has(time);
-                    const isPast = isToday && new Date().toLocaleTimeString("en-US", { hour12: false, hour: "2-digit", minute: "2-digit" }) >= time;
+                    const isPast = isSlotInPast(date, time);
 
                     return (
                       <Button

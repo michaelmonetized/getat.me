@@ -1,5 +1,12 @@
 ## 2025-01-27 (RC Branch)
 
+- Fix: Refactored isPast calculation in public booking widget for consistent behavior
+  - Extracted `isSlotInPast` helper function to check if a time slot is in the past
+  - Replaced inconsistent Date-based and string-based comparison logic with unified helper
+  - Both filter phase (availableDays useMemo) and render phase now use the same calculation
+  - Simplified useMemo dependency array by removing `availability` (since `timeSlots` already depends on it)
+  - Wrapped `getBookedSlots` in `useCallback` for proper memoization
+  - Fixed lint errors (unused variable, const vs let)
 - Feature: Comprehensive profile enhancements with recommendations, referrals, messaging, and posts
   - Added recommendations system with 5-star rating widget and "Recommend Me" form
   - Recommendations widget shows in public profile sidebar with auth flow (stores state, redirects to sign-up, saves on return)
