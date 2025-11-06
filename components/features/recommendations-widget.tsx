@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Star, Users } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
-import { SignUpButton, SignInButton } from "@clerk/nextjs";
+import { SignUpButton } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 
 interface RecommendationsWidgetProps {
@@ -21,7 +21,7 @@ interface RecommendationsWidgetProps {
 // Store recommendation state in sessionStorage for auth flow
 const STORAGE_KEY = "pending_recommendation";
 
-export function RecommendationsWidget({ userId, handle }: RecommendationsWidgetProps) {
+export function RecommendationsWidget({ userId }: RecommendationsWidgetProps) {
   const { user, isSignedIn } = useUser();
   const { toast } = useToast();
   const router = useRouter();
@@ -62,11 +62,12 @@ export function RecommendationsWidget({ userId, handle }: RecommendationsWidgetP
             // Auto-submit after sign-in
             handleSubmit(data.rating, data.review || "");
           }
-        } catch (e) {
+        } catch {
           // Ignore parse errors
         }
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSignedIn, user?.id, userId]);
 
   // Load existing recommendation
@@ -100,7 +101,7 @@ export function RecommendationsWidget({ userId, handle }: RecommendationsWidgetP
         title: "Recommendation submitted!",
         description: "Thank you for your recommendation.",
       });
-    } catch (error) {
+    } catch {
       toast({
         title: "Error",
         description: "Failed to submit recommendation",

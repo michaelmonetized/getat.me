@@ -146,7 +146,7 @@ export function AppointmentsTable() {
         title: "Appointment rescheduled",
         description: "The booker has been notified to select a new time",
       });
-    } catch (error) {
+    } catch {
       toast({
         title: "Error",
         description: "Failed to reschedule appointment",
@@ -190,7 +190,7 @@ export function AppointmentsTable() {
         title: "Appointment cancelled",
         description: "The booker has been notified",
       });
-    } catch (error) {
+    } catch {
       toast({
         title: "Error",
         description: "Failed to cancel appointment",

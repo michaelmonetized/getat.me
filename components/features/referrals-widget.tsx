@@ -115,7 +115,7 @@ export function ReferralsWidget({ userId, handle }: ReferralsWidgetProps) {
       setEmail("");
       setPhone("");
       setMessage("");
-    } catch (error) {
+    } catch {
       toast({
         title: "Error",
         description: "Failed to send referral",

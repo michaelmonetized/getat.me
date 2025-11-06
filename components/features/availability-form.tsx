@@ -87,7 +87,7 @@ export function AvailabilityForm() {
         title: "Availability updated",
         description: "Your booking availability has been saved",
       });
-    } catch (error) {
+    } catch {
       toast({
         title: "Error",
         description: "Failed to update availability",
@@ -181,8 +181,8 @@ export function AvailabilityForm() {
           <p className="text-sm font-medium mb-1">Current Schedule</p>
           <p className="text-sm text-muted-foreground">
             {Object.entries(days)
-              .filter(([_, enabled]) => enabled)
-              .map(([key, _]) => {
+              .filter(([, enabled]) => enabled)
+              .map(([key]) => {
                 const day = daysOfWeek.find((d) => d.key === key);
                 return day?.label;
               })
