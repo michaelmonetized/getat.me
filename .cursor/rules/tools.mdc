@@ -10,9 +10,9 @@ alwaysApply: true
 
 To debug deployments you can list all recent deployments with `vercel list`.
 
-You can then pull the build log for a deployment with vercel inspect [url], where url is a specific deployment url from `vercel list`
+You can then pull the build log for a deployment with `vercel inspect [url]`, where url is a specific deployment url from `vercel list`
 
-I created a wrapper tool in ~/bin called `vl` this tool will repeatedly run vercel list --no-color 2&>1 | head -n 6 to only get the latest deployment until the status changes from "Building" to "Ready" or "Error" if the deployment status is ready the new build was successful and the vl program exits otherwise (if error) the program exits with a successful status but spits out the build logs for you to inspect them and find the errors.
+I created a wrapper tool in `~/bin` called `vl`. This tool repeatedly runs `vercel list --no-color 2>&1 | head -n 6` to poll the latest deployment status. It continues polling until the status changes from "Building" to either "Ready" or "Error". If the deployment status is "Ready", the new build was successful and `vl` exits normally. If the status is "Error", `vl` prints the build logs and exits with a non-zero status for you to inspect and find the errors.
 
 You can run `cat ~/bin/vl` to see the logic for yourself.
 

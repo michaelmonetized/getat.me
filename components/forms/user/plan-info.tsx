@@ -63,7 +63,7 @@ export function PlanInfo() {
           <p className="text-sm font-medium">
             {currentPlan.name}{" "}
             <span className="text-muted-foreground font-normal">
-              {currentPlan.price[planPeriod as BillingSubscriptionPlanPeriod]}
+              {currentPlan.price[planPeriod]}
             </span>
           </p>
         </CardContent>
@@ -100,9 +100,7 @@ export function PlanInfo() {
                   className="w-full justify-between bg-accent hover:bg-accent-hover border-accent text-accent-foreground"
                 >
                   <strong>{plan.name}</strong>
-                  <small>
-                    {plan.price[planPeriod as BillingSubscriptionPlanPeriod]}
-                  </small>
+                  <small>{plan.price[planPeriod]}</small>
                 </Button>
               </CheckoutButton>
             ))}

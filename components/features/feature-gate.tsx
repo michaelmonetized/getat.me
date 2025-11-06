@@ -32,39 +32,33 @@ export function FeatureGate({
   const { has } = useAuth();
 
   // Check if user has the required plan or higher tier
-  // ProMax users should have access to Pro features, etc.
+  // Hierarchy: promax > pro > premium
   const hasAccess = requiredPlan
     ? (() => {
-        if (
-          has?.({ plan: "promax" }) ||
-          process.env.NEXT_PUBLIC_DOMAIN?.includes("localhost")
-        )
-          return true; // ProMax gets everything
-        if (
-          requiredPlan === "pro" &&
-          (has?.({ plan: "pro" }) ||
-            process.env.NEXT_PUBLIC_DOMAIN?.includes("localhost"))
-        )
-          return true;
-        if (
-          requiredPlan === "premium" &&
-          (has?.({ plan: "premium" }) ||
-            has?.({ plan: "pro" }) ||
-            has?.({ plan: "promax" }) ||
-            process.env.NEXT_PUBLIC_DOMAIN?.includes("localhost"))
-        )
-          return true;
-        if (
-          requiredPlan === "promax" &&
-          (has?.({ plan: "promax" }) ||
-            process.env.NEXT_PUBLIC_DOMAIN?.includes("localhost"))
-        )
-          return true;
-        return (
-          (has?.({ plan: requiredPlan }) ||
-            process.env.NEXT_PUBLIC_DOMAIN?.includes("localhost")) ??
-          false
-        );
+        // Development bypass
+        if (process.env.NODE_ENV === "development") return true;
+
+        // Explicit hierarchical checks
+        if (requiredPlan === "promax") {
+          return has?.({ plan: "promax" }) ?? false;
+        }
+
+        if (requiredPlan === "pro") {
+          return (
+            (has?.({ plan: "pro" }) ?? false) ||
+            (has?.({ plan: "promax" }) ?? false)
+          );
+        }
+
+        if (requiredPlan === "premium") {
+          return (
+            (has?.({ plan: "premium" }) ?? false) ||
+            (has?.({ plan: "pro" }) ?? false) ||
+            (has?.({ plan: "promax" }) ?? false)
+          );
+        }
+
+        return false;
       })()
     : true;
 

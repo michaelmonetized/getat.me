@@ -26,7 +26,9 @@ export function LiveMessagingWidget() {
   const sendMessage = useMutation(api.messages.sendMessage);
   const markAsRead = useMutation(api.messages.markMessagesAsRead);
 
-  const [selectedConversation, setSelectedConversation] = useState<string | null>(null);
+  const [selectedConversation, setSelectedConversation] = useState<
+    string | null
+  >(null);
   const [messageContent, setMessageContent] = useState("");
   const [isSending, setIsSending] = useState(false);
 
@@ -70,11 +72,20 @@ export function LiveMessagingWidget() {
   const handleSelectConversation = async (otherUserId: string) => {
     setSelectedConversation(otherUserId);
     if (user?.id) {
-      await markAsRead({
-        userId1: user.id,
-        userId2: otherUserId,
-        readerUserId: user.id,
-      });
+      try {
+        await markAsRead({
+          userId1: user.id,
+          userId2: otherUserId,
+          readerUserId: user.id,
+        });
+      } catch (error) {
+        console.error("Failed to mark messages as read:", error);
+        toast({
+          title: "Warning",
+          description: "Failed to update read status",
+          variant: "destructive",
+        });
+      }
     }
   };
 
@@ -91,9 +102,7 @@ export function LiveMessagingWidget() {
           </div>
           <div className="flex-1">
             <CardTitle>Live Messaging</CardTitle>
-            <CardDescription>
-              Chat with visitors in real-time
-            </CardDescription>
+            <CardDescription>Chat with visitors in real-time</CardDescription>
           </div>
         </div>
       </CardHeader>
@@ -112,12 +121,18 @@ export function LiveMessagingWidget() {
                 {conversations.map((conv) => (
                   <Button
                     key={conv.otherUserId}
-                    variant={selectedConversation === conv.otherUserId ? "default" : "outline"}
+                    variant={
+                      selectedConversation === conv.otherUserId
+                        ? "default"
+                        : "outline"
+                    }
                     className="w-full justify-start"
                     onClick={() => handleSelectConversation(conv.otherUserId)}
                   >
                     <div className="flex-1 text-left">
-                      <div className="font-medium">User {conv.otherUserId.slice(0, 8)}</div>
+                      <div className="font-medium">
+                        {conv.otherUserDisplayName}
+                      </div>
                       {conv.unreadCount > 0 && (
                         <div className="text-xs text-muted-foreground">
                           {conv.unreadCount} unread
@@ -133,7 +148,9 @@ export function LiveMessagingWidget() {
               <div className="md:col-span-2 space-y-4">
                 <div className="border rounded-lg p-4 h-96 overflow-y-auto space-y-2">
                   {messages === undefined ? (
-                    <p className="text-center text-muted-foreground py-8">Loading messages...</p>
+                    <p className="text-center text-muted-foreground py-8">
+                      Loading messages...
+                    </p>
                   ) : messages.length === 0 ? (
                     <p className="text-center text-muted-foreground py-8">
                       No messages yet. Start the conversation!
@@ -143,7 +160,9 @@ export function LiveMessagingWidget() {
                       <div
                         key={msg._id}
                         className={`flex ${
-                          msg.senderUserId === user.id ? "justify-end" : "justify-start"
+                          msg.senderUserId === user.id
+                            ? "justify-end"
+                            : "justify-start"
                         }`}
                       >
                         <div
@@ -174,7 +193,10 @@ export function LiveMessagingWidget() {
                       }
                     }}
                   />
-                  <Button onClick={handleSendMessage} disabled={isSending || !messageContent.trim()}>
+                  <Button
+                    onClick={handleSendMessage}
+                    disabled={isSending || !messageContent.trim()}
+                  >
                     <Send className="h-4 w-4" />
                   </Button>
                 </div>
@@ -186,4 +208,3 @@ export function LiveMessagingWidget() {
     </Card>
   );
 }
-

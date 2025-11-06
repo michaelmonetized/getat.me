@@ -6,6 +6,33 @@ function getConversationId(userId1: string, userId2: string): string {
   return [userId1, userId2].sort().join("_");
 }
 
+// Helper to get display name from user data
+function getUserDisplayName(user: { handle?: string; first?: string; last?: string } | null, userId: string): string {
+  if (!user) {
+    // Fallback: partially obfuscated value
+    return `User...${userId.slice(-4)}`;
+  }
+  
+  if (user.handle) {
+    return user.handle;
+  }
+  
+  if (user.first && user.last) {
+    return `${user.first} ${user.last}`;
+  }
+  
+  if (user.first) {
+    return user.first;
+  }
+  
+  if (user.last) {
+    return user.last;
+  }
+  
+  // Fallback: partially obfuscated value
+  return `User...${userId.slice(-4)}`;
+}
+
 export const getConversations = query({
   args: {
     userId: v.string(),
@@ -58,9 +85,26 @@ export const getConversations = query({
       }
     });
 
-    return Array.from(conversations.values()).sort(
-      (a, b) => b.lastMessage.createdAt - a.lastMessage.createdAt
-    );
+    // Fetch user data for all other users
+    const conversationArray = Array.from(conversations.values());
+    const uniqueOtherUserIds = [...new Set(conversationArray.map(c => c.otherUserId))];
+    
+    const userMap = new Map<string, { handle?: string; first?: string; last?: string } | null>();
+    for (const otherUserId of uniqueOtherUserIds) {
+      const user = await ctx.db
+        .query("users")
+        .withIndex("by_userId", (q) => q.eq("userId", otherUserId))
+        .first();
+      userMap.set(otherUserId, user);
+    }
+
+    // Add display names to conversations
+    return conversationArray
+      .map((conv) => ({
+        ...conv,
+        otherUserDisplayName: getUserDisplayName(userMap.get(conv.otherUserId) || null, conv.otherUserId),
+      }))
+      .sort((a, b) => b.lastMessage.createdAt - a.lastMessage.createdAt);
   },
 });
 

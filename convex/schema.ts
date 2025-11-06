@@ -50,8 +50,7 @@ export default defineSchema({
     friday: v.boolean(),
     saturday: v.boolean(),
     sunday: v.boolean(),
-  })
-    .index("by_userId", ["userId"]),
+  }).index("by_userId", ["userId"]),
   appointments: defineTable({
     userId: v.string(), // The user being booked
     name: v.string(),
@@ -60,7 +59,11 @@ export default defineSchema({
     message: v.optional(v.string()),
     appointmentDate: v.string(), // ISO date string
     appointmentTime: v.string(), // "09:00" format
-    status: v.union(v.literal("pending"), v.literal("confirmed"), v.literal("cancelled")),
+    status: v.union(
+      v.literal("pending"),
+      v.literal("confirmed"),
+      v.literal("cancelled")
+    ),
     createdAt: v.number(),
   })
     .index("by_userId", ["userId"])
@@ -74,7 +77,10 @@ export default defineSchema({
   })
     .index("by_recommendedUserId", ["recommendedUserId"])
     .index("by_recommenderUserId", ["recommenderUserId"])
-    .index("by_recommended_recommender", ["recommendedUserId", "recommenderUserId"]),
+    .index("by_recommended_recommender", [
+      "recommendedUserId",
+      "recommenderUserId",
+    ]),
   referrals: defineTable({
     referrerUserId: v.string(), // User sending the referral
     referredUserId: v.string(), // User being referred
@@ -102,8 +108,7 @@ export default defineSchema({
     content: v.string(),
     media: v.optional(v.array(v.id("_storage"))),
     createdAt: v.number(),
-  })
-    .index("by_userId", ["userId"]),
+  }).index("by_userId", ["userId"]),
   paymentSettings: defineTable({
     userId: v.string(),
     enabled: v.boolean(),
@@ -112,13 +117,16 @@ export default defineSchema({
     stripeAccountId: v.optional(v.string()),
     createdAt: v.number(),
     updatedAt: v.number(),
-  })
-    .index("by_userId", ["userId"]),
+  }).index("by_userId", ["userId"]),
   commissions: defineTable({
     referrerUserId: v.string(), // User who earned the commission
     referralId: v.id("referrals"), // Reference to the referral
     amount: v.number(), // Commission amount in cents
-    status: v.union(v.literal("pending"), v.literal("paid"), v.literal("cancelled")),
+    status: v.union(
+      v.literal("pending"),
+      v.literal("paid"),
+      v.literal("cancelled")
+    ),
     paidAt: v.optional(v.number()),
     createdAt: v.number(),
   })
@@ -127,11 +135,17 @@ export default defineSchema({
   verifications: defineTable({
     userId: v.string(),
     type: v.union(v.literal("verified"), v.literal("vetted")),
-    status: v.union(v.literal("pending"), v.literal("approved"), v.literal("rejected")),
-    applicationData: v.optional(v.object({
-      documentUrl: v.optional(v.id("_storage")),
-      additionalInfo: v.optional(v.string()),
-    })),
+    status: v.union(
+      v.literal("pending"),
+      v.literal("approved"),
+      v.literal("rejected")
+    ),
+    applicationData: v.optional(
+      v.object({
+        documentUrl: v.optional(v.id("_storage")),
+        additionalInfo: v.optional(v.string()),
+      })
+    ),
     reviewedAt: v.optional(v.number()),
     createdAt: v.number(),
   })
@@ -140,11 +154,13 @@ export default defineSchema({
   analytics: defineTable({
     userId: v.string(), // The page owner
     eventType: v.string(), // "page_view", "link_click", "booking_request", etc.
-    eventData: v.optional(v.object({
-      linkId: v.optional(v.string()),
-      referrer: v.optional(v.string()),
-      userAgent: v.optional(v.string()),
-    })),
+    eventData: v.optional(
+      v.object({
+        linkId: v.optional(v.string()),
+        referrer: v.optional(v.string()),
+        userAgent: v.optional(v.string()),
+      })
+    ),
     createdAt: v.number(),
   })
     .index("by_userId", ["userId"])
@@ -158,8 +174,7 @@ export default defineSchema({
     referralNotifications: v.boolean(),
     reviewNotifications: v.boolean(),
     updatedAt: v.number(),
-  })
-    .index("by_userId", ["userId"]),
+  }).index("by_userId", ["userId"]),
 });
 
 export const userObject = z.object({
