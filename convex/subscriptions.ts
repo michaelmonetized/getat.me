@@ -1,5 +1,5 @@
 import { v } from "convex/values";
-import { internalMutation, query } from "./_generated/server";
+import { internalMutation, mutation, query } from "./_generated/server";
 
 export const createSubscription = internalMutation({
   args: {
@@ -76,5 +76,39 @@ export const renewSubscription = internalMutation({
     }
 
     return await ctx.db.patch(subscription._id, { expires: args.expires });
+  },
+});
+
+// Helper function to map priceId to plan slug
+function getPlanSlugFromPriceId(priceId: string): string | undefined {
+  const plans = {
+    "cplan_34pOGvuXdApGqi7sL9jOGmt0NUu": "premium",
+    "cplan_34mvyFU9PuD9UMnKRtBd8SKF8Lf": "pro",
+    "cplan_34mwfWNyDG0w7w1feCVi4tmm6y9": "promax",
+  };
+  return plans[priceId as keyof typeof plans];
+}
+
+export const updateUserSubscriptionPlan = internalMutation({
+  args: {
+    userId: v.string(),
+    priceId: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const planSlug = getPlanSlugFromPriceId(args.priceId);
+    if (!planSlug) {
+      return; // Unknown plan, skip update
+    }
+
+    const user = await ctx.db
+      .query("users")
+      .withIndex("by_userId", (q) => q.eq("userId", args.userId))
+      .first();
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    await ctx.db.patch(user._id, { subscriptionPlan: planSlug });
   },
 });

@@ -10,6 +10,7 @@ lastUpdated: 2025-10-28T19:57:28.000Z
 availableSdks: nextjs,react,js-frontend,chrome-extension,expo,android,ios,expressjs,fastify,react-router,remix,tanstack-react-start,go,astro,nuxt,vue,ruby,js-backend
 notAvailableSdks: ""
 activeSdk: nextjs
+globs: **/*
 ---
 
 <LLMPrompt displayText="Use this pre-built prompt to get started faster." src="_prompts/nextjs-quickstart.md" />

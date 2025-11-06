@@ -17,6 +17,15 @@ import { LimitBanner } from "@/components/forms/user/limit-banner";
 import { EditLinkForm } from "@/components/forms/user/edit-link";
 import { Button } from "@/components/ui/button";
 import { SignUpButton } from "@clerk/nextjs";
+import { ProFeatures } from "@/components/features/pro-features";
+import { ProMaxFeatures } from "@/components/features/promax-features";
+import { PublicBookingWidget } from "@/components/features/public-booking-widget";
+import { RecommendationsWidget } from "@/components/features/recommendations-widget";
+import { ReferralsWidget } from "@/components/features/referrals-widget";
+import { LiveChatWidget } from "@/components/features/live-chat-widget";
+import { ReferralsTables } from "@/components/features/referrals-tables";
+import { MessageThreads } from "@/components/features/message-threads";
+import { BookingSection } from "@/components/features/booking-section";
 
 export default function ProfilePage() {
   const params = useParams();
@@ -146,22 +155,42 @@ export default function ProfilePage() {
 
         {/* Two Column Layout */}
         <div className="grid lg:grid-cols-12 gap-8 pb-12">
-          {/* Left Column - Settings (Owner Only) */}
-          {isOwner && (
+          {/* Left Column - Settings (Owner) or Sidebar (Public) */}
+          {isOwner ? (
             <div className="lg:col-span-3 space-y-6">
               <ThemeSelector />
               <PlanInfo />
             </div>
+          ) : (
+            <div className="lg:col-span-3 space-y-6">
+              {userByHandle && (
+                <>
+                  <RecommendationsWidget
+                    userId={userByHandle.userId}
+                    handle={handle}
+                  />
+                  <ReferralsWidget
+                    userId={userByHandle.userId}
+                    handle={handle}
+                  />
+                </>
+              )}
+            </div>
           )}
 
           {/* Right Column - Profile Content */}
-          <div className={isOwner ? "lg:col-span-9" : "lg:col-span-12"}>
+          <div className={isOwner ? "lg:col-span-9" : "lg:col-span-9"}>
             <div className="space-y-6">
-              {/* Add Link Form */}
-              {isOwner && links && (links.length < 3 || hasUnlimitedLinks) && (
-                <AddLinkForm />
-              )}
+              {isOwner && links && (
+                <>
+                  {/* Owner-only links section */}
+                  {/* Add Link Form */}
+                  {(links.length < 3 || hasUnlimitedLinks) && <AddLinkForm />}
 
+                  {/* Limit Banner */}
+                  {links.length >= 3 && !hasUnlimitedLinks && <LimitBanner />}
+                </>
+              )}
               {/* Links List */}
               {links && links.length === 0 ? (
                 <div className="text-center py-12">
@@ -183,18 +212,46 @@ export default function ProfilePage() {
                 </div>
               )}
 
-              {/* Limit Banner */}
-              {isOwner && links && links.length >= 3 && !hasUnlimitedLinks && (
-                <LimitBanner />
+              {/* Public Booking Widget - Only show to visitors when booking is enabled */}
+              {!isOwner && userByHandle && (
+                <PublicBookingWidget userId={userByHandle.userId} />
               )}
             </div>
           </div>
         </div>
       </div>
 
+      {/* Owner-only sections */}
+      {isOwner && (
+        <section className="space-y-6 divide-y divide-border/50">
+          {/* Booking Section - Separate from features */}
+          <BookingSection />
+
+          {/* Referrals Tables */}
+          <ReferralsTables />
+
+          {/* Message Threads */}
+          <MessageThreads />
+
+          {/* Pro Features Section */}
+          <ProFeatures />
+
+          {/* ProMax Features Section */}
+          <ProMaxFeatures />
+        </section>
+      )}
+
       {/* Edit Link Modal */}
       {linkToEdit && (
         <EditLinkForm link={linkToEdit} onClose={() => setEditingLink(null)} />
+      )}
+
+      {/* Live Chat Widget - Floating */}
+      {!isOwner && userByHandle && (
+        <LiveChatWidget
+          profileUserId={userByHandle.userId}
+          profileHandle={handle}
+        />
       )}
     </div>
   );

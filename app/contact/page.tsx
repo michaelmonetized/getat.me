@@ -1,12 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 
 export default function ContactPage() {
+  const router = useRouter();
   const { toast } = useToast();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -29,10 +31,7 @@ export default function ContactPage() {
         body: JSON.stringify({ email: "contact@getatme.com", subject, html }),
       });
       if (!res.ok) throw new Error("Failed to send message");
-      toast({ title: "Message sent", description: "Thanks! We'll get back to you soon." });
-      setName("");
-      setEmail("");
-      setMessage("");
+      router.push("/thanks");
     } catch (error) {
       console.error("Contact form submission failed", error);
       toast({ title: "Something went wrong", description: "Please try again later.", variant: "destructive" });

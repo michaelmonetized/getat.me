@@ -50,7 +50,7 @@ export const pay = action({
         userId: user.subject,
       },
       mode: "subscription",
-      success_url: `${domain}`,
+      success_url: `${domain}/upgraded`,
       cancel_url: `${domain}`,
     });
 
@@ -84,13 +84,23 @@ export const fulfill = internalAction({
 
         const userId = completedEvent.metadata.userId;
 
+        const priceId = subscription.items.data[0]?.price.id;
+        
         await ctx.runMutation(internal.subscriptions.createSubscription, {
           key: "userId",
           value: userId,
           subscriptionId: subscription.id,
-          priceId: subscription.items.data[0]?.price.id,
+          priceId: priceId!,
           expires: subscription.current_period_end * 1000,
         });
+
+        // Update user's subscription plan
+        if (priceId) {
+          await ctx.runMutation(internal.subscriptions.updateUserSubscriptionPlan, {
+            userId,
+            priceId,
+          });
+        }
       }
 
       if (event.type === "invoice.payment_succeeded") {

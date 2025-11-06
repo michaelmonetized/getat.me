@@ -1,3 +1,81 @@
+## 2025-01-27 (RC Branch)
+
+- Fix: Refactored isPast calculation in public booking widget for consistent behavior
+  - Extracted `isSlotInPast` helper function to check if a time slot is in the past
+  - Replaced inconsistent Date-based and string-based comparison logic with unified helper
+  - Both filter phase (availableDays useMemo) and render phase now use the same calculation
+  - Simplified useMemo dependency array by removing `availability` (since `timeSlots` already depends on it)
+  - Wrapped `getBookedSlots` in `useCallback` for proper memoization
+  - Fixed lint errors (unused variable, const vs let)
+- Feature: Comprehensive profile enhancements with recommendations, referrals, messaging, and posts
+  - Added recommendations system with 5-star rating widget and "Recommend Me" form
+  - Recommendations widget shows in public profile sidebar with auth flow (stores state, redirects to sign-up, saves on return)
+  - "Recommended by X" section displays count, average rating, and avatar grid of recommenders
+  - Added referrals widget with form to refer contacts, sends emails to both parties
+  - Created referrals tables view for owners showing sent and received referrals
+  - Built floating live chat widget (bottom-right) with real-time Convex sync
+  - Added message threads view for owners with sidebar conversations and main message view
+  - Implemented posts feature for ProMax users to create and manage posts
+  - Reorganized owner profile view:
+    - Booking section with appointments table moved to separate section
+    - Availability settings form now collapsible behind button (ProMax only)
+    - Referrals tables (sent/received) in dedicated section
+    - Message threads view with conversation sidebar
+  - Removed Google Calendar connection box from booking widget
+  - Public profile sidebar shows recommendations and referrals widgets
+  - Live chat widget floats in bottom-right for visitors
+- Feature: Added appointments management table with calendar export and email notifications
+  - Created `AppointmentsTable` component showing all appointments in organized sections
+  - "Add to Calendar" button downloads .ics file for calendar import
+  - "Reschedule" button marks slot as available and emails booker with profile link to pick new time
+  - "Cancel" button sends cancellation email to booker
+  - Table shows upcoming appointments, past appointments, and cancelled appointments separately
+  - All actions use icon buttons (Download, RefreshCw, X icons)
+  - Integrated into Booking Widget for Pro/ProMax users
+  - Email notifications sent via Resend API
+- Feature: Completely redesigned booking widget with calendar interface
+  - Replaced simple contact form with interactive calendar view
+  - Shows next 3 available days in columns based on availability settings
+  - Displays time slots in 30-minute intervals (9:00 AM - 5:00 PM default)
+  - Time slots show as booked/past and are disabled
+  - Selecting a time slot slides columns away and reveals booking form
+  - Form includes name, email, phone (optional), and message fields
+  - Appointments are tracked in database and prevent double-booking
+  - Auto-initializes booking with M-F 9-5 defaults on first access (no save required)
+  - Added appointments table to track all bookings
+  - Added slide animation when transitioning between calendar and form views
+- Feature: Added public booking widget for profile pages
+  - Created `PublicBookingWidget` component that displays on public profile pages
+  - Shows availability hours and days based on user's booking settings
+  - Includes booking request form with name, email, and message fields
+  - Only visible to visitors (not owners) when booking is enabled
+  - Displays between links section and Pro Features on profile page
+- Fix: Fixed FeatureGate plan access logic to properly check tiered access (ProMax users get Pro features)
+- Feature: Implemented booking widget and availability management UI
+  - Created `bookingAvailability` table in Convex schema with M-F 9-5 defaults
+  - Added `BookingWidget` component for Pro/ProMax users to enable/disable booking
+  - Added `AvailabilityForm` component for ProMax users to set custom schedules
+  - Default availability set to Monday-Friday 9:00 AM - 5:00 PM
+  - Auto-initializes with defaults on first access
+  - Full CRUD operations for booking availability settings
+- Feature: Complete user flow overhaul with dedicated pages and feature gates
+  - Created `/thanks/` page for contact form submissions with thank you message and navigation
+  - Created `/onboarding/` page for handle setup after sign-up with validation and redirect
+  - Created `/account/` page as smart gate that redirects to profile or onboarding based on handle status
+  - Updated Clerk sign-up redirect to `/onboarding/` and sign-in redirect to `/account/`
+  - Removed SetHandleModal component and all related logic from layout
+  - Created `/upgraded/` page with thank you message, subscription plan detection using Clerk's `has()`, and auto-redirect
+  - Updated Stripe checkout success URL to redirect to `/upgraded/`
+  - Added `subscriptionPlan` field to users schema with mutation to update on successful checkout
+  - Implemented priceId to plan slug mapping in subscription webhook handler
+- Feature: Added comprehensive feature gates to profile page
+  - Created `FeatureGate` component for conditional feature access with upgrade prompts
+  - Added Pro Features section with gates for: Booking Form, Referrals, Social Proof, Live Messaging, Analytics, Notifications
+  - Added ProMax Features section with gates for: Accept Payments, Custom Availability, Verification Badge, Rich Media Posts, Referral Commissions, Vetted Badge, No Branding, Embed Widgets
+  - Features show management UI when user has access, upgrade prompts when locked
+  - All features use Clerk's `has()` function to check plan access
+  - Feature sections only visible to profile owners
+
 ## 2025-01-27
 
 - Feature: Created modern, beautiful features landing page inspired by Raycast and Linear

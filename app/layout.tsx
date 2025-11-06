@@ -2,9 +2,7 @@ import type { Metadata } from "next";
 import "./fonts/max.css";
 import "./globals.css";
 import Providers from "@/context";
-import { SetHandleModal } from "@/components/set-handle-modal";
 import { Navbar } from "@/components/navbar";
-import { ClerkLoaded } from "@clerk/nextjs";
 import { Footer } from "@/components/footer";
 
 export const metadata: Metadata = {
@@ -26,9 +24,6 @@ export default function RootLayout({
             {children}
           </div>
           <Footer />
-          <ClerkLoaded>
-            <SetHandleModal />
-          </ClerkLoaded>
         </Providers>
       </body>
     </html>

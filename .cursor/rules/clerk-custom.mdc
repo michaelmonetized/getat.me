@@ -9,6 +9,7 @@ lastUpdated: 2025-10-28T19:57:28.000Z
 availableSdks: nextjs,react-router,remix,tanstack-react-start
 notAvailableSdks: react,js-frontend,chrome-extension,expo,android,ios,expressjs,fastify,go,astro,nuxt,vue,ruby,js-backend
 activeSdk: nextjs
+globs: **/*
 ---
 
 This guide shows you how to use the <SDKLink href="/docs/:sdk:/reference/components/authentication/sign-in" sdks={["astro","chrome-extension","expo","nextjs","nuxt","react","react-router","remix","tanstack-react-start","vue","js-frontend"]} code={true}>\<SignIn /></SDKLink> component to build a custom page that **allows users to sign in or sign up within a single flow**.
