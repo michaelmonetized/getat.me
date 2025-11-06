@@ -8,18 +8,23 @@
  * @module
  */
 
+import type * as analytics from "../analytics.js";
 import type * as booking from "../booking.js";
 import type * as clerk from "../clerk.js";
+import type * as commissions from "../commissions.js";
 import type * as files from "../files.js";
 import type * as http from "../http.js";
 import type * as links from "../links.js";
 import type * as messages from "../messages.js";
+import type * as notifications from "../notifications.js";
+import type * as payments from "../payments.js";
 import type * as posts from "../posts.js";
 import type * as recommendations from "../recommendations.js";
 import type * as referrals from "../referrals.js";
 import type * as stripe from "../stripe.js";
 import type * as subscriptions from "../subscriptions.js";
 import type * as users from "../users.js";
+import type * as verifications from "../verifications.js";
 
 import type {
   ApiFromModules,
@@ -36,18 +41,23 @@ import type {
  * ```
  */
 declare const fullApi: ApiFromModules<{
+  analytics: typeof analytics;
   booking: typeof booking;
   clerk: typeof clerk;
+  commissions: typeof commissions;
   files: typeof files;
   http: typeof http;
   links: typeof links;
   messages: typeof messages;
+  notifications: typeof notifications;
+  payments: typeof payments;
   posts: typeof posts;
   recommendations: typeof recommendations;
   referrals: typeof referrals;
   stripe: typeof stripe;
   subscriptions: typeof subscriptions;
   users: typeof users;
+  verifications: typeof verifications;
 }>;
 declare const fullApiWithMounts: typeof fullApi;
 
