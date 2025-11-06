@@ -116,7 +116,7 @@ export function VerificationBadge({ type }: VerificationBadgeProps) {
             </div>
             {verification.status === "pending" && (
               <p className="mt-2 text-sm text-muted-foreground">
-                Your application is under review. We'll notify you once a decision has been made.
+                Your application is under review. We&apos;ll notify you once a decision has been made.
               </p>
             )}
             {verification.status === "rejected" && (

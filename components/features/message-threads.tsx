@@ -71,7 +71,7 @@ export function MessageThreads() {
         content: message.trim(),
       });
       setMessage("");
-    } catch (error) {
+    } catch {
       toast({
         title: "Error",
         description: "Failed to send message",
