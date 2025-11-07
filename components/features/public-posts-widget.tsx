@@ -18,10 +18,7 @@ interface PublicPostsWidgetProps {
 }
 
 export function PublicPostsWidget({ userId }: PublicPostsWidgetProps) {
-  const posts = useQuery(
-    api.posts.getPosts,
-    userId ? { userId } : "skip"
-  );
+  const posts = useQuery(api.posts.getPosts, userId ? { userId } : "skip");
 
   if (posts === undefined) {
     return null;
@@ -47,7 +44,10 @@ export function PublicPostsWidget({ userId }: PublicPostsWidgetProps) {
       <CardContent>
         <div className="space-y-6">
           {posts.map((post) => (
-            <div key={post._id} className="border-b last:border-b-0 pb-6 last:pb-0">
+            <div
+              key={post._id}
+              className="border-b last:border-b-0 pb-6 last:pb-0"
+            >
               <div className="prose prose-sm dark:prose-invert max-w-none">
                 <ReactMarkdown remarkPlugins={[remarkGfm]}>
                   {post.content}
@@ -63,4 +63,3 @@ export function PublicPostsWidget({ userId }: PublicPostsWidgetProps) {
     </Card>
   );
 }
-
