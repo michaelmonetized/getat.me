@@ -38,15 +38,6 @@ export function ProMaxFeatures() {
         </FeatureGate>
 
         <FeatureGate
-          title="Rich Media Posts"
-          description="Create engaging posts on your page"
-          requiredPlan="promax"
-          icon={Sparkles}
-        >
-          <PostsWidget />
-        </FeatureGate>
-
-        <FeatureGate
           title="Verification Badge"
           description="Get verified and build trust"
           requiredPlan="promax"

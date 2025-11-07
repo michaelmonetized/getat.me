@@ -29,6 +29,8 @@ import { BookingSection } from "@/components/features/booking-section";
 import { FeatureGate } from "@/components/features/feature-gate";
 import { Calendar, MessageCircle, Sparkles, Star, Users } from "lucide-react";
 import { SocialProofWidget } from "@/components/features/social-proof-widget";
+import { PostsWidget } from "@/components/features/posts-widget";
+import { PublicPostsWidget } from "@/components/features/public-posts-widget";
 
 export default function ProfilePage() {
   const params = useParams();
@@ -161,20 +163,20 @@ export default function ProfilePage() {
           {/* Left Column - Settings (Owner) or Sidebar (Public) */}
           {isOwner ? (
             <div className="lg:col-span-3 space-y-6">
-              <ThemeSelector />
-              <PlanInfo />
-            </div>
-          ) : (
-            <div className="lg:col-span-3 space-y-6">
               <FeatureGate
-                title="Ratings & Reviews"
-                description="Display ratings and reviews prominently"
+                title="Social Proof"
+                description="Manage your ratings and reviews."
                 requiredPlan="pro"
                 icon={Star}
               >
                 <SocialProofWidget />
               </FeatureGate>
 
+              <ThemeSelector />
+              <PlanInfo />
+            </div>
+          ) : (
+            <div className="lg:col-span-3 space-y-6">
               {userByHandle && (
                 <>
                   <RecommendationsWidget
@@ -224,9 +226,21 @@ export default function ProfilePage() {
                 </div>
               )}
 
-              {/* Public Booking Widget - Only show to visitors when booking is enabled */}
+              <FeatureGate
+                title="Rich Media Posts"
+                description="Create engaging posts on your page"
+                requiredPlan="promax"
+                icon={Sparkles}
+              >
+                <PostsWidget />
+              </FeatureGate>
+
+              {/* Public Posts & Booking Widget - Only show to visitors */}
               {!isOwner && userByHandle && (
-                <PublicBookingWidget userId={userByHandle.userId} />
+                <>
+                  <PublicPostsWidget userId={userByHandle.userId} />
+                  <PublicBookingWidget userId={userByHandle.userId} />
+                </>
               )}
             </div>
           </div>
