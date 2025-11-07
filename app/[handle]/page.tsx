@@ -28,6 +28,7 @@ import { MessageThreads } from "@/components/features/message-threads";
 import { BookingSection } from "@/components/features/booking-section";
 import { FeatureGate } from "@/components/features/feature-gate";
 import { Calendar, MessageCircle, Sparkles, Star, Users } from "lucide-react";
+import { SocialProofWidget } from "@/components/features/social-proof-widget";
 
 export default function ProfilePage() {
   const params = useParams();
@@ -165,6 +166,15 @@ export default function ProfilePage() {
             </div>
           ) : (
             <div className="lg:col-span-3 space-y-6">
+              <FeatureGate
+                title="Ratings & Reviews"
+                description="Display ratings and reviews prominently"
+                requiredPlan="pro"
+                icon={Star}
+              >
+                <SocialProofWidget />
+              </FeatureGate>
+
               {userByHandle && (
                 <>
                   <RecommendationsWidget
