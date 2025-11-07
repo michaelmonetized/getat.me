@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 import Link from "next/link";
 import { CheckoutButton } from "@clerk/nextjs/experimental";
+import { SignedIn } from "@clerk/nextjs";
 import plans from "@/config/plans";
 
 export function LimitBanner() {
@@ -40,11 +41,13 @@ export function LimitBanner() {
         <Button variant="outline" className="flex-1" asChild>
           <Link href="/pricing">Compare Plans</Link>
         </Button>
-        <CheckoutButton planId={plans.promax.id}>
-          <Button className="flex-1 bg-primary hover:bg-primary-hover border-primary">
-            Get ProMax
-          </Button>
-        </CheckoutButton>
+        <SignedIn>
+          <CheckoutButton planId={plans.promax.id}>
+            <Button className="flex-1 bg-primary hover:bg-primary-hover border-primary">
+              Get ProMax
+            </Button>
+          </CheckoutButton>
+        </SignedIn>
       </div>
     </div>
   );

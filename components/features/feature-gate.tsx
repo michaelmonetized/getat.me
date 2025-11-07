@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuth } from "@clerk/nextjs";
+import { SignedIn, useAuth } from "@clerk/nextjs";
 import {
   Card,
   CardContent,
@@ -107,9 +107,11 @@ export function FeatureGate({
           </p>
           {upgradePlan && (
             <div className="flex gap-2">
-              <CheckoutButton planId={upgradePlan.id}>
-                <Button>Upgrade to {upgradePlan.name}</Button>
-              </CheckoutButton>
+              <SignedIn>
+                <CheckoutButton planId={upgradePlan.id}>
+                  <Button>Upgrade to {upgradePlan.name}</Button>
+                </CheckoutButton>
+              </SignedIn>
               <Button asChild variant="outline">
                 <Link href="/pricing">View Plans</Link>
               </Button>

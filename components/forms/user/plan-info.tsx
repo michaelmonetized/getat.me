@@ -3,7 +3,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CheckoutButton } from "@clerk/clerk-react/experimental";
-import { useAuth } from "@clerk/nextjs";
+import { SignedIn, useAuth } from "@clerk/nextjs";
 import plans from "@/config/plans";
 import { useState } from "react";
 import { BillingSubscriptionPlanPeriod } from "@clerk/types";
@@ -90,19 +90,20 @@ export function PlanInfo() {
               </span>
             </Label>
             {upgradePlans.map((plan) => (
-              <CheckoutButton
-                key={plan.id}
-                planId={plan.id}
-                planPeriod={planPeriod}
-              >
-                <Button
-                  variant="outline"
-                  className="w-full justify-between bg-accent hover:bg-accent-hover border-accent text-accent-foreground"
+              <SignedIn key={plan.id}>
+                <CheckoutButton
+                  planId={plan.id}
+                  planPeriod={planPeriod}
                 >
-                  <strong>{plan.name}</strong>
-                  <small>{plan.price[planPeriod]}</small>
-                </Button>
-              </CheckoutButton>
+                  <Button
+                    variant="outline"
+                    className="w-full justify-between bg-accent hover:bg-accent-hover border-accent text-accent-foreground"
+                  >
+                    <strong>{plan.name}</strong>
+                    <small>{plan.price[planPeriod]}</small>
+                  </Button>
+                </CheckoutButton>
+              </SignedIn>
             ))}
           </CardContent>
         </Card>

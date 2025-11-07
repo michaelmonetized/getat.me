@@ -1,5 +1,8 @@
 ## 2025-01-27 (RC Branch)
 
+- Fix: Wrapped Clerk checkout buttons in SignedIn to satisfy runtime requirements
+  - Ensured `CheckoutButton` usage in `FeatureGate`, `PlanInfo`, and `LimitBanner` is guarded by `SignedIn`
+  - Prevents Clerk error when rendering upgrade CTAs for signed-out visitors
 - Feature: Added markdown support and WYSIWYG editor for posts
   - Created `PublicPostsWidget` component to display posts to visitors on public profiles
   - Updated `PostsWidget` to use `@uiw/react-md-editor` for WYSIWYG markdown editing with live preview
