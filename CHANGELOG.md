@@ -5,6 +5,7 @@
   - Added fallback to get userId from auth context when not provided
   - Added error handling with try-catch to gracefully return null on errors
   - Query now matches pattern used in `getCurrentUserProfile` for consistency
+  - Fixed return validator to include `_creationTime` field (automatically added by Convex)
 - Fix: Refactored isPast calculation in public booking widget for consistent behavior
   - Extracted `isSlotInPast` helper function to check if a time slot is in the past
   - Replaced inconsistent Date-based and string-based comparison logic with unified helper

@@ -8,6 +8,7 @@ export const getPaymentSettings = query({
   returns: v.union(
     v.object({
       _id: v.id("paymentSettings"),
+      _creationTime: v.number(),
       userId: v.string(),
       enabled: v.boolean(),
       currency: v.string(),
