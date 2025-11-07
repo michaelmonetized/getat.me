@@ -3,11 +3,12 @@ import { mutation, query } from "./_generated/server";
 
 export const getPaymentSettings = query({
   args: {
-    userId: v.string(),
+    userId: v.optional(v.string()),
   },
   returns: v.union(
     v.object({
       _id: v.id("paymentSettings"),
+      _creationTime: v.number(),
       userId: v.string(),
       enabled: v.boolean(),
       currency: v.string(),
@@ -19,10 +20,29 @@ export const getPaymentSettings = query({
     v.null()
   ),
   handler: async (ctx, args) => {
-    return await ctx.db
-      .query("paymentSettings")
-      .withIndex("by_userId", (q) => q.eq("userId", args.userId))
-      .first();
+    let userId = args.userId;
+
+    // Try to get from auth if userId not provided
+    if (!userId) {
+      const user = await ctx.auth.getUserIdentity();
+      if (user) {
+        userId = user.subject;
+      }
+    }
+
+    if (!userId) {
+      return null;
+    }
+
+    try {
+      return await ctx.db
+        .query("paymentSettings")
+        .withIndex("by_userId", (q) => q.eq("userId", userId))
+        .first();
+    } catch (error) {
+      console.error("Error fetching payment settings:", error);
+      return null;
+    }
   },
 });
 
@@ -54,8 +74,10 @@ export const updatePaymentSettings = mutation({
 
     if (args.enabled !== undefined) updateData.enabled = args.enabled;
     if (args.currency !== undefined) updateData.currency = args.currency;
-    if (args.defaultPrice !== undefined) updateData.defaultPrice = args.defaultPrice;
-    if (args.stripeAccountId !== undefined) updateData.stripeAccountId = args.stripeAccountId;
+    if (args.defaultPrice !== undefined)
+      updateData.defaultPrice = args.defaultPrice;
+    if (args.stripeAccountId !== undefined)
+      updateData.stripeAccountId = args.stripeAccountId;
 
     if (existing) {
       await ctx.db.patch(existing._id, updateData);
@@ -73,4 +95,3 @@ export const updatePaymentSettings = mutation({
     }
   },
 });
-

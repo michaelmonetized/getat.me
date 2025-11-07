@@ -1,5 +1,18 @@
 ## 2025-01-27 (RC Branch)
 
+- Feature: Added markdown support and WYSIWYG editor for posts
+  - Created `PublicPostsWidget` component to display posts to visitors on public profiles
+  - Updated `PostsWidget` to use `@uiw/react-md-editor` for WYSIWYG markdown editing with live preview
+  - Added `react-markdown` and `remark-gfm` for rendering markdown in both owner and public views
+  - Posts now support full markdown syntax including tables, links, code blocks, and more
+  - Editor automatically detects and adapts to dark/light mode
+  - Public posts widget displays on visitor profiles when posts exist
+- Fix: Resolved runtime error in `getPaymentSettings` Convex query
+  - Made `userId` parameter optional in query args to handle edge cases
+  - Added fallback to get userId from auth context when not provided
+  - Added error handling with try-catch to gracefully return null on errors
+  - Query now matches pattern used in `getCurrentUserProfile` for consistency
+  - Fixed return validator to include `_creationTime` field (automatically added by Convex)
 - Fix: Refactored isPast calculation in public booking widget for consistent behavior
   - Extracted `isSlotInPast` helper function to check if a time slot is in the past
   - Replaced inconsistent Date-based and string-based comparison logic with unified helper

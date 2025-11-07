@@ -38,9 +38,11 @@ export function ReferralsTables() {
   }
 
   return (
-    <Tabs>
-      <TabsList>
-        <TabsTrigger value="referrals-sent">Referrals Sent</TabsTrigger>
+    <Tabs defaultValue="referrals-sent">
+      <TabsList className="mx-auto text-center self-center justify-self-center justify-center items-center w-auto max-w-fit block">
+        <TabsTrigger value="referrals-sent" defaultChecked={true}>
+          Referrals Sent
+        </TabsTrigger>
         <TabsTrigger value="referrals-received">Referrals Received</TabsTrigger>
       </TabsList>
       <TabsContent value="referrals-sent">

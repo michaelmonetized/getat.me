@@ -3,13 +3,7 @@
 import { useUser } from "@clerk/nextjs";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Star } from "lucide-react";
 
 export function SocialProofWidget() {
@@ -30,53 +24,41 @@ export function SocialProofWidget() {
   return (
     <Card>
       <CardHeader>
-        <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-            <Star className="h-5 w-5 text-primary" />
-          </div>
-          <div className="flex-1">
-            <CardTitle>Social Proof</CardTitle>
-            <CardDescription>Manage your ratings and reviews</CardDescription>
-          </div>
-        </div>
+        <CardTitle>Recommendations</CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
         {stats && (
           <div className="rounded-lg border p-4">
-            {stats && (
-              <div className="rounded-lg border p-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <div className="text-sm text-muted-foreground">
-                      Average Rating
-                    </div>
-                    <div
-                      className="mt-1 flex items-center gap-2"
-                      role="img"
-                      aria-label={`Average rating: ${stats.averageRating.toFixed(1)} out of 5 stars`}
-                    >
-                      <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
-                      <span className="text-2xl font-bold">
-                        {stats.averageRating.toFixed(1)}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-sm text-muted-foreground">
-                      Total Reviews
-                    </div>
-                    <div className="mt-1 text-2xl font-bold">{stats.count}</div>
-                  </div>
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="text-sm text-muted-foreground">
+                  Average Rating
+                </div>
+                <div
+                  className="mt-1 flex items-center gap-2"
+                  role="img"
+                  aria-label={`Average rating: ${stats.averageRating.toFixed(1)} out of 5 stars`}
+                >
+                  <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
+                  <span className="text-2xl font-bold">
+                    {stats.averageRating.toFixed(1)}
+                  </span>
                 </div>
               </div>
-            )}
+              <div className="text-right">
+                <div className="text-sm text-muted-foreground">
+                  Total Reviews
+                </div>
+                <div className="mt-1 text-2xl font-bold">{stats.count}</div>
+              </div>
+            </div>
           </div>
         )}
 
         {recommendations === undefined ? (
-          <p className="text-center text-muted-foreground py-8">Loading...</p>
+          <p className="text-center text-muted-foreground py-2">Loading...</p>
         ) : recommendations.length === 0 ? (
-          <p className="text-center text-muted-foreground py-8">
+          <p className="text-center text-muted-foreground py-2">
             You {"don't"} have any reviews yet
           </p>
         ) : (

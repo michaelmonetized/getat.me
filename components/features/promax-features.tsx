@@ -1,11 +1,10 @@
 "use client";
 
 import { FeatureGate } from "./feature-gate";
-import { PostsWidget } from "./posts-widget";
 import { PaymentWidget } from "./payment-widget";
 import { CommissionsDashboard } from "./commissions-dashboard";
 import { VerificationBadge } from "./verification-badge";
-import { CreditCard, Shield, Sparkles, Wallet, Award } from "lucide-react";
+import { CreditCard, Shield, Wallet, Award } from "lucide-react";
 
 export function ProMaxFeatures() {
   return (
@@ -35,15 +34,6 @@ export function ProMaxFeatures() {
           icon={Wallet}
         >
           <CommissionsDashboard />
-        </FeatureGate>
-
-        <FeatureGate
-          title="Rich Media Posts"
-          description="Create engaging posts on your page"
-          requiredPlan="promax"
-          icon={Sparkles}
-        >
-          <PostsWidget />
         </FeatureGate>
 
         <FeatureGate

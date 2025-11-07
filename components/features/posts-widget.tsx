@@ -11,18 +11,42 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Sparkles, Trash2 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Id } from "@/convex/_generated/dataModel";
+import dynamic from "next/dynamic";
+import "@uiw/react-md-editor/markdown-editor.css";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+
+// Dynamically import MDEditor to avoid SSR issues
+const MDEditor = dynamic(() => import("@uiw/react-md-editor"), {
+  ssr: false,
+});
 
 export function PostsWidget() {
   const { user } = useUser();
   const { toast } = useToast();
   const [content, setContent] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [colorMode, setColorMode] = useState<"light" | "dark">("light");
+
+  // Detect dark mode from document
+  useEffect(() => {
+    const checkDarkMode = () => {
+      const isDark =
+        document.documentElement.classList.contains("dark") ||
+        window.matchMedia("(prefers-color-scheme: dark)").matches;
+      setColorMode(isDark ? "dark" : "light");
+    };
+
+    checkDarkMode();
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    mediaQuery.addEventListener("change", checkDarkMode);
+    return () => mediaQuery.removeEventListener("change", checkDarkMode);
+  }, []);
 
   const posts = useQuery(
     api.posts.getPosts,
@@ -105,14 +129,17 @@ export function PostsWidget() {
         {/* Create Post Form */}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="post-content">Post Content</Label>
-            <Textarea
-              id="post-content"
-              placeholder="What's on your mind?"
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              rows={4}
-            />
+            <Label htmlFor="post-content">Post Content (Markdown)</Label>
+            <div data-color-mode={colorMode}>
+              <MDEditor
+                value={content}
+                onChange={(value) => setContent(value || "")}
+                preview="edit"
+                hideToolbar={false}
+                visibleDragBar={false}
+                height={400}
+              />
+            </div>
           </div>
           <Button type="submit" disabled={isSubmitting || !content.trim()}>
             {isSubmitting ? "Publishing..." : "Publish Post"}
@@ -133,7 +160,11 @@ export function PostsWidget() {
                 <CardContent className="pt-6">
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex-1">
-                      <p className="whitespace-pre-wrap">{post.content}</p>
+                      <div className="prose prose-sm dark:prose-invert max-w-none">
+                        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                          {post.content}
+                        </ReactMarkdown>
+                      </div>
                       <p className="text-xs text-muted-foreground mt-2">
                         {new Date(post.createdAt).toLocaleString()}
                       </p>
