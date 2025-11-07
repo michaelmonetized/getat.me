@@ -15,24 +15,28 @@ export function ProFeatures() {
         </p>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2">
-        <FeatureGate
-          title="Analytics"
-          description="Track your page performance with detailed insights"
-          requiredPlan="pro"
-          icon={BarChart3}
-        >
-          <AnalyticsDashboard />
-        </FeatureGate>
+      <div className="grid gap-6 md:grid-cols-3">
+        <div className="md:col-span-2">
+          <FeatureGate
+            title="Analytics"
+            description="Track your page performance with detailed insights"
+            requiredPlan="pro"
+            icon={BarChart3}
+          >
+            <AnalyticsDashboard />
+          </FeatureGate>
+        </div>
 
-        <FeatureGate
-          title="Notifications"
-          description="Stay informed with real-time updates"
-          requiredPlan="pro"
-          icon={Bell}
-        >
-          <NotificationsWidget />
-        </FeatureGate>
+        <div>
+          <FeatureGate
+            title="Notifications"
+            description="Stay informed with real-time updates"
+            requiredPlan="pro"
+            icon={Bell}
+          >
+            <NotificationsWidget />
+          </FeatureGate>
+        </div>
       </div>
     </div>
   );

@@ -135,8 +135,6 @@ export function PostsWidget() {
                 value={content}
                 onChange={(value) => setContent(value || "")}
                 preview="edit"
-                hideToolbar={false}
-                visibleDragBar={false}
                 height={400}
               />
             </div>
