@@ -3,7 +3,7 @@ import { mutation, query } from "./_generated/server";
 
 export const getPaymentSettings = query({
   args: {
-    userId: v.string(),
+    userId: v.optional(v.string()),
   },
   returns: v.union(
     v.object({
@@ -19,10 +19,29 @@ export const getPaymentSettings = query({
     v.null()
   ),
   handler: async (ctx, args) => {
-    return await ctx.db
-      .query("paymentSettings")
-      .withIndex("by_userId", (q) => q.eq("userId", args.userId))
-      .first();
+    let userId = args.userId;
+
+    // Try to get from auth if userId not provided
+    if (!userId) {
+      const user = await ctx.auth.getUserIdentity();
+      if (user) {
+        userId = user.subject;
+      }
+    }
+
+    if (!userId) {
+      return null;
+    }
+
+    try {
+      return await ctx.db
+        .query("paymentSettings")
+        .withIndex("by_userId", (q) => q.eq("userId", userId))
+        .first();
+    } catch (error) {
+      console.error("Error fetching payment settings:", error);
+      return null;
+    }
   },
 });
 
