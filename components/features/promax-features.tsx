@@ -1,11 +1,10 @@
 "use client";
 
 import { FeatureGate } from "./feature-gate";
-import { PostsWidget } from "./posts-widget";
 import { PaymentWidget } from "./payment-widget";
 import { CommissionsDashboard } from "./commissions-dashboard";
 import { VerificationBadge } from "./verification-badge";
-import { CreditCard, Shield, Sparkles, Wallet, Award } from "lucide-react";
+import { CreditCard, Shield, Wallet, Award } from "lucide-react";
 
 export function ProMaxFeatures() {
   return (
