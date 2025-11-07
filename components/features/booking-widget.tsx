@@ -15,6 +15,8 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Calendar } from "lucide-react";
 import { useEffect, useState } from "react";
+import { FeatureGate } from "./feature-gate";
+import { CollapsibleAvailabilityForm } from "./collapsible-availability-form";
 
 export function BookingWidget() {
   const { user } = useUser();
@@ -113,26 +115,38 @@ export function BookingWidget() {
             <Calendar className="h-5 w-5 text-primary" />
           </div>
           <div className="flex-1">
-            <CardTitle>Booking Form</CardTitle>
-            <CardDescription>
-              Let visitors book time with you seamlessly
-            </CardDescription>
+            <CardTitle>Appointment Booking</CardTitle>
           </div>
         </div>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="flex items-center justify-between">
+        <div className="flex items-start justify-between">
           <div className="space-y-0.5">
-            <Label htmlFor="booking-enabled">Enable Booking</Label>
+            <Label
+              htmlFor="booking-enabled"
+              className="flex items-center gap-2"
+            >
+              <span className="text-lg">Enable Booking</span>
+              <Switch
+                id="booking-enabled"
+                checked={isEnabled}
+                onCheckedChange={handleToggle}
+              />
+            </Label>
             <p className="text-sm text-muted-foreground">
               Allow visitors to book appointments with you
             </p>
           </div>
-          <Switch
-            id="booking-enabled"
-            checked={isEnabled}
-            onCheckedChange={handleToggle}
-          />
+
+          <div className="-mt-16">
+            <FeatureGate
+              requiredPlan="pro"
+              title="Custom Availability Settings"
+              description="Set custom availability settings for your bookings"
+            >
+              <CollapsibleAvailabilityForm />
+            </FeatureGate>
+          </div>
         </div>
       </CardContent>
     </Card>

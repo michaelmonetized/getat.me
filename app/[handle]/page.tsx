@@ -26,6 +26,8 @@ import { LiveChatWidget } from "@/components/features/live-chat-widget";
 import { ReferralsTables } from "@/components/features/referrals-tables";
 import { MessageThreads } from "@/components/features/message-threads";
 import { BookingSection } from "@/components/features/booking-section";
+import { FeatureGate } from "@/components/features/feature-gate";
+import { Calendar, MessageCircle, Sparkles, Star, Users } from "lucide-react";
 
 export default function ProfilePage() {
   const params = useParams();
@@ -223,21 +225,63 @@ export default function ProfilePage() {
 
       {/* Owner-only sections */}
       {isOwner && (
-        <section className="space-y-6 divide-y divide-border/50">
+        <section className="p-16">
           {/* Booking Section - Separate from features */}
-          <BookingSection />
+          <div className="py-16">
+            <FeatureGate
+              requiredPlan="pro"
+              title="Booking Form"
+              description="Let visitors book time with you seamlessly"
+              icon={Calendar}
+            >
+              <BookingSection />
+            </FeatureGate>
+          </div>
 
           {/* Referrals Tables */}
-          <ReferralsTables />
-
+          <div className="py-16">
+            <FeatureGate
+              requiredPlan="pro"
+              title="Referrals"
+              description="Track and manage your professional referrals"
+              icon={Users}
+            >
+              <ReferralsTables />
+            </FeatureGate>
+          </div>
           {/* Message Threads */}
-          <MessageThreads />
-
+          <div className="py-16">
+            <FeatureGate
+              requiredPlan="pro"
+              title="Messages"
+              description="Engage with your visitors in real-time"
+              icon={MessageCircle}
+            >
+              <MessageThreads />
+            </FeatureGate>
+          </div>
           {/* Pro Features Section */}
-          <ProFeatures />
-
-          {/* ProMax Features Section */}
-          <ProMaxFeatures />
+          <div className="py-16">
+            <FeatureGate
+              requiredPlan="pro"
+              title="Pro Features"
+              description="Unlock advanced engagement tools, social proof, and more with a Pro plan."
+              icon={Star}
+            >
+              <ProFeatures />
+            </FeatureGate>
+          </div>
+          <div className="py-16">
+            {/* ProMax Features Section */}
+            <FeatureGate
+              requiredPlan="promax"
+              title="ProMax Features"
+              description="Unlock advanced engagement tools, social proof, and more with a ProMax plan."
+              icon={Sparkles}
+            >
+              <ProMaxFeatures />
+            </FeatureGate>
+          </div>
         </section>
       )}
 
