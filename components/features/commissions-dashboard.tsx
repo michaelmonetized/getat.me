@@ -3,13 +3,7 @@
 import { useUser } from "@clerk/nextjs";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -19,6 +13,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Wallet, DollarSign } from "lucide-react";
+import FeatureTitle from "./feature-title";
 
 function formatCurrency(amount: number, currency: string = "USD"): string {
   return new Intl.NumberFormat("en-US", {
@@ -45,20 +40,16 @@ export function CommissionsDashboard() {
   return (
     <Card>
       <CardHeader>
-        <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-            <Wallet className="h-5 w-5 text-primary" />
-          </div>
-          <div className="flex-1">
-            <CardTitle>Referral Commissions</CardTitle>
-            <CardDescription>Track your referral earnings</CardDescription>
-          </div>
-        </div>
+        <FeatureTitle
+          Icon={Wallet}
+          title="Referral Commissions"
+          description="Track your referral earnings"
+        />
       </CardHeader>
       <CardContent className="space-y-6">
         {stats && (
-          <div className="grid grid-cols-3 gap-4">
-            <div className="rounded-lg border p-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            <div className="rounded-lg border p-4 col-span-2 md:col-span-1">
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <DollarSign className="h-4 w-4" />
                 Total Earned
@@ -74,7 +65,9 @@ export function CommissionsDashboard() {
               </div>
             </div>
             <div className="rounded-lg border p-4">
-              <div className="text-sm text-muted-foreground">Total Commissions</div>
+              <div className="text-sm text-muted-foreground">
+                Total Commissions
+              </div>
               <div className="mt-1 text-2xl font-bold">{stats.count}</div>
             </div>
           </div>
@@ -132,4 +125,3 @@ export function CommissionsDashboard() {
     </Card>
   );
 }
-

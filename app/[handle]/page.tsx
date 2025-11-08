@@ -249,9 +249,9 @@ export default function ProfilePage() {
 
       {/* Owner-only sections */}
       {isOwner && (
-        <section className="p-16">
+        <section className="p-4">
           {/* Booking Section - Separate from features */}
-          <div className="py-16">
+          <div className="py-4">
             <FeatureGate
               requiredPlan="pro"
               title="Booking Form"
@@ -263,7 +263,7 @@ export default function ProfilePage() {
           </div>
 
           {/* Referrals Tables */}
-          <div className="py-16">
+          <div className="py-4">
             <FeatureGate
               requiredPlan="pro"
               title="Referrals"
@@ -274,7 +274,7 @@ export default function ProfilePage() {
             </FeatureGate>
           </div>
           {/* Message Threads */}
-          <div className="py-16">
+          <div className="py-4">
             <FeatureGate
               requiredPlan="pro"
               title="Messages"
@@ -285,7 +285,7 @@ export default function ProfilePage() {
             </FeatureGate>
           </div>
           {/* Pro Features Section */}
-          <div className="py-16">
+          <div className="py-4">
             <FeatureGate
               requiredPlan="pro"
               title="Pro Features"
@@ -295,7 +295,7 @@ export default function ProfilePage() {
               <ProFeatures />
             </FeatureGate>
           </div>
-          <div className="py-16">
+          <div className="py-4">
             {/* ProMax Features Section */}
             <FeatureGate
               requiredPlan="promax"

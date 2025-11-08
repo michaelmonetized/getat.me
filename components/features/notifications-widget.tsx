@@ -3,18 +3,13 @@
 import { useUser } from "@clerk/nextjs";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Bell } from "lucide-react";
 import { useState, useEffect } from "react";
+import FeatureTitle from "./feature-title";
 
 export function NotificationsWidget() {
   const { user } = useUser();
@@ -23,7 +18,9 @@ export function NotificationsWidget() {
     api.notifications.getNotificationSettings,
     user?.id ? { userId: user.id } : "skip"
   );
-  const updateSettings = useMutation(api.notifications.updateNotificationSettings);
+  const updateSettings = useMutation(
+    api.notifications.updateNotificationSettings
+  );
 
   const [emailNotifications, setEmailNotifications] = useState(true);
   const [bookingNotifications, setBookingNotifications] = useState(true);
@@ -71,9 +68,15 @@ export function NotificationsWidget() {
     return (
       <Card>
         <CardHeader>
-          <CardTitle>Notifications</CardTitle>
-          <CardDescription>Loading...</CardDescription>
+          <FeatureTitle
+            Icon={Bell}
+            title="Notifications"
+            description="Manage your notification preferences"
+          />
         </CardHeader>
+        <CardContent>
+          <p className="text-muted-foreground">Loading...</p>
+        </CardContent>
       </Card>
     );
   }
@@ -81,17 +84,11 @@ export function NotificationsWidget() {
   return (
     <Card>
       <CardHeader>
-        <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-            <Bell className="h-5 w-5 text-primary" />
-          </div>
-          <div className="flex-1">
-            <CardTitle>Notifications</CardTitle>
-            <CardDescription>
-              Manage your notification preferences
-            </CardDescription>
-          </div>
-        </div>
+        <FeatureTitle
+          Icon={Bell}
+          title="Notifications"
+          description="Manage your notification preferences"
+        />
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="flex items-center justify-between">
@@ -121,7 +118,11 @@ export function NotificationsWidget() {
             id="booking-notifications"
             checked={bookingNotifications}
             onCheckedChange={(checked) =>
-              handleToggle("bookingNotifications", checked, setBookingNotifications)
+              handleToggle(
+                "bookingNotifications",
+                checked,
+                setBookingNotifications
+              )
             }
           />
         </div>
@@ -137,14 +138,20 @@ export function NotificationsWidget() {
             id="message-notifications"
             checked={messageNotifications}
             onCheckedChange={(checked) =>
-              handleToggle("messageNotifications", checked, setMessageNotifications)
+              handleToggle(
+                "messageNotifications",
+                checked,
+                setMessageNotifications
+              )
             }
           />
         </div>
 
         <div className="flex items-center justify-between">
           <div className="space-y-0.5">
-            <Label htmlFor="referral-notifications">Referral Notifications</Label>
+            <Label htmlFor="referral-notifications">
+              Referral Notifications
+            </Label>
             <p className="text-sm text-muted-foreground">
               Get notified about new referrals
             </p>
@@ -153,7 +160,11 @@ export function NotificationsWidget() {
             id="referral-notifications"
             checked={referralNotifications}
             onCheckedChange={(checked) =>
-              handleToggle("referralNotifications", checked, setReferralNotifications)
+              handleToggle(
+                "referralNotifications",
+                checked,
+                setReferralNotifications
+              )
             }
           />
         </div>
@@ -169,7 +180,11 @@ export function NotificationsWidget() {
             id="review-notifications"
             checked={reviewNotifications}
             onCheckedChange={(checked) =>
-              handleToggle("reviewNotifications", checked, setReviewNotifications)
+              handleToggle(
+                "reviewNotifications",
+                checked,
+                setReviewNotifications
+              )
             }
           />
         </div>
@@ -177,4 +192,3 @@ export function NotificationsWidget() {
     </Card>
   );
 }
-

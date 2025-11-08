@@ -3,19 +3,14 @@
 import { useUser } from "@clerk/nextjs";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Shield, CheckCircle2, XCircle, Clock } from "lucide-react";
 import { useState } from "react";
+import FeatureTitle from "./feature-title";
 
 interface VerificationBadgeProps {
   type: "verified" | "vetted";
@@ -28,7 +23,9 @@ export function VerificationBadge({ type }: VerificationBadgeProps) {
     api.verifications.getVerification,
     user?.id ? { userId: user.id, type } : "skip"
   );
-  const applyForVerification = useMutation(api.verifications.applyForVerification);
+  const applyForVerification = useMutation(
+    api.verifications.applyForVerification
+  );
 
   const [additionalInfo, setAdditionalInfo] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -63,9 +60,15 @@ export function VerificationBadge({ type }: VerificationBadgeProps) {
     return (
       <Card>
         <CardHeader>
-          <CardTitle>{type === "verified" ? "Verification" : "Vetted"} Badge</CardTitle>
-          <CardDescription>Loading...</CardDescription>
+          <FeatureTitle
+            Icon={Shield}
+            title={`${type === "verified" ? "Verification" : "Vetted"} Badge`}
+            description="Loading..."
+          />
         </CardHeader>
+        <CardContent>
+          <p className="text-muted-foreground">Loading...</p>
+        </CardContent>
       </Card>
     );
   }
@@ -91,19 +94,11 @@ export function VerificationBadge({ type }: VerificationBadgeProps) {
   return (
     <Card>
       <CardHeader>
-        <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-            <Shield className="h-5 w-5 text-primary" />
-          </div>
-          <div className="flex-1">
-            <CardTitle>
-              {type === "verified" ? "Verification" : "Vetted"} Badge
-            </CardTitle>
-            <CardDescription>
-              Apply for {type === "verified" ? "verification" : "vetted"} status
-            </CardDescription>
-          </div>
-        </div>
+        <FeatureTitle
+          Icon={Shield}
+          title={`${type === "verified" ? "Verification" : "Vetted"} Badge`}
+          description={`Apply for ${type === "verified" ? "verification" : "vetted"} status`}
+        />
       </CardHeader>
       <CardContent className="space-y-4">
         {verification && (
@@ -116,17 +111,20 @@ export function VerificationBadge({ type }: VerificationBadgeProps) {
             </div>
             {verification.status === "pending" && (
               <p className="mt-2 text-sm text-muted-foreground">
-                Your application is under review. We&apos;ll notify you once a decision has been made.
+                Your application is under review. We&apos;ll notify you once a
+                decision has been made.
               </p>
             )}
             {verification.status === "rejected" && (
               <p className="mt-2 text-sm text-muted-foreground">
-                Your application was rejected. You can submit a new application below.
+                Your application was rejected. You can submit a new application
+                below.
               </p>
             )}
             {verification.applicationData?.additionalInfo && (
               <p className="mt-2 text-sm text-muted-foreground">
-                <strong>Your application:</strong> {verification.applicationData.additionalInfo}
+                <strong>Your application:</strong>{" "}
+                {verification.applicationData.additionalInfo}
               </p>
             )}
           </div>
@@ -146,19 +144,16 @@ export function VerificationBadge({ type }: VerificationBadgeProps) {
                 rows={4}
               />
             </div>
-            <Button
-              onClick={handleApply}
-              disabled={isSubmitting}
-              className="w-full"
-            >
-              {isSubmitting
-                ? "Submitting..."
-                : `Apply for ${type === "verified" ? "Verification" : "Vetted"} Status`}
-            </Button>
+            <div className="flex justify-end">
+              <Button onClick={handleApply} disabled={isSubmitting}>
+                {isSubmitting
+                  ? "Submitting..."
+                  : `Get ${type === "verified" ? "Verified" : "Vetted"}`}
+              </Button>
+            </div>
           </div>
         )}
       </CardContent>
     </Card>
   );
 }
-

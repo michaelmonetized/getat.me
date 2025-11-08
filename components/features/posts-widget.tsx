@@ -116,12 +116,12 @@ export function PostsWidget() {
     <Card>
       <CardHeader>
         <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-            <Sparkles className="h-5 w-5 text-primary" />
-          </div>
           <div className="flex-1">
             <CardTitle>Rich Media Posts</CardTitle>
             <CardDescription>Create and manage your posts</CardDescription>
+          </div>
+          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
+            <Sparkles className="h-5 w-5 text-primary" />
           </div>
         </div>
       </CardHeader>

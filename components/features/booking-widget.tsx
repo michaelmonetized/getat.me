@@ -111,16 +111,16 @@ export function BookingWidget() {
     <Card>
       <CardHeader>
         <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-            <Calendar className="h-5 w-5 text-primary" />
-          </div>
           <div className="flex-1">
             <CardTitle>Appointment Booking</CardTitle>
+          </div>
+          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
+            <Calendar className="h-5 w-5 text-primary" />
           </div>
         </div>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="flex items-start justify-between">
+        <div className="flex flex-col md:flex-row items-start justify-between">
           <div className="space-y-0.5">
             <Label
               htmlFor="booking-enabled"
@@ -138,15 +138,15 @@ export function BookingWidget() {
             </p>
           </div>
 
-          <div className="-mt-16">
-            <FeatureGate
-              requiredPlan="pro"
-              title="Custom Availability Settings"
-              description="Set custom availability settings for your bookings"
-            >
+          <FeatureGate
+            requiredPlan="pro"
+            title="Custom Availability Settings"
+            description="Set custom availability settings for your bookings"
+          >
+            <div className="md:-mt-16">
               <CollapsibleAvailabilityForm />
-            </FeatureGate>
-          </div>
+            </div>
+          </FeatureGate>
         </div>
       </CardContent>
     </Card>

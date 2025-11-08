@@ -3,14 +3,7 @@
 import { useUser } from "@clerk/nextjs";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Users, ArrowRight } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -20,6 +13,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+import FeatureTitle from "./feature-title";
+import { PiPaperPlane } from "react-icons/pi";
 
 export function ReferralsTables() {
   const { user } = useUser();
@@ -41,12 +36,15 @@ export function ReferralsTables() {
     <div className="w-full flex flex-col gap-4">
       <Card className="bg-foreground/50 w-full">
         <CardHeader>
-          <CardTitle>Referrals</CardTitle>
-          <CardDescription>Manage your professional referrals</CardDescription>
+          <FeatureTitle
+            Icon={PiPaperPlane}
+            title="Referrals"
+            description="View sent and received referrals"
+          />
         </CardHeader>
         <CardContent>
           <Tabs defaultValue="referrals-received" className="md:-mt-16">
-            <TabsList className="ml-auto text-center self-center justify-self-center justify-end items-center w-auto max-w-fit block">
+            <TabsList className="mx-auto md:ml-auto text-center self-center justify-self-center justify-center md:justify-end items-center w-auto max-w-fit block">
               <TabsTrigger value="referrals-sent" defaultChecked={true}>
                 Sent
               </TabsTrigger>
@@ -56,17 +54,7 @@ export function ReferralsTables() {
               {/* Referrals Sent */}
               <Card>
                 <CardHeader>
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-                      <ArrowRight className="h-5 w-5 text-primary" />
-                    </div>
-                    <div className="flex-1">
-                      <CardTitle>Sent</CardTitle>
-                      <CardDescription>
-                        People {"you've"} referred to others
-                      </CardDescription>
-                    </div>
-                  </div>
+                  <CardTitle>Sent</CardTitle>
                 </CardHeader>
                 <CardContent>
                   {referralsSent === undefined ? (
@@ -107,17 +95,7 @@ export function ReferralsTables() {
               {/* Referrals Received */}
               <Card>
                 <CardHeader>
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-                      <Users className="h-5 w-5 text-primary" />
-                    </div>
-                    <div className="flex-1">
-                      <CardTitle>Received</CardTitle>
-                      <CardDescription>
-                        People who have been referred to you
-                      </CardDescription>
-                    </div>
-                  </div>
+                  <CardTitle>Received</CardTitle>
                 </CardHeader>
                 <CardContent>
                   {referralsReceived === undefined ? (

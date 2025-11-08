@@ -3,13 +3,7 @@
 import { useUser } from "@clerk/nextjs";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -23,6 +17,8 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { CreditCard } from "lucide-react";
 import { useState, useEffect } from "react";
+import FeatureTitle from "./feature-title";
+import { Button } from "../ui/button";
 
 export function PaymentWidget() {
   const { user } = useUser();
@@ -95,9 +91,15 @@ export function PaymentWidget() {
     return (
       <Card>
         <CardHeader>
-          <CardTitle>Payment Processing</CardTitle>
-          <CardDescription>Loading...</CardDescription>
+          <FeatureTitle
+            Icon={CreditCard}
+            title="Payment Processing"
+            description="Configure payment settings and pricing"
+          />
         </CardHeader>
+        <CardContent>
+          <p className="text-muted-foreground">Loading...</p>
+        </CardContent>
       </Card>
     );
   }
@@ -105,17 +107,11 @@ export function PaymentWidget() {
   return (
     <Card>
       <CardHeader>
-        <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-            <CreditCard className="h-5 w-5 text-primary" />
-          </div>
-          <div className="flex-1">
-            <CardTitle>Payment Processing</CardTitle>
-            <CardDescription>
-              Configure payment settings and pricing
-            </CardDescription>
-          </div>
-        </div>
+        <FeatureTitle
+          Icon={CreditCard}
+          title="Payment Processing"
+          description="Configure payment settings and pricing"
+        />
       </CardHeader>
       <CardContent className="space-y-6">
         <div className="flex items-center justify-between">
@@ -168,16 +164,12 @@ export function PaymentWidget() {
               </p>
             </div>
 
-            <button
-              onClick={handleSave}
-              className="w-full rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
-            >
-              Save Settings
-            </button>
+            <div className="flex justify-end">
+              <Button onClick={handleSave}>Save Settings</Button>
+            </div>
           </div>
         )}
       </CardContent>
     </Card>
   );
 }
-

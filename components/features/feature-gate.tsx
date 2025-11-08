@@ -79,12 +79,7 @@ export function FeatureGate({
   return (
     <Card className="border-dashed">
       <CardHeader>
-        <div className="flex items-center gap-3">
-          {Icon && (
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-muted">
-              <Icon className="h-5 w-5 text-muted-foreground" />
-            </div>
-          )}
+        <div className="flex items-center justify-between gap-3">
           <div className="flex-1">
             <CardTitle className="flex items-center gap-2">
               {title}
@@ -92,6 +87,11 @@ export function FeatureGate({
             </CardTitle>
             <CardDescription>{description}</CardDescription>
           </div>
+          {Icon && (
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-muted">
+              <Icon className="h-5 w-5 text-muted-foreground" />
+            </div>
+          )}
         </div>
       </CardHeader>
       <CardContent>
