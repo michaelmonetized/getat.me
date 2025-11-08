@@ -91,10 +91,7 @@ export function PlanInfo() {
             </Label>
             {upgradePlans.map((plan) => (
               <SignedIn key={plan.id}>
-                <CheckoutButton
-                  planId={plan.id}
-                  planPeriod={planPeriod}
-                >
+                <CheckoutButton planId={plan.planKey} planPeriod={planPeriod}>
                   <Button
                     variant="outline"
                     className="w-full justify-between bg-accent hover:bg-accent-hover border-accent text-accent-foreground"
