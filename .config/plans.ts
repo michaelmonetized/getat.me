@@ -8,7 +8,7 @@ const plans = {
     },
   },
   pro: {
-    id: "cplan_34mvyFU9PuD9UMnKRtBd8SKF8Lf",
+    id: "cplan_34pOGx8WQa1uJzZeE0Mc065iqTA",
     name: "Pro",
     price: {
       annual: "$7.99/mo",
@@ -16,7 +16,7 @@ const plans = {
     },
   },
   promax: {
-    id: "cplan_34mwfWNyDG0w7w1feCVi4tmm6y9",
+    id: "cplan_34pOGuEbit1XihTIzD2b2t3i7jI",
     name: "ProMax",
     price: {
       annual: "$14.99/mo",
