@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import FeatureTitle from "./feature-title";
-import { PiPaperPlane } from "react-icons/pi";
+import { PiPaperPlaneTiltLight } from "react-icons/pi";
 
 export function ReferralsTables() {
   const { user } = useUser();
@@ -37,7 +37,7 @@ export function ReferralsTables() {
       <Card className="bg-foreground/50 w-full">
         <CardHeader>
           <FeatureTitle
-            Icon={PiPaperPlane}
+            Icon={PiPaperPlaneTiltLight}
             title="Referrals"
             description="View sent and received referrals"
           />

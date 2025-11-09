@@ -13,10 +13,10 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { Calendar } from "lucide-react";
 import { useEffect, useState } from "react";
 import { FeatureGate } from "./feature-gate";
 import { CollapsibleAvailabilityForm } from "./collapsible-availability-form";
+import { AppointmentsTable } from "./appointments-table";
 
 export function BookingWidget() {
   const { user } = useUser();
@@ -114,39 +114,33 @@ export function BookingWidget() {
           <div className="flex-1">
             <CardTitle>Appointment Booking</CardTitle>
           </div>
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-            <Calendar className="h-5 w-5 text-primary" />
+          <div className="flex">
+            <FeatureGate
+              requiredPlan="pro"
+              title="Custom Availability Settings"
+              description="Set custom availability settings for your bookings"
+            >
+              <div className="w-full">
+                <CollapsibleAvailabilityForm />
+              </div>
+            </FeatureGate>
           </div>
         </div>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="flex flex-col md:flex-row items-start justify-between">
-          <div className="space-y-0.5">
-            <Label
-              htmlFor="booking-enabled"
-              className="flex items-center gap-2"
-            >
-              <span className="text-lg">Enable Booking</span>
-              <Switch
-                id="booking-enabled"
-                checked={isEnabled}
-                onCheckedChange={handleToggle}
-              />
-            </Label>
-            <p className="text-sm text-muted-foreground">
-              Allow visitors to book appointments with you
-            </p>
-          </div>
-
-          <FeatureGate
-            requiredPlan="pro"
-            title="Custom Availability Settings"
-            description="Set custom availability settings for your bookings"
-          >
-            <div className="md:-mt-16">
-              <CollapsibleAvailabilityForm />
-            </div>
-          </FeatureGate>
+        <div className="space-y-0.5 w-full">
+          <Label htmlFor="booking-enabled" className="flex items-center gap-2">
+            <span className="text-lg">Enable Booking</span>
+            <Switch
+              id="booking-enabled"
+              checked={isEnabled}
+              onCheckedChange={handleToggle}
+            />
+          </Label>
+          <p className="text-sm text-muted-foreground">
+            Allow visitors to book appointments with you.
+          </p>
+          <AppointmentsTable />
         </div>
       </CardContent>
     </Card>

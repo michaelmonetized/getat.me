@@ -5,12 +5,12 @@ import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import {
-  BarChart3,
-  Eye,
-  MousePointerClick,
-  Calendar,
-  MessageSquare,
-} from "lucide-react";
+  PiChartBarLight,
+  PiEyeLight,
+  PiCursorClickLight,
+  PiCalendarLight,
+  PiChatCircleLight,
+} from "react-icons/pi";
 import FeatureTitle from "./feature-title";
 
 export function AnalyticsDashboard() {
@@ -28,7 +28,7 @@ export function AnalyticsDashboard() {
     <Card>
       <CardHeader>
         <FeatureTitle
-          Icon={BarChart3}
+          Icon={PiChartBarLight}
           title="Analytics"
           description="View your page performance metrics"
         />
@@ -41,7 +41,7 @@ export function AnalyticsDashboard() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className="rounded-lg border p-4">
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <Eye className="h-4 w-4" />
+                  <PiEyeLight className="h-4 w-4" />
                   Page Views
                 </div>
                 <div className="mt-1 text-2xl font-bold">
@@ -50,7 +50,7 @@ export function AnalyticsDashboard() {
               </div>
               <div className="rounded-lg border p-4">
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <MousePointerClick className="h-4 w-4" />
+                  <PiCursorClickLight className="h-4 w-4" />
                   Link Clicks
                 </div>
                 <div className="mt-1 text-2xl font-bold">
@@ -59,7 +59,7 @@ export function AnalyticsDashboard() {
               </div>
               <div className="rounded-lg border p-4">
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <Calendar className="h-4 w-4" />
+                  <PiCalendarLight className="h-4 w-4" />
                   Booking Requests
                 </div>
                 <div className="mt-1 text-2xl font-bold">
@@ -68,7 +68,7 @@ export function AnalyticsDashboard() {
               </div>
               <div className="rounded-lg border p-4">
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <MessageSquare className="h-4 w-4" />
+                  <PiChatCircleLight className="h-4 w-4" />
                   Messages
                 </div>
                 <div className="mt-1 text-2xl font-bold">

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { X } from "lucide-react";
+import { PiXLight } from "react-icons/pi";
 import Link from "next/link";
 import { CheckoutButton } from "@clerk/nextjs/experimental";
 import { SignedIn } from "@clerk/nextjs";
@@ -20,7 +20,7 @@ export function LimitBanner() {
         className="absolute top-4 right-4 text-muted-foreground hover:text-foreground transition-colors"
         aria-label="Dismiss banner"
       >
-        <X className="h-4 w-4" />
+        <PiXLight className="h-4 w-4" />
       </button>
       <div className="pr-8">
         <h3 className="text-lg font-bold mb-3">Limit reached!</h3>

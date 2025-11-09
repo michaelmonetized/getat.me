@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { Sparkles, Trash2 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Id } from "@/convex/_generated/dataModel";
@@ -20,6 +19,7 @@ import dynamic from "next/dynamic";
 import "@uiw/react-md-editor/markdown-editor.css";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { PiStarFourLight, PiTrashLight } from "react-icons/pi";
 
 // Dynamically import MDEditor to avoid SSR issues
 const MDEditor = dynamic(() => import("@uiw/react-md-editor"), {
@@ -121,7 +121,7 @@ export function PostsWidget() {
             <CardDescription>Create and manage your posts</CardDescription>
           </div>
           <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-            <Sparkles className="h-5 w-5 text-primary" />
+            <PiStarFourLight className="h-5 w-5 text-primary" />
           </div>
         </div>
       </CardHeader>
@@ -139,9 +139,11 @@ export function PostsWidget() {
               />
             </div>
           </div>
-          <Button type="submit" disabled={isSubmitting || !content.trim()}>
-            {isSubmitting ? "Publishing..." : "Publish Post"}
-          </Button>
+          <div className="flex justify-end">
+            <Button type="submit" disabled={isSubmitting || !content.trim()}>
+              {isSubmitting ? "Publishing..." : "Publish Post"}
+            </Button>
+          </div>
         </form>
 
         {/* Posts List */}
@@ -173,7 +175,7 @@ export function PostsWidget() {
                       onClick={() => handleDelete(post._id)}
                       className="text-destructive hover:text-destructive"
                     >
-                      <Trash2 className="h-4 w-4" />
+                      <PiTrashLight className="h-4 w-4" />
                     </Button>
                   </div>
                 </CardContent>

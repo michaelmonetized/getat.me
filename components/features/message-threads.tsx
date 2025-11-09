@@ -6,11 +6,11 @@ import { api } from "@/convex/_generated/api";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { MessageCircle, Send } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import FeatureTitle from "./feature-title";
+import { PiChatCircleLight, PiPaperPlaneTiltLight } from "react-icons/pi";
 
 export function MessageThreads() {
   const { user } = useUser();
@@ -91,7 +91,7 @@ export function MessageThreads() {
     <Card>
       <CardHeader>
         <FeatureTitle
-          Icon={MessageCircle}
+          Icon={PiChatCircleLight}
           title="Messages"
           description="Your conversations"
         />
@@ -179,7 +179,7 @@ export function MessageThreads() {
                       disabled={isSending || !message.trim()}
                       size="icon"
                     >
-                      <Send className="h-4 w-4" />
+                      <PiPaperPlaneTiltLight className="h-4 w-4" />
                     </Button>
                   </div>
                 </form>

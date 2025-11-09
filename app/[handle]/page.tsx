@@ -27,7 +27,14 @@ import { ReferralsTables } from "@/components/features/referrals-tables";
 import { MessageThreads } from "@/components/features/message-threads";
 import { BookingSection } from "@/components/features/booking-section";
 import { FeatureGate } from "@/components/features/feature-gate";
-import { Calendar, MessageCircle, Sparkles, Star, Users } from "lucide-react";
+import {
+  PiCalendarLight,
+  PiChatCircleLight,
+  PiPaperPlaneTiltLight,
+  PiStarFourLight,
+  PiStarLight,
+} from "react-icons/pi";
+import { Container } from "@/components/layout/container";
 import { SocialProofWidget } from "@/components/features/social-proof-widget";
 import { PostsWidget } from "@/components/features/posts-widget";
 import { PublicPostsWidget } from "@/components/features/public-posts-widget";
@@ -119,7 +126,7 @@ export default function ProfilePage() {
       )}
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8">
+      <Container size="boxed">
         {/* Profile Picture + Handle/Bio Section - Overlapping the banner */}
         {userByHandle && (
           <div className="relative -mt-32 mb-12">
@@ -167,7 +174,7 @@ export default function ProfilePage() {
                 title="Social Proof"
                 description="Manage your ratings and reviews."
                 requiredPlan="pro"
-                icon={Star}
+                icon={PiStarLight}
               >
                 <SocialProofWidget />
               </FeatureGate>
@@ -230,7 +237,7 @@ export default function ProfilePage() {
                 title="Rich Media Posts"
                 description="Create engaging posts on your page"
                 requiredPlan="promax"
-                icon={Sparkles}
+                icon={PiStarFourLight}
               >
                 <PostsWidget />
               </FeatureGate>
@@ -245,18 +252,18 @@ export default function ProfilePage() {
             </div>
           </div>
         </div>
-      </div>
+      </Container>
 
       {/* Owner-only sections */}
       {isOwner && (
-        <section className="p-4">
+        <Container size="boxed">
           {/* Booking Section - Separate from features */}
           <div className="py-4">
             <FeatureGate
               requiredPlan="pro"
               title="Booking Form"
               description="Let visitors book time with you seamlessly"
-              icon={Calendar}
+              icon={PiCalendarLight}
             >
               <BookingSection />
             </FeatureGate>
@@ -268,7 +275,7 @@ export default function ProfilePage() {
               requiredPlan="pro"
               title="Referrals"
               description="Track and manage your professional referrals"
-              icon={Users}
+              icon={PiPaperPlaneTiltLight}
             >
               <ReferralsTables />
             </FeatureGate>
@@ -279,7 +286,7 @@ export default function ProfilePage() {
               requiredPlan="pro"
               title="Messages"
               description="Engage with your visitors in real-time"
-              icon={MessageCircle}
+              icon={PiChatCircleLight}
             >
               <MessageThreads />
             </FeatureGate>
@@ -290,7 +297,7 @@ export default function ProfilePage() {
               requiredPlan="pro"
               title="Pro Features"
               description="Unlock advanced engagement tools, social proof, and more with a Pro plan."
-              icon={Star}
+              icon={PiStarLight}
             >
               <ProFeatures />
             </FeatureGate>
@@ -301,12 +308,12 @@ export default function ProfilePage() {
               requiredPlan="promax"
               title="ProMax Features"
               description="Unlock advanced engagement tools, social proof, and more with a ProMax plan."
-              icon={Sparkles}
+              icon={PiStarFourLight}
             >
               <ProMaxFeatures />
             </FeatureGate>
           </div>
-        </section>
+        </Container>
       )}
 
       {/* Edit Link Modal */}

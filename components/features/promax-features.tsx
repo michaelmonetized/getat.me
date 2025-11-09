@@ -4,7 +4,12 @@ import { FeatureGate } from "./feature-gate";
 import { PaymentWidget } from "./payment-widget";
 import { CommissionsDashboard } from "./commissions-dashboard";
 import { VerificationBadge } from "./verification-badge";
-import { CreditCard, Shield, Wallet, Award } from "lucide-react";
+import {
+  PiCreditCardLight,
+  PiCheckCircleLight,
+  PiWalletLight,
+  PiChecksLight,
+} from "react-icons/pi";
 
 export function ProMaxFeatures() {
   return (
@@ -22,7 +27,7 @@ export function ProMaxFeatures() {
           title="Accept Payments"
           description="Charge customers for appointments directly"
           requiredPlan="promax"
-          icon={CreditCard}
+          icon={PiCreditCardLight}
         >
           <PaymentWidget />
         </FeatureGate>
@@ -31,7 +36,7 @@ export function ProMaxFeatures() {
           title="Referral Commissions"
           description="Earn commissions from referrals"
           requiredPlan="promax"
-          icon={Wallet}
+          icon={PiWalletLight}
         >
           <CommissionsDashboard />
         </FeatureGate>
@@ -40,7 +45,7 @@ export function ProMaxFeatures() {
           title="Verification Badge"
           description="Get verified and build trust"
           requiredPlan="promax"
-          icon={Shield}
+          icon={PiCheckCircleLight}
         >
           <VerificationBadge type="verified" />
         </FeatureGate>
@@ -49,7 +54,7 @@ export function ProMaxFeatures() {
           title="Vetted Badge"
           description="Display your vetted status"
           requiredPlan="promax"
-          icon={Award}
+          icon={PiChecksLight}
         >
           <VerificationBadge type="vetted" />
         </FeatureGate>

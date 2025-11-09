@@ -3,7 +3,7 @@
 import { FeatureGate } from "./feature-gate";
 import { AnalyticsDashboard } from "./analytics-dashboard";
 import { NotificationsWidget } from "./notifications-widget";
-import { BarChart3, Bell } from "lucide-react";
+import { PiChartBarLight, PiBellLight } from "react-icons/pi";
 
 export function ProFeatures() {
   return (
@@ -21,7 +21,7 @@ export function ProFeatures() {
             title="Analytics"
             description="Track your page performance with detailed insights"
             requiredPlan="pro"
-            icon={BarChart3}
+            icon={PiChartBarLight}
           >
             <AnalyticsDashboard />
           </FeatureGate>
@@ -32,7 +32,7 @@ export function ProFeatures() {
             title="Notifications"
             description="Stay informed with real-time updates"
             requiredPlan="pro"
-            icon={Bell}
+            icon={PiBellLight}
           >
             <NotificationsWidget />
           </FeatureGate>

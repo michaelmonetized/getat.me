@@ -8,9 +8,14 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { Shield, CheckCircle2, XCircle, Clock } from "lucide-react";
 import { useState } from "react";
 import FeatureTitle from "./feature-title";
+import {
+  PiCheckCircleLight,
+  PiClockClockwiseLight,
+  PiChecksLight,
+  PiShieldSlashLight,
+} from "react-icons/pi";
 
 interface VerificationBadgeProps {
   type: "verified" | "vetted";
@@ -61,7 +66,7 @@ export function VerificationBadge({ type }: VerificationBadgeProps) {
       <Card>
         <CardHeader>
           <FeatureTitle
-            Icon={Shield}
+            Icon={PiCheckCircleLight}
             title={`${type === "verified" ? "Verification" : "Vetted"} Badge`}
             description="Loading..."
           />
@@ -76,11 +81,11 @@ export function VerificationBadge({ type }: VerificationBadgeProps) {
   const getStatusIcon = () => {
     if (!verification) return null;
     if (verification.status === "approved") {
-      return <CheckCircle2 className="h-5 w-5 text-green-500" />;
+      return <PiCheckCircleLight className="h-5 w-5 text-green-500" />;
     } else if (verification.status === "rejected") {
-      return <XCircle className="h-5 w-5 text-red-500" />;
+      return <PiShieldSlashLight className="h-5 w-5 text-red-500" />;
     } else {
-      return <Clock className="h-5 w-5 text-yellow-500" />;
+      return <PiClockClockwiseLight className="h-5 w-5 text-yellow-500" />;
     }
   };
 
@@ -95,7 +100,7 @@ export function VerificationBadge({ type }: VerificationBadgeProps) {
     <Card>
       <CardHeader>
         <FeatureTitle
-          Icon={Shield}
+          Icon={type === "verified" ? PiCheckCircleLight : PiChecksLight}
           title={`${type === "verified" ? "Verification" : "Vetted"} Badge`}
           description={`Apply for ${type === "verified" ? "verification" : "vetted"} status`}
         />

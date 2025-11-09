@@ -12,7 +12,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Wallet, DollarSign } from "lucide-react";
+import { PiWalletLight, PiMoneyLight } from "react-icons/pi";
+
 import FeatureTitle from "./feature-title";
 
 function formatCurrency(amount: number, currency: string = "USD"): string {
@@ -41,7 +42,7 @@ export function CommissionsDashboard() {
     <Card>
       <CardHeader>
         <FeatureTitle
-          Icon={Wallet}
+          Icon={PiWalletLight}
           title="Referral Commissions"
           description="Track your referral earnings"
         />
@@ -51,7 +52,7 @@ export function CommissionsDashboard() {
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             <div className="rounded-lg border p-4 col-span-2 md:col-span-1">
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <DollarSign className="h-4 w-4" />
+                <PiMoneyLight className="h-4 w-4" />
                 Total Earned
               </div>
               <div className="mt-1 text-2xl font-bold">

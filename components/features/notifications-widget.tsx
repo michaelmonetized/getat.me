@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { Bell } from "lucide-react";
+import { PiBellLight } from "react-icons/pi";
 import { useState, useEffect } from "react";
 import FeatureTitle from "./feature-title";
 
@@ -69,7 +69,7 @@ export function NotificationsWidget() {
       <Card>
         <CardHeader>
           <FeatureTitle
-            Icon={Bell}
+            Icon={PiBellLight}
             title="Notifications"
             description="Manage your notification preferences"
           />
@@ -85,7 +85,7 @@ export function NotificationsWidget() {
     <Card>
       <CardHeader>
         <FeatureTitle
-          Icon={Bell}
+          Icon={PiBellLight}
           title="Notifications"
           description="Manage your notification preferences"
         />

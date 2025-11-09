@@ -4,9 +4,20 @@ import { useUser } from "@clerk/nextjs";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Calendar, X, RefreshCw, Download } from "lucide-react";
+import {
+  PiCalendarLight,
+  PiXLight,
+  PiArrowCircleRightLight,
+  PiDownloadLight,
+} from "react-icons/pi";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
 import {
@@ -17,6 +28,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import FeatureTitle from "./feature-title";
 
 // Generate .ics file for calendar import
 function generateICS(appointment: {
@@ -27,7 +39,9 @@ function generateICS(appointment: {
   phone?: string;
   message?: string;
 }) {
-  const date = new Date(`${appointment.appointmentDate}T${appointment.appointmentTime}`);
+  const date = new Date(
+    `${appointment.appointmentDate}T${appointment.appointmentTime}`
+  );
   const endDate = new Date(date.getTime() + 30 * 60 * 1000); // 30 minutes later
 
   const formatDate = (d: Date) => {
@@ -87,7 +101,7 @@ export function AppointmentsTable() {
     api.booking.getAllAppointments,
     user?.id ? { userId: user.id } : "skip"
   ) as Appointment[] | undefined;
-  
+
   // Get user handle for profile URL
   const userProfile = useQuery(
     api.users.getCurrentUserProfile,
@@ -96,7 +110,9 @@ export function AppointmentsTable() {
 
   const cancelAppointment = useMutation(api.booking.cancelAppointment);
   const rescheduleAppointment = useMutation(api.booking.rescheduleAppointment);
-  const [processingId, setProcessingId] = useState<Id<"appointments"> | null>(null);
+  const [processingId, setProcessingId] = useState<Id<"appointments"> | null>(
+    null
+  );
 
   const handleAddToCalendar = (appointment: Appointment) => {
     if (!appointments || !Array.isArray(appointments)) return;
@@ -110,7 +126,10 @@ export function AppointmentsTable() {
     });
   };
 
-  const handleReschedule = async (appointmentId: Id<"appointments">, appointment: Appointment) => {
+  const handleReschedule = async (
+    appointmentId: Id<"appointments">,
+    appointment: Appointment
+  ) => {
     if (!user?.id) return;
     setProcessingId(appointmentId);
     try {
@@ -122,7 +141,7 @@ export function AppointmentsTable() {
       const appointmentDateTime = new Date(
         `${appointment.appointmentDate}T${appointment.appointmentTime}`
       ).toLocaleString();
-      
+
       const emailHtml = `
         <p>Hi ${appointment.name},</p>
         <p>Your appointment scheduled for ${appointmentDateTime} has been rescheduled.</p>
@@ -157,7 +176,10 @@ export function AppointmentsTable() {
     }
   };
 
-  const handleCancel = async (appointmentId: Id<"appointments">, appointment: Appointment) => {
+  const handleCancel = async (
+    appointmentId: Id<"appointments">,
+    appointment: Appointment
+  ) => {
     setProcessingId(appointmentId);
     try {
       await cancelAppointment({ appointmentId });
@@ -166,7 +188,7 @@ export function AppointmentsTable() {
       const appointmentDateTime = new Date(
         `${appointment.appointmentDate}T${appointment.appointmentTime}`
       ).toLocaleString();
-      
+
       const emailHtml = `
         <p>Hi ${appointment.name},</p>
         <p>Your appointment scheduled for ${appointmentDateTime} has been cancelled.</p>
@@ -221,11 +243,15 @@ export function AppointmentsTable() {
       return aptDate >= now;
     })
     .sort((a, b) => {
-      const dateA = new Date(`${a.appointmentDate}T${a.appointmentTime}`).getTime();
-      const dateB = new Date(`${b.appointmentDate}T${b.appointmentTime}`).getTime();
+      const dateA = new Date(
+        `${a.appointmentDate}T${a.appointmentTime}`
+      ).getTime();
+      const dateB = new Date(
+        `${b.appointmentDate}T${b.appointmentTime}`
+      ).getTime();
       return dateA - dateB; // Sort upcoming by date ascending
     });
-  
+
   const pastAppointments = appointments
     .filter((apt) => apt.status !== "cancelled")
     .filter((apt) => {
@@ -233,28 +259,32 @@ export function AppointmentsTable() {
       return aptDate < now;
     })
     .sort((a, b) => {
-      const dateA = new Date(`${a.appointmentDate}T${a.appointmentTime}`).getTime();
-      const dateB = new Date(`${b.appointmentDate}T${b.appointmentTime}`).getTime();
+      const dateA = new Date(
+        `${a.appointmentDate}T${a.appointmentTime}`
+      ).getTime();
+      const dateB = new Date(
+        `${b.appointmentDate}T${b.appointmentTime}`
+      ).getTime();
       return dateB - dateA; // Sort past by date descending
     });
-  
-  const cancelledAppointments = appointments.filter((apt) => apt.status === "cancelled");
+
+  const cancelledAppointments = appointments.filter(
+    (apt) => apt.status === "cancelled"
+  );
 
   return (
     <Card>
       <CardHeader>
-        <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-            <Calendar className="h-5 w-5 text-primary" />
-          </div>
-          <div className="flex-1">
-            <CardTitle>Appointments</CardTitle>
-            <CardDescription>Manage your scheduled appointments</CardDescription>
-          </div>
-        </div>
+        <FeatureTitle
+          Icon={PiCalendarLight}
+          title="Appointments"
+          description="Manage your scheduled appointments"
+        />
       </CardHeader>
       <CardContent>
-        {activeAppointments.length === 0 && pastAppointments.length === 0 && cancelledAppointments.length === 0 ? (
+        {activeAppointments.length === 0 &&
+        pastAppointments.length === 0 &&
+        cancelledAppointments.length === 0 ? (
           <p className="text-center text-muted-foreground py-8">
             No appointments scheduled yet
           </p>
@@ -262,7 +292,9 @@ export function AppointmentsTable() {
           <div className="space-y-6">
             {activeAppointments.length > 0 && (
               <div>
-                <h3 className="text-lg font-semibold mb-4">Upcoming Appointments</h3>
+                <h3 className="text-lg font-semibold mb-4">
+                  Upcoming Appointments
+                </h3>
                 <Table>
                   <TableHeader>
                     <TableRow>
@@ -307,25 +339,29 @@ export function AppointmentsTable() {
                                 disabled={isProcessing}
                                 title="Add to Calendar"
                               >
-                                <Download className="h-4 w-4" />
+                                <PiDownloadLight className="h-4 w-4" />
                               </Button>
                               <Button
                                 variant="outline"
                                 size="sm"
-                                onClick={() => handleReschedule(appointmentId, appointment)}
+                                onClick={() =>
+                                  handleReschedule(appointmentId, appointment)
+                                }
                                 disabled={isProcessing}
                                 title="Reschedule"
                               >
-                                <RefreshCw className="h-4 w-4" />
+                                <PiArrowCircleRightLight className="h-4 w-4" />
                               </Button>
                               <Button
                                 variant="outline"
                                 size="sm"
-                                onClick={() => handleCancel(appointmentId, appointment)}
+                                onClick={() =>
+                                  handleCancel(appointmentId, appointment)
+                                }
                                 disabled={isProcessing}
                                 title="Cancel"
                               >
-                                <X className="h-4 w-4" />
+                                <PiXLight className="h-4 w-4" />
                               </Button>
                             </div>
                           </TableCell>
@@ -339,7 +375,9 @@ export function AppointmentsTable() {
 
             {pastAppointments.length > 0 && (
               <div>
-                <h3 className="text-lg font-semibold mb-4">Past Appointments</h3>
+                <h3 className="text-lg font-semibold mb-4">
+                  Past Appointments
+                </h3>
                 <Table>
                   <TableHeader>
                     <TableRow>
@@ -381,7 +419,9 @@ export function AppointmentsTable() {
 
             {cancelledAppointments.length > 0 && (
               <div>
-                <h3 className="text-lg font-semibold mb-4">Cancelled Appointments</h3>
+                <h3 className="text-lg font-semibold mb-4">
+                  Cancelled Appointments
+                </h3>
                 <Table>
                   <TableHeader>
                     <TableRow>
@@ -409,7 +449,9 @@ export function AppointmentsTable() {
                           <TableCell>{appointment.name}</TableCell>
                           <TableCell>{appointment.email}</TableCell>
                           <TableCell>
-                            <span className="text-sm text-muted-foreground">Cancelled</span>
+                            <span className="text-sm text-muted-foreground">
+                              Cancelled
+                            </span>
                           </TableCell>
                         </TableRow>
                       );
@@ -424,4 +466,3 @@ export function AppointmentsTable() {
     </Card>
   );
 }
-

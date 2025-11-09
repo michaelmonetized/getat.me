@@ -15,7 +15,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { CreditCard } from "lucide-react";
+import { PiCreditCardLight } from "react-icons/pi";
 import { useState, useEffect } from "react";
 import FeatureTitle from "./feature-title";
 import { Button } from "../ui/button";
@@ -92,7 +92,7 @@ export function PaymentWidget() {
       <Card>
         <CardHeader>
           <FeatureTitle
-            Icon={CreditCard}
+            Icon={PiCreditCardLight}
             title="Payment Processing"
             description="Configure payment settings and pricing"
           />
@@ -108,7 +108,7 @@ export function PaymentWidget() {
     <Card>
       <CardHeader>
         <FeatureTitle
-          Icon={CreditCard}
+          Icon={PiCreditCardLight}
           title="Payment Processing"
           description="Configure payment settings and pricing"
         />

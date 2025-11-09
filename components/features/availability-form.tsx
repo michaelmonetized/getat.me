@@ -3,13 +3,12 @@
 import { useUser } from "@clerk/nextjs";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { Clock } from "lucide-react";
 import { useState, useEffect } from "react";
 
 const daysOfWeek = [
@@ -98,37 +97,21 @@ export function AvailabilityForm() {
     }
   };
 
-  const handleDayToggle = (day: typeof daysOfWeek[number]["key"]) => {
+  const handleDayToggle = (day: (typeof daysOfWeek)[number]["key"]) => {
     setDays((prev) => ({ ...prev, [day]: !prev[day] }));
   };
 
   if (availability === undefined) {
     return (
-      <Card>
-        <CardHeader>
-          <CardTitle>Custom Availability</CardTitle>
-          <CardDescription>Loading...</CardDescription>
-        </CardHeader>
+      <Card className="bg-background shadow-2xl">
+        <CardContent>Loading Availability Settings...</CardContent>
       </Card>
     );
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-            <Clock className="h-5 w-5 text-primary" />
-          </div>
-          <div className="flex-1">
-            <CardTitle>Custom Availability</CardTitle>
-            <CardDescription>
-              Set custom booking availability schedules
-            </CardDescription>
-          </div>
-        </div>
-      </CardHeader>
-      <CardContent className="space-y-6">
+    <Card className="bg-background shadow-2xl">
+      <CardContent className="space-y-6 p-4 ">
         <div className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
@@ -173,9 +156,11 @@ export function AvailabilityForm() {
           </div>
         </div>
 
-        <Button onClick={handleSave} disabled={isSaving} className="w-full">
-          {isSaving ? "Saving..." : "Save Availability"}
-        </Button>
+        <div className="flex justify-end">
+          <Button onClick={handleSave} disabled={isSaving}>
+            {isSaving ? "Saving..." : "Save Availability"}
+          </Button>
+        </div>
 
         <div className="rounded-lg border border-border bg-muted/50 p-3">
           <p className="text-sm font-medium mb-1">Current Schedule</p>
@@ -186,8 +171,7 @@ export function AvailabilityForm() {
                 const day = daysOfWeek.find((d) => d.key === key);
                 return day?.label;
               })
-              .join(", ") || "No days selected"}
-            {" "}
+              .join(", ") || "No days selected"}{" "}
             {startTime} - {endTime}
           </p>
         </div>
