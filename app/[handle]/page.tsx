@@ -233,20 +233,26 @@ export default function ProfilePage() {
                 </div>
               )}
 
-              <FeatureGate
-                title="Rich Media Posts"
-                description="Create engaging posts on your page"
-                requiredPlan="promax"
-                icon={PiShootingStarLight}
-              >
-                <PostsWidget />
-              </FeatureGate>
+              {isOwner && (
+                <FeatureGate
+                  title="Rich Media Posts"
+                  description="Create engaging posts on your page"
+                  requiredPlan="promax"
+                  icon={PiShootingStarLight}
+                >
+                  <PostsWidget />
+                </FeatureGate>
+              )}
 
               {/* Public Posts & Booking Widget - Only show to visitors */}
               {!isOwner && userByHandle && (
                 <>
-                  <PublicPostsWidget userId={userByHandle.userId} />
-                  <PublicBookingWidget userId={userByHandle.userId} />
+                  {userByHandle.subscriptionPlan === "promax" && (
+                    <PublicPostsWidget userId={userByHandle.userId} />
+                  )}
+                  {userByHandle.subscriptionPlan === "pro" && (
+                    <PublicBookingWidget userId={userByHandle.userId} />
+                  )}
                 </>
               )}
             </div>

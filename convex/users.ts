@@ -95,6 +95,7 @@ export const getUserByHandle = query({
       theme: v.optional(v.string()),
       avatarUrl: v.optional(v.string()),
       coverUrl: v.optional(v.string()),
+      subscriptionPlan: v.optional(v.string()),
     }),
     v.null()
   ),
