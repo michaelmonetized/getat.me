@@ -3,13 +3,7 @@
 import { useUser } from "@clerk/nextjs";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
@@ -99,8 +93,10 @@ export function BookingWidget() {
       <Card>
         <CardHeader>
           <CardTitle>Booking Form</CardTitle>
-          <CardDescription>Loading...</CardDescription>
         </CardHeader>
+        <CardContent>
+          <p className="text-center text-muted-foreground py-8">Loading...</p>
+        </CardContent>
       </Card>
     );
   }

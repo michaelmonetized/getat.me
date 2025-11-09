@@ -31,7 +31,7 @@ import {
   PiCalendarLight,
   PiChatCircleLight,
   PiPaperPlaneTiltLight,
-  PiStarFourLight,
+  PiShootingStarLight,
   PiStarLight,
 } from "react-icons/pi";
 import { Container } from "@/components/layout/container";
@@ -132,7 +132,7 @@ export default function ProfilePage() {
           <div className="relative -mt-32 mb-12">
             <div className="flex flex-col md:flex-row items-center md:items-center gap-6">
               {/* Profile Picture */}
-              <div className="flex-shrink-0">
+              <div className="shrink-0">
                 {isOwner ? (
                   <AvatarUpload />
                 ) : (
@@ -237,7 +237,7 @@ export default function ProfilePage() {
                 title="Rich Media Posts"
                 description="Create engaging posts on your page"
                 requiredPlan="promax"
-                icon={PiStarFourLight}
+                icon={PiShootingStarLight}
               >
                 <PostsWidget />
               </FeatureGate>
@@ -308,7 +308,7 @@ export default function ProfilePage() {
               requiredPlan="promax"
               title="ProMax Features"
               description="Unlock advanced engagement tools, social proof, and more with a ProMax plan."
-              icon={PiStarFourLight}
+              icon={PiShootingStarLight}
             >
               <ProMaxFeatures />
             </FeatureGate>

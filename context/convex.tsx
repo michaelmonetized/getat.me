@@ -17,6 +17,11 @@ export default function ConvexProvider({
       appearance={{
         theme: shadcn,
       }}
+      signInUrl="/login"
+      signUpUrl="/register"
+      afterSignOutUrl="/"
+      signUpFallbackRedirectUrl="/onboarding"
+      signInFallbackRedirectUrl="/account"
     >
       <ConvexProviderWithClerk client={convex} useAuth={useAuth}>
         {children}

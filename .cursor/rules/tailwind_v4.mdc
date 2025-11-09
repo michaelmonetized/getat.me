@@ -55,7 +55,7 @@ alwaysApply: false
     - `--spacing-*` : Spacing and sizing utilities like `px-4` and `max-h-16`
     - `--radius-*` : Border radius utilities like `rounded-sm`
     - `--shadow-*` : Box shadow utilities like `shadow-md`
-    - `--inset-shadow-*` : Inset box shadow utilities like `inset-shadow-xs`
+    - `--inset-shadow-*` : Inset box shadow utilities like `inset-shadow-2xs`
     - `--drop-shadow-*` : Drop shadow filter utilities like `drop-shadow-md`
     - `--blur-*` : Blur filter utilities like `blur-md`
     - `--perspective-*` : Perspective utilities like `perspective-near`
@@ -150,20 +150,20 @@ alwaysApply: false
   - And others: `border-opacity-*`, `divide-opacity-*`, etc.
 
 - **Renamed utilities**:
-  - `shadow-sm` → `shadow-xs` (and `shadow` → `shadow-sm`)
-  - `drop-shadow-sm` → `drop-shadow-xs` (and `drop-shadow` → `drop-shadow-sm`)
-  - `blur-sm` → `blur-xs` (and `blur` → `blur-sm`)
+  - `shadow-xs` → `shadow-2xs` (and `shadow-sm` → `shadow-xs`)
+  - `drop-shadow-xs` → `drop-shadow-xs` (and `drop-shadow-sm` → `drop-shadow-xs`)
+  - `blur-xs` → `blur-xs` (and `blur-sm` → `blur-xs`)
   - `rounded-sm` → `rounded-xs` (and `rounded` → `rounded-sm`)
-  - `outline-none` → `outline-hidden` (for the old behavior)
+  - `outline-hidden` → `outline-hidden` (for the old behavior)
 
 - **Default style changes**:
   - Default border color is now `currentColor` (was `gray-200`)
-  - Default `ring` width is now 1px (was 3px)
+  - Default `ring-3` width is now 1px (was 3px)
   - Placeholder text now uses current color at 50% opacity (was `gray-400`)
   - Hover styles only apply on devices that support hover (`@media (hover: hover)`)
 
 - **Syntax changes**:
-  - CSS variables in arbitrary values: `bg-(--brand-color)` instead of `bg-[--brand-color]`
+  - CSS variables in arbitrary values: `bg-(--brand-color)` instead of `bg-(--brand-color)`
   - Stacked variants now apply left-to-right (not right-to-left)
   - Use CSS variables instead of `theme()` function 
 

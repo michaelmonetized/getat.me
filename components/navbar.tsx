@@ -2,14 +2,14 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { useUser } from "@clerk/nextjs";
+import { SignedIn, SignedOut, SignInButton, useUser } from "@clerk/nextjs";
 import { UserButton } from "@clerk/nextjs";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Menu, X } from "lucide-react";
 
 export function Navbar() {
-  const { user, isSignedIn } = useUser();
+  const { user } = useUser();
   const userProfile = useQuery(
     api.users.getCurrentUserProfile,
     user?.id ? { userId: user.id } : "skip"
@@ -18,10 +18,10 @@ export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <nav className="sticky top-4 z-50 w-full border-b border-border rounded-lg shadow-lg max-w-7xl mx-auto bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <nav className="sticky top-4 z-500 w-full border-b border-border/5 rounded-lg shadow-xl max-w-7xl mx-auto bg-background/30 bg-linear-to-b from-foreground/5 to-background/60 backdrop-blur-sm">
       <div className="px-4 h-14 flex items-center justify-between">
         <Link href="/" className="text-xl font-bold">
-          Get At Me
+          GetAt.Me
         </Link>
 
         {/* Desktop nav */}
@@ -40,15 +40,20 @@ export function Navbar() {
               Contact
             </Link>
           </div>
-          {isSignedIn && userProfile?.handle ? (
-            <Link
-              href={`/${userProfile.handle}`}
-              className="text-sm hover:underline"
-            >
-              View Profile
-            </Link>
-          ) : null}
-          <UserButton afterSignOutUrl="/" />
+          <SignedIn>
+            {userProfile?.handle && (
+              <Link
+                href={`/${userProfile.handle}`}
+                className="text-sm hover:underline"
+              >
+                View Profile
+              </Link>
+            )}
+            <UserButton />
+          </SignedIn>
+          <SignedOut>
+            <SignInButton />
+          </SignedOut>
         </div>
 
         {/* Mobile menu button */}
@@ -70,7 +75,7 @@ export function Navbar() {
       {/* Mobile sheet */}
       {mobileOpen ? (
         <div
-          className="md:hidden fixed inset-0 z-[70]"
+          className="md:hidden fixed inset-0 z-70"
           role="dialog"
           aria-modal="true"
           onClick={() => setMobileOpen(false)}
@@ -81,7 +86,7 @@ export function Navbar() {
             onClick={() => setMobileOpen(false)}
           />
           {/* Panel */}
-          <div className="fixed top-14 left-0 right-0 z-[80] bg-background/98 border-b border-border shadow-2xl">
+          <div className="fixed top-14 left-0 right-0 z-80 bg-background/98 border-b border-border shadow-2xl">
             <div className="container mx-auto px-4 py-4 flex flex-col gap-2 bg-background opacity-90 backdrop-blur-md">
               <Link
                 href="/pricing"
@@ -111,18 +116,23 @@ export function Navbar() {
               >
                 Contact
               </Link>
-              {isSignedIn && userProfile?.handle ? (
-                <Link
-                  href={`/${userProfile.handle}`}
-                  className="rounded-md px-3 py-2 text-foreground hover:bg-accent"
-                  onClick={() => setMobileOpen(false)}
-                >
-                  View Profile
-                </Link>
-              ) : null}
-              <div className="pt-2 px-3">
-                <UserButton afterSignOutUrl="/" />
-              </div>
+              <SignedIn>
+                {userProfile?.handle && (
+                  <Link
+                    href={`/${userProfile.handle}`}
+                    className="rounded-md px-3 py-2 text-foreground hover:bg-accent"
+                    onClick={() => setMobileOpen(false)}
+                  >
+                    View Profile
+                  </Link>
+                )}
+                <div className="pt-2 px-3">
+                  <UserButton />
+                </div>
+              </SignedIn>
+              <SignedOut>
+                <SignInButton />
+              </SignedOut>
             </div>
           </div>
         </div>

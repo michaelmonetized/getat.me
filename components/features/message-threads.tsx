@@ -221,7 +221,7 @@ function ConversationItem({
       }`}
     >
       <div className="flex items-center gap-3">
-        <div className="w-10 h-10 rounded-full bg-muted overflow-hidden flex-shrink-0">
+        <div className="w-10 h-10 rounded-full bg-muted overflow-hidden shrink-0">
           {otherUser?.avatarUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img

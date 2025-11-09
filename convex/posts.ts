@@ -1,5 +1,10 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
+import { Doc } from "./_generated/dataModel";
+
+export type Post = Doc<"posts">;
+
+export type ExtendedPost = Post & { handle: string };
 
 export const getPosts = query({
   args: {
@@ -11,6 +16,12 @@ export const getPosts = query({
       .withIndex("by_userId", (q) => q.eq("userId", args.userId))
       .order("desc")
       .collect();
+  },
+});
+
+export const getAllPosts = query({
+  handler: async (ctx) => {
+    return await ctx.db.query("posts").order("desc").collect();
   },
 });
 
@@ -38,4 +49,3 @@ export const deletePost = mutation({
     await ctx.db.delete(args.postId);
   },
 });
-

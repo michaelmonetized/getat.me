@@ -86,7 +86,7 @@ export function AddLinkForm() {
           type="submit"
           disabled={isSubmitting}
           size="icon"
-          className="flex-shrink-0"
+          className="shrink-0"
         >
           <Plus className="h-4 w-4" />
         </Button>

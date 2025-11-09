@@ -49,10 +49,10 @@ export function LinkItem({ link, onEdit }: LinkItemProps) {
         className="flex items-center gap-4 flex-1 min-w-0 text-primary-foreground"
         onClick={(e) => e.stopPropagation()}
       >
-        {link.icon && <div className="text-2xl flex-shrink-0">{link.icon}</div>}
+        {link.icon && <div className="text-2xl shrink-0">{link.icon}</div>}
         <span className="text-lg font-medium truncate">{link.anchor}</span>
       </Link>
-      <div className="flex items-center gap-2 flex-shrink-0">
+      <div className="flex items-center gap-2 shrink-0">
         <Button
           variant="ghost"
           onClick={(e) => {

@@ -148,7 +148,7 @@ export function RecommendationsWidget({ userId }: RecommendationsWidgetProps) {
                       onClick={() => setRating(star)}
                       onMouseEnter={() => setHoverRating(star)}
                       onMouseLeave={() => setHoverRating(0)}
-                      className="focus:outline-none"
+                      className="focus:outline-hidden"
                     >
                       <Star
                         className={`h-6 w-6 ${
@@ -204,7 +204,7 @@ export function RecommendationsWidget({ userId }: RecommendationsWidgetProps) {
                       onClick={() => setRating(star)}
                       onMouseEnter={() => setHoverRating(star)}
                       onMouseLeave={() => setHoverRating(0)}
-                      className="focus:outline-none"
+                      className="focus:outline-hidden"
                     >
                       <Star
                         className={`h-6 w-6 ${

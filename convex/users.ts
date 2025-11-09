@@ -4,6 +4,7 @@ import {
   MutationCtx,
   QueryCtx,
   internalMutation,
+  internalQuery,
   mutation,
   query,
 } from "./_generated/server";
@@ -48,6 +49,29 @@ export const getUserByID = query({
       avatarUrl: avatarUrl ?? undefined,
       coverUrl: coverUrl ?? undefined,
     };
+  },
+});
+
+export const internalUserHandleByID = internalQuery({
+  args: {
+    userId: v.string(),
+  },
+  returns: v.string(),
+  handler: async (ctx, args) => {
+    const user = await ctx.db
+      .query("users")
+      .withIndex("by_userId", (q) => q.eq("userId", args.userId))
+      .first();
+
+    if (!user) {
+      return "";
+    }
+
+    if (!user.handle) {
+      return "";
+    }
+
+    return user.handle;
   },
 });
 

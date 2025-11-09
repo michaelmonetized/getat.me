@@ -1,4 +1,10 @@
-import { auth } from "@clerk/nextjs/server";
+import { auth, User } from "@clerk/nextjs/server";
+import { clerkClient } from "@clerk/nextjs/server";
+
+export async function clerkUser({ clerkUserID }: { clerkUserID: string }) {
+  const client = await clerkClient();
+  return (await client.users.getUser(clerkUserID)) as User;
+}
 
 export const userHas = async ({
   plan,
@@ -19,4 +25,3 @@ export const userHas = async ({
 
   return false;
 };
-

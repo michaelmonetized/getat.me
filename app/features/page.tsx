@@ -2,29 +2,39 @@
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
-  Link as LinkIcon,
-  Palette,
-  Calendar,
-  MessageCircle,
-  CreditCard,
-  Shield,
-  Star,
-  Users,
-  Sparkles,
-  Globe,
-  Clock,
-  CheckCircle2,
-  Zap,
-  BarChart3,
-  Bell,
-  FileText,
-  Wallet,
-  Award,
-  TrendingUp,
-  Heart,
-} from "lucide-react";
+  Card,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+  CardContent,
+} from "@/components/ui/card";
+import {
+  PiBellLight,
+  PiCalendarLight,
+  PiChartBarLight,
+  PiChatCircleLight,
+  PiCheckCircleLight,
+  PiChecksLight,
+  PiClockClockwiseLight,
+  PiCreditCardLight,
+  PiGlobeLight,
+  PiLinkLight,
+  PiPaletteLight,
+  PiShootingStarLight,
+  PiStarLight,
+  PiUsersLight,
+  PiWalletLight,
+} from "react-icons/pi";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
+
+const badge_colors = {
+  free: "bg-muted text-muted-foreground",
+  premium: "bg-secondary text-secondary-foreground",
+  pro: "bg-primary text-primary-foreground",
+  promax: "bg-accent text-accent-foreground",
+};
 
 const FeatureCard = ({
   icon: Icon,
@@ -37,21 +47,39 @@ const FeatureCard = ({
   description: string;
   category?: string;
 }) => (
-  <Card className="group relative overflow-hidden border-border/50 bg-card/50 backdrop-blur-sm transition-all duration-300 hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 hover:-translate-y-1">
-    <CardHeader>
-      <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary transition-all duration-300 group-hover:scale-110 group-hover:bg-primary/20">
-        <Icon className="h-6 w-6" />
+  <Card className="group relative overflow-hidden border-border/50 bg-card/50 backdrop-blur-xs transition-all duration-300 hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 hover:-translate-y-1 flex flex-col">
+    <CardHeader className="shrink">
+      <div className="flex justify-between gap-4">
+        <div>
+          <CardTitle className="text-xl font-bold">{title}</CardTitle>
+        </div>
+        <div className="flex flex-col items-center gap-2">
+          <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary transition-all duration-300 group-hover:scale-110 group-hover:bg-primary/20">
+            <Icon className="h-6 w-6" />
+          </div>
+        </div>
       </div>
-      {category && (
-        <span className="text-xs font-semibold uppercase tracking-wider text-primary">
-          {category}
-        </span>
-      )}
-      <CardTitle className="text-xl font-bold">{title}</CardTitle>
-      <CardDescription className="text-base leading-relaxed">
-        {description}
-      </CardDescription>
     </CardHeader>
+    <CardContent className="grow">
+      <p>{description}</p>
+    </CardContent>
+    <CardFooter className="shrink">
+      {category && (
+        <div className="flex flex-wrap justify-center items-center w-full gap-2">
+          {category.split(", ").map((c) => (
+            <Badge
+              key={c}
+              variant="outline"
+              className={cn(
+                badge_colors[c.toLowerCase() as keyof typeof badge_colors]
+              )}
+            >
+              {c}
+            </Badge>
+          ))}
+        </div>
+      )}
+    </CardFooter>
   </Card>
 );
 
@@ -79,7 +107,7 @@ const FeatureSection = ({
           {description}
         </p>
       </div>
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="gap-6 grid grid-cols-2 md:grid-cols-3">
         {features.map((feature, index) => (
           <FeatureCard key={index} {...feature} />
         ))}
@@ -91,161 +119,138 @@ const FeatureSection = ({
 export default function FeaturesPage() {
   const coreFeatures = [
     {
-      icon: LinkIcon,
-      title: "Unlimited Links",
+      icon: PiLinkLight,
+      title: "Links Links Links",
       description:
-        "Add as many links as you need to your page. Organize and customize each one to match your brand.",
+        "Add as many links as you like to your page on paid plans, free plans are limited to 3 links.",
+      category: "Free, Premium, Pro, ProMax",
     },
     {
-      icon: Palette,
+      icon: PiPaletteLight,
       title: "Custom Branding",
       description:
-        "Personalize your link page with custom colors, fonts, cover photos, and profile pictures that represent your unique style.",
+        "Personalize your profile with color themes, a cover photo, and a picture that represents your unique style.",
+      category: "Free, Premium, Pro, ProMax",
     },
     {
-      icon: Globe,
+      icon: PiGlobeLight,
       title: "Your Personal Handle",
       description:
         "Get your own personalized handle like getat.me/yourname. Easy to remember, easy to share.",
-    },
-    {
-      icon: FileText,
-      title: "Rich Bio",
-      description:
-        "Tell your story with a rich bio that helps visitors understand who you are and what you do.",
-    },
-    {
-      icon: Sparkles,
-      title: "Emojis & Icons",
-      description:
-        "Add emojis and icons to your links to make them more engaging and visually appealing.",
-    },
-    {
-      icon: Heart,
-      title: "Contact Options",
-      description:
-        "Add your phone, email, and even a contact form to make it easy for visitors to reach out.",
+      category: "Free, Premium, Pro, ProMax",
     },
   ];
 
   const proFeatures = [
     {
-      icon: Calendar,
+      icon: PiLinkLight,
+      title: "Unlimited Links",
+      description: "Add as many links as you like to your page.",
+      category: "Premium, Pro, ProMax",
+    },
+    {
+      icon: PiCalendarLight,
       title: "Booking Form",
       description:
         "Add a booking form to your link page that syncs with your Google Calendar. Let visitors book time with you seamlessly.",
-      category: "Pro",
+      category: "Pro, ProMax",
     },
     {
-      icon: Users,
+      icon: PiUsersLight,
       title: "Referrals",
       description:
         "Recommend other professionals and build a network. Help your audience discover trusted partners and colleagues.",
-      category: "Pro",
+      category: "Pro, ProMax",
     },
     {
-      icon: Star,
+      icon: PiStarLight,
       title: "Social Proof",
       description:
         "Display your ratings and reviews prominently. Let visitors see what others have to say about working with you.",
-      category: "Pro",
+      category: "Pro, ProMax",
     },
     {
-      icon: MessageCircle,
+      icon: PiChatCircleLight,
       title: "Live Messaging",
       description:
         "Engage with visitors in real-time through live messaging. Build connections and answer questions instantly.",
-      category: "Pro",
+      category: "Pro, ProMax",
     },
     {
-      icon: BarChart3,
+      icon: PiChartBarLight,
       title: "Analytics",
       description:
         "Track your page performance with detailed analytics. See who's visiting and which links are most popular.",
-      category: "Pro",
+      category: "Pro, ProMax",
     },
     {
-      icon: Bell,
+      icon: PiBellLight,
       title: "Notifications",
       description:
         "Stay informed with real-time notifications for bookings, messages, and other important interactions.",
-      category: "Pro",
+      category: "Pro, ProMax",
     },
   ];
 
   const proMaxFeatures = [
     {
-      icon: CreditCard,
+      icon: PiCreditCardLight,
       title: "Accept Payments",
       description:
         "Charge customers for appointments directly through your booking form. Get paid seamlessly and securely.",
       category: "ProMax",
     },
     {
-      icon: Clock,
+      icon: PiClockClockwiseLight,
       title: "Custom Availability",
       description:
         "Set custom booking availability schedules. Control exactly when visitors can book time with you.",
       category: "ProMax",
     },
     {
-      icon: Shield,
+      icon: PiCheckCircleLight,
       title: "Verification Badge",
       description:
         "Get verified and display your verification badge. Build trust and credibility with your audience.",
       category: "ProMax",
     },
     {
-      icon: Sparkles,
+      icon: PiShootingStarLight,
       title: "Rich Media Posts",
       description:
         "Create engaging rich media posts to showcase your work, announcements, or updates on your page.",
       category: "ProMax",
     },
     {
-      icon: Wallet,
+      icon: PiWalletLight,
       title: "Referral Commissions",
       description:
         "Earn commissions when referrals you send convert. Build your income while helping others grow.",
       category: "ProMax",
     },
     {
-      icon: Award,
+      icon: PiChecksLight,
       title: "Vetted Badge",
       description:
         "Get vetted through our process and display your vetted badge. Show that you've been thoroughly reviewed.",
       category: "ProMax",
     },
-    {
-      icon: Zap,
-      title: "No Branding",
-      description:
-        "Remove all Get At Me branding from your page for a completely professional, white-label experience.",
-      category: "ProMax",
-    },
-    {
-      icon: TrendingUp,
-      title: "Embed Widgets",
-      description:
-        "Embed your profile badge, rating widget, testimonials, booking widget, and more anywhere on the web.",
-      category: "ProMax",
-    },
   ];
 
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-dvh min-w-dvw w-full flex-col">
       {/* Hero Section */}
-      <section className="relative overflow-hidden border-b border-border/50 bg-gradient-to-b from-background via-background to-muted/20 py-24 pt-32">
+      <section className="relative overflow-hidden border-b border-border/50 bg-linear-to-b from-background via-background to-muted/20 py-24 pt-32">
         <div className="absolute inset-0 bg-grid-pattern opacity-5" />
         <div className="container relative mx-auto px-4">
           <div className="mx-auto max-w-4xl text-center">
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-2 text-sm font-semibold text-primary">
-              <Sparkles className="h-4 w-4" />
+              <PiShootingStarLight className="h-4 w-4" />
               <span>Everything You Need</span>
             </div>
             <h1 className="mb-6 text-5xl font-bold tracking-tight md:text-7xl">
               Powerful Features for
-              <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+              <span className="bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent">
                 {" "}
                 Your Link Page
               </span>
@@ -255,11 +260,11 @@ export default function FeaturesPage() {
               audience. From simple links to bookings, payments, and more.
             </p>
             <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
-              <Button asChild size="lg" className="text-base">
-                <Link href="/register">Get Started Free</Link>
-              </Button>
               <Button asChild variant="outline" size="lg" className="text-base">
                 <Link href="/pricing">View Pricing</Link>
+              </Button>
+              <Button asChild size="lg" className="text-base">
+                <Link href="/register">Get Started Free</Link>
               </Button>
             </div>
           </div>
@@ -296,11 +301,11 @@ export default function FeaturesPage() {
       />
 
       {/* CTA Section */}
-      <section className="relative overflow-hidden border-t border-border/50 bg-gradient-to-b from-muted/20 to-background py-24">
+      <section className="relative overflow-hidden border-t border-border/50 bg-linear-to-b from-muted/20 to-background py-24">
         <div className="absolute inset-0 bg-grid-pattern opacity-5" />
         <div className="container relative mx-auto px-4">
           <div className="mx-auto max-w-3xl text-center">
-            <CheckCircle2 className="mx-auto mb-6 h-16 w-16 text-primary" />
+            <PiCheckCircleLight className="mx-auto mb-6 h-16 w-16 text-primary" />
             <h2 className="mb-4 text-4xl font-bold tracking-tight md:text-5xl">
               Ready to Get Started?
             </h2>
@@ -309,11 +314,11 @@ export default function FeaturesPage() {
               Get At Me to connect with their audience.
             </p>
             <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
-              <Button asChild size="lg" className="text-base">
-                <Link href="/register">Create Your Page</Link>
-              </Button>
               <Button asChild variant="outline" size="lg" className="text-base">
                 <Link href="/pricing">See Plans & Pricing</Link>
+              </Button>
+              <Button asChild size="lg" className="text-base">
+                <Link href="/register">Create Your Page</Link>
               </Button>
             </div>
           </div>

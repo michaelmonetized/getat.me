@@ -34,7 +34,7 @@ export function ReferralsTables() {
 
   return (
     <div className="w-full flex flex-col gap-4">
-      <Card className="bg-foreground/50 w-full">
+      <Card className="bg-foreground/5 w-full">
         <CardHeader>
           <FeatureTitle
             Icon={PiPaperPlaneTiltLight}
