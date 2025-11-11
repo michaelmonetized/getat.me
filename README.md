@@ -34,16 +34,19 @@ GetAt.Me turns a static “link in bio” into an interactive landing page that 
 ## Audience-Focused Value
 
 ### For Creators & Agencies
+
 - Replaces “link farms” with a customizable microsite that mirrors your brand kit and tone.
 - Offers always-on booking, reviews, and DMs so every profile visit becomes a chance to transact or gather social proof.
 - Automates analytics and notifications, letting teams prioritize their highest converting formats.
 
 ### For Investors & YC Scouts
+
 - Demonstrates a clear GTM strategy that ladders from a free footprint to premium upgrades tied to measurable outcomes.
 - Unlocks proprietary engagement data (referrals, messaging, booking velocity) to forecast retention and expansion.
 - Features a modular architecture that accelerates shipping net-new vertical offerings (ex: paid communities, affiliate hubs).
 
 ### For End Users & Fans
+
 - Delivers a polished destination for discovering services, leaving reviews, booking time, and supporting talent.
 - Enables frictionless payments, referrals, or digital product access without leaving the page.
 - Signals credibility through verified profiles, dynamic testimonials, and rich updates.
@@ -52,30 +55,33 @@ GetAt.Me turns a static “link in bio” into an interactive landing page that 
 
 ## Signature Product Capabilities
 
-| Capability | What Users Experience | Why It Matters |
-|------------|----------------------|----------------|
-| **Visual Identity Engine** | Upload hero media, theme colors, and typography presets for a premium look on any device. | Keeps the profile brand-consistent across campaigns. |
-| **Dynamic Link Management** | Drag-and-drop links, segment by category, and highlight timely offers. | Drives higher click-through rates without editing HTML. |
-| **Bookings & Calendar Sync** | Offer availability, intake forms, and Google Calendar sync within the same profile. | Converts profile visits into qualified meetings faster. |
-| **Ratings & Testimonials** | Collect and display social proof with moderation controls. | Builds trust and increases conversion for services and referrers. |
-| **Referrals & Partner Hub** | Send, receive, and track referrals with transparent attribution. | Opens a new growth channel beyond paid ads. |
-| **Live Chat & Messaging** | Real-time conversations triggered directly from the profile. | Turns intent into conversions while the visitor is engaged. |
-| **Creator Analytics** | Monitor traffic, clicks, referrals, bookings, and revenue trends. | Powers data-driven upgrades and sponsor conversations. |
-| **Monetized Updates** | Publish rich media updates, exclusive drops, or gated paywalls. | Adds recurring revenue streams without additional tools. |
+| Capability                   | What Users Experience                                                                     | Why It Matters                                                    |
+| ---------------------------- | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| **Visual Identity Engine**   | Upload hero media, theme colors, and typography presets for a premium look on any device. | Keeps the profile brand-consistent across campaigns.              |
+| **Dynamic Link Management**  | Drag-and-drop links, segment by category, and highlight timely offers.                    | Drives higher click-through rates without editing HTML.           |
+| **Bookings & Calendar Sync** | Offer availability, intake forms, and Google Calendar sync within the same profile.       | Converts profile visits into qualified meetings faster.           |
+| **Ratings & Testimonials**   | Collect and display social proof with moderation controls.                                | Builds trust and increases conversion for services and referrers. |
+| **Referrals & Partner Hub**  | Send, receive, and track referrals with transparent attribution.                          | Opens a new growth channel beyond paid ads.                       |
+| **Live Chat & Messaging**    | Real-time conversations triggered directly from the profile.                              | Turns intent into conversions while the visitor is engaged.       |
+| **Creator Analytics**        | Monitor traffic, clicks, referrals, bookings, and revenue trends.                         | Powers data-driven upgrades and sponsor conversations.            |
+| **Monetized Updates**        | Publish rich media updates, exclusive drops, or gated paywalls.                           | Adds recurring revenue streams without additional tools.          |
 
 ---
 
 ## Plans & Monetization
 
 ### Free
+
 - Personalized link landing page with essential branding.
 - Link management, basic analytics, and social profile integrations.
 
 ### Premium
+
 - Unlock unlimited links and advanced customization to keep campaigns fresh.
 - Priority support and automation workflows as audiences scale.
 
 ### Pro
+
 - Everything in Premium plus:
   - Booking forms with Google Calendar sync.
   - Ratings and featured testimonials.
@@ -83,6 +89,7 @@ GetAt.Me turns a static “link in bio” into an interactive landing page that 
   - Conversion-grade analytics for revenue storytelling.
 
 ### ProMax
+
 - All Pro features plus:
   - Paid appointments and direct payments from any visitor.
   - Referral commissions and affiliate tagging.
@@ -97,11 +104,13 @@ GetAt.Me turns a static “link in bio” into an interactive landing page that 
 ## Traction Signals & Roadmap
 
 **Signals we are proud of**
+
 - Fast shipping velocity unlocks new monetization surfaces without disrupting existing creators.
 - Feedback loops baked into the onboarding flow capture feature requests from day one.
 - Enterprise-ready guardrails (authentication, observability, auditing) are already in place to ease brand partnerships.
 
 **Roadmap highlights**
+
 - Deepen integrations across calendars, CRMs, and payment providers to support agency-level workflows.
 - Expand analytics into cohort insights and growth experiments to help creators benchmark success.
 - Launch creator-to-creator marketplace features that increase referrals and network effects.
@@ -119,14 +128,14 @@ GetAt.Me turns a static “link in bio” into an interactive landing page that 
 
 ## Technology & Infrastructure
 
-| Layer | Stack |
-|-------|-------|
-| Frontend | Next.js 15 with the App Router, React 19, Tailwind CSS 4, Radix UI |
-| Authentication & Access | Clerk for user/session management and multi-tenant orgs |
-| Real-Time Backend | Convex powers low-latency data sync and transactional workflows |
-| Payments & Monetization | Stripe for billing, payouts, and appointments |
-| Analytics & Observability | PostHog, Sentry, and Resend for telemetry and lifecycle messaging |
-| Dev Experience | Bun-powered tooling, TypeScript 5.9, Zod for schema validation |
+| Layer                     | Stack                                                              |
+| ------------------------- | ------------------------------------------------------------------ |
+| Frontend                  | Next.js 15 with the App Router, React 19, Tailwind CSS 4, Radix UI |
+| Authentication & Access   | Clerk for user/session management and multi-tenant orgs            |
+| Real-Time Backend         | Convex powers low-latency data sync and transactional workflows    |
+| Payments & Monetization   | Stripe for billing, payouts, and appointments                      |
+| Analytics & Observability | PostHog, Sentry, and Resend for telemetry and lifecycle messaging  |
+| Dev Experience            | Bun-powered tooling, TypeScript 5.9, Zod for schema validation     |
 
 This architecture lets us ship quickly while maintaining enterprise-grade security, auditability, and real-time personalization.
 
