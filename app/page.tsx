@@ -10,7 +10,7 @@ import {
 import { SignedIn, SignedOut, SignUpButton } from "@clerk/nextjs";
 import AddPostForm from "@/components/forms/user/add-post";
 import { Container } from "@/components/layout/container";
-import { AllPosts } from "@/components/views/all-posts";
+import { PostsList } from "@/components/views/posts/list-all";
 
 export default function HomePage() {
   return (
@@ -131,7 +131,7 @@ export default function HomePage() {
         >
           <h1>Welcome back!</h1>
           <AddPostForm />
-          <AllPosts />
+          <PostsList />
         </Container>
       </SignedIn>
     </>

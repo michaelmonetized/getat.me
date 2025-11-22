@@ -36,9 +36,10 @@ import {
 } from "react-icons/pi";
 import { Container } from "@/components/layout/container";
 import { SocialProofWidget } from "@/components/features/social-proof-widget";
-import { PostsWidget } from "@/components/features/posts-widget";
 import { PublicPostsWidget } from "@/components/features/public-posts-widget";
 import Image from "next/image";
+import { PostsList } from "@/components/views/posts/list-all";
+import { User, useUser as useCombinedUser } from "@/hooks/user";
 
 export default function ProfilePage() {
   const params = useParams();
@@ -72,6 +73,10 @@ export default function ProfilePage() {
     document.documentElement.className = `theme-${themeClass}`;
     document.body.className = "antialiased";
   }, [themeClass]);
+
+  const profileUser: User | undefined = useCombinedUser(
+    userByHandle?.userId ?? ""
+  );
 
   if (links === undefined || userByHandle === undefined) {
     return (
@@ -253,7 +258,7 @@ export default function ProfilePage() {
                   requiredPlan="promax"
                   icon={PiShootingStarLight}
                 >
-                  <PostsWidget />
+                  <PostsList user={profileUser} />
                 </FeatureGate>
               )}
 

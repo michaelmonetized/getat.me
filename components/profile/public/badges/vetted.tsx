@@ -2,7 +2,7 @@
 import { Badge } from "@/components/ui/badge";
 import { PiChecksLight } from "react-icons/pi";
 
-export default function VettedBadge() {
+export default function Vetted() {
   return (
     <Badge
       variant="secondary"

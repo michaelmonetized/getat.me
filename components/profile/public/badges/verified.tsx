@@ -2,7 +2,7 @@
 import { Badge } from "@/components/ui/badge";
 import { PiCheckCircleLight } from "react-icons/pi";
 
-export default function VerifiedBadge() {
+export default function Verified() {
   return (
     <Badge
       variant="primary"

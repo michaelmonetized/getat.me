@@ -4,7 +4,7 @@ import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 
 import Link from "next/link";
-import { PiCheckCircleLight, PiChecksLight } from "react-icons/pi";
+import { PiCheckCircleLight, PiChecksLight, PiUserLight } from "react-icons/pi";
 import Image from "next/image";
 
 export function UserHandle({ clerkUserID }: { clerkUserID: string }) {
@@ -23,18 +23,6 @@ export function UserHandle({ clerkUserID }: { clerkUserID: string }) {
   }
 
   const avatar = user.avatarUrl;
-  let initials = "";
-
-  if (!avatar) {
-    initials =
-      (user?.first?.charAt(0).toUpperCase() &&
-        user?.last?.charAt(0).toUpperCase()) ||
-      "";
-
-    if (!initials) {
-      return <div>Loading...</div>;
-    }
-  }
 
   const handle = user.handle;
 
@@ -56,8 +44,8 @@ export function UserHandle({ clerkUserID }: { clerkUserID: string }) {
         </span>
       )}
       {!avatar && (
-        <span className="w-10 h-10 rounded-full bg-muted overflow-hidden shrink-0 block p-[5px]">
-          <span className="text-lg font-semibold text-center">{initials}</span>
+        <span className="w-20 h-20 rounded-full bg-muted overflow-hidden shrink-0 p-[5px] text-center items-center justify-center inline-flex">
+          <PiUserLight className="w-20 h-20 rounded-full object-cover bg-muted" />
         </span>
       )}
       <span>@{handle}</span>

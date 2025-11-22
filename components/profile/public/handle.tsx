@@ -1,11 +1,11 @@
-import PublicAvatar from "./avatar";
-import { User } from "@/hooks/user";
-import VerifiedBadge from "./badges/verified";
-import VettedBadge from "./badges/vetted";
+import Avatar from "./avatar";
+import { type User } from "@/hooks/user";
 import { cn } from "@/lib/utils";
-import PlanBadge from "./badges/plan";
+import Verified from "./badges/verified";
+import Vetted from "./badges/vetted";
+import Plan from "./badges/plan";
 
-export default function PublicHandle({
+export default function Handle({
   user,
   withAvatar = true,
   className = "flex items-center gap-2 justify-start p-2",
@@ -13,7 +13,7 @@ export default function PublicHandle({
   ...props
 }: {
   user: User;
-  withAvatar: boolean;
+  withAvatar?: boolean;
   className?: string;
   children?: React.ReactNode;
 }) {
@@ -24,13 +24,13 @@ export default function PublicHandle({
   return (
     <div className={cn(className, "flex-col")} {...props}>
       <div className={cn(className)} {...props}>
-        {withAvatar && <PublicAvatar user={user} />}
+        {withAvatar && <Avatar user={user} />}
         <span className="text-2xl font-black handle-heading">
           @{user.handle}
         </span>
-        {user.verified && <VerifiedBadge />}
-        {user.vetted && <VettedBadge />}
-        <PlanBadge user={user} />
+        {user.verified && <Verified />}
+        {user.vetted && <Vetted />}
+        <Plan user={user} />
       </div>
       {children}
     </div>

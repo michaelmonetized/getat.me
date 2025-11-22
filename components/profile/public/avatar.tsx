@@ -2,7 +2,7 @@ import Image from "next/image";
 import { PiUserLight } from "react-icons/pi";
 import { type User } from "@/hooks/user";
 
-export default function PublicAvatar({ user }: { user: User }) {
+export default function Avatar({ user }: { user: User }) {
   const avatar = user?.avatar || user?.imageUrl;
 
   return (
