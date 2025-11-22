@@ -1,5 +1,12 @@
 import { auth, User } from "@clerk/nextjs/server";
 import { clerkClient } from "@clerk/nextjs/server";
+export type ClerkUser = {
+  id: string;
+  imageUrl?: string | null;
+  username?: string | null;
+  firstName?: string | null;
+  lastName?: string | null;
+};
 
 export async function clerkUser({ clerkUserID }: { clerkUserID: string }) {
   const client = await clerkClient();

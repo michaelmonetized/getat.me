@@ -27,7 +27,7 @@ GetAt.Me turns a static “link in bio” into an interactive landing page that 
 - **Built for the next wave of solo brands.** A modern, mobile-native profile that feels on-brand, loads instantly, and converts casual views into high-value actions.
 - **Retention over vanity metrics.** Two-way interactions (chat, reviews, referrals) give creators a CRM-grade console without enterprise setup.
 - **Investor-aligned economics.** A subscription-first model with clear expansion revenue levers (Pro & ProMax) and embedded payments, enabling attractive LTV/CAC ratios as acquisition scales.
-- **YC-ready ambition.** GetAt.Me integrates marketing, scheduling, monetization, and community engagement into one cohesive UX—exactly the sort of wedge YC partners expect before demo day.
+- **Partner-ready ambition.** GetAt.Me integrates marketing, scheduling, monetization, and community engagement into one cohesive UX—exactly the sort of wedge YC partners expect before demo day.
 
 ---
 
@@ -39,7 +39,7 @@ GetAt.Me turns a static “link in bio” into an interactive landing page that 
 - Offers always-on booking, reviews, and DMs so every profile visit becomes a chance to transact or gather social proof.
 - Automates analytics and notifications, letting teams prioritize their highest converting formats.
 
-### For Investors & YC Scouts
+### For Investors & Partners
 
 - Demonstrates a clear GTM strategy that ladders from a free footprint to premium upgrades tied to measurable outcomes.
 - Unlocks proprietary engagement data (referrals, messaging, booking velocity) to forecast retention and expansion.
@@ -134,7 +134,7 @@ GetAt.Me turns a static “link in bio” into an interactive landing page that 
 | Authentication & Access   | Clerk for user/session management and multi-tenant orgs            |
 | Real-Time Backend         | Convex powers low-latency data sync and transactional workflows    |
 | Payments & Monetization   | Stripe for billing, payouts, and appointments                      |
-| Analytics & Observability | PostHog, Sentry, and Resend for telemetry and lifecycle messaging  |
+| Analytics & Observability | PostHog, and Sentry, for telemetry and lifecycle messaging         |
 | Dev Experience            | Bun-powered tooling, TypeScript 5.9, Zod for schema validation     |
 
 This architecture lets us ship quickly while maintaining enterprise-grade security, auditability, and real-time personalization.
@@ -154,15 +154,15 @@ bun run dev
 open http://localhost:3000
 ```
 
-> _Before running locally, copy `.env.example` (if present) to `.env.local` and supply Clerk, Stripe, Convex, and PostHog keys. Reach out for sandbox credentials if you’re evaluating the platform._
+> _Before running locally, copy `_env.local` (if present) to `.env.local` and supply Clerk, Stripe, Convex, and PostHog keys. Reach out for sandbox credentials if you’re evaluating the platform._
 
 ---
 
 ## Connect With Us
 
 - **Founding Team:** builders with experience in creator economy tools, growth loops, and realtime infrastructure.
-- **Pitch Deck & Metrics:** investors@team.getat.me (deck, metrics, and Cohort reports available on request).
-- **YC & Accelerator Conversations:** We’re actively exploring strategic partners—reach out for a focused walkthrough tailored to your thesis.
+- **Pitch Deck & Metrics:** michael@hustlelaunch.com (deck, metrics, and Cohort reports available on request).
+- **Investor + Partner Conversations:** We’re actively exploring strategic partners—reach out for a focused walkthrough tailored to your thesis.
 
 > Let’s craft a future where every personal brand has the infrastructure of a modern SaaS.  
-> **[Schedule a founder call →](https://getat.me)**
+> **[Schedule a founder call →](https://getat.me/michaelhurley)**

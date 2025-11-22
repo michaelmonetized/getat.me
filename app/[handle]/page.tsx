@@ -2,7 +2,7 @@
 
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { useUser, useAuth } from "@clerk/nextjs";
+import { useUser, useAuth, SignedOut } from "@clerk/nextjs";
 import { useParams } from "next/navigation";
 import { useMemo, useState, useEffect } from "react";
 import { Id } from "@/convex/_generated/dataModel";
@@ -38,6 +38,7 @@ import { Container } from "@/components/layout/container";
 import { SocialProofWidget } from "@/components/features/social-proof-widget";
 import { PostsWidget } from "@/components/features/posts-widget";
 import { PublicPostsWidget } from "@/components/features/public-posts-widget";
+import Image from "next/image";
 
 export default function ProfilePage() {
   const params = useParams();
@@ -93,12 +94,14 @@ export default function ProfilePage() {
           <p className="text-muted-foreground">
             The user @{handle} doesn&apos;t exist.
           </p>
-          <div className="space-y-4">
-            <h2 className="text-lg font-bold">Claim this handle</h2>
-            <SignUpButton>
-              <Button variant="outline">Claim @{handle} now!</Button>
-            </SignUpButton>
-          </div>
+          <SignedOut>
+            <div className="space-y-4">
+              <h2 className="text-lg font-bold">Claim this handle</h2>
+              <SignUpButton>
+                <Button variant="outline">Claim @{handle} now!</Button>
+              </SignUpButton>
+            </div>
+          </SignedOut>
         </div>
       </div>
     );
@@ -110,23 +113,33 @@ export default function ProfilePage() {
 
   return (
     <div className="flex min-h-screen flex-col w-full">
-      {/* Cover Photo Banner */}
       {userByHandle && (
         <div className="w-full h-64 bg-muted relative overflow-hidden">
-          {userByHandle.coverUrl && (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
+          {userByHandle.coverUrl ? (
+            <Image
               src={userByHandle.coverUrl}
               alt="Cover"
               className="w-full h-full object-cover"
+              width={1920}
+              height={64}
             />
+          ) : (
+            <div className="bg-muted">
+              <Image
+                src="https://picsum.dev/1920/800"
+                alt="Cover"
+                className="w-full h-full object-cover opacity-50"
+                width={1920}
+                height={64}
+              />
+            </div>
           )}
           {isOwner && <CoverUpload />}
         </div>
       )}
 
       {/* Main Content */}
-      <Container size="boxed">
+      <Container size="boxed" role="main">
         {/* Profile Picture + Handle/Bio Section - Overlapping the banner */}
         {userByHandle && (
           <div className="relative -mt-32 mb-12">

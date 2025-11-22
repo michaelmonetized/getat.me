@@ -20,7 +20,8 @@ export default defineSchema({
     .index("by_userId", ["userId"])
     .index("by_handle", ["handle"])
     .index("by_email", ["email"])
-    .index("by_phone", ["phone"]),
+    .index("by_phone", ["phone"])
+    .index("by_subscriptionPlan", ["subscriptionPlan"]),
   subscriptions: defineTable({
     userId: v.string(),
     subscriptionId: v.string(),
@@ -187,6 +188,8 @@ export const userObject = z.object({
   avatar: z.string().optional(),
   cover: z.string().optional(),
   bio: z.string().optional(),
+  theme: z.string().optional(),
+  subscriptionPlan: z.string().optional(),
 });
 
 export type User = z.infer<typeof userObject>;

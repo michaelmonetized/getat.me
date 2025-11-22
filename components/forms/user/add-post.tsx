@@ -76,7 +76,7 @@ export default function AddPostForm() {
           <MDEditor
             value={content}
             onChange={(value) => setContent(value || "")}
-            preview="edit"
+            preview="live"
             height={400}
           />
         </div>
