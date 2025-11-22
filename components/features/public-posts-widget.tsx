@@ -12,6 +12,7 @@ import {
 import { Sparkles } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import rehypeRaw from "rehype-raw";
 
 interface PublicPostsWidgetProps {
   userId: string;
@@ -49,7 +50,10 @@ export function PublicPostsWidget({ userId }: PublicPostsWidgetProps) {
               className="border-b last:border-b-0 pb-6 last:pb-0"
             >
               <div className="prose prose-sm dark:prose-invert max-w-none">
-                <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                <ReactMarkdown
+                  remarkPlugins={[remarkGfm]}
+                  rehypePlugins={[rehypeRaw]}
+                >
                   {post.content}
                 </ReactMarkdown>
               </div>

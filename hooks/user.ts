@@ -3,8 +3,8 @@
 import { api } from "@/convex/_generated/api";
 import { useQuery } from "convex/react";
 import { User as ConvexUser } from "@/convex/schema";
-import { type ClerkUser } from "@/lib/server-utils";
-import { clerkUser } from "@/lib/server-utils";
+import { type ClerkUser } from "@/lib/types";
+import { getClerkUser } from "@/app/actions/clerk-user";
 import { useEffect, useState } from "react";
 
 type User =
@@ -43,9 +43,9 @@ function useUser(userId: string) {
 
     async function fetchClerkUser() {
       try {
-        const user = await clerkUser({ clerkUserID: userId });
+        const user = await getClerkUser(userId);
         if (!canceled) {
-          setUserFromClerk(user as ClerkUser);
+          setUserFromClerk(user);
         }
       } catch (err) {
         if (!canceled) {

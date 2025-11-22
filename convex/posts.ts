@@ -41,6 +41,17 @@ export const createPost = mutation({
   },
 });
 
+export const updatePost = mutation({
+  args: {
+    postId: v.id("posts"),
+    content: v.string(),
+  },
+  handler: async (ctx, args) => {
+    await ctx.db.patch(args.postId, { content: args.content });
+    return await ctx.db.get(args.postId);
+  },
+});
+
 export const deletePost = mutation({
   args: {
     postId: v.id("posts"),

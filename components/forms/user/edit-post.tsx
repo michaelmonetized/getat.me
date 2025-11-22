@@ -2,21 +2,24 @@
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
-import { useUser } from "@clerk/nextjs";
+import { useUser as useCurrentUser } from "@clerk/nextjs";
+import { useUser } from "@/hooks/user";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
+import { Post } from "@/convex/posts";
 import { TiptapEditor } from "@/components/editor/tiptap-editor";
 
-export default function AddPostForm() {
-  const { user } = useUser();
+export default function EditPostForm({ post }: { post: Post }) {
+  const auth = useCurrentUser();
+  const postUser = useUser(post.userId);
   const { toast } = useToast();
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState(post.content);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const createPost = useMutation(api.posts.createPost);
+  const updatePost = useMutation(api.posts.updatePost);
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!user?.id || !content.trim()) {
+    if (!auth?.user?.id || !content.trim()) {
       toast({
         title: "Missing content",
         description: "Please enter some content for your post.",
@@ -27,19 +30,18 @@ export default function AddPostForm() {
 
     setIsSubmitting(true);
     try {
-      await createPost({
-        userId: user.id,
+      await updatePost({
+        postId: post._id,
         content: content.trim(),
       });
-      setContent("");
       toast({
-        title: "Post created!",
-        description: "Your post has been published.",
+        title: "Post updated!",
+        description: "Your post has been updated.",
       });
     } catch (error) {
       toast({
         title: "Error",
-        description: "Failed to create post",
+        description: "Failed to update post",
         variant: "destructive",
       });
       console.error(error);
@@ -47,6 +49,14 @@ export default function AddPostForm() {
       setIsSubmitting(false);
     }
   };
+
+  if (!postUser?.id) {
+    return null;
+  }
+
+  if (postUser.id !== (auth?.user?.id ?? "")) {
+    return null;
+  }
 
   // Check if content has actual text (not just HTML tags)
   const hasContent = content.replace(/<[^>]*>/g, "").trim().length > 0;
@@ -57,13 +67,13 @@ export default function AddPostForm() {
         <TiptapEditor
           content={content}
           onChange={setContent}
-          placeholder="What's on your mind?"
+          placeholder="Edit your post..."
           editable={true}
         />
       </div>
       <div className="flex justify-end">
         <Button type="submit" disabled={isSubmitting || !hasContent}>
-          {isSubmitting ? "Publishing..." : "Publish Post"}
+          {isSubmitting ? "Updating..." : "Update Post"}
         </Button>
       </div>
     </form>

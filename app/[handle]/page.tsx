@@ -39,6 +39,7 @@ import { SocialProofWidget } from "@/components/features/social-proof-widget";
 import { PublicPostsWidget } from "@/components/features/public-posts-widget";
 import Image from "next/image";
 import { PostsList } from "@/components/views/posts/list-all";
+import AddPostForm from "@/components/forms/user/add-post";
 import { User, useUser as useCombinedUser } from "@/hooks/user";
 
 export default function ProfilePage() {
@@ -258,7 +259,10 @@ export default function ProfilePage() {
                   requiredPlan="promax"
                   icon={PiShootingStarLight}
                 >
-                  <PostsList user={profileUser} />
+                  <div className="space-y-6">
+                    <AddPostForm />
+                    <PostsList user={profileUser} />
+                  </div>
                 </FeatureGate>
               )}
 

@@ -6,6 +6,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Id } from "@/convex/_generated/dataModel";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import rehypeRaw from "rehype-raw";
 import {
   Card,
   CardContent,
@@ -55,9 +56,14 @@ export function PostCard({ post }: { post: Post }) {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <ReactMarkdown remarkPlugins={[remarkGfm]}>
-          {post.content}
-        </ReactMarkdown>
+        <div className="prose prose-sm max-w-none">
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
+            rehypePlugins={[rehypeRaw]}
+          >
+            {post.content}
+          </ReactMarkdown>
+        </div>
       </CardContent>
       <CardFooter>
         {isMyPost && (

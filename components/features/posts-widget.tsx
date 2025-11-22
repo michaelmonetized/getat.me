@@ -15,6 +15,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Id } from "@/convex/_generated/dataModel";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import rehypeRaw from "rehype-raw";
 import { PiShootingStarLight, PiTrashLight } from "react-icons/pi";
 import AddPostForm from "@/components/forms/user/add-post";
 
@@ -83,7 +84,10 @@ export function PostsWidget() {
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex-1">
                       <div className="prose prose-sm dark:prose-invert max-w-none">
-                        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                        <ReactMarkdown
+                          remarkPlugins={[remarkGfm]}
+                          rehypePlugins={[rehypeRaw]}
+                        >
                           {post.content}
                         </ReactMarkdown>
                       </div>
