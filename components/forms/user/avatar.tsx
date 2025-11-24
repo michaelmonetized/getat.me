@@ -5,6 +5,7 @@ import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { useUser } from "@clerk/nextjs";
+import { Spinner } from "@/components/ui/spinner";
 
 export function AvatarUpload() {
   const { user } = useUser();
@@ -140,20 +141,34 @@ export function AvatarUpload() {
                 ${isHovering || isUploading ? "opacity-100" : "opacity-0"}
               `}
             >
-              <p className="text-white text-xs text-center px-3 leading-tight">
-                {isUploading
-                  ? "Uploading..."
-                  : "Drop an image file -or- click to upload your profile photo"}
-              </p>
+              {isUploading ? (
+                <div className="flex flex-col items-center gap-2">
+                  <Spinner className="text-white" size="md" />
+                  <p className="text-white text-xs text-center px-3 leading-tight">
+                    Uploading...
+                  </p>
+                </div>
+              ) : (
+                <p className="text-white text-xs text-center px-3 leading-tight">
+                  Drop an image file -or- click to upload your profile photo
+                </p>
+              )}
             </div>
           </>
         ) : (
           <div className="w-full h-full flex items-center justify-center bg-muted/50">
-            <p className="text-muted-foreground text-xs text-center px-3 leading-tight">
-              {isUploading
-                ? "Uploading..."
-                : "Drop an image file -or- click to upload your profile photo"}
-            </p>
+            {isUploading ? (
+              <div className="flex flex-col items-center gap-2">
+                <Spinner size="md" />
+                <p className="text-muted-foreground text-xs text-center px-3 leading-tight">
+                  Uploading...
+                </p>
+              </div>
+            ) : (
+              <p className="text-muted-foreground text-xs text-center px-3 leading-tight">
+                Drop an image file -or- click to upload your profile photo
+              </p>
+            )}
           </div>
         )}
       </div>

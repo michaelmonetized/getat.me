@@ -10,6 +10,7 @@ import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { useCallback, useState, useEffect, useRef } from "react";
+import { Spinner } from "@/components/ui/spinner";
 
 interface TiptapEditorProps {
   content: string;
@@ -27,6 +28,7 @@ export function TiptapEditor({
   const generateUploadUrl = useMutation(api.files.generateUploadUrl);
   const [uploadedStorageId, setUploadedStorageId] =
     useState<Id<"_storage"> | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
   const fileUrl = useQuery(
     api.files.getFileUrl,
     uploadedStorageId ? { fileId: uploadedStorageId } : "skip"
@@ -46,12 +48,14 @@ export function TiptapEditor({
         pending.resolve(fileUrl);
         pendingUploads.current.delete(uploadedStorageId);
         setUploadedStorageId(null);
+        setIsUploading(false);
       }
     }
   }, [uploadedStorageId, fileUrl]);
 
   const handleImageUpload = useCallback(
     async (file: File): Promise<string> => {
+      setIsUploading(true);
       try {
         // Get upload URL from Convex
         const { url } = await generateUploadUrl();
@@ -89,12 +93,14 @@ export function TiptapEditor({
             if (pendingUploads.current.has(storageId)) {
               pendingUploads.current.delete(storageId);
               setUploadedStorageId(null);
+              setIsUploading(false);
               reject(new Error("Timeout waiting for file URL"));
             }
           }, 10000);
         });
       } catch (error) {
         console.error("Image upload error:", error);
+        setIsUploading(false);
         // Fallback: return a data URL for immediate preview
         return new Promise((resolve) => {
           const reader = new FileReader();
@@ -234,7 +240,15 @@ export function TiptapEditor({
   }
 
   return (
-    <div className="border rounded-lg overflow-hidden">
+    <div className="border rounded-lg overflow-hidden relative">
+      {isUploading && (
+        <div className="absolute inset-0 bg-background/80 backdrop-blur-sm z-50 flex items-center justify-center">
+          <div className="flex flex-col items-center gap-3">
+            <Spinner size="lg" className="text-primary" />
+            <p className="text-sm text-muted-foreground">Uploading image...</p>
+          </div>
+        </div>
+      )}
       {editable && (
         <div className="border-b p-2 flex gap-2 flex-wrap bg-muted/50">
           <button

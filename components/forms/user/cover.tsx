@@ -5,6 +5,7 @@ import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { useUser } from "@clerk/nextjs";
+import { Spinner } from "@/components/ui/spinner";
 
 export function CoverUpload() {
   const { user } = useUser();
@@ -124,13 +125,18 @@ export function CoverUpload() {
           disabled={isUploading}
         />
         {(!coverUrl || isHovering || isUploading) && (
-          <p
-            className={`text-sm ${coverUrl ? "text-white" : "text-muted-foreground"}`}
+          <div
+            className={`flex flex-col items-center gap-2 ${
+              coverUrl ? "text-white" : "text-muted-foreground"
+            }`}
           >
-            {isUploading
-              ? "Uploading..."
-              : "Drop an image file – or – click to upload your cover photo"}
-          </p>
+            {isUploading && <Spinner size="md" className="text-current" />}
+            <p className="text-sm text-center">
+              {isUploading
+                ? "Uploading..."
+                : "Drop an image file – or – click to upload your cover photo"}
+            </p>
+          </div>
         )}
       </div>
       {error && (
