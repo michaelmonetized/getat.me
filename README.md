@@ -164,21 +164,30 @@ open http://localhost:3000
 
 | Environment | Build Command |
 |-------------|---------------|
-| **Development** | `bunx --bun convex dev --once; bun build` |
-| **Production** | `bunx --bun convex deploy; bun build` |
+| **Development/Preview** | `bun run build` (schema must be deployed separately) |
+| **Production** | `npx convex deploy --yes --cmd 'bun run build'` |
 
-### Why Two Commands?
+### Why These Commands?
 
-- **`convex dev --once`** — Syncs schema and functions to the Convex dev deployment, then exits.
-- **`convex deploy`** — Pushes schema and functions to the Convex production deployment.
-- **`bun build`** — Builds the Next.js app for deployment.
+- **Preview builds** — Run `bun run build` only. Schema changes should be deployed locally via `bunx --bun convex dev --once` before pushing. This avoids needing dev tokens in Vercel.
+- **Production builds** — Use `npx convex deploy --yes --cmd 'bun run build'` to deploy schema and build in one step. Note: `bunx --bun` doesn't work reliably with `convex deploy`.
+
+### Local Development
+
+```bash
+# Start Convex dev server (syncs schema)
+bunx --bun convex dev
+
+# In another terminal, start Next.js
+bun run dev
+```
 
 ### Vercel Configuration
 
-In Vercel project settings, set the **Build Command** based on your environment:
+In Vercel project settings:
 
-- **Preview/Development branches:** `bunx --bun convex dev --once; bun build`
-- **Production branch (main):** `bunx --bun convex deploy; bun build`
+- **Preview branches:** Build Command = `bun run build`
+- **Production branch (main):** Build Command = `npx convex deploy --yes --cmd 'bun run build'`
 
 Ensure the following environment variables are set in Vercel:
 - `CONVEX_DEPLOY_KEY` — For production deployments
