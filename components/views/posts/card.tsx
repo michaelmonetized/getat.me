@@ -15,17 +15,31 @@ import {
   CardTitle,
 } from "../../ui/card";
 import { Button } from "../../ui/button";
-import { PiTrashLight } from "react-icons/pi";
-import { Post } from "@/convex/posts";
+import {
+  PiTrashLight,
+  PiHeartLight,
+  PiHeartFill,
+  PiChatCircleLight,
+  PiArrowsClockwiseLight,
+} from "react-icons/pi";
+import { PostWithMeta } from "@/convex/posts";
 import Handle from "../../profile/public/handle";
 import { type User, useUser } from "@/hooks/user";
 
-export function PostCard({ post }: { post: Post }) {
+interface PostCardProps {
+  post: PostWithMeta;
+}
+
+export function PostCard({ post }: PostCardProps) {
   const auth = useCurrentUser();
   const { toast } = useToast();
   const deletePost = useMutation(api.posts.deletePost);
+  const toggleLike = useMutation(api.posts.toggleLike);
   const postUser: User | undefined = useUser(post.userId);
   const currentUser: User | undefined = useUser(auth?.user?.id ?? "");
+
+  const isSignedIn = !!auth?.user?.id;
+  const isMyPost = postUser?.userId === (currentUser?.id ?? "");
 
   const handleDelete = async (postId: string) => {
     if (!confirm("Are you sure you want to delete this post?")) return;
@@ -46,7 +60,29 @@ export function PostCard({ post }: { post: Post }) {
     }
   };
 
-  const isMyPost = postUser?.userId === (currentUser?.id ?? "");
+  const handleLike = async () => {
+    if (!isSignedIn || !auth?.user?.id) {
+      toast({
+        title: "Sign in required",
+        description: "Please sign in to like posts.",
+      });
+      return;
+    }
+
+    try {
+      await toggleLike({
+        userId: auth.user.id,
+        postId: post._id,
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to like post",
+        variant: "destructive",
+      });
+      console.error(error);
+    }
+  };
 
   return (
     <Card>
@@ -65,10 +101,45 @@ export function PostCard({ post }: { post: Post }) {
           </ReactMarkdown>
         </div>
       </CardContent>
-      <CardFooter>
+      <CardFooter className="flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          {/* Like button */}
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={handleLike}
+            className="flex items-center gap-1 text-muted-foreground hover:text-red-500"
+          >
+            {post.isLikedByUser ? (
+              <PiHeartFill className="h-5 w-5 text-red-500" />
+            ) : (
+              <PiHeartLight className="h-5 w-5" />
+            )}
+            {post.likeCount > 0 && <span>{post.likeCount}</span>}
+          </Button>
+
+          {/* Reply count */}
+          <div className="flex items-center gap-1 text-muted-foreground">
+            <PiChatCircleLight className="h-5 w-5" />
+            {post.replyCount > 0 && <span>{post.replyCount}</span>}
+          </div>
+
+          {/* Repost count */}
+          <div className="flex items-center gap-1 text-muted-foreground">
+            <PiArrowsClockwiseLight className="h-5 w-5" />
+            {post.repostCount > 0 && <span>{post.repostCount}</span>}
+          </div>
+        </div>
+
+        {/* Delete button - only for owner */}
         {isMyPost && (
-          <Button variant="destructive" onClick={() => handleDelete(post._id)}>
-            <PiTrashLight className="h-4 w-4" />
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => handleDelete(post._id)}
+            className="text-muted-foreground hover:text-destructive"
+          >
+            <PiTrashLight className="h-5 w-5" />
           </Button>
         )}
       </CardFooter>

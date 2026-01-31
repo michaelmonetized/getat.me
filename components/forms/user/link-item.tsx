@@ -15,10 +15,11 @@ interface LinkItemProps {
     href: string;
     icon?: string;
   };
+  isOwner?: boolean;
   onEdit?: () => void;
 }
 
-export function LinkItem({ link, onEdit }: LinkItemProps) {
+export function LinkItem({ link, isOwner = false, onEdit }: LinkItemProps) {
   const deleteLink = useMutation(api.links.deleteLink);
   const [isDeleting, setIsDeleting] = useState(false);
 
@@ -52,30 +53,32 @@ export function LinkItem({ link, onEdit }: LinkItemProps) {
         {link.icon && <div className="text-2xl shrink-0">{link.icon}</div>}
         <span className="text-lg font-medium truncate">{link.anchor}</span>
       </Link>
-      <div className="flex items-center gap-2 shrink-0">
-        <Button
-          variant="ghost"
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            onEdit?.();
-          }}
-          className="p-2 hover:bg-primary-hover/50 rounded transition-colors text-primary-foreground"
-          disabled={isDeleting}
-          aria-label="Edit link"
-        >
-          <Pencil className="h-4 w-4" />
-        </Button>
-        <Button
-          variant="ghost"
-          onClick={handleDelete}
-          className="p-2 hover:bg-primary-hover/50 rounded transition-colors text-primary-foreground"
-          disabled={isDeleting}
-          aria-label="Delete link"
-        >
-          <Trash2 className="h-4 w-4" />
-        </Button>
-      </div>
+      {isOwner && (
+        <div className="flex items-center gap-2 shrink-0">
+          <Button
+            variant="ghost"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              onEdit?.();
+            }}
+            className="p-2 hover:bg-primary-hover/50 rounded transition-colors text-primary-foreground"
+            disabled={isDeleting}
+            aria-label="Edit link"
+          >
+            <Pencil className="h-4 w-4" />
+          </Button>
+          <Button
+            variant="ghost"
+            onClick={handleDelete}
+            className="p-2 hover:bg-primary-hover/50 rounded transition-colors text-primary-foreground"
+            disabled={isDeleting}
+            aria-label="Delete link"
+          >
+            <Trash2 className="h-4 w-4" />
+          </Button>
+        </div>
+      )}
     </div>
   );
 }
