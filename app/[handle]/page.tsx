@@ -246,12 +246,14 @@ export default function ProfilePage() {
                     <LinkItem
                       key={link._id}
                       link={link}
+                      isOwner={!!isOwner}
                       onEdit={() => setEditingLink(link._id)}
                     />
                   ))}
                 </div>
               )}
 
+              {/* Posts Section - Visible to everyone, but only ProMax owners can create */}
               {isOwner && (
                 <FeatureGate
                   title="Rich Media Posts"
@@ -259,19 +261,21 @@ export default function ProfilePage() {
                   requiredPlan="promax"
                   icon={PiShootingStarLight}
                 >
-                  <div className="space-y-6">
-                    <AddPostForm />
-                    <PostsList user={profileUser} />
-                  </div>
+                  <AddPostForm />
                 </FeatureGate>
               )}
 
-              {/* Public Posts & Booking Widget - Only show to visitors */}
+              {/* Posts list - visible to everyone */}
+              {userByHandle && (
+                <PostsList
+                  user={profileUser}
+                  currentUserId={currentUser?.id}
+                />
+              )}
+
+              {/* Booking Widget - Only show to visitors when owner has Pro */}
               {!isOwner && userByHandle && (
                 <>
-                  {userByHandle.subscriptionPlan === "promax" && (
-                    <PublicPostsWidget userId={userByHandle.userId} />
-                  )}
                   {userByHandle.subscriptionPlan === "pro" && (
                     <PublicBookingWidget userId={userByHandle.userId} />
                   )}
