@@ -1,10 +1,10 @@
-# GetAt.Me &nbsp;—&nbsp; The Relationship-First Link-In-Bio Platform
+# GetAt.Me &nbsp;-&nbsp; The Relationship-First Link-In-Bio Platform
 
 [![Live Product](https://img.shields.io/badge/live-getat.me-6C47FF.svg)](https://getat.me)&nbsp;
 ![Next.js](https://img.shields.io/badge/Next.js-15-black.svg)&nbsp;
 ![Convex](https://img.shields.io/badge/Convex-real_time-blue.svg)
 
-GetAt.Me turns a static “link in bio” into an interactive landing page that helps creators, consultants, and service-led businesses convert attention into loyal relationships. From personalized branding to bookings, reviews, referrals, and payments, every surface is designed to feel premium to fans while giving operators data-rich insights that investors love.
+GetAt.Me turns a static "link in bio" into an interactive landing page that helps creators, consultants, and service-led businesses convert attention into loyal relationships. From personalized branding to bookings, reviews, referrals, and payments, every surface is designed to feel premium to fans while giving operators data-rich insights that investors love.
 
 ---
 
@@ -27,7 +27,7 @@ GetAt.Me turns a static “link in bio” into an interactive landing page that 
 - **Built for the next wave of solo brands.** A modern, mobile-native profile that feels on-brand, loads instantly, and converts casual views into high-value actions.
 - **Retention over vanity metrics.** Two-way interactions (chat, reviews, referrals) give creators a CRM-grade console without enterprise setup.
 - **Investor-aligned economics.** A subscription-first model with clear expansion revenue levers (Pro & ProMax) and embedded payments, enabling attractive LTV/CAC ratios as acquisition scales.
-- **Partner-ready ambition.** GetAt.Me integrates marketing, scheduling, monetization, and community engagement into one cohesive UX—exactly the sort of wedge YC partners expect before demo day.
+- **Partner-ready ambition.** GetAt.Me integrates marketing, scheduling, monetization, and community engagement into one cohesive UX-exactly the sort of wedge YC partners expect before demo day.
 
 ---
 
@@ -35,7 +35,7 @@ GetAt.Me turns a static “link in bio” into an interactive landing page that 
 
 ### For Creators & Agencies
 
-- Replaces “link farms” with a customizable microsite that mirrors your brand kit and tone.
+- Replaces "link farms" with a customizable microsite that mirrors your brand kit and tone.
 - Offers always-on booking, reviews, and DMs so every profile visit becomes a chance to transact or gather social proof.
 - Automates analytics and notifications, letting teams prioritize their highest converting formats.
 
@@ -120,7 +120,7 @@ GetAt.Me turns a static “link in bio” into an interactive landing page that 
 ## Product Experience Highlights
 
 - **Responsive-first UI:** Built on modern React patterns with Radix UI primitives for accessible and keyboard-friendly interactions.
-- **Personalization at scale:** Themes, typography, and layout controls ensure every profile feels like a native extension of the creator’s brand.
+- **Personalization at scale:** Themes, typography, and layout controls ensure every profile feels like a native extension of the creator's brand.
 - **Data visibility:** PostHog-powered analytics pipelines surface actionable funnels and export-ready insights.
 - **Trust infrastructure:** Clerk-managed authentication, Stripe-powered payments, and Sentry-backed monitoring keep the platform dependable.
 
@@ -154,7 +154,36 @@ bun run dev
 open http://localhost:3000
 ```
 
-> _Before running locally, copy `_env.local` (if present) to `.env.local` and supply Clerk, Stripe, Convex, and PostHog keys. Reach out for sandbox credentials if you’re evaluating the platform._
+> _Before running locally, copy `_env.local` (if present) to `.env.local` and supply Clerk, Stripe, Convex, and PostHog keys. Reach out for sandbox credentials if you're evaluating the platform._
+
+---
+
+## Deployment (Vercel + Convex)
+
+### Build Commands
+
+| Environment | Build Command |
+|-------------|---------------|
+| **Development** | `bunx --bun convex dev --once; bun build` |
+| **Production** | `bunx --bun convex deploy; bun build` |
+
+### Why Two Commands?
+
+- **`convex dev --once`** — Syncs schema and functions to the Convex dev deployment, then exits.
+- **`convex deploy`** — Pushes schema and functions to the Convex production deployment.
+- **`bun build`** — Builds the Next.js app for deployment.
+
+### Vercel Configuration
+
+In Vercel project settings, set the **Build Command** based on your environment:
+
+- **Preview/Development branches:** `bunx --bun convex dev --once; bun build`
+- **Production branch (main):** `bunx --bun convex deploy; bun build`
+
+Ensure the following environment variables are set in Vercel:
+- `CONVEX_DEPLOY_KEY` — For production deployments
+- `NEXT_PUBLIC_CONVEX_URL` — Your Convex deployment URL
+- All Clerk, Stripe, PostHog, and Sentry keys
 
 ---
 
@@ -162,7 +191,7 @@ open http://localhost:3000
 
 - **Founding Team:** builders with experience in creator economy tools, growth loops, and realtime infrastructure.
 - **Pitch Deck & Metrics:** michael@hustlelaunch.com (deck, metrics, and Cohort reports available on request).
-- **Investor + Partner Conversations:** We’re actively exploring strategic partners—reach out for a focused walkthrough tailored to your thesis.
+- **Investor + Partner Conversations:** We're actively exploring strategic partners-reach out for a focused walkthrough tailored to your thesis.
 
-> Let’s craft a future where every personal brand has the infrastructure of a modern SaaS.  
+> Let's craft a future where every personal brand has the infrastructure of a modern SaaS.
 > **[Schedule a founder call →](https://getat.me/michaelhurley)**

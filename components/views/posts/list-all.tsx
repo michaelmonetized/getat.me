@@ -2,15 +2,23 @@
 
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { Post } from "@/convex/posts";
+import { PostWithMeta } from "@/convex/posts";
 import { type User } from "@/hooks/user";
 import { PostCard } from "./card";
 
-export function PostsList({ user = undefined }: { user?: User }) {
-  const userPosts: Post[] | undefined = useQuery(api.posts.getPosts, {
+export function PostsList({
+  user = undefined,
+  currentUserId,
+}: {
+  user?: User;
+  currentUserId?: string;
+}) {
+  const userPosts = useQuery(api.posts.getPosts, {
     userId: user?.id ?? "",
   });
-  const allPosts: Post[] | undefined = useQuery(api.posts.getAllPosts);
+  const allPosts = useQuery(api.posts.getAllPosts, {
+    currentUserId: currentUserId,
+  });
 
   const posts = user ? userPosts : allPosts;
 
@@ -21,7 +29,7 @@ export function PostsList({ user = undefined }: { user?: User }) {
         posts.map((post) => {
           return (
             <div key={post._id}>
-              <PostCard post={post} />
+              <PostCard post={post as PostWithMeta} />
             </div>
           );
         })}

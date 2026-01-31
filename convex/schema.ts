@@ -108,8 +108,22 @@ export default defineSchema({
     userId: v.string(),
     content: v.string(),
     media: v.optional(v.array(v.id("_storage"))),
+    parentId: v.optional(v.id("posts")), // For replies/threads
+    repostOfId: v.optional(v.id("posts")), // For reposts (quote or pure repost)
     createdAt: v.number(),
-  }).index("by_userId", ["userId"]),
+  })
+    .index("by_userId", ["userId"])
+    .index("by_parentId", ["parentId"])
+    .index("by_repostOfId", ["repostOfId"])
+    .index("by_repostOfId_userId", ["repostOfId", "userId"]), // Composite for checking user reposts
+  likes: defineTable({
+    userId: v.string(), // User who liked
+    postId: v.id("posts"), // Post that was liked
+    createdAt: v.number(),
+  })
+    .index("by_postId", ["postId"])
+    .index("by_userId", ["userId"])
+    .index("by_userId_postId", ["userId", "postId"]),
   paymentSettings: defineTable({
     userId: v.string(),
     enabled: v.boolean(),
