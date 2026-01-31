@@ -8,17 +8,26 @@ import Plan from "./badges/plan";
 export default function Handle({
   user,
   withAvatar = true,
+  inline = false,
   className = "flex items-center gap-2 justify-start p-2",
   children,
   ...props
 }: {
   user: User;
   withAvatar?: boolean;
+  inline?: boolean;
   className?: string;
   children?: React.ReactNode;
 }) {
   if (!user) {
     return null;
+  }
+
+  // Inline mode - just the handle text for embedding in sentences
+  if (inline) {
+    return (
+      <span className="font-semibold">@{user.handle}</span>
+    );
   }
 
   return (

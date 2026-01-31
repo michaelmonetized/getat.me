@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useUser as useCurrentUser, useAuth } from "@clerk/nextjs";
-import { useMutation } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useToast } from "@/hooks/use-toast";
 import { ToastAction } from "@/components/ui/toast";
@@ -27,6 +27,7 @@ import {
   PiChatCircleFill,
   PiArrowsClockwiseLight,
   PiArrowsClockwiseFill,
+  PiArrowBendDownRightLight,
 } from "react-icons/pi";
 import { PostWithMeta } from "@/convex/posts";
 import Handle from "../../profile/public/handle";
@@ -35,14 +36,17 @@ import { type User, useUser } from "@/hooks/user";
 interface PostCardProps {
   post: PostWithMeta;
   onReplyCreated?: () => void;
+  isReply?: boolean;
+  depth?: number;
 }
 
-export function PostCard({ post, onReplyCreated }: PostCardProps) {
+export function PostCard({ post, onReplyCreated, isReply = false, depth = 0 }: PostCardProps) {
   const router = useRouter();
   const auth = useCurrentUser();
   const { has } = useAuth();
   const { toast } = useToast();
   const [showReplyForm, setShowReplyForm] = useState(false);
+  const [showReplies, setShowReplies] = useState(false);
   const [replyContent, setReplyContent] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -52,8 +56,19 @@ export function PostCard({ post, onReplyCreated }: PostCardProps) {
   const repost = useMutation(api.posts.repost);
   const undoRepost = useMutation(api.posts.undoRepost);
 
+  // Fetch replies when expanded
+  const replies = useQuery(
+    api.posts.getReplies,
+    showReplies ? { postId: post._id, currentUserId: auth?.user?.id } : "skip"
+  );
+
   const postUser: User | undefined = useUser(post.userId);
+  const repostOriginalUser: User | undefined = useUser(post.repostOf?.userId ?? "");
   const currentUser: User | undefined = useUser(auth?.user?.id ?? "");
+  
+  // For reposts, determine if we should show the original content
+  const isRepost = !!post.repostOfId && !!post.repostOf;
+  const displayContent = isRepost && !post.content ? post.repostOf.content : post.content;
 
   const isSignedIn = !!auth?.user?.id;
   const isMyPost = postUser?.userId === (currentUser?.id ?? "");
@@ -152,6 +167,7 @@ export function PostCard({ post, onReplyCreated }: PostCardProps) {
       });
       setReplyContent("");
       setShowReplyForm(false);
+      setShowReplies(true); // Auto-expand replies after posting
       onReplyCreated?.();
       toast({
         title: "Reply posted",
@@ -224,20 +240,42 @@ export function PostCard({ post, onReplyCreated }: PostCardProps) {
     }
   };
 
+  const handleToggleReplies = () => {
+    setShowReplies(!showReplies);
+  };
+
   return (
-    <Card>
+    <Card className={isReply ? "border-l-2 border-l-muted ml-4" : ""}>
       <CardHeader>
         <CardTitle>
-          <Handle user={postUser} />
+          {isRepost && (
+            <div className="flex items-center gap-1 text-xs text-muted-foreground mb-2">
+              <PiArrowsClockwiseLight className="h-3 w-3" />
+              <span><Handle user={postUser} inline /> reposted</span>
+            </div>
+          )}
+          <Handle user={isRepost ? repostOriginalUser : postUser} />
         </CardTitle>
       </CardHeader>
       <CardContent>
+        {/* Quote text for quote reposts */}
+        {isRepost && post.content && (
+          <div className="prose prose-sm max-w-none mb-3 pb-3 border-b">
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
+              rehypePlugins={[rehypeRaw]}
+            >
+              {post.content}
+            </ReactMarkdown>
+          </div>
+        )}
+        {/* Main content (or original post content for pure reposts) */}
         <div className="prose prose-sm max-w-none">
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
             rehypePlugins={[rehypeRaw]}
           >
-            {post.content}
+            {displayContent}
           </ReactMarkdown>
         </div>
       </CardContent>
@@ -335,6 +373,38 @@ export function PostCard({ post, onReplyCreated }: PostCardProps) {
                 {isSubmitting ? "Posting..." : "Reply"}
               </Button>
             </div>
+          </div>
+        )}
+
+        {/* Thread toggle - show if there are replies */}
+        {post.replyCount > 0 && depth < 3 && (
+          <div className="w-full">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleToggleReplies}
+              className="text-muted-foreground hover:text-foreground w-full justify-start"
+            >
+              <PiArrowBendDownRightLight className="h-4 w-4 mr-2" />
+              {showReplies ? "Hide" : "Show"} {post.replyCount} {post.replyCount === 1 ? "reply" : "replies"}
+            </Button>
+          </div>
+        )}
+
+        {/* Replies list */}
+        {showReplies && replies && (
+          <div className="w-full space-y-3 mt-2">
+            {replies.map((reply) => (
+              <PostCard
+                key={reply._id}
+                post={reply}
+                isReply
+                depth={depth + 1}
+                onReplyCreated={() => {
+                  // Replies will auto-refresh via Convex reactivity
+                }}
+              />
+            ))}
           </div>
         )}
       </CardFooter>
