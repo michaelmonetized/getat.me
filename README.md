@@ -93,7 +93,8 @@ GetAt.Me turns a static "link in bio" into an interactive landing page that help
 - All Pro features plus:
   - Paid appointments and direct payments from any visitor.
   - Referral commissions and affiliate tagging.
-  - Rich content posts with photos and video embeds.
+  - Rich content posts with threading, likes, replies, and reposts.
+  - Quote reposts to amplify content with your own commentary.
   - Custom availability templates and pre-qualified booking flows.
   - Vetted verification badge for social credibility.
 

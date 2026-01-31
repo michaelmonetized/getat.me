@@ -1,3 +1,18 @@
+## 2026-01-31
+
+- Feature: Posts interactions - likes, replies, and reposts (#8, #10, #11)
+  - Added like button with optimistic UI and heart animation
+  - Added reply functionality for ProMax users with inline reply form
+  - Added repost/quote repost functionality for ProMax users
+  - Reposts now properly display original post content with attribution header
+  - Quote reposts show user's quote above the original content
+  - Added expandable thread view - click "Show X replies" to view conversation
+  - Thread auto-expands after posting a reply for immediate feedback
+  - Nested thread display supports up to 3 levels deep
+  - Toast notifications with action buttons link to /login or /pricing when auth/plan required
+- Fix: Link edit buttons now only visible to profile owner (#9)
+- Fix: Posts are now publicly visible to all visitors (creation still ProMax-only)
+
 ## 2025-11-09
 
 - Docs: Reimagined project README for investor, creator, and YC audiences
