@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
+import { trackContactFormSubmitted } from "@/lib/analytics";
 
 export default function ContactPage() {
   const router = useRouter();
@@ -31,6 +32,7 @@ export default function ContactPage() {
         body: JSON.stringify({ email: "contact@getatme.com", subject, html }),
       });
       if (!res.ok) throw new Error("Failed to send message");
+      trackContactFormSubmitted();
       router.push("/thanks");
     } catch (error) {
       console.error("Contact form submission failed", error);

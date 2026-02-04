@@ -6,6 +6,7 @@ import { useUser } from "@clerk/nextjs";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Button } from "@/components/ui/button";
+import { trackProfileCreated, trackFormSubmit } from "@/lib/analytics";
 import {
   Card,
   CardContent,
@@ -72,6 +73,9 @@ export default function OnboardingPage() {
         handle: handle.trim().toLowerCase(),
         userId: user.id,
       });
+      // Track profile creation
+      trackFormSubmit("onboarding");
+      trackProfileCreated(handle.trim().toLowerCase());
       // Redirect to profile page
       router.push(`/${handle.trim().toLowerCase()}`);
     } catch (err) {
