@@ -7,7 +7,7 @@ export async function POST(request: Request) {
 
   try {
     const { data, error } = await resend.emails.send({
-      from: "Get At Me <noreply@getat.me>",
+      from: "Get At Me <notify@uncap.us>",
       to: email,
       subject: subject,
       html: html,
