@@ -68,7 +68,7 @@ export function PostCard({ post, onReplyCreated, isReply = false, depth = 0 }: P
   
   // For reposts, determine if we should show the original content
   const isRepost = !!post.repostOfId && !!post.repostOf;
-  const displayContent = isRepost && !post.content ? post.repostOf.content : post.content;
+  const displayContent = isRepost && !post.content ? post.repostOf?.content : post.content;
 
   const isSignedIn = !!auth?.user?.id;
   const isMyPost = postUser?.userId === (currentUser?.id ?? "");
