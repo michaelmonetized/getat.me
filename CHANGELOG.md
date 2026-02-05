@@ -1,3 +1,7 @@
+## 2026-02-05
+
+- Fix: TypeScript null check on repostOf content property (build fix)
+
 ## 2026-01-31
 
 - Feature: Posts interactions - likes, replies, and reposts (#8, #10, #11)
