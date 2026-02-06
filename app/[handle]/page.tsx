@@ -1,11 +1,12 @@
 "use client";
 
-import { useQuery } from "convex/react";
+import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useUser, useAuth, SignedOut } from "@clerk/nextjs";
 import { useParams } from "next/navigation";
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState, useEffect, useRef } from "react";
 import { Id } from "@/convex/_generated/dataModel";
+import { trackPageView } from "@/lib/analytics";
 import { AddLinkForm } from "@/components/forms/user/add-link";
 import { AvatarUpload } from "@/components/forms/user/avatar";
 import { CoverUpload } from "@/components/forms/user/cover";
@@ -48,8 +49,10 @@ export default function ProfilePage() {
   const { user: currentUser } = useUser();
   const { has } = useAuth();
   const [editingLink, setEditingLink] = useState<Id<"links"> | null>(null);
+  const hasTrackedPageView = useRef(false);
 
   const userByHandle = useQuery(api.users.getUserByHandle, { handle });
+  const trackEvent = useMutation(api.analytics.trackEvent);
   const currentUserProfile = useQuery(
     api.users.getCurrentUserProfile,
     currentUser?.id ? { userId: currentUser.id } : "skip"
@@ -66,6 +69,24 @@ export default function ProfilePage() {
       currentUserProfile.userId === userByHandle.userId
     );
   }, [currentUserProfile, userByHandle]);
+
+  // Track page view (only once, only for non-owners)
+  useEffect(() => {
+    if (userByHandle && !isOwner && !hasTrackedPageView.current) {
+      hasTrackedPageView.current = true;
+      // Track in Convex
+      trackEvent({
+        userId: userByHandle.userId,
+        eventType: "page_view",
+        eventData: {
+          referrer: typeof window !== "undefined" ? document.referrer : undefined,
+          userAgent: typeof window !== "undefined" ? navigator.userAgent : undefined,
+        },
+      }).catch((err) => console.error("Failed to track page view:", err));
+      // Track in PostHog
+      trackPageView(`/${handle}`);
+    }
+  }, [userByHandle, isOwner, handle, trackEvent]);
 
   // Apply theme class to the html element - must be before early returns
   const themeClass = userByHandle?.theme?.toLowerCase() || "mocha";
@@ -246,6 +267,7 @@ export default function ProfilePage() {
                     <LinkItem
                       key={link._id}
                       link={link}
+                      handle={handle}
                       isOwner={!!isOwner}
                       onEdit={() => setEditingLink(link._id)}
                     />

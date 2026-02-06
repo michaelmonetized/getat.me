@@ -42,12 +42,20 @@ export function Navbar() {
           </div>
           <SignedIn>
             {userProfile?.handle && (
-              <Link
-                href={`/${userProfile.handle}`}
-                className="text-sm hover:underline"
-              >
-                View Profile
-              </Link>
+              <>
+                <Link
+                  href={`/${userProfile.handle}/dashboard`}
+                  className="text-sm hover:underline font-medium"
+                >
+                  Dashboard
+                </Link>
+                <Link
+                  href={`/${userProfile.handle}`}
+                  className="text-sm hover:underline"
+                >
+                  Profile
+                </Link>
+              </>
             )}
             <UserButton />
           </SignedIn>
@@ -118,13 +126,22 @@ export function Navbar() {
               </Link>
               <SignedIn>
                 {userProfile?.handle && (
-                  <Link
-                    href={`/${userProfile.handle}`}
-                    className="rounded-md px-3 py-2 text-foreground hover:bg-accent"
-                    onClick={() => setMobileOpen(false)}
-                  >
-                    View Profile
-                  </Link>
+                  <>
+                    <Link
+                      href={`/${userProfile.handle}/dashboard`}
+                      className="rounded-md px-3 py-2 text-foreground hover:bg-accent font-medium"
+                      onClick={() => setMobileOpen(false)}
+                    >
+                      Dashboard
+                    </Link>
+                    <Link
+                      href={`/${userProfile.handle}`}
+                      className="rounded-md px-3 py-2 text-foreground hover:bg-accent"
+                      onClick={() => setMobileOpen(false)}
+                    >
+                      View Profile
+                    </Link>
+                  </>
                 )}
                 <div className="pt-2 px-3">
                   <UserButton />
