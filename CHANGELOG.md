@@ -1,3 +1,37 @@
+## 2026-02-06
+
+- Feature: Comprehensive analytics dashboard at /[handle]/dashboard
+  - Performance metrics with week-over-week trends (page views, link clicks, bookings, messages)
+  - Mini bar charts showing 14-day activity trends
+  - Quick stats cards (active links, current plan, theme, total events)
+  - Quick actions for common tasks (add link, edit profile, view bookings)
+  - Daily activity breakdown table with detailed metrics
+  - Upgrade CTAs for free users with contextual limit warnings
+  - Owner-only access with automatic redirect for non-owners
+
+- Feature: Link click tracking in analytics
+  - Tracks clicks in Convex database for analytics dashboard
+  - Tracks in PostHog for external analytics
+  - Only tracks for non-owners (visitors)
+  - Records referrer and user agent for attribution
+
+- Feature: Page view tracking for visitor analytics
+  - Records page views in Convex when profile is visited
+  - Only tracks for non-owners to avoid self-inflating metrics
+  - Tracks referrer source for traffic attribution
+
+- Feature: Enhanced onboarding experience
+  - Live URL preview shows profile URL as you type
+  - Real-time handle availability checking with debounce
+  - Visual feedback icons (available/taken/checking status)
+  - Progress indicator showing onboarding steps
+  - Improved form UX with larger inputs and clearer feedback
+  - Feature preview section (unlimited views, 3 free links, 9 themes)
+
+- UX: Dashboard link added to navigation
+  - Desktop and mobile navbar now include Dashboard link for signed-in users
+  - Quick access to analytics and management tools
+
 ## 2026-02-05
 
 - Fix: TypeScript null check on repostOf content property (build fix)
