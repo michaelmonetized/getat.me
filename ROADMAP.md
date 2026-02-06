@@ -2,7 +2,7 @@
 
 ## Current Status
 - [x] Development stage: MVP
-- [x] Last activity: 2026-01-31
+- [x] Last activity: 2026-02-06
 - [x] Key dependencies: Next.js, Clerk, Convex, Turbopack
 
 ## Tech Stack
@@ -15,12 +15,19 @@
 ## Blockers
 - None - core functionality working
 
+## Recent Updates (2026-02-06)
+- ✅ Added comprehensive analytics dashboard at /[handle]/dashboard
+- ✅ Implemented link click tracking (Convex + PostHog)
+- ✅ Added page view tracking for visitor analytics
+- ✅ Updated navbar with Dashboard quick access
+
 ## Goals
 
 ### Short-term (1-2 weeks)
-- [ ] Polish link management UI
-- [ ] Add analytics for link clicks
-- [ ] Custom theme options
+- [x] Add analytics for link clicks ✅
+- [x] Profile analytics dashboard ✅
+- [ ] Polish link management UI (drag-and-drop ordering)
+- [ ] Custom theme options (more themes)
 
 ### Medium-term (1 month)
 - [ ] Pro tier features
