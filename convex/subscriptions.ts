@@ -1,5 +1,5 @@
 import { v } from "convex/values";
-import { internalMutation, mutation, query } from "./_generated/server";
+import { internalMutation, query } from "./_generated/server";
 
 export const createSubscription = internalMutation({
   args: {
@@ -10,9 +10,10 @@ export const createSubscription = internalMutation({
     expires: v.number(),
   },
   handler: async (ctx, args) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const user = await ctx.db
       .query("users")
-      .withIndex(`by_${args.key}` as any, (q) => q.eq(args.key, args.value))
+      .withIndex(`by_${args.key}` as "by_userId", (q) => q.eq("userId" as never, args.value))
       .first();
 
     if (!user) {

@@ -14,6 +14,7 @@ import { BioForm } from "@/components/forms/user/bio";
 import { ThemeSelector } from "@/components/forms/user/theme-selector";
 import { PlanInfo } from "@/components/forms/user/plan-info";
 import { LinkItem } from "@/components/forms/user/link-item";
+import { SortableLinks } from "@/components/forms/user/sortable-links";
 import { LimitBanner } from "@/components/forms/user/limit-banner";
 import { EditLinkForm } from "@/components/forms/user/edit-link";
 import { Button } from "@/components/ui/button";
@@ -37,7 +38,6 @@ import {
 } from "react-icons/pi";
 import { Container } from "@/components/layout/container";
 import { SocialProofWidget } from "@/components/features/social-proof-widget";
-import { PublicPostsWidget } from "@/components/features/public-posts-widget";
 import Image from "next/image";
 import { PostsList } from "@/components/views/posts/list-all";
 import AddPostForm from "@/components/forms/user/add-post";
@@ -261,6 +261,12 @@ export default function ProfilePage() {
                       : "This user hasn't added any links yet."}
                   </p>
                 </div>
+              ) : isOwner ? (
+                <SortableLinks
+                  links={links ?? []}
+                  handle={handle}
+                  onEdit={(id) => setEditingLink(id)}
+                />
               ) : (
                 <div className="space-y-3">
                   {links?.map((link) => (
@@ -268,8 +274,8 @@ export default function ProfilePage() {
                       key={link._id}
                       link={link}
                       handle={handle}
-                      isOwner={!!isOwner}
-                      onEdit={() => setEditingLink(link._id)}
+                      isOwner={false}
+                      onEdit={() => {}}
                     />
                   ))}
                 </div>

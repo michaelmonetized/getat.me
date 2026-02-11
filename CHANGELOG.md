@@ -1,3 +1,17 @@
+## 2026-02-11
+
+- Feature: Drag-and-drop link reordering for profile owners
+  - Added @dnd-kit library for smooth drag-and-drop experience
+  - Links can be reordered by dragging the grip handle
+  - Order persists via `weight` field in database
+  - Created SortableLinks and SortableItem components
+  - Visitors still see regular LinkItem (no drag handles)
+
+- Fix: Resolved ESLint warnings across codebase
+  - Removed unused imports in dashboard and profile pages
+  - Fixed unused variables in convex mutations
+  - Clean build with no lint errors
+
 ## 2026-02-06
 
 - Feature: Comprehensive analytics dashboard at /[handle]/dashboard

@@ -52,10 +52,18 @@ export const getUserLinksByHandle = query({
       throw new Error("User not found");
     }
 
-    return await ctx.db
+    const links = await ctx.db
       .query("links")
       .filter((q) => q.eq(q.field("userId"), user.userId))
       .collect();
+
+    // Sort by weight (lower weight = higher priority), then by creation time
+    return links.sort((a, b) => {
+      const weightA = a.weight ?? 999;
+      const weightB = b.weight ?? 999;
+      if (weightA !== weightB) return weightA - weightB;
+      return 0;
+    });
   },
 });
 
@@ -95,7 +103,13 @@ export const updateLink = mutation({
       throw new Error("Link not found");
     }
 
-    const { id, userId: _, ...updateData } = args;
+    // Build update object excluding id and userId
+    const updateData: Record<string, unknown> = {};
+    if (args.anchor !== undefined) updateData.anchor = args.anchor;
+    if (args.href !== undefined) updateData.href = args.href;
+    if (args.weight !== undefined) updateData.weight = args.weight;
+    if (args.color !== undefined) updateData.color = args.color;
+    if (args.icon !== undefined) updateData.icon = args.icon;
 
     await ctx.db.patch(args.id, updateData);
     return null;
@@ -134,6 +148,39 @@ export const deleteLink = mutation({
     }
 
     await ctx.db.delete(args.id);
+    return null;
+  },
+});
+
+export const reorderLinks = mutation({
+  args: {
+    linkIds: v.array(v.id("links")),
+    userId: v.optional(v.string()),
+  },
+  returns: v.null(),
+  handler: async (ctx, args) => {
+    // Try to get user from auth if userId not provided
+    let userId = args.userId;
+
+    if (!userId) {
+      const user = await getCurrentUser(ctx, true);
+      if (user && typeof user === "string") {
+        userId = user;
+      }
+    }
+
+    if (!userId) {
+      throw new Error("User not found. Please sign in.");
+    }
+
+    // Update each link with its new weight based on array position
+    for (let i = 0; i < args.linkIds.length; i++) {
+      const link = await ctx.db.get(args.linkIds[i]);
+      if (link && link.userId === userId) {
+        await ctx.db.patch(args.linkIds[i], { weight: i });
+      }
+    }
+
     return null;
   },
 });

@@ -1,53 +1,66 @@
 # getat.me Roadmap
 
 ## Current Status
-- [x] Development stage: MVP
-- [x] Last activity: 2026-02-06
+- [x] Development stage: MVP Complete ✅
+- [x] Last activity: 2026-02-11
 - [x] Key dependencies: Next.js, Clerk, Convex, Turbopack
 
 ## Tech Stack
-- Next.js 15 with Turbopack
-- Clerk authentication
+- Next.js 16 with Turbopack
+- Clerk authentication + billing
 - Convex backend (real-time)
+- Stripe payments (via Clerk)
 - Radix UI components
 - Vercel deployment (linked)
 
 ## Blockers
-- None - core functionality working
+- None - MVP ready for launch
 
-## Recent Updates (2026-02-06)
-- ✅ Added comprehensive analytics dashboard at /[handle]/dashboard
-- ✅ Implemented link click tracking (Convex + PostHog)
-- ✅ Added page view tracking for visitor analytics
-- ✅ Updated navbar with Dashboard quick access
+## Recent Updates (2026-02-11)
+- ✅ Added drag-and-drop link reordering
+- ✅ Fixed all ESLint warnings
+- ✅ Clean production build
+
+## MVP Features Complete
+- [x] Core link-in-bio functionality
+- [x] User profile pages with themes (9 themes)
+- [x] Link management (CRUD + reordering)
+- [x] Analytics dashboard with metrics
+- [x] Link click and page view tracking
+- [x] User authentication (Clerk)
+- [x] Stripe payment integration
+- [x] Subscription plans (Premium/Pro/ProMax)
+- [x] Booking system for Pro users
+- [x] Live messaging
+- [x] Posts/content creation (ProMax)
+- [x] Recommendations and referrals
 
 ## Goals
 
-### Short-term (1-2 weeks)
-- [x] Add analytics for link clicks ✅
-- [x] Profile analytics dashboard ✅
-- [ ] Polish link management UI (drag-and-drop ordering)
+### Short-term (Post-Launch)
 - [ ] Custom theme options (more themes)
+- [ ] Custom domains support
+- [ ] Marketing site / landing page
 
 ### Medium-term (1 month)
-- [ ] Pro tier features
-- [ ] Custom domains support
-- [ ] Advanced analytics
+- [ ] Advanced analytics (demographics, devices)
+- [ ] Email notifications for bookings/messages
+- [ ] Mobile app considerations
 
 ### Long-term (3 months)
 - [ ] API for integrations
 - [ ] Team/organization features
-- [ ] Revenue: subscription model
+- [ ] Embed widgets
 
 ## Path to Production
 - [x] Core link-in-bio functionality
 - [x] Authentication with Clerk
 - [x] Real-time updates with Convex
 - [x] Vercel deployment
-- [ ] Stripe integration for Pro tier
+- [x] Stripe integration for Pro tier
 - [ ] Marketing site
 - [ ] Public launch
 
 ## Notes
 **Revenue potential: MEDIUM-HIGH** - Link-in-bio SaaS (Linktree competitor).
-Differentiator: Real-time updates, modern stack, fast performance.
+Differentiator: Real-time updates, modern stack, fast performance, tiered features.
