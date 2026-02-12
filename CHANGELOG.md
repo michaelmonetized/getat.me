@@ -1,3 +1,16 @@
+## 2026-02-12
+
+- Feature: SEO optimization for better search engine visibility
+  - Added `manifest.ts` for PWA support (app name, icons, theme colors)
+  - Added `sitemap.ts` with all static pages (features, pricing, FAQ, etc.)
+  - Added `robots.ts` to guide search engine crawlers
+  - Enhanced metadata in `layout.tsx`:
+    - Open Graph tags for social sharing
+    - Twitter Card tags for rich previews
+    - Keywords meta tags
+    - Proper title templates
+  - TODO: Add dynamic profile pages to sitemap
+
 ## 2026-02-11
 
 - Feature: Drag-and-drop link reordering for profile owners
