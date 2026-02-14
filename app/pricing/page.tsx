@@ -1,8 +1,20 @@
 "use client";
 
+import Link from "next/link";
 import { PricingTable } from "@clerk/nextjs";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { Button } from "@/components/ui/button";
 import { useEffect, useMemo } from "react";
+import {
+  PiTagLight,
+  PiArrowRightLight,
+  PiCheckCircleLight,
+} from "react-icons/pi";
 
 const PricingPage = () => {
   const prices = useMemo(
@@ -119,7 +131,7 @@ const PricingPage = () => {
     ),
     []
   );
-  // after PricingTable renders we want to wrap .cl-pricingTableCard__promax with a div that has a border-gradient-animated class
+
   useEffect(() => {
     if (prices) {
       const pricingTableCardPromax = document.querySelector(
@@ -131,58 +143,117 @@ const PricingPage = () => {
     }
   }, [prices]);
 
+  const pricingFaqs = [
+    {
+      q: "Can I change plans later?",
+      a: "Yes. You can upgrade or downgrade your plan at any time from your dashboard. Changes take effect immediately and billing is prorated.",
+    },
+    {
+      q: "What payment methods do you accept?",
+      a: "We accept all major credit cards, debit cards, and other payment methods through our secure payment processing partner.",
+    },
+    {
+      q: "Is there a free trial?",
+      a: "The Free plan is available forever with no credit card required. You can try out the platform risk-free and upgrade when you are ready.",
+    },
+    {
+      q: "What happens if I cancel?",
+      a: "If you cancel a paid plan, you keep access to paid features until the end of your current billing period. After that, your account reverts to the Free plan.",
+    },
+    {
+      q: "Do you offer refunds?",
+      a: "We handle refunds on a case-by-case basis in accordance with applicable consumer protection laws. Contact us if you have concerns about your subscription.",
+    },
+  ];
+
   return (
-    <div className="container mx-auto p-4 py-24 space-y-8">
-      <div className="text-center space-y-4">
-        <h1 className="text-4xl font-bold tracking-tight">Pricing Plans</h1>
-        <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-          Choose the perfect plan for your needs. Upgrade or downgrade at any
-          time.
-        </p>
-      </div>
+    <div className="w-full">
+      {/* Hero Section */}
+      <section className="relative overflow-hidden border-b border-border/40 py-28 pt-36">
+        <div className="absolute inset-0 bg-grid-pattern opacity-[0.04]" />
+        <div className="absolute -top-24 left-1/2 h-[500px] w-[700px] -translate-x-1/2 rounded-full bg-radial-[at_50%_0%] from-primary/15 via-transparent to-transparent blur-3xl" />
+        <div className="absolute bottom-0 right-0 h-48 w-48 bg-radial-[at_100%_100%] from-secondary/10 to-transparent blur-3xl" />
 
-      <div className="flex justify-center">
-        <div className="w-full max-w-6xl">{prices}</div>
-      </div>
+        <div className="relative mx-auto max-w-3xl px-4 text-center space-y-6">
+          <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-2 text-sm font-semibold text-primary animate-fade-in">
+            <PiTagLight className="h-4 w-4" />
+            <span>Simple, Transparent Pricing</span>
+          </div>
+          <h1 className="text-5xl md:text-6xl font-bold tracking-tight animate-fade-in-up">
+            Plans that grow
+            <span className="bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent">
+              {" "}with you
+            </span>
+          </h1>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto animate-fade-in-up-delay-1">
+            Start free, upgrade when you are ready. Every plan is designed to
+            unlock more value as your audience grows.
+          </p>
+        </div>
+      </section>
 
-      <div className="max-w-4xl mx-auto">
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-2xl font-bold text-center">
-              Frequently Asked Questions
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4 text-muted-foreground">
-            <div>
-              <strong className="text-foreground font-bold">
-                Can I change plans later?
-              </strong>
-              <p>
-                Yes! You can upgrade or downgrade your plan at any time. Changes
-                will be applied immediately.
-              </p>
+      {/* Pricing Table */}
+      <section className="py-8">
+        <div className="container mx-auto px-4">
+          <div className="flex justify-center">
+            <div className="w-full max-w-6xl">{prices}</div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="py-16 md:py-24 border-t border-border/40">
+        <div className="mx-auto max-w-3xl px-4">
+          <div className="text-center space-y-4 mb-12">
+            <h2 className="text-3xl font-bold tracking-tight">
+              Pricing Questions
+            </h2>
+            <p className="text-muted-foreground text-lg">
+              Common questions about billing, plans, and payments.
+            </p>
+          </div>
+
+          <Accordion type="single" collapsible className="space-y-3">
+            {pricingFaqs.map((item, idx) => (
+              <AccordionItem
+                key={idx}
+                value={`pricing-faq-${idx}`}
+                className="border border-border/50 rounded-lg px-6 bg-card/30 backdrop-blur-xs transition-all duration-300 hover:border-primary/30 hover:bg-card/60 data-[state=open]:border-primary/40 data-[state=open]:bg-card/50 data-[state=open]:shadow-lg data-[state=open]:shadow-primary/5"
+              >
+                <AccordionTrigger className="text-left text-base font-semibold hover:no-underline py-5 [&[data-state=open]]:text-primary">
+                  {item.q}
+                </AccordionTrigger>
+                <AccordionContent className="text-muted-foreground leading-relaxed text-[0.95rem] pb-5">
+                  {item.a}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+
+          {/* CTA below FAQ */}
+          <div className="mt-16 text-center space-y-6">
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-primary/10">
+              <PiCheckCircleLight className="h-7 w-7 text-primary" />
             </div>
-            <div>
-              <strong className="text-foreground font-bold">
-                What payment methods do you accept?
-              </strong>
-              <p>
-                We accept all major credit cards and other payment methods
-                through Clerk&apos;s secure payment processing.
-              </p>
+            <h3 className="text-2xl font-bold">Still not sure?</h3>
+            <p className="text-muted-foreground">
+              Start with the free plan. No credit card, no commitment. Upgrade
+              whenever you are ready.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button asChild size="lg">
+                <Link href="/register">
+                  Get Started Free
+                  <PiArrowRightLight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+              <Button asChild variant="outline" size="lg">
+                <Link href="/contact">Talk to Us</Link>
+              </Button>
             </div>
-            <div>
-              <strong className="text-foreground font-bold">
-                Is there a free trial?
-              </strong>
-              <p>
-                The free plan is available forever with no credit card required.
-                Try out our paid plans risk-free!
-              </p>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 };
