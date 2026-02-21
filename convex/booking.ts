@@ -153,6 +153,38 @@ export const createAppointment = mutation({
     appointmentTime: v.string(),
   },
   handler: async (ctx, args) => {
+    // Input validation
+    const name = args.name.trim();
+    if (name.length < 2 || name.length > 100) {
+      throw new Error("Name must be between 2 and 100 characters");
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(args.email)) {
+      throw new Error("Invalid email format");
+    }
+
+    if (args.phone !== undefined) {
+      const phoneRegex = /^\+?[\d\s\-().]{7,20}$/;
+      if (!phoneRegex.test(args.phone)) {
+        throw new Error("Invalid phone number format");
+      }
+    }
+
+    if (args.message !== undefined && args.message.length > 1000) {
+      throw new Error("Message must be 1000 characters or less");
+    }
+
+    const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+    if (!dateRegex.test(args.appointmentDate) || isNaN(Date.parse(args.appointmentDate))) {
+      throw new Error("Invalid date format. Use YYYY-MM-DD");
+    }
+
+    const timeRegex = /^([01]\d|2[0-3]):[0-5]\d$/;
+    if (!timeRegex.test(args.appointmentTime)) {
+      throw new Error("Invalid time format. Use HH:mm (24-hour)");
+    }
+
     // Check if this time slot is already booked
     const existing = await ctx.db
       .query("appointments")
