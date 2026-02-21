@@ -11,7 +11,7 @@ import { TiptapEditor } from "@/components/editor/tiptap-editor";
 
 export default function EditPostForm({ post }: { post: Post }) {
   const auth = useCurrentUser();
-  const postUser = useUser(post.userId);
+  const { user: postUser } = useUser(post.userId);
   const { toast } = useToast();
   const [content, setContent] = useState(post.content);
   const [isSubmitting, setIsSubmitting] = useState(false);
