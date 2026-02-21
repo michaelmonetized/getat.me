@@ -15,24 +15,34 @@ type User =
       })
   | null;
 
+type UseUserResult = {
+  user: User;
+  isLoading: boolean;
+  error: Error | null;
+};
+
 function useUserVerified(userId: string) {
-  return useQuery(api.verifications.getVerification, {
-    userId: userId,
-    type: "verified",
-  });
+  return useQuery(
+    api.verifications.getVerification,
+    userId ? { userId, type: "verified" } : "skip"
+  );
 }
 
 function useUserVetted(userId: string) {
-  return useQuery(api.verifications.getVerification, {
-    userId: userId,
-    type: "vetted",
-  });
+  return useQuery(
+    api.verifications.getVerification,
+    userId ? { userId, type: "vetted" } : "skip"
+  );
 }
 
-function useUser(userId: string) {
-  const userFromConvex = useQuery(api.users.getUserByID, { userId });
+function useUser(userId: string): UseUserResult {
+  const userFromConvex = useQuery(
+    api.users.getUserByID,
+    userId ? { userId } : "skip"
+  );
   const [userFromClerk, setUserFromClerk] = useState<ClerkUser | null>(null);
   const [error, setError] = useState<Error | null>(null);
+  const [isLoadingClerk, setIsLoadingClerk] = useState(false);
   const userVerified = useUserVerified(userId);
   const userVetted = useUserVetted(userId);
 
@@ -40,6 +50,8 @@ function useUser(userId: string) {
     if (!userId) return;
 
     let canceled = false;
+    setIsLoadingClerk(true);
+    setError(null);
 
     async function fetchClerkUser() {
       try {
@@ -49,7 +61,11 @@ function useUser(userId: string) {
         }
       } catch (err) {
         if (!canceled) {
-          setError(err as Error);
+          setError(err instanceof Error ? err : new Error(String(err)));
+        }
+      } finally {
+        if (!canceled) {
+          setIsLoadingClerk(false);
         }
       }
     }
@@ -61,27 +77,48 @@ function useUser(userId: string) {
     };
   }, [userId]);
 
+  if (!userId) {
+    return { user: null, isLoading: false, error: null };
+  }
+
   if (error) {
-    throw error;
+    return { user: null, isLoading: false, error };
+  }
+
+  const isLoading =
+    userFromConvex === undefined || isLoadingClerk;
+
+  if (isLoading) {
+    return { user: null, isLoading: true, error: null };
   }
 
   if (!userFromConvex || !userFromClerk) {
-    return null;
+    return { user: null, isLoading: false, error: null };
   }
 
-  return {
+  const user: User = {
     ...userFromConvex,
     ...userFromClerk,
     verified: userVerified ? true : false,
     vetted: userVetted ? true : false,
   };
+
+  return { user, isLoading: false, error: null };
 }
 
-function useUserByHandle(handle: string) {
-  const convexUser = useQuery(api.users.getUserByHandle, { handle });
-  const user = useUser(convexUser?.userId ?? "");
-
-  return user ?? null;
+function useUserByHandle(handle: string): UseUserResult {
+  const convexUser = useQuery(
+    api.users.getUserByHandle,
+    handle ? { handle } : "skip"
+  );
+  return useUser(convexUser?.userId ?? "");
 }
 
-export { useUserVerified, useUserVetted, useUser, useUserByHandle, type User };
+export {
+  useUserVerified,
+  useUserVetted,
+  useUser,
+  useUserByHandle,
+  type User,
+  type UseUserResult,
+};

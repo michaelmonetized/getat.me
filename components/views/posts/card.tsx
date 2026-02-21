@@ -62,16 +62,16 @@ export function PostCard({ post, onReplyCreated, isReply = false, depth = 0 }: P
     showReplies ? { postId: post._id, currentUserId: auth?.user?.id } : "skip"
   );
 
-  const postUser: User | undefined = useUser(post.userId);
-  const repostOriginalUser: User | undefined = useUser(post.repostOf?.userId ?? "");
-  const currentUser: User | undefined = useUser(auth?.user?.id ?? "");
-  
+  const { user: postUser } = useUser(post.userId);
+  const { user: repostOriginalUser } = useUser(post.repostOf?.userId ?? "");
+
   // For reposts, determine if we should show the original content
   const isRepost = !!post.repostOfId && !!post.repostOf;
   const displayContent = isRepost && !post.content ? post.repostOf?.content : post.content;
 
   const isSignedIn = !!auth?.user?.id;
-  const isMyPost = postUser?.userId === (currentUser?.id ?? "");
+  // Compare against auth.user.id directly — avoids an extra useUser call per card
+  const isMyPost = postUser?.userId === (auth?.user?.id ?? "");
   // ProMax users can reply and repost (dev mode bypasses)
   const canReplyRepost =
     process.env.NODE_ENV === "development" ||

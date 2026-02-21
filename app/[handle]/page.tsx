@@ -96,9 +96,12 @@ export default function ProfilePage() {
     document.body.className = "antialiased";
   }, [themeClass]);
 
-  const profileUser: User | undefined = useCombinedUser(
+  const { user: profileUser, error: profileUserError } = useCombinedUser(
     userByHandle?.userId ?? ""
   );
+  if (profileUserError) {
+    console.error("Failed to load profile user:", profileUserError);
+  }
 
   if (links === undefined || userByHandle === undefined) {
     return (
