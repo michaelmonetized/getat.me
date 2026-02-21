@@ -18,7 +18,7 @@ export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <nav className="sticky top-4 z-500 w-full border-b border-border/5 rounded-lg shadow-xl max-w-7xl mx-auto bg-background/30 bg-linear-to-b from-foreground/5 to-background/60 backdrop-blur-sm">
+    <nav className="sticky top-4 z-50 w-full border-b border-border/5 rounded-lg shadow-xl max-w-7xl mx-auto bg-background/30 bg-linear-to-b from-foreground/5 to-background/60 backdrop-blur-sm">
       <div className="px-4 h-14 flex items-center justify-between">
         <Link href="/" className="text-xl font-bold">
           GetAt.Me
