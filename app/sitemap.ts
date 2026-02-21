@@ -59,8 +59,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.7,
     }));
     return [...staticPages, ...profilePages];
-  } catch (err) {
-    console.error("sitemap: failed to fetch public profiles", err);
+  } catch {
     return staticPages;
   }
 }
