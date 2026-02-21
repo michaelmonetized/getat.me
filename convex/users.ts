@@ -503,3 +503,16 @@ export const setHandle = mutation({
     }
   },
 });
+
+export const getAllPublicHandles = query({
+  args: {},
+  handler: async (ctx) => {
+    const users = await ctx.db.query("users").collect();
+    return users
+      .filter((u) => u.handle)
+      .map((u) => ({
+        handle: u.handle!,
+        updatedAt: u._creationTime,
+      }));
+  },
+});
