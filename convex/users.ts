@@ -517,3 +517,42 @@ export const getAllPublicHandles = query({
       }));
   },
 });
+
+// Internal mutations for Clerk webhook handlers
+export const internalUpdateUser = internalMutation({
+  args: {
+    userId: v.string(),
+    email: v.optional(v.string()),
+    firstName: v.optional(v.string()),
+    lastName: v.optional(v.string()),
+    imageUrl: v.optional(v.string()),
+  },
+  handler: async (ctx, args) => {
+    const user = await ctx.db
+      .query("users")
+      .withIndex("by_userId", (q) => q.eq("userId", args.userId))
+      .first();
+    if (!user) return; // user may not exist yet
+    const patch: Record<string, unknown> = {};
+    if (args.email !== undefined) patch.email = args.email;
+    if (args.firstName !== undefined) patch.firstName = args.firstName;
+    if (args.lastName !== undefined) patch.lastName = args.lastName;
+    if (args.imageUrl !== undefined) patch.imageUrl = args.imageUrl;
+    if (Object.keys(patch).length > 0) {
+      await ctx.db.patch(user._id, patch);
+    }
+  },
+});
+
+export const internalDeleteUser = internalMutation({
+  args: { userId: v.string() },
+  handler: async (ctx, args) => {
+    const user = await ctx.db
+      .query("users")
+      .withIndex("by_userId", (q) => q.eq("userId", args.userId))
+      .first();
+    if (user) {
+      await ctx.db.delete(user._id);
+    }
+  },
+});

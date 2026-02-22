@@ -85,7 +85,8 @@ export function LiveChatWidget({ profileUserId, profileHandle }: LiveChatWidgetP
     // Show button but prompt to sign in when clicked
     return (
       <SignInButton mode="modal">
-        <Button className="fixed bottom-6 right-6 h-14 w-14 rounded-full shadow-lg z-50" size="icon">
+        <Button className="fixed bottom-6 right-6 h-14 w-14 rounded-full shadow-lg z-50" size="icon"
+          aria-label="Open chat">
           <MessageCircle className="h-6 w-6" />
         </Button>
       </SignInButton>
@@ -100,6 +101,7 @@ export function LiveChatWidget({ profileUserId, profileHandle }: LiveChatWidgetP
           onClick={() => setIsOpen(true)}
           className="fixed bottom-6 right-6 h-14 w-14 rounded-full shadow-lg z-50"
           size="icon"
+          aria-label="Open chat"
         >
           <MessageCircle className="h-6 w-6" />
         </Button>
@@ -119,6 +121,7 @@ export function LiveChatWidget({ profileUserId, profileHandle }: LiveChatWidgetP
                 size="sm"
                 onClick={() => setIsMinimized(!isMinimized)}
                 className="h-8 w-8 p-0"
+                aria-label={isMinimized ? "Expand chat" : "Minimize chat"}
               >
                 {isMinimized ? <Maximize2 className="h-4 w-4" /> : <Minimize2 className="h-4 w-4" />}
               </Button>
@@ -127,6 +130,7 @@ export function LiveChatWidget({ profileUserId, profileHandle }: LiveChatWidgetP
                 size="sm"
                 onClick={() => setIsOpen(false)}
                 className="h-8 w-8 p-0"
+                aria-label="Close chat"
               >
                 <X className="h-4 w-4" />
               </Button>
