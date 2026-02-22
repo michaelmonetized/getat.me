@@ -1,5 +1,6 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
+import { paginationOptsValidator } from "convex/server";
 
 // Helper to create conversation ID (sorted user IDs)
 function getConversationId(userId1: string, userId2: string): string {
@@ -42,12 +43,14 @@ export const getConversations = query({
     const sentMessages = await ctx.db
       .query("messages")
       .withIndex("by_senderUserId", (q) => q.eq("senderUserId", args.userId))
-      .collect();
+      .order("desc")
+      .take(100); // limit to 100 most recent per direction
 
     const receivedMessages = await ctx.db
       .query("messages")
       .withIndex("by_receiverUserId", (q) => q.eq("receiverUserId", args.userId))
-      .collect();
+      .order("desc")
+      .take(100); // limit to 100 most recent per direction
 
     // Group by conversation ID
     const conversations = new Map<string, {
@@ -112,24 +115,15 @@ export const getMessages = query({
   args: {
     userId1: v.string(),
     userId2: v.string(),
-    limit: v.optional(v.number()),
-    cursor: v.optional(v.string()),
+    paginationOpts: paginationOptsValidator,
   },
   handler: async (ctx, args) => {
     const conversationId = getConversationId(args.userId1, args.userId2);
-    const pageSize = args.limit ?? 50;
-
-    const results = await ctx.db
+    return await ctx.db
       .query("messages")
       .withIndex("by_conversationId", (q) => q.eq("conversationId", conversationId))
-      .order("desc")
-      .paginate({ numItems: pageSize, cursor: args.cursor ?? null });
-
-    return {
-      messages: results.page.reverse(),
-      cursor: results.continueCursor,
-      isDone: results.isDone,
-    };
+      .order("asc")
+      .paginate(args.paginationOpts);
   },
 });
 
