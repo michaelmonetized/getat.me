@@ -7,7 +7,7 @@ import { api } from "@/convex/_generated/api";
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { PiChatCircle, PiX, PiPaperPlaneTilt, PiArrowsInSimple, PiArrowsOutSimple } from "react-icons/pi";
+import { MessageCircle, X, Send, Minimize2, Maximize2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
@@ -26,13 +26,12 @@ export function LiveChatWidget({ profileUserId, profileHandle }: LiveChatWidgetP
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Get messages for this conversation
-  const messagesResult = useQuery(
+  const messages = useQuery(
     api.messages.getMessages,
     user?.id && isSignedIn
       ? { userId1: user.id, userId2: profileUserId }
       : "skip"
   );
-  const messages = messagesResult?.messages;
 
   const sendMessage = useMutation(api.messages.sendMessage);
   const markAsRead = useMutation(api.messages.markMessagesAsRead);
@@ -86,8 +85,9 @@ export function LiveChatWidget({ profileUserId, profileHandle }: LiveChatWidgetP
     // Show button but prompt to sign in when clicked
     return (
       <SignInButton mode="modal">
-        <Button className="fixed bottom-6 right-6 h-14 w-14 rounded-full shadow-lg z-50" size="icon" aria-label="Open chat">
-          <PiChatCircle className="h-6 w-6" />
+        <Button className="fixed bottom-6 right-6 h-14 w-14 rounded-full shadow-lg z-50" size="icon"
+          aria-label="Open chat">
+          <MessageCircle className="h-6 w-6" />
         </Button>
       </SignInButton>
     );
@@ -103,7 +103,7 @@ export function LiveChatWidget({ profileUserId, profileHandle }: LiveChatWidgetP
           size="icon"
           aria-label="Open chat"
         >
-          <PiChatCircle className="h-6 w-6" />
+          <MessageCircle className="h-6 w-6" />
         </Button>
       )}
 
@@ -112,7 +112,7 @@ export function LiveChatWidget({ profileUserId, profileHandle }: LiveChatWidgetP
         <Card className="fixed bottom-6 right-6 w-96 h-[500px] shadow-2xl z-50 flex flex-col">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 border-b">
             <div className="flex items-center gap-2">
-              <PiChatCircle className="h-5 w-5" />
+              <MessageCircle className="h-5 w-5" />
               <h3 className="font-semibold">Chat with @{profileHandle}</h3>
             </div>
             <div className="flex gap-2">
@@ -121,16 +121,18 @@ export function LiveChatWidget({ profileUserId, profileHandle }: LiveChatWidgetP
                 size="sm"
                 onClick={() => setIsMinimized(!isMinimized)}
                 className="h-8 w-8 p-0"
+                aria-label={isMinimized ? "Expand chat" : "Minimize chat"}
               >
-                {isMinimized ? <PiArrowsOutSimple className="h-4 w-4" /> : <PiArrowsInSimple className="h-4 w-4" />}
+                {isMinimized ? <Maximize2 className="h-4 w-4" /> : <Minimize2 className="h-4 w-4" />}
               </Button>
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => setIsOpen(false)}
                 className="h-8 w-8 p-0"
+                aria-label="Close chat"
               >
-                <PiX className="h-4 w-4" />
+                <X className="h-4 w-4" />
               </Button>
             </div>
           </CardHeader>
@@ -184,8 +186,8 @@ export function LiveChatWidget({ profileUserId, profileHandle }: LiveChatWidgetP
                     placeholder="Type a message..."
                     disabled={isSending}
                   />
-                  <Button type="submit" disabled={isSending || !message.trim()} size="icon" aria-label="Send message">
-                    <PiPaperPlaneTilt className="h-4 w-4" />
+                  <Button type="submit" disabled={isSending || !message.trim()} size="icon">
+                    <Send className="h-4 w-4" />
                   </Button>
                 </div>
               </form>
