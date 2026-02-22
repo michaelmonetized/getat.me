@@ -11,7 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { CheckoutButton } from "@clerk/clerk-react/experimental";
 import Link from "next/link";
-import { Lock } from "lucide-react";
+import { PiLock } from "react-icons/pi";
 import plans from "@/config/plans";
 
 interface FeatureGateProps {
@@ -83,7 +83,7 @@ export function FeatureGate({
           <div className="flex-1">
             <CardTitle className="flex items-center gap-2">
               {title}
-              <Lock className="h-4 w-4 text-muted-foreground" />
+              <PiLock className="h-4 w-4 text-muted-foreground" />
             </CardTitle>
             <CardDescription>{description}</CardDescription>
           </div>

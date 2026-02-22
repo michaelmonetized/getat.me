@@ -5,7 +5,7 @@ import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { Button } from "@/components/ui/button";
-import { Pencil, Trash2 } from "lucide-react";
+import { PiPencilSimple, PiTrash } from "react-icons/pi";
 import { trackProfileLinkClicked } from "@/lib/analytics";
 
 interface LinkItemProps {
@@ -97,7 +97,7 @@ export function LinkItem({ link, handle, isOwner = false, onEdit }: LinkItemProp
             disabled={isDeleting}
             aria-label="Edit link"
           >
-            <Pencil className="h-4 w-4" />
+            <PiPencilSimple className="h-4 w-4" />
           </Button>
           <Button
             variant="ghost"
@@ -106,7 +106,7 @@ export function LinkItem({ link, handle, isOwner = false, onEdit }: LinkItemProp
             disabled={isDeleting}
             aria-label="Delete link"
           >
-            <Trash2 className="h-4 w-4" />
+            <PiTrash className="h-4 w-4" />
           </Button>
         </div>
       )}

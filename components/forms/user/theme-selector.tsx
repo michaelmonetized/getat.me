@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Check } from "lucide-react";
+import { PiCheck } from "react-icons/pi";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useUser } from "@clerk/nextjs";
@@ -76,7 +76,7 @@ export function ThemeSelector() {
                 <span className="w-4 h-4 rounded-[3px] block bg-destructive"></span>
               </span>
               {selectedTheme === theme ? (
-                <Check className="h-4 w-4 text-foreground block" />
+                <PiCheck className="h-4 w-4 text-foreground block" />
               ) : (
                 <span className="w-4 h-4 block"></span>
               )}

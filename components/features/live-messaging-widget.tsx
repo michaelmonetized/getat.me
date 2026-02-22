@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { MessageCircle, Send } from "lucide-react";
+import { PiChatCircle, PiPaperPlaneTilt } from "react-icons/pi";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -98,7 +98,7 @@ export function LiveMessagingWidget() {
       <CardHeader>
         <div className="flex items-center gap-3">
           <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-            <MessageCircle className="h-5 w-5 text-primary" />
+            <PiChatCircle className="h-5 w-5 text-primary" />
           </div>
           <div className="flex-1">
             <CardTitle>Live Messaging</CardTitle>
@@ -197,7 +197,7 @@ export function LiveMessagingWidget() {
                     onClick={handleSendMessage}
                     disabled={isSending || !messageContent.trim()}
                   >
-                    <Send className="h-4 w-4" />
+                    <PiPaperPlaneTilt className="h-4 w-4" />
                   </Button>
                 </div>
               </div>

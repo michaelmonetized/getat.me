@@ -7,7 +7,7 @@ import { api } from "@/convex/_generated/api";
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { MessageCircle, X, Send, Minimize2, Maximize2 } from "lucide-react";
+import { PiChatCircle, PiX, PiPaperPlaneTilt, PiArrowsInSimple, PiArrowsOutSimple } from "react-icons/pi";
 import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
@@ -86,7 +86,7 @@ export function LiveChatWidget({ profileUserId, profileHandle }: LiveChatWidgetP
     return (
       <SignInButton mode="modal">
         <Button className="fixed bottom-6 right-6 h-14 w-14 rounded-full shadow-lg z-50" size="icon" aria-label="Open chat">
-          <MessageCircle className="h-6 w-6" />
+          <PiChatCircle className="h-6 w-6" />
         </Button>
       </SignInButton>
     );
@@ -102,7 +102,7 @@ export function LiveChatWidget({ profileUserId, profileHandle }: LiveChatWidgetP
           size="icon"
           aria-label="Open chat"
         >
-          <MessageCircle className="h-6 w-6" />
+          <PiChatCircle className="h-6 w-6" />
         </Button>
       )}
 
@@ -111,7 +111,7 @@ export function LiveChatWidget({ profileUserId, profileHandle }: LiveChatWidgetP
         <Card className="fixed bottom-6 right-6 w-96 h-[500px] shadow-2xl z-50 flex flex-col">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 border-b">
             <div className="flex items-center gap-2">
-              <MessageCircle className="h-5 w-5" />
+              <PiChatCircle className="h-5 w-5" />
               <h3 className="font-semibold">Chat with @{profileHandle}</h3>
             </div>
             <div className="flex gap-2">
@@ -121,7 +121,7 @@ export function LiveChatWidget({ profileUserId, profileHandle }: LiveChatWidgetP
                 onClick={() => setIsMinimized(!isMinimized)}
                 className="h-8 w-8 p-0"
               >
-                {isMinimized ? <Maximize2 className="h-4 w-4" /> : <Minimize2 className="h-4 w-4" />}
+                {isMinimized ? <PiArrowsOutSimple className="h-4 w-4" /> : <PiArrowsInSimple className="h-4 w-4" />}
               </Button>
               <Button
                 variant="ghost"
@@ -129,7 +129,7 @@ export function LiveChatWidget({ profileUserId, profileHandle }: LiveChatWidgetP
                 onClick={() => setIsOpen(false)}
                 className="h-8 w-8 p-0"
               >
-                <X className="h-4 w-4" />
+                <PiX className="h-4 w-4" />
               </Button>
             </div>
           </CardHeader>
@@ -184,7 +184,7 @@ export function LiveChatWidget({ profileUserId, profileHandle }: LiveChatWidgetP
                     disabled={isSending}
                   />
                   <Button type="submit" disabled={isSending || !message.trim()} size="icon" aria-label="Send message">
-                    <Send className="h-4 w-4" />
+                    <PiPaperPlaneTilt className="h-4 w-4" />
                   </Button>
                 </div>
               </form>

@@ -15,7 +15,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { X } from "lucide-react";
+import { PiX } from "react-icons/pi";
 
 interface EditLinkFormProps {
   link: {
@@ -82,7 +82,7 @@ export function EditLinkForm({ link, onClose }: EditLinkFormProps) {
               onClick={onClose}
               className="text-muted-foreground hover:text-foreground"
             >
-              <X className="h-4 w-4" />
+              <PiX className="h-4 w-4" />
             </button>
           </div>
         </CardHeader>

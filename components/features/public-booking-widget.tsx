@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Calendar, Clock, Mail, User, Phone, ArrowLeft } from "lucide-react";
+import { PiCalendar, PiClock, PiEnvelope, PiUser, PiPhone, PiArrowLeft } from "react-icons/pi";
 import { useState, useMemo, useEffect, useCallback } from "react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -294,7 +294,7 @@ export function PublicBookingWidget({ userId }: PublicBookingWidgetProps) {
               onClick={() => setSelectedTime(null)}
               className="h-8 w-8 p-0"
             >
-              <ArrowLeft className="h-4 w-4" />
+              <PiArrowLeft className="h-4 w-4" />
             </Button>
             <div className="flex-1">
               <CardTitle>Confirm Booking</CardTitle>
@@ -309,7 +309,7 @@ export function PublicBookingWidget({ userId }: PublicBookingWidgetProps) {
             <div className="space-y-2">
               <Label htmlFor="booking-name">Name *</Label>
               <div className="relative">
-                <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <PiUser className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
                   id="booking-name"
                   type="text"
@@ -325,7 +325,7 @@ export function PublicBookingWidget({ userId }: PublicBookingWidgetProps) {
             <div className="space-y-2">
               <Label htmlFor="booking-email">Email *</Label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <PiEnvelope className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
                   id="booking-email"
                   type="email"
@@ -341,7 +341,7 @@ export function PublicBookingWidget({ userId }: PublicBookingWidgetProps) {
             <div className="space-y-2">
               <Label htmlFor="booking-phone">Phone</Label>
               <div className="relative">
-                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <PiPhone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
                   id="booking-phone"
                   type="tel"
@@ -379,7 +379,7 @@ export function PublicBookingWidget({ userId }: PublicBookingWidgetProps) {
       <CardHeader>
         <div className="flex items-center gap-3">
           <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-            <Calendar className="h-5 w-5 text-primary" />
+            <PiCalendar className="h-5 w-5 text-primary" />
           </div>
           <div className="flex-1">
             <CardTitle>Book a Time</CardTitle>
@@ -426,7 +426,7 @@ export function PublicBookingWidget({ userId }: PublicBookingWidgetProps) {
                           disabled={isBooked || isPast}
                           onClick={() => handleTimeSelect(date, time)}
                         >
-                          <Clock className="h-3 w-3 mr-2" />
+                          <PiClock className="h-3 w-3 mr-2" />
                           {time}
                           {isBooked && (
                             <span className="ml-auto text-xs text-muted-foreground">
