@@ -1,3 +1,4 @@
+// Needs force-dynamic because page uses Clerk auth context
 export const dynamic = "force-dynamic";
 
 import Link from "next/link";

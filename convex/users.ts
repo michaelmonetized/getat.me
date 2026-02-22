@@ -252,6 +252,47 @@ export const updateUser = mutation({
   },
 });
 
+export const internalUpdateUser = internalMutation({
+  args: {
+    userId: v.string(),
+    email: v.optional(v.string()),
+    first: v.optional(v.string()),
+    last: v.optional(v.string()),
+  },
+  handler: async (ctx, args) => {
+    const user = await ctx.db
+      .query("users")
+      .withIndex("by_userId", (q) => q.eq("userId", args.userId))
+      .first();
+
+    if (!user) {
+      // User doesn't exist yet — skip update
+      return;
+    }
+
+    const { userId: _, ...updates } = args;
+    await ctx.db.patch(user._id, updates);
+  },
+});
+
+export const internalDeleteUser = internalMutation({
+  args: {
+    userId: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const user = await ctx.db
+      .query("users")
+      .withIndex("by_userId", (q) => q.eq("userId", args.userId))
+      .first();
+
+    if (!user) {
+      return;
+    }
+
+    await ctx.db.delete(user._id);
+  },
+});
+
 export const deleteUser = mutation({
   args: {
     userId: v.string(),
