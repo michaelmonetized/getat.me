@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Star, Users } from "lucide-react";
+import { PiStar, PiUsers } from "react-icons/pi";
 import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { SignUpButton } from "@clerk/nextjs";
@@ -150,7 +150,7 @@ export function RecommendationsWidget({ userId }: RecommendationsWidgetProps) {
                       onMouseLeave={() => setHoverRating(0)}
                       className="focus:outline-hidden"
                     >
-                      <Star
+                      <PiStar
                         className={`h-6 w-6 ${
                           star <= (hoverRating || rating)
                             ? "fill-yellow-400 text-yellow-400"
@@ -181,7 +181,7 @@ export function RecommendationsWidget({ userId }: RecommendationsWidgetProps) {
             <div className="space-y-4">
               <div className="flex gap-1">
                 {[1, 2, 3, 4, 5].map((star) => (
-                  <Star
+                  <PiStar
                     key={star}
                     className={`h-6 w-6 ${
                       star <= rating ? "fill-yellow-400 text-yellow-400" : "text-muted-foreground"
@@ -206,7 +206,7 @@ export function RecommendationsWidget({ userId }: RecommendationsWidgetProps) {
                       onMouseLeave={() => setHoverRating(0)}
                       className="focus:outline-hidden"
                     >
-                      <Star
+                      <PiStar
                         className={`h-6 w-6 ${
                           star <= (hoverRating || rating)
                             ? "fill-yellow-400 text-yellow-400"
@@ -240,7 +240,7 @@ export function RecommendationsWidget({ userId }: RecommendationsWidgetProps) {
         <Card>
           <CardHeader>
             <div className="flex items-center gap-2">
-              <Users className="h-5 w-5 text-primary" />
+              <PiUsers className="h-5 w-5 text-primary" />
               <CardTitle>Recommended by {stats.count}</CardTitle>
             </div>
             <CardDescription>

@@ -6,7 +6,7 @@ import { SignedIn, SignedOut, SignInButton, useUser } from "@clerk/nextjs";
 import { UserButton } from "@clerk/nextjs";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { Menu, X } from "lucide-react";
+import { PiList, PiX } from "react-icons/pi";
 
 export function Navbar() {
   const { user } = useUser();
@@ -73,9 +73,9 @@ export function Navbar() {
           onClick={() => setMobileOpen((v) => !v)}
         >
           {mobileOpen ? (
-            <X className="h-6 w-6" />
+            <PiX className="h-6 w-6" />
           ) : (
-            <Menu className="h-6 w-6" />
+            <PiList className="h-6 w-6" />
           )}
         </button>
       </div>

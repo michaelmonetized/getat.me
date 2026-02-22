@@ -6,7 +6,7 @@ import { api } from "@/convex/_generated/api";
 import { useUser } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Plus } from "lucide-react";
+import { PiPlus } from "react-icons/pi";
 
 export function AddLinkForm() {
   const { user } = useUser();
@@ -89,7 +89,7 @@ export function AddLinkForm() {
           className="shrink-0"
           aria-label="Add link"
         >
-          <Plus className="h-4 w-4" />
+          <PiPlus className="h-4 w-4" />
         </Button>
       </div>
       {error && <p className="text-sm text-destructive">{error}</p>}

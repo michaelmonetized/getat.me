@@ -9,7 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Sparkles } from "lucide-react";
+import { PiSparkle } from "react-icons/pi";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
@@ -34,7 +34,7 @@ export function PublicPostsWidget({ userId }: PublicPostsWidgetProps) {
       <CardHeader>
         <div className="flex items-center gap-3">
           <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-            <Sparkles className="h-5 w-5 text-primary" />
+            <PiSparkle className="h-5 w-5 text-primary" />
           </div>
           <div className="flex-1">
             <CardTitle>Posts</CardTitle>

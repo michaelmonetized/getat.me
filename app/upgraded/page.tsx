@@ -7,7 +7,7 @@ import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { CheckCircle2, Sparkles } from "lucide-react";
+import { PiCheckCircle, PiSparkle } from "react-icons/pi";
 import plans from "@/config/plans";
 
 export default function UpgradedPage() {
@@ -58,7 +58,7 @@ export default function UpgradedPage() {
         <div className="mx-auto w-full max-w-3xl px-4 text-center space-y-6">
           <div className="flex justify-center">
             <div className="rounded-full bg-primary/10 p-4">
-              <CheckCircle2 className="h-12 w-12 text-primary" />
+              <PiCheckCircle className="h-12 w-12 text-primary" />
             </div>
           </div>
           <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
@@ -66,7 +66,7 @@ export default function UpgradedPage() {
           </h1>
           {currentPlan && (
             <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-2 text-sm font-semibold text-primary">
-              <Sparkles className="h-4 w-4" />
+              <PiSparkle className="h-4 w-4" />
               <span>You&rsquo;re now on the {currentPlan.name} plan</span>
             </div>
           )}

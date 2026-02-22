@@ -4,7 +4,7 @@ import { useUser } from "@clerk/nextjs";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Star } from "lucide-react";
+import { PiStar } from "react-icons/pi";
 
 export function SocialProofWidget() {
   const { user } = useUser();
@@ -39,7 +39,7 @@ export function SocialProofWidget() {
                   role="img"
                   aria-label={`Average rating: ${stats.averageRating.toFixed(1)} out of 5 stars`}
                 >
-                  <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
+                  <PiStar className="h-5 w-5 fill-yellow-400 text-yellow-400" />
                   <span className="text-2xl font-bold">
                     {stats.averageRating.toFixed(1)}
                   </span>
@@ -73,7 +73,7 @@ export function SocialProofWidget() {
                       aria-label={`${rec.rating} out of 5 stars`}
                     >
                       {[1, 2, 3, 4, 5].map((star) => (
-                        <Star
+                        <PiStar
                           key={star}
                           className={`h-4 w-4 ${
                             star <= rec.rating

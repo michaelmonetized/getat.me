@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Users } from "lucide-react";
+import { PiUsers } from "react-icons/pi";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { SignInButton } from "@clerk/nextjs";
@@ -131,7 +131,7 @@ export function ReferralsWidget({ userId, handle }: ReferralsWidgetProps) {
       <CardHeader>
         <div className="flex items-center gap-3">
           <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-            <Users className="h-5 w-5 text-primary" />
+            <PiUsers className="h-5 w-5 text-primary" />
           </div>
           <div className="flex-1">
             <CardTitle>Send Referral</CardTitle>

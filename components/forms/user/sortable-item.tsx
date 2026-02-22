@@ -7,7 +7,7 @@ import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { Button } from "@/components/ui/button";
-import { GripVertical, Pencil, Trash2 } from "lucide-react";
+import { PiDotsSixVertical, PiPencilSimple, PiTrash } from "react-icons/pi";
 import { trackProfileLinkClicked } from "@/lib/analytics";
 
 interface SortableItemProps {
@@ -93,7 +93,7 @@ export function SortableItem({ link, handle, onEdit }: SortableItemProps) {
         className="cursor-grab active:cursor-grabbing touch-none text-primary-foreground/60 hover:text-primary-foreground transition-colors"
         aria-label="Drag to reorder"
       >
-        <GripVertical className="h-5 w-5" />
+        <PiDotsSixVertical className="h-5 w-5" />
       </button>
 
       {/* Link content */}
@@ -124,7 +124,7 @@ export function SortableItem({ link, handle, onEdit }: SortableItemProps) {
           disabled={isDeleting}
           aria-label="Edit link"
         >
-          <Pencil className="h-4 w-4" />
+          <PiPencilSimple className="h-4 w-4" />
         </Button>
         <Button
           variant="ghost"
@@ -133,7 +133,7 @@ export function SortableItem({ link, handle, onEdit }: SortableItemProps) {
           disabled={isDeleting}
           aria-label="Delete link"
         >
-          <Trash2 className="h-4 w-4" />
+          <PiTrash className="h-4 w-4" />
         </Button>
       </div>
     </div>

@@ -9,7 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { ReferralsTables } from "./referrals-tables";
-import { Users } from "lucide-react";
+import { PiUsers } from "react-icons/pi";
 
 export function ReferralsManagement() {
   const { user } = useUser();
@@ -23,7 +23,7 @@ export function ReferralsManagement() {
       <CardHeader>
         <div className="flex items-center gap-3">
           <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-            <Users className="h-5 w-5 text-primary" />
+            <PiUsers className="h-5 w-5 text-primary" />
           </div>
           <div className="flex-1">
             <CardTitle>Referrals</CardTitle>
