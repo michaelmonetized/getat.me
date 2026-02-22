@@ -87,6 +87,7 @@ export function AddLinkForm() {
           disabled={isSubmitting}
           size="icon"
           className="shrink-0"
+          aria-label="Add link"
         >
           <Plus className="h-4 w-4" />
         </Button>
