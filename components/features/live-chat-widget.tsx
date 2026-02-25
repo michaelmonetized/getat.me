@@ -26,12 +26,13 @@ export function LiveChatWidget({ profileUserId, profileHandle }: LiveChatWidgetP
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Get messages for this conversation
-  const messages = useQuery(
+  const messagesResult = useQuery(
     api.messages.getMessages,
     user?.id && isSignedIn
       ? { userId1: user.id, userId2: profileUserId }
       : "skip"
   );
+  const messages = messagesResult?.messages;
 
   const sendMessage = useMutation(api.messages.sendMessage);
   const markAsRead = useMutation(api.messages.markMessagesAsRead);

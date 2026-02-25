@@ -32,7 +32,7 @@ export function LiveMessagingWidget() {
   const [messageContent, setMessageContent] = useState("");
   const [isSending, setIsSending] = useState(false);
 
-  const messages = useQuery(
+  const messagesResult = useQuery(
     api.messages.getMessages,
     user?.id && selectedConversation
       ? {
@@ -41,6 +41,7 @@ export function LiveMessagingWidget() {
         }
       : "skip"
   );
+  const messages = messagesResult?.messages;
 
   const handleSendMessage = async () => {
     if (!user?.id || !selectedConversation || !messageContent.trim()) return;

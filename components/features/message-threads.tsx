@@ -25,12 +25,13 @@ export function MessageThreads() {
     user?.id ? { userId: user.id } : "skip"
   );
 
-  const messages = useQuery(
+  const messagesResult = useQuery(
     api.messages.getMessages,
     user?.id && selectedUserId
       ? { userId1: user.id, userId2: selectedUserId }
       : "skip"
   );
+  const messages = messagesResult?.messages;
 
   const sendMessage = useMutation(api.messages.sendMessage);
   const markAsRead = useMutation(api.messages.markMessagesAsRead);
