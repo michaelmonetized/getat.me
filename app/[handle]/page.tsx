@@ -12,6 +12,7 @@ import { AvatarUpload } from "@/components/forms/user/avatar";
 import { CoverUpload } from "@/components/forms/user/cover";
 import { BioForm } from "@/components/forms/user/bio";
 import { ThemeSelector } from "@/components/forms/user/theme-selector";
+import { BrandSettings } from "@/components/forms/user/brand-settings";
 import { PlanInfo } from "@/components/forms/user/plan-info";
 import { LinkItem } from "@/components/forms/user/link-item";
 import { SortableLinks } from "@/components/forms/user/sortable-links";
@@ -43,6 +44,60 @@ import { PostsList } from "@/components/views/posts/list-all";
 import AddPostForm from "@/components/forms/user/add-post";
 import { User, useUser as useCombinedUser } from "@/hooks/user";
 
+function BrandedLink({
+  link,
+  handle,
+  brandColor,
+  buttonStyle,
+  buttonClasses,
+  buttonStyleObj,
+}: {
+  link: { _id: Id<"links">; userId: string; anchor: string; href: string; icon?: string };
+  handle: string;
+  brandColor: string;
+  buttonStyle?: string;
+  buttonClasses: string;
+  buttonStyleObj: React.CSSProperties;
+}) {
+  const trackEvent = useMutation(api.analytics.trackEvent);
+
+  const handleClick = async () => {
+    try {
+      await trackEvent({
+        userId: link.userId,
+        eventType: "link_click",
+        eventData: {
+          linkId: link._id,
+          referrer: typeof window !== "undefined" ? document.referrer : undefined,
+          userAgent: typeof window !== "undefined" ? navigator.userAgent : undefined,
+        },
+      });
+      trackPageView(`/${handle}`);
+    } catch (err) {
+      console.error("Failed to track:", err);
+    }
+  };
+
+  return (
+    <div
+      className={`w-full px-6 py-4 flex items-center justify-between transition-colors cursor-pointer ${buttonClasses}`}
+      style={buttonStyleObj}
+    >
+      <a
+        href={link.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center gap-4 flex-1 min-w-0"
+        style={{ color: buttonStyle === "outline" ? brandColor : "#fff" }}
+        onClick={handleClick}
+      >
+        {link.icon && <div className="text-2xl shrink-0">{link.icon}</div>}
+        <span className="text-lg font-medium truncate">{link.anchor}</span>
+      </a>
+    </div>
+  );
+}
+
 export default function ProfilePage() {
   const params = useParams();
   const handle = params.handle as string;
@@ -52,6 +107,7 @@ export default function ProfilePage() {
   const hasTrackedPageView = useRef(false);
 
   const userByHandle = useQuery(api.users.getUserByHandle, { handle });
+  const branding = useQuery(api.branding.getBranding, { handle });
   const trackEvent = useMutation(api.analytics.trackEvent);
   const currentUserProfile = useQuery(
     api.users.getCurrentUserProfile,
@@ -95,6 +151,21 @@ export default function ProfilePage() {
     document.documentElement.className = `theme-${themeClass}`;
     document.body.className = "antialiased";
   }, [themeClass]);
+
+  // Load Google Font for branding
+  useEffect(() => {
+    if (branding?.fontFamily && branding.fontFamily !== "Inter") {
+      const fontName = branding.fontFamily.replace(/ /g, "+");
+      const linkId = "brand-google-font";
+      if (!document.getElementById(linkId)) {
+        const link = document.createElement("link");
+        link.id = linkId;
+        link.rel = "stylesheet";
+        link.href = `https://fonts.googleapis.com/css2?family=${fontName}:wght@400;500;600;700&display=swap`;
+        document.head.appendChild(link);
+      }
+    }
+  }, [branding?.fontFamily]);
 
   const { user: profileUser, error: profileUserError } = useCombinedUser(
     userByHandle?.userId ?? ""
@@ -141,8 +212,43 @@ export default function ProfilePage() {
     ? links?.find((l) => l._id === editingLink)
     : null;
 
+  // Build branding styles
+  const brandingStyle: React.CSSProperties = {};
+  if (branding?.fontFamily) {
+    brandingStyle.fontFamily = `"${branding.fontFamily}", sans-serif`;
+  }
+  if (branding?.backgroundType && branding?.backgroundColor && !isOwner) {
+    if (branding.backgroundType === "gradient") {
+      brandingStyle.background = branding.backgroundColor;
+    } else {
+      brandingStyle.backgroundColor = branding.backgroundColor;
+    }
+  }
+  if (branding?.backgroundImageUrl && branding?.backgroundType === "image" && !isOwner) {
+    brandingStyle.backgroundImage = `url(${branding.backgroundImageUrl})`;
+    brandingStyle.backgroundSize = "cover";
+    brandingStyle.backgroundPosition = "center";
+  }
+
+  const getButtonClasses = () => {
+    switch (branding?.buttonStyle) {
+      case "pill": return "rounded-full";
+      case "square": return "rounded-none";
+      case "outline": return "rounded-lg border-2 bg-transparent";
+      default: return "rounded-lg";
+    }
+  };
+
+  const getButtonStyle = (): React.CSSProperties => {
+    if (!branding?.brandColor) return {};
+    if (branding.buttonStyle === "outline") {
+      return { borderColor: branding.brandColor, color: branding.brandColor, backgroundColor: "transparent" };
+    }
+    return { backgroundColor: branding.brandColor, color: "#fff" };
+  };
+
   return (
-    <div className="flex min-h-screen flex-col w-full">
+    <div className="flex min-h-screen flex-col w-full" style={brandingStyle}>
       {userByHandle && (
         <div className="w-full h-64 bg-muted relative overflow-hidden">
           {userByHandle.coverUrl ? (
@@ -223,6 +329,7 @@ export default function ProfilePage() {
               </FeatureGate>
 
               <ThemeSelector />
+              <BrandSettings />
               <PlanInfo />
             </div>
           ) : (
@@ -272,15 +379,29 @@ export default function ProfilePage() {
                 />
               ) : (
                 <div className="space-y-3">
-                  {links?.map((link) => (
-                    <LinkItem
-                      key={link._id}
-                      link={link}
-                      handle={handle}
-                      isOwner={false}
-                      onEdit={() => {}}
-                    />
-                  ))}
+                  {branding?.brandColor ? (
+                    links?.map((link) => (
+                      <BrandedLink
+                        key={link._id}
+                        link={link}
+                        handle={handle}
+                        brandColor={branding.brandColor!}
+                        buttonStyle={branding.buttonStyle}
+                        buttonClasses={getButtonClasses()}
+                        buttonStyleObj={getButtonStyle()}
+                      />
+                    ))
+                  ) : (
+                    links?.map((link) => (
+                      <LinkItem
+                        key={link._id}
+                        link={link}
+                        handle={handle}
+                        isOwner={false}
+                        onEdit={() => {}}
+                      />
+                    ))
+                  )}
                 </div>
               )}
 
