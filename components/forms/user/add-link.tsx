@@ -7,6 +7,7 @@ import { useUser } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PiPlus } from "react-icons/pi";
+import { detectIconFromUrl } from "@/lib/link-icons";
 
 export function AddLinkForm() {
   const { user } = useUser();
@@ -44,10 +45,13 @@ export function AddLinkForm() {
         return;
       }
 
+      const finalHref = href.startsWith("http") ? href : `https://${href}`;
+      const detectedIcon = detectIconFromUrl(finalHref);
       await createLink({
         anchor: anchor.trim(),
-        href: href.startsWith("http") ? href : `https://${href}`,
+        href: finalHref,
         userId: user.id,
+        ...(detectedIcon && { icon: detectedIcon }),
       });
       setAnchor("");
       setHref("");
