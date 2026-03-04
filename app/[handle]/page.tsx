@@ -42,6 +42,7 @@ import Image from "next/image";
 import { PostsList } from "@/components/views/posts/list-all";
 import AddPostForm from "@/components/forms/user/add-post";
 import { User, useUser as useCombinedUser } from "@/hooks/user";
+import { ShareButton } from "@/components/features/share-profile";
 
 export default function ProfilePage() {
   const params = useParams();
@@ -391,6 +392,12 @@ export default function ProfilePage() {
           profileHandle={handle}
         />
       )}
+
+      {/* Share Button - Floating */}
+      <ShareButton
+        handle={handle}
+        brandColor={(userByHandle as unknown as Record<string, string | undefined>)?.brandColor}
+      />
     </div>
   );
 }
