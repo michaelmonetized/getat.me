@@ -9,6 +9,7 @@ export const createLink = mutation({
     weight: v.optional(v.number()),
     color: v.optional(v.string()),
     icon: v.optional(v.string()),
+    sectionId: v.optional(v.id("sections")),
     userId: v.optional(v.string()),
   },
   returns: v.id("links"),
@@ -34,6 +35,7 @@ export const createLink = mutation({
       weight: args.weight,
       color: args.color,
       icon: args.icon,
+      sectionId: args.sectionId,
     });
   },
 });
@@ -75,6 +77,8 @@ export const updateLink = mutation({
     weight: v.optional(v.number()),
     color: v.optional(v.string()),
     icon: v.optional(v.string()),
+    sectionId: v.optional(v.id("sections")),
+    clearSection: v.optional(v.boolean()),
     userId: v.optional(v.string()),
   },
   returns: v.null(),
@@ -110,6 +114,8 @@ export const updateLink = mutation({
     if (args.weight !== undefined) updateData.weight = args.weight;
     if (args.color !== undefined) updateData.color = args.color;
     if (args.icon !== undefined) updateData.icon = args.icon;
+    if (args.sectionId !== undefined) updateData.sectionId = args.sectionId;
+    if (args.clearSection) updateData.sectionId = undefined;
 
     await ctx.db.patch(args.id, updateData);
     return null;

@@ -17,6 +17,8 @@ import { LinkItem } from "@/components/forms/user/link-item";
 import { SortableLinks } from "@/components/forms/user/sortable-links";
 import { LimitBanner } from "@/components/forms/user/limit-banner";
 import { EditLinkForm } from "@/components/forms/user/edit-link";
+import { SectionManager } from "@/components/forms/user/section-manager";
+import { CollapsibleSection } from "@/components/ui/collapsible-section";
 import { Button } from "@/components/ui/button";
 import { SignUpButton } from "@clerk/nextjs";
 import { ProFeatures } from "@/components/features/pro-features";
@@ -58,6 +60,7 @@ export default function ProfilePage() {
     currentUser?.id ? { userId: currentUser.id } : "skip"
   );
   const links = useQuery(api.links.getUserLinksByHandle, { handle });
+  const sections = useQuery(api.sections.getSectionsByHandle, { handle });
 
   // Check if user has unlimited_links feature from Clerk
   const hasUnlimitedLinks = has?.({ feature: "unlimited_links" }) ?? false;
@@ -222,6 +225,7 @@ export default function ProfilePage() {
                 <SocialProofWidget />
               </FeatureGate>
 
+              <SectionManager />
               <ThemeSelector />
               <PlanInfo />
             </div>
@@ -271,16 +275,46 @@ export default function ProfilePage() {
                   onEdit={(id) => setEditingLink(id)}
                 />
               ) : (
-                <div className="space-y-3">
-                  {links?.map((link) => (
-                    <LinkItem
-                      key={link._id}
-                      link={link}
-                      handle={handle}
-                      isOwner={false}
-                      onEdit={() => {}}
-                    />
-                  ))}
+                <div className="space-y-4">
+                  {/* Render links grouped by section */}
+                  {sections?.map((section) => {
+                    const sectionLinks = links?.filter(
+                      (l) => l.sectionId === section._id
+                    );
+                    if (!sectionLinks || sectionLinks.length === 0) return null;
+                    return (
+                      <CollapsibleSection
+                        key={section._id}
+                        title={section.name}
+                        icon={section.icon}
+                        description={section.description}
+                      >
+                        <div className="space-y-3">
+                          {sectionLinks.map((link) => (
+                            <LinkItem
+                              key={link._id}
+                              link={link}
+                              handle={handle}
+                              isOwner={false}
+                              onEdit={() => {}}
+                            />
+                          ))}
+                        </div>
+                      </CollapsibleSection>
+                    );
+                  })}
+                  {/* Uncategorized links */}
+                  {links
+                    ?.filter((l) => !l.sectionId)
+                    .map((link) => (
+                      <LinkItem
+                        key={link._id}
+                        link={link}
+                        handle={handle}
+                        isOwner={false}
+                        onEdit={() => {}}
+                      />
+                    ))}
                 </div>
               )}
 
