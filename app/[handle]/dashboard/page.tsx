@@ -146,7 +146,7 @@ export default function DashboardPage() {
     api.analytics.getAnalytics,
     currentUser?.id ? { userId: currentUser.id, days: 30 } : "skip"
   );
-  const links = useQuery(api.links.getUserLinksByHandle, { handle });
+  const links = useQuery(api.links.getDashboardLinksByHandle, { handle });
 
   // Check if current user owns this profile
   const isOwner = useMemo(() => {
