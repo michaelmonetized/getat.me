@@ -17,6 +17,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { PiX } from "react-icons/pi";
+import { IconPicker } from "./icon-picker";
 
 interface EditLinkFormProps {
   link: {
@@ -48,6 +49,7 @@ export function EditLinkForm({ link, onClose }: EditLinkFormProps) {
   const { user } = useUser();
   const [anchor, setAnchor] = useState(link.anchor);
   const [href, setHref] = useState(link.href);
+  const [icon, setIcon] = useState<string | undefined>(link.icon);
   const [sectionId, setSectionId] = useState<string>(link.sectionId ?? "");
   const [publishAt, setPublishAt] = useState(timestampToDatetimeLocal(link.publishAt));
   const [unpublishAt, setUnpublishAt] = useState(timestampToDatetimeLocal(link.unpublishAt));
@@ -85,6 +87,7 @@ export function EditLinkForm({ link, onClose }: EditLinkFormProps) {
         id: link._id,
         anchor: anchor.trim(),
         href: href.startsWith("http") ? href : `https://${href}`,
+        icon: icon ?? "",
       };
       if (sectionId) {
         updateArgs.sectionId = sectionId as Id<"sections">;
@@ -154,6 +157,7 @@ export function EditLinkForm({ link, onClose }: EditLinkFormProps) {
                 required
               />
             </div>
+            <IconPicker value={icon} onChange={setIcon} />
             {sections && sections.length > 0 && (
               <div className="space-y-2">
                 <Label htmlFor="section">Section</Label>

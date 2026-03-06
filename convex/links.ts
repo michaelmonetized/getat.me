@@ -159,7 +159,7 @@ export const updateLink = mutation({
     if (args.href !== undefined) updateData.href = args.href;
     if (args.weight !== undefined) updateData.weight = args.weight;
     if (args.color !== undefined) updateData.color = args.color;
-    if (args.icon !== undefined) updateData.icon = args.icon;
+    if (args.icon !== undefined) updateData.icon = args.icon || undefined;
     if (args.sectionId !== undefined) updateData.sectionId = args.sectionId;
     if (args.clearSection) updateData.sectionId = undefined;
     if (args.publishAt !== undefined) updateData.publishAt = args.publishAt;

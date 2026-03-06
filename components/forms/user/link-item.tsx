@@ -7,6 +7,7 @@ import { Id } from "@/convex/_generated/dataModel";
 import { Button } from "@/components/ui/button";
 import { PiPencilSimple, PiTrash, PiClock, PiCalendarCheck, PiCalendarX } from "react-icons/pi";
 import { trackProfileLinkClicked } from "@/lib/analytics";
+import { LinkIcon } from "@/components/ui/link-icon";
 
 function getScheduleStatus(link: { publishAt?: number; unpublishAt?: number }): "live" | "scheduled" | "expired" {
   const now = Date.now();
@@ -97,7 +98,7 @@ export function LinkItem({ link, handle, isOwner = false, onEdit }: LinkItemProp
           handleLinkClick();
         }}
       >
-        {link.icon && <div className="text-2xl shrink-0">{link.icon}</div>}
+        {link.icon && <LinkIcon icon={link.icon} className="h-5 w-5 shrink-0" />}
         <span className="text-lg font-medium truncate">{link.anchor}</span>
         {isOwner && scheduleStatus === "scheduled" && (
           <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 dark:bg-amber-900/50 text-amber-800 dark:text-amber-200 px-2 py-0.5 text-xs font-medium shrink-0">
