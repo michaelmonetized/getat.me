@@ -14,6 +14,12 @@ export default defineSchema({
     cover: v.optional(v.id("_storage")),
     bio: v.optional(v.string()),
     theme: v.optional(v.string()),
+    brandColor: v.optional(v.string()),
+    fontFamily: v.optional(v.string()),
+    buttonStyle: v.optional(v.string()),
+    backgroundType: v.optional(v.string()),
+    backgroundColor: v.optional(v.string()),
+    backgroundImage: v.optional(v.id("_storage")),
     subscriptionPlan: v.optional(v.string()),
   })
     .searchIndex("search_by_handle", { searchField: "handle" })

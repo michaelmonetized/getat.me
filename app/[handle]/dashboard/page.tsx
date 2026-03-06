@@ -4,11 +4,12 @@ import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useUser, useAuth } from "@clerk/nextjs";
 import { useParams, useRouter } from "next/navigation";
-import { useMemo, useEffect } from "react";
+import { useMemo, useEffect, useState } from "react";
 import { Container } from "@/components/layout/container";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Link from "next/link";
+import { ShareProfile } from "@/components/features/share-profile";
 import {
   PiEyeLight,
   PiCursorClickLight,
@@ -24,6 +25,7 @@ import {
   PiTrendUpLight,
   PiTrendDownLight,
   PiWarningLight,
+  PiShareNetworkLight,
 } from "react-icons/pi";
 
 // Mini bar chart component
@@ -135,6 +137,7 @@ export default function DashboardPage() {
   const handle = params.handle as string;
   const { user: currentUser, isLoaded: userLoaded } = useUser();
   const { has } = useAuth();
+  const [showShare, setShowShare] = useState(false);
 
   // Queries
   const userByHandle = useQuery(api.users.getUserByHandle, { handle });
@@ -223,6 +226,10 @@ export default function DashboardPage() {
               </p>
             </div>
             <div className="flex items-center gap-3">
+              <Button variant="outline" onClick={() => setShowShare(true)}>
+                <PiShareNetworkLight className="h-4 w-4 mr-2" />
+                Share
+              </Button>
               <Button variant="outline" asChild>
                 <Link href={`/${handle}`}>
                   <PiEyeLight className="h-4 w-4 mr-2" />
@@ -451,6 +458,15 @@ export default function DashboardPage() {
             </CardContent>
           </Card>
         </div>
+
+        {/* Share Modal */}
+        {showShare && (
+          <ShareProfile
+            handle={handle}
+            brandColor={(userByHandle as unknown as Record<string, string | undefined>)?.brandColor}
+            onClose={() => setShowShare(false)}
+          />
+        )}
 
         {/* Pro CTA if not subscribed */}
         {!isPro && (

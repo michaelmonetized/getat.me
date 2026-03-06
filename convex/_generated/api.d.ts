@@ -10,6 +10,7 @@
 
 import type * as analytics from "../analytics.js";
 import type * as booking from "../booking.js";
+import type * as branding from "../branding.js";
 import type * as clerk from "../clerk.js";
 import type * as commissions from "../commissions.js";
 import type * as files from "../files.js";
@@ -36,6 +37,7 @@ import type {
 declare const fullApi: ApiFromModules<{
   analytics: typeof analytics;
   booking: typeof booking;
+  branding: typeof branding;
   clerk: typeof clerk;
   commissions: typeof commissions;
   files: typeof files;
