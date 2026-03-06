@@ -22,6 +22,7 @@ import type * as payments from "../payments.js";
 import type * as posts from "../posts.js";
 import type * as recommendations from "../recommendations.js";
 import type * as referrals from "../referrals.js";
+import type * as sections from "../sections.js";
 import type * as stripe from "../stripe.js";
 import type * as subscriptions from "../subscriptions.js";
 import type * as users from "../users.js";
@@ -48,6 +49,7 @@ declare const fullApi: ApiFromModules<{
   posts: typeof posts;
   recommendations: typeof recommendations;
   referrals: typeof referrals;
+  sections: typeof sections;
   stripe: typeof stripe;
   subscriptions: typeof subscriptions;
   users: typeof users;

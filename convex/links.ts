@@ -9,6 +9,9 @@ export const createLink = mutation({
     weight: v.optional(v.number()),
     color: v.optional(v.string()),
     icon: v.optional(v.string()),
+    sectionId: v.optional(v.id("sections")),
+    publishAt: v.optional(v.number()),
+    unpublishAt: v.optional(v.number()),
     userId: v.optional(v.string()),
   },
   returns: v.id("links"),
@@ -34,11 +37,52 @@ export const createLink = mutation({
       weight: args.weight,
       color: args.color,
       icon: args.icon,
+      sectionId: args.sectionId,
+      publishAt: args.publishAt,
+      unpublishAt: args.unpublishAt,
     });
   },
 });
 
 export const getUserLinksByHandle = query({
+  args: {
+    handle: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const user = await ctx.db
+      .query("users")
+      .withIndex("by_handle", (q) => q.eq("handle", args.handle))
+      .first();
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    const links = await ctx.db
+      .query("links")
+      .filter((q) => q.eq(q.field("userId"), user.userId))
+      .collect();
+
+    // Filter out links that aren't live (for public view)
+    const now = Date.now();
+    const liveLinks = links.filter((link) => {
+      if (link.publishAt && link.publishAt > now) return false;
+      if (link.unpublishAt && link.unpublishAt <= now) return false;
+      return true;
+    });
+
+    // Sort by weight (lower weight = higher priority), then by creation time
+    return liveLinks.sort((a, b) => {
+      const weightA = a.weight ?? 999;
+      const weightB = b.weight ?? 999;
+      if (weightA !== weightB) return weightA - weightB;
+      return 0;
+    });
+  },
+});
+
+// Dashboard query: returns ALL links (including scheduled/expired) for the owner
+export const getDashboardLinksByHandle = query({
   args: {
     handle: v.string(),
   },
@@ -75,6 +119,12 @@ export const updateLink = mutation({
     weight: v.optional(v.number()),
     color: v.optional(v.string()),
     icon: v.optional(v.string()),
+    sectionId: v.optional(v.id("sections")),
+    clearSection: v.optional(v.boolean()),
+    publishAt: v.optional(v.number()),
+    unpublishAt: v.optional(v.number()),
+    clearPublishAt: v.optional(v.boolean()),
+    clearUnpublishAt: v.optional(v.boolean()),
     userId: v.optional(v.string()),
   },
   returns: v.null(),
@@ -110,6 +160,12 @@ export const updateLink = mutation({
     if (args.weight !== undefined) updateData.weight = args.weight;
     if (args.color !== undefined) updateData.color = args.color;
     if (args.icon !== undefined) updateData.icon = args.icon;
+    if (args.sectionId !== undefined) updateData.sectionId = args.sectionId;
+    if (args.clearSection) updateData.sectionId = undefined;
+    if (args.publishAt !== undefined) updateData.publishAt = args.publishAt;
+    if (args.clearPublishAt) updateData.publishAt = undefined;
+    if (args.unpublishAt !== undefined) updateData.unpublishAt = args.unpublishAt;
+    if (args.clearUnpublishAt) updateData.unpublishAt = undefined;
 
     await ctx.db.patch(args.id, updateData);
     return null;

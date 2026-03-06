@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { useMutation } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
+import { useUser } from "@clerk/nextjs";
 import { Id } from "@/convex/_generated/dataModel";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -23,15 +24,39 @@ interface EditLinkFormProps {
     anchor: string;
     href: string;
     icon?: string;
+    sectionId?: Id<"sections">;
+    publishAt?: number;
+    unpublishAt?: number;
   };
   onClose: () => void;
 }
 
+function timestampToDatetimeLocal(ts?: number): string {
+  if (!ts) return "";
+  const d = new Date(ts);
+  const offset = d.getTimezoneOffset();
+  const local = new Date(d.getTime() - offset * 60000);
+  return local.toISOString().slice(0, 16);
+}
+
+function datetimeLocalToTimestamp(val: string): number | undefined {
+  if (!val) return undefined;
+  return new Date(val).getTime();
+}
+
 export function EditLinkForm({ link, onClose }: EditLinkFormProps) {
+  const { user } = useUser();
   const [anchor, setAnchor] = useState(link.anchor);
   const [href, setHref] = useState(link.href);
+  const [sectionId, setSectionId] = useState<string>(link.sectionId ?? "");
+  const [publishAt, setPublishAt] = useState(timestampToDatetimeLocal(link.publishAt));
+  const [unpublishAt, setUnpublishAt] = useState(timestampToDatetimeLocal(link.unpublishAt));
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
+  const sections = useQuery(
+    api.sections.getUserSections,
+    user?.id ? { userId: user.id } : "skip"
+  );
 
   const updateLink = useMutation(api.links.updateLink);
 
@@ -56,11 +81,29 @@ export function EditLinkForm({ link, onClose }: EditLinkFormProps) {
     }
 
     try {
-      await updateLink({
+      const updateArgs: any = {
         id: link._id,
         anchor: anchor.trim(),
         href: href.startsWith("http") ? href : `https://${href}`,
-      });
+      };
+      if (sectionId) {
+        updateArgs.sectionId = sectionId as Id<"sections">;
+      } else {
+        updateArgs.clearSection = true;
+      }
+      const pubTs = datetimeLocalToTimestamp(publishAt);
+      const unpubTs = datetimeLocalToTimestamp(unpublishAt);
+      if (pubTs) {
+        updateArgs.publishAt = pubTs;
+      } else {
+        updateArgs.clearPublishAt = true;
+      }
+      if (unpubTs) {
+        updateArgs.unpublishAt = unpubTs;
+      } else {
+        updateArgs.clearUnpublishAt = true;
+      }
+      await updateLink(updateArgs);
       onClose();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to update link");
@@ -110,6 +153,51 @@ export function EditLinkForm({ link, onClose }: EditLinkFormProps) {
                 disabled={isSubmitting}
                 required
               />
+            </div>
+            {sections && sections.length > 0 && (
+              <div className="space-y-2">
+                <Label htmlFor="section">Section</Label>
+                <select
+                  id="section"
+                  value={sectionId}
+                  onChange={(e) => setSectionId(e.target.value)}
+                  disabled={isSubmitting}
+                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                  <option value="">No section</option>
+                  {sections.map((s) => (
+                    <option key={s._id} value={s._id}>
+                      {s.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+            <div className="space-y-2">
+              <Label htmlFor="publishAt">Publish At</Label>
+              <Input
+                id="publishAt"
+                type="datetime-local"
+                value={publishAt}
+                onChange={(e) => setPublishAt(e.target.value)}
+                disabled={isSubmitting}
+              />
+              <p className="text-xs text-muted-foreground">
+                Leave empty to publish immediately
+              </p>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="unpublishAt">Unpublish At</Label>
+              <Input
+                id="unpublishAt"
+                type="datetime-local"
+                value={unpublishAt}
+                onChange={(e) => setUnpublishAt(e.target.value)}
+                disabled={isSubmitting}
+              />
+              <p className="text-xs text-muted-foreground">
+                Leave empty to keep published indefinitely
+              </p>
             </div>
             {error && <p className="text-sm text-destructive">{error}</p>}
           </CardContent>

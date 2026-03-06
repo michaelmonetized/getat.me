@@ -44,6 +44,16 @@ export default defineSchema({
     weight: v.optional(v.number()),
     color: v.optional(v.string()),
     icon: v.optional(v.string()),
+    sectionId: v.optional(v.id("sections")),
+    publishAt: v.optional(v.number()),
+    unpublishAt: v.optional(v.number()),
+  }).index("by_userId", ["userId"]),
+  sections: defineTable({
+    userId: v.string(),
+    name: v.string(),
+    weight: v.number(),
+    icon: v.optional(v.string()),
+    description: v.optional(v.string()),
   }).index("by_userId", ["userId"]),
   bookingAvailability: defineTable({
     userId: v.string(),

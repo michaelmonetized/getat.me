@@ -5,8 +5,15 @@ import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { Button } from "@/components/ui/button";
-import { PiPencilSimple, PiTrash } from "react-icons/pi";
+import { PiPencilSimple, PiTrash, PiClock, PiCalendarCheck, PiCalendarX } from "react-icons/pi";
 import { trackProfileLinkClicked } from "@/lib/analytics";
+
+function getScheduleStatus(link: { publishAt?: number; unpublishAt?: number }): "live" | "scheduled" | "expired" {
+  const now = Date.now();
+  if (link.publishAt && link.publishAt > now) return "scheduled";
+  if (link.unpublishAt && link.unpublishAt <= now) return "expired";
+  return "live";
+}
 
 interface LinkItemProps {
   link: {
@@ -15,6 +22,8 @@ interface LinkItemProps {
     anchor: string;
     href: string;
     icon?: string;
+    publishAt?: number;
+    unpublishAt?: number;
   };
   handle?: string;
   isOwner?: boolean;
@@ -69,8 +78,15 @@ export function LinkItem({ link, handle, isOwner = false, onEdit }: LinkItemProp
     }
   };
 
+  const scheduleStatus = getScheduleStatus(link);
+  const isNotLive = scheduleStatus !== "live";
+
   return (
-    <div className="w-full bg-primary hover:bg-primary-hover rounded-lg px-6 py-4 flex items-center justify-between transition-colors cursor-pointer">
+    <div className={`w-full rounded-lg px-6 py-4 flex items-center justify-between transition-colors cursor-pointer ${
+      isNotLive && isOwner
+        ? "bg-primary/50 dark:bg-primary/30 border border-dashed border-primary/60"
+        : "bg-primary hover:bg-primary-hover"
+    }`}>
       <a
         href={link.href}
         target="_blank"
@@ -83,6 +99,24 @@ export function LinkItem({ link, handle, isOwner = false, onEdit }: LinkItemProp
       >
         {link.icon && <div className="text-2xl shrink-0">{link.icon}</div>}
         <span className="text-lg font-medium truncate">{link.anchor}</span>
+        {isOwner && scheduleStatus === "scheduled" && (
+          <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 dark:bg-amber-900/50 text-amber-800 dark:text-amber-200 px-2 py-0.5 text-xs font-medium shrink-0">
+            <PiClock className="h-3 w-3" />
+            Scheduled
+          </span>
+        )}
+        {isOwner && scheduleStatus === "expired" && (
+          <span className="inline-flex items-center gap-1 rounded-full bg-red-100 dark:bg-red-900/50 text-red-800 dark:text-red-200 px-2 py-0.5 text-xs font-medium shrink-0">
+            <PiCalendarX className="h-3 w-3" />
+            Expired
+          </span>
+        )}
+        {isOwner && scheduleStatus === "live" && (link.publishAt || link.unpublishAt) && (
+          <span className="inline-flex items-center gap-1 rounded-full bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-200 px-2 py-0.5 text-xs font-medium shrink-0">
+            <PiCalendarCheck className="h-3 w-3" />
+            Live
+          </span>
+        )}
       </a>
       {isOwner && (
         <div className="flex items-center gap-2 shrink-0">
