@@ -27,6 +27,8 @@ interface Link {
   anchor: string;
   href: string;
   icon?: string;
+  publishAt?: number;
+  unpublishAt?: number;
 }
 
 interface SortableLinksProps {

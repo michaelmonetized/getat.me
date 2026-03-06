@@ -7,8 +7,15 @@ import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { Button } from "@/components/ui/button";
-import { PiDotsSixVertical, PiPencilSimple, PiTrash } from "react-icons/pi";
+import { PiDotsSixVertical, PiPencilSimple, PiTrash, PiClock, PiCalendarCheck, PiCalendarX } from "react-icons/pi";
 import { trackProfileLinkClicked } from "@/lib/analytics";
+
+function getScheduleStatus(link: { publishAt?: number; unpublishAt?: number }): "live" | "scheduled" | "expired" {
+  const now = Date.now();
+  if (link.publishAt && link.publishAt > now) return "scheduled";
+  if (link.unpublishAt && link.unpublishAt <= now) return "expired";
+  return "live";
+}
 
 interface SortableItemProps {
   link: {
@@ -17,6 +24,8 @@ interface SortableItemProps {
     anchor: string;
     href: string;
     icon?: string;
+    publishAt?: number;
+    unpublishAt?: number;
   };
   handle: string;
   onEdit: () => void;
@@ -80,11 +89,18 @@ export function SortableItem({ link, handle, onEdit }: SortableItemProps) {
     }
   };
 
+  const scheduleStatus = getScheduleStatus(link);
+  const isNotLive = scheduleStatus !== "live";
+
   return (
     <div
       ref={setNodeRef}
       style={style}
-      className="w-full bg-primary hover:bg-primary-hover rounded-lg px-4 py-4 flex items-center gap-3 transition-colors"
+      className={`w-full rounded-lg px-4 py-4 flex items-center gap-3 transition-colors ${
+        isNotLive
+          ? "bg-primary/50 dark:bg-primary/30 border border-dashed border-primary/60"
+          : "bg-primary hover:bg-primary-hover"
+      }`}
     >
       {/* Drag handle */}
       <button
@@ -109,6 +125,24 @@ export function SortableItem({ link, handle, onEdit }: SortableItemProps) {
       >
         {link.icon && <div className="text-2xl shrink-0">{link.icon}</div>}
         <span className="text-lg font-medium truncate">{link.anchor}</span>
+        {scheduleStatus === "scheduled" && (
+          <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 dark:bg-amber-900/50 text-amber-800 dark:text-amber-200 px-2 py-0.5 text-xs font-medium shrink-0">
+            <PiClock className="h-3 w-3" />
+            Scheduled
+          </span>
+        )}
+        {scheduleStatus === "expired" && (
+          <span className="inline-flex items-center gap-1 rounded-full bg-red-100 dark:bg-red-900/50 text-red-800 dark:text-red-200 px-2 py-0.5 text-xs font-medium shrink-0">
+            <PiCalendarX className="h-3 w-3" />
+            Expired
+          </span>
+        )}
+        {scheduleStatus === "live" && (link.publishAt || link.unpublishAt) && (
+          <span className="inline-flex items-center gap-1 rounded-full bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-200 px-2 py-0.5 text-xs font-medium shrink-0">
+            <PiCalendarCheck className="h-3 w-3" />
+            Live
+          </span>
+        )}
       </a>
 
       {/* Action buttons */}
