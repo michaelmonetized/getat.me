@@ -1,7 +1,7 @@
 "use client";
 
 import { useUser } from "@clerk/nextjs";
-import { useQuery, useMutation } from "convex/react";
+import { useQuery, usePaginatedQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import {
   Card,
@@ -32,16 +32,16 @@ export function LiveMessagingWidget() {
   const [messageContent, setMessageContent] = useState("");
   const [isSending, setIsSending] = useState(false);
 
-  const messagesResult = useQuery(
+  const { results: messages, loadMore, status: paginationStatus } = usePaginatedQuery(
     api.messages.getMessages,
     user?.id && selectedConversation
       ? {
           userId1: user.id,
           userId2: selectedConversation,
         }
-      : "skip"
+      : "skip",
+    { initialNumItems: 50 }
   );
-  const messages = messagesResult?.messages;
 
   const handleSendMessage = async () => {
     if (!user?.id || !selectedConversation || !messageContent.trim()) return;

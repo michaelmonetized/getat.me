@@ -2,7 +2,7 @@
 
 import { useUser } from "@clerk/nextjs";
 import { SignInButton } from "@clerk/nextjs";
-import { useQuery, useMutation } from "convex/react";
+import { usePaginatedQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
@@ -26,11 +26,12 @@ export function LiveChatWidget({ profileUserId, profileHandle }: LiveChatWidgetP
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Get messages for this conversation
-  const messages = useQuery(
+  const { results: messages, loadMore, status: paginationStatus } = usePaginatedQuery(
     api.messages.getMessages,
     user?.id && isSignedIn
       ? { userId1: user.id, userId2: profileUserId }
-      : "skip"
+      : "skip",
+    { initialNumItems: 50 }
   );
 
   const sendMessage = useMutation(api.messages.sendMessage);
@@ -140,6 +141,14 @@ export function LiveChatWidget({ profileUserId, profileHandle }: LiveChatWidgetP
           {!isMinimized && (
             <>
               <CardContent className="flex-1 overflow-y-auto p-4 space-y-3">
+                {paginationStatus === "CanLoadMore" && (
+                  <button
+                    onClick={() => loadMore(50)}
+                    className="w-full text-xs text-muted-foreground hover:text-foreground py-1"
+                  >
+                    Load older messages
+                  </button>
+                )}
                 {messages && messages.length === 0 ? (
                   <div className="text-center text-muted-foreground py-8">
                     <p>No messages yet. Start the conversation!</p>

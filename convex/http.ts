@@ -56,9 +56,8 @@ http.route({
           await ctx.runMutation(internal.users.internalUpdateUser, {
             userId: result.data.id,
             email: result.data.email_addresses?.[0]?.email_address,
-            firstName: result.data.first_name ?? undefined,
-            lastName: result.data.last_name ?? undefined,
-            imageUrl: result.data.image_url ?? undefined,
+            first: result.data.first_name ?? undefined,
+            last: result.data.last_name ?? undefined,
           });
           break;
         case "user.deleted":

@@ -67,7 +67,7 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "SoftwareApplication",
               name: "GetAt.Me",
-              url: "https://getat.me",
+              url: siteUrl,
               applicationCategory: "BusinessApplication",
               operatingSystem: "Web",
               description:
@@ -80,7 +80,7 @@ export default function RootLayout({
               creator: {
                 "@type": "Organization",
                 name: "GetAt.Me",
-                url: "https://getat.me",
+                url: siteUrl,
               },
             }),
           }}

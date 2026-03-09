@@ -1,7 +1,7 @@
 "use client";
 
 import { useUser } from "@clerk/nextjs";
-import { useQuery, useMutation } from "convex/react";
+import { useQuery, usePaginatedQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -25,13 +25,13 @@ export function MessageThreads() {
     user?.id ? { userId: user.id } : "skip"
   );
 
-  const messagesResult = useQuery(
+  const { results: messages, loadMore, status: paginationStatus } = usePaginatedQuery(
     api.messages.getMessages,
     user?.id && selectedUserId
       ? { userId1: user.id, userId2: selectedUserId }
-      : "skip"
+      : "skip",
+    { initialNumItems: 50 }
   );
-  const messages = messagesResult?.messages;
 
   const sendMessage = useMutation(api.messages.sendMessage);
   const markAsRead = useMutation(api.messages.markMessagesAsRead);
