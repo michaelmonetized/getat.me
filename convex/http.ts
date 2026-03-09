@@ -50,17 +50,15 @@ http.route({
           await ctx.runMutation(internal.users.createUser, {
             userId: result.data.id,
             handle: undefined,
-            email: result.data.email_addresses?.[0]?.email_address,
-            first: result.data.first_name ?? undefined,
-            last: result.data.last_name ?? undefined,
           });
           break;
         case "user.updated":
           await ctx.runMutation(internal.users.internalUpdateUser, {
             userId: result.data.id,
             email: result.data.email_addresses?.[0]?.email_address,
-            first: result.data.first_name ?? undefined,
-            last: result.data.last_name ?? undefined,
+            firstName: result.data.first_name ?? undefined,
+            lastName: result.data.last_name ?? undefined,
+            imageUrl: result.data.image_url ?? undefined,
           });
           break;
         case "user.deleted":

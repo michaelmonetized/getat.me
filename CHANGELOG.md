@@ -1,3 +1,10 @@
+## 2026-02-21
+
+- Fix: Rename proxy.ts → middleware.ts for Next.js middleware convention
+- Fix: Clerk webhook now handles user.created, user.updated, user.deleted events
+- Fix: Add aria-labels to icon-only buttons in live-chat-widget.tsx
+- Fix: Replace lucide-react icons with react-icons/pi (Phosphor) in upgraded/page.tsx
+
 ## 2026-02-12
 
 - Feature: SEO optimization for better search engine visibility
