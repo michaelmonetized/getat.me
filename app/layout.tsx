@@ -34,23 +34,18 @@ export const metadata: Metadata = {
     title: "GetAt.Me — The Relationship-First Link-In-Bio",
     description:
       "Turn attention into loyal relationships. The modern link-in-bio platform for creators, consultants, and service-led businesses.",
-    images: [
-      {
-        url: "/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "GetAt.Me",
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "GetAt.Me — The Relationship-First Link-In-Bio",
     description:
       "Turn attention into loyal relationships. The modern link-in-bio platform.",
-    images: ["/og-image.png"],
     creator: "@MichaelH_rley",
   },
+  alternates: {
+    canonical: siteUrl,
+  },
+  category: "technology",
   robots: {
     index: true,
     follow: true,
