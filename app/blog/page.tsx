@@ -16,6 +16,22 @@ const posts = [
     date: "March 9, 2026",
     category: "Creator Tools",
   },
+  {
+    slug: "linktree-vs-getat-me",
+    title: "Linktree vs GetAt.Me — Which Link-in-Bio Is Right for You?",
+    description:
+      "An honest comparison of Linktree and GetAt.Me. See which platform wins on design, features, pricing, and relationship-building.",
+    date: "March 9, 2026",
+    category: "Creator Tools",
+  },
+  {
+    slug: "link-in-bio-for-consultants",
+    title: "Link in Bio for Consultants — Why You Need More Than Links",
+    description:
+      "Consultants need a bio link that books calls, collects payments, and builds trust. Here's how to set one up.",
+    date: "March 9, 2026",
+    category: "For Consultants",
+  },
 ];
 
 export default function BlogIndex() {

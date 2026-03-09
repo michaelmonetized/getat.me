@@ -59,6 +59,33 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "SoftwareApplication",
+              name: "GetAt.Me",
+              url: "https://getat.me",
+              applicationCategory: "BusinessApplication",
+              operatingSystem: "Web",
+              description:
+                "The relationship-first link-in-bio platform for creators, consultants, and service-led businesses.",
+              offers: {
+                "@type": "Offer",
+                price: "0",
+                priceCurrency: "USD",
+              },
+              creator: {
+                "@type": "Organization",
+                name: "GetAt.Me",
+                url: "https://getat.me",
+              },
+            }),
+          }}
+        />
+      </head>
       <body className="antialiased">
         <Providers>
           <Navbar />

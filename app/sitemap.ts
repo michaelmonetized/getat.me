@@ -48,6 +48,30 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "yearly",
       priority: 0.3,
     },
+    {
+      url: `${BASE_URL}/blog`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.7,
+    },
+    {
+      url: `${BASE_URL}/blog/best-link-in-bio-alternatives-2026`,
+      lastModified: new Date("2026-03-09"),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${BASE_URL}/blog/linktree-vs-getat-me`,
+      lastModified: new Date("2026-03-09"),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${BASE_URL}/blog/link-in-bio-for-consultants`,
+      lastModified: new Date("2026-03-09"),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
   ];
 
   try {
