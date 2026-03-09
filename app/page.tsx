@@ -1,8 +1,47 @@
 // Needs force-dynamic because page uses Clerk auth context
 export const dynamic = "force-dynamic";
 
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+
+export const metadata: Metadata = {
+  title: "GetAt.Me — The Relationship-First Link-In-Bio",
+  description:
+    "Turn your audience into fans & customers. Beautiful link pages with bookings, payments, referrals, and live messaging.",
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  name: "GetAt.Me",
+  url: "https://getat.me",
+  description:
+    "The modern link-in-bio platform for creators, consultants, and service-led businesses. Bookings, payments, referrals, and messaging from a single link.",
+  applicationCategory: "BusinessApplication",
+  operatingSystem: "Web",
+  offers: {
+    "@type": "AggregateOffer",
+    priceCurrency: "USD",
+    lowPrice: "0",
+    highPrice: "29",
+    offerCount: "3",
+  },
+  creator: {
+    "@type": "Organization",
+    name: "HurleyUS",
+    url: "https://hurleyus.com",
+  },
+  featureList: [
+    "Custom link-in-bio pages",
+    "Online booking & scheduling",
+    "Payment processing",
+    "Referral tracking",
+    "Live messaging",
+    "Analytics dashboard",
+    "Custom themes & branding",
+  ],
+};
 import {
   Card,
   CardContent,
@@ -30,6 +69,10 @@ import {
 export default function HomePage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <SignedOut>
         <div className="flex flex-col min-h-dvh min-w-dvw">
           {/* Hero Section */}
