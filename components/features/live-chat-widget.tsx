@@ -24,6 +24,7 @@ export function LiveChatWidget({ profileUserId, profileHandle }: LiveChatWidgetP
   const [message, setMessage] = useState("");
   const [isSending, setIsSending] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const isLoadingOlderRef = useRef(false);
 
   // Get messages for this conversation
   const { results: messages, loadMore, status: paginationStatus } = usePaginatedQuery(
@@ -37,8 +38,12 @@ export function LiveChatWidget({ profileUserId, profileHandle }: LiveChatWidgetP
   const sendMessage = useMutation(api.messages.sendMessage);
   const markAsRead = useMutation(api.messages.markMessagesAsRead);
 
-  // Scroll to bottom when messages change
+  // Scroll to bottom when messages change (skip when loading older messages)
   useEffect(() => {
+    if (isLoadingOlderRef.current) {
+      isLoadingOlderRef.current = false;
+      return;
+    }
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
@@ -143,7 +148,11 @@ export function LiveChatWidget({ profileUserId, profileHandle }: LiveChatWidgetP
               <CardContent className="flex-1 overflow-y-auto p-4 space-y-3">
                 {paginationStatus === "CanLoadMore" && (
                   <button
-                    onClick={() => loadMore(50)}
+                    type="button"
+                    onClick={() => {
+                      isLoadingOlderRef.current = true;
+                      loadMore(50);
+                    }}
                     className="w-full text-xs text-muted-foreground hover:text-foreground py-1"
                   >
                     Load older messages

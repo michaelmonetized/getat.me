@@ -19,6 +19,7 @@ export function MessageThreads() {
   const [message, setMessage] = useState("");
   const [isSending, setIsSending] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const isLoadingOlderRef = useRef(false);
 
   const conversations = useQuery(
     api.messages.getConversations,
@@ -43,8 +44,12 @@ export function MessageThreads() {
     }
   }, [conversations, selectedUserId]);
 
-  // Scroll to bottom when messages change
+  // Scroll to bottom when messages change (skip when loading older messages)
   useEffect(() => {
+    if (isLoadingOlderRef.current) {
+      isLoadingOlderRef.current = false;
+      return;
+    }
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
@@ -129,6 +134,18 @@ export function MessageThreads() {
               <>
                 <ScrollArea className="flex-1 mb-4">
                   <div className="space-y-3 pr-4">
+                    {paginationStatus === "CanLoadMore" && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          isLoadingOlderRef.current = true;
+                          loadMore(50);
+                        }}
+                        className="w-full py-1 text-xs text-muted-foreground hover:text-foreground"
+                      >
+                        Load older messages
+                      </button>
+                    )}
                     {messages && messages.length === 0 ? (
                       <div className="text-center text-muted-foreground py-8">
                         <p>No messages yet. Start the conversation!</p>

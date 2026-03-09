@@ -497,6 +497,24 @@ export const uploadCover = mutation({
   },
 });
 
+// Handles reserved for static routes — cannot be claimed by users
+const RESERVED_HANDLES = new Set([
+  "blog",
+  "api",
+  "admin",
+  "dashboard",
+  "settings",
+  "onboarding",
+  "sign-in",
+  "sign-up",
+  "pricing",
+  "about",
+  "terms",
+  "privacy",
+  "help",
+  "support",
+]);
+
 export const setHandle = mutation({
   args: {
     handle: v.string(),
@@ -504,6 +522,11 @@ export const setHandle = mutation({
   },
   returns: v.id("users"),
   handler: async (ctx, args) => {
+    // Block reserved handles that collide with static routes
+    if (RESERVED_HANDLES.has(args.handle.toLowerCase())) {
+      throw new Error("This handle is reserved and cannot be used.");
+    }
+
     // Try to get user from auth first
     let userId = args.userId;
 

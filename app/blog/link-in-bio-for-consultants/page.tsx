@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { BlogJsonLd } from "@/components/blog-jsonld";
 
 export const metadata: Metadata = {
   title: "Link in Bio for Consultants — Why You Need More Than Links",
@@ -26,6 +27,13 @@ export const metadata: Metadata = {
 
 export default function LinkInBioForConsultants() {
   return (
+    <>
+      <BlogJsonLd
+        title="Link in Bio for Consultants — Why You Need More Than Links"
+        description="Consultants need a bio link that books calls, collects payments, and builds trust. Here's how to set one up that actually grows your practice."
+        slug="link-in-bio-for-consultants"
+        publishedTime="2026-03-09T12:00:00Z"
+      />
     <article className="prose prose-invert mx-auto max-w-3xl px-6 py-16">
       <header>
         <p className="text-sm font-medium uppercase tracking-wider text-blue-600">
@@ -133,5 +141,6 @@ export default function LinkInBioForConsultants() {
         </Link>
       </div>
     </article>
+    </>
   );
 }

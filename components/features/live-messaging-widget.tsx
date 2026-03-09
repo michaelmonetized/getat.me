@@ -148,6 +148,15 @@ export function LiveMessagingWidget() {
             {selectedConversation && (
               <div className="md:col-span-2 space-y-4">
                 <div className="border rounded-lg p-4 h-96 overflow-y-auto space-y-2">
+                  {paginationStatus === "CanLoadMore" && (
+                    <button
+                      type="button"
+                      onClick={() => loadMore(50)}
+                      className="w-full py-1 text-xs text-muted-foreground hover:text-foreground"
+                    >
+                      Load older messages
+                    </button>
+                  )}
                   {messages === undefined ? (
                     <p className="text-center text-muted-foreground py-8">
                       Loading messages...

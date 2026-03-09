@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { BlogJsonLd } from "@/components/blog-jsonld";
 
 export const metadata: Metadata = {
   title: "Linktree vs GetAt.Me — Which Link-in-Bio Is Right for You?",
@@ -26,6 +27,13 @@ export const metadata: Metadata = {
 
 export default function LinktreeVsGetatMe() {
   return (
+    <>
+      <BlogJsonLd
+        title="Linktree vs GetAt.Me — Which Link-in-Bio Is Right for You?"
+        description="An honest comparison of Linktree and GetAt.Me. See which link-in-bio platform wins on design, features, pricing, and relationship-building."
+        slug="linktree-vs-getat-me"
+        publishedTime="2026-03-09T12:00:00Z"
+      />
     <article className="prose prose-invert mx-auto max-w-3xl px-6 py-16">
       <header>
         <p className="text-sm font-medium uppercase tracking-wider text-blue-600">
@@ -144,5 +152,6 @@ export default function LinktreeVsGetatMe() {
         </Link>
       </div>
     </article>
+    </>
   );
 }

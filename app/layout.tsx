@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import "./fonts/max.css";
 import "./globals.css";
 import Providers from "@/context";
@@ -59,9 +60,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <head>
-        <script
+      <body className="antialiased">
+        <Script
+          id="app-jsonld"
           type="application/ld+json"
+          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
@@ -82,11 +85,9 @@ export default function RootLayout({
                 name: "GetAt.Me",
                 url: siteUrl,
               },
-            }),
+            }).replace(/</g, "\\u003c"),
           }}
         />
-      </head>
-      <body className="antialiased">
         <Providers>
           <Navbar />
           <div className="flex flex-col items-center justify-center min-h-dvh min-w-dvw max-w-dvw">

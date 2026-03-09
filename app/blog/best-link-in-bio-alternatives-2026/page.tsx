@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { BlogJsonLd } from "@/components/blog-jsonld";
 
 export const metadata: Metadata = {
   title: "Best Link in Bio Alternatives 2026 — Compared & Ranked",
@@ -28,6 +29,13 @@ export const metadata: Metadata = {
 
 export default function BestLinkInBioAlternatives2026() {
   return (
+    <>
+      <BlogJsonLd
+        title="Best Link in Bio Alternatives 2026 — Compared & Ranked"
+        description="We compared the top link-in-bio tools for 2026 — Linktree, Beacons, Stan Store, Koji, and GetAt.Me — so you can pick the right one for your brand."
+        slug="best-link-in-bio-alternatives-2026"
+        publishedTime="2026-03-09T16:00:00Z"
+      />
     <article className="prose prose-lg prose-neutral dark:prose-invert mx-auto">
       <header className="mb-10">
         <p className="text-sm font-medium uppercase tracking-wider text-blue-600">
@@ -355,5 +363,6 @@ export default function BestLinkInBioAlternatives2026() {
         </p>
       </footer>
     </article>
+    </>
   );
 }
