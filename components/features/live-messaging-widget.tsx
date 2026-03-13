@@ -1,7 +1,7 @@
 "use client";
 
 import { useUser } from "@clerk/nextjs";
-import { useQuery, useMutation } from "convex/react";
+import { useQuery, usePaginatedQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import {
   Card,
@@ -32,16 +32,16 @@ export function LiveMessagingWidget() {
   const [messageContent, setMessageContent] = useState("");
   const [isSending, setIsSending] = useState(false);
 
-  const messagesResult = useQuery(
+  const { results: messages, loadMore, status: paginationStatus } = usePaginatedQuery(
     api.messages.getMessages,
     user?.id && selectedConversation
       ? {
           userId1: user.id,
           userId2: selectedConversation,
         }
-      : "skip"
+      : "skip",
+    { initialNumItems: 50 }
   );
-  const messages = messagesResult?.messages;
 
   const handleSendMessage = async () => {
     if (!user?.id || !selectedConversation || !messageContent.trim()) return;
@@ -148,6 +148,15 @@ export function LiveMessagingWidget() {
             {selectedConversation && (
               <div className="md:col-span-2 space-y-4">
                 <div className="border rounded-lg p-4 h-96 overflow-y-auto space-y-2">
+                  {paginationStatus === "CanLoadMore" && (
+                    <button
+                      type="button"
+                      onClick={() => loadMore(50)}
+                      className="w-full py-1 text-xs text-muted-foreground hover:text-foreground"
+                    >
+                      Load older messages
+                    </button>
+                  )}
                   {messages === undefined ? (
                     <p className="text-center text-muted-foreground py-8">
                       Loading messages...

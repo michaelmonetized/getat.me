@@ -1,7 +1,7 @@
 "use client";
 
 import { useUser } from "@clerk/nextjs";
-import { useQuery, useMutation } from "convex/react";
+import { useQuery, usePaginatedQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -19,19 +19,20 @@ export function MessageThreads() {
   const [message, setMessage] = useState("");
   const [isSending, setIsSending] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const isLoadingOlderRef = useRef(false);
 
   const conversations = useQuery(
     api.messages.getConversations,
     user?.id ? { userId: user.id } : "skip"
   );
 
-  const messagesResult = useQuery(
+  const { results: messages, loadMore, status: paginationStatus } = usePaginatedQuery(
     api.messages.getMessages,
     user?.id && selectedUserId
       ? { userId1: user.id, userId2: selectedUserId }
-      : "skip"
+      : "skip",
+    { initialNumItems: 50 }
   );
-  const messages = messagesResult?.messages;
 
   const sendMessage = useMutation(api.messages.sendMessage);
   const markAsRead = useMutation(api.messages.markMessagesAsRead);
@@ -43,8 +44,12 @@ export function MessageThreads() {
     }
   }, [conversations, selectedUserId]);
 
-  // Scroll to bottom when messages change
+  // Scroll to bottom when messages change (skip when loading older messages)
   useEffect(() => {
+    if (isLoadingOlderRef.current) {
+      isLoadingOlderRef.current = false;
+      return;
+    }
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
@@ -129,6 +134,18 @@ export function MessageThreads() {
               <>
                 <ScrollArea className="flex-1 mb-4">
                   <div className="space-y-3 pr-4">
+                    {paginationStatus === "CanLoadMore" && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          isLoadingOlderRef.current = true;
+                          loadMore(50);
+                        }}
+                        className="w-full py-1 text-xs text-muted-foreground hover:text-foreground"
+                      >
+                        Load older messages
+                      </button>
+                    )}
                     {messages && messages.length === 0 ? (
                       <div className="text-center text-muted-foreground py-8">
                         <p>No messages yet. Start the conversation!</p>

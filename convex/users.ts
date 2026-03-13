@@ -497,6 +497,24 @@ export const uploadCover = mutation({
   },
 });
 
+// Handles reserved for static routes — cannot be claimed by users
+const RESERVED_HANDLES = new Set([
+  "blog",
+  "api",
+  "admin",
+  "dashboard",
+  "settings",
+  "onboarding",
+  "sign-in",
+  "sign-up",
+  "pricing",
+  "about",
+  "terms",
+  "privacy",
+  "help",
+  "support",
+]);
+
 export const setHandle = mutation({
   args: {
     handle: v.string(),
@@ -504,6 +522,11 @@ export const setHandle = mutation({
   },
   returns: v.id("users"),
   handler: async (ctx, args) => {
+    // Block reserved handles that collide with static routes
+    if (RESERVED_HANDLES.has(args.handle.toLowerCase())) {
+      throw new Error("This handle is reserved and cannot be used.");
+    }
+
     // Try to get user from auth first
     let userId = args.userId;
 
@@ -565,41 +588,4 @@ export const getAllPublicHandles = query({
   },
 });
 
-// Internal mutations for Clerk webhook handlers
-export const internalUpdateUser = internalMutation({
-  args: {
-    userId: v.string(),
-    email: v.optional(v.string()),
-    firstName: v.optional(v.string()),
-    lastName: v.optional(v.string()),
-    imageUrl: v.optional(v.string()),
-  },
-  handler: async (ctx, args) => {
-    const user = await ctx.db
-      .query("users")
-      .withIndex("by_userId", (q) => q.eq("userId", args.userId))
-      .first();
-    if (!user) return; // user may not exist yet
-    const patch: Record<string, unknown> = {};
-    if (args.email !== undefined) patch.email = args.email;
-    if (args.firstName !== undefined) patch.firstName = args.firstName;
-    if (args.lastName !== undefined) patch.lastName = args.lastName;
-    if (args.imageUrl !== undefined) patch.imageUrl = args.imageUrl;
-    if (Object.keys(patch).length > 0) {
-      await ctx.db.patch(user._id, patch);
-    }
-  },
-});
-
-export const internalDeleteUser = internalMutation({
-  args: { userId: v.string() },
-  handler: async (ctx, args) => {
-    const user = await ctx.db
-      .query("users")
-      .withIndex("by_userId", (q) => q.eq("userId", args.userId))
-      .first();
-    if (user) {
-      await ctx.db.delete(user._id);
-    }
-  },
-});
+// Duplicate internalUpdateUser/internalDeleteUser removed — canonical versions above (line ~261)
