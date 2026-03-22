@@ -40,7 +40,9 @@ export default withSentryConfig(nextConfig, {
   // side errors will fail.
   tunnelRoute: "/monitoring",
 
-  // Note: Sentry config still has deprecation warnings in Turbopack but no alternative yet
-  automaticVercelMonitors: true,
-  disableLogger: !process.env.CI,
+  // Disabled deprecated options to fix webpack infinite loop during build
+  // See: https://github.com/getsentry/sentry-javascript/issues/12xxx
+  // NOTE: These will need proper replacement when Sentry releases alternatives
+  automaticVercelMonitors: false,
+  disableLogger: true,
 });
