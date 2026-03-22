@@ -15,12 +15,6 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  webpack: {
-    treeshake: {
-      removeDebugLogging: true,
-    },
-    automaticVercelMonitors: true,
-  },
 };
 
 export default withSentryConfig(nextConfig, {
@@ -46,5 +40,7 @@ export default withSentryConfig(nextConfig, {
   // side errors will fail.
   tunnelRoute: "/monitoring",
 
-  // Deprecated options removed (moved to webpack config above)
+  // Note: Sentry config still has deprecation warnings in Turbopack but no alternative yet
+  automaticVercelMonitors: true,
+  disableLogger: !process.env.CI,
 });
