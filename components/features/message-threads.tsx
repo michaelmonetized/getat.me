@@ -128,12 +128,12 @@ export function MessageThreads() {
               <>
                 <ScrollArea className="flex-1 mb-4">
                   <div className="space-y-3 pr-4">
-                    {messages && messages.length === 0 ? (
+                    {messages && messages.page && messages.page.length === 0 ? (
                       <div className="text-center text-muted-foreground py-8">
                         <p>No messages yet. Start the conversation!</p>
                       </div>
                     ) : (
-                      messages?.map((msg) => {
+                      messages?.page?.map((msg) => {
                         const isOwn = msg.senderUserId === user.id;
                         return (
                           <div

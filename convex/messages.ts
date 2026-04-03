@@ -115,15 +115,21 @@ export const getMessages = query({
   args: {
     userId1: v.string(),
     userId2: v.string(),
-    paginationOpts: paginationOptsValidator,
+    paginationOpts: v.optional(paginationOptsValidator),
   },
   handler: async (ctx, args) => {
     const conversationId = getConversationId(args.userId1, args.userId2);
-    return await ctx.db
+    const query = ctx.db
       .query("messages")
       .withIndex("by_conversationId", (q) => q.eq("conversationId", conversationId))
-      .order("asc")
-      .paginate(args.paginationOpts);
+      .order("asc");
+    
+    if (args.paginationOpts) {
+      return await query.paginate(args.paginationOpts);
+    } else {
+      // Return all messages if pagination not specified
+      return { page: await query.collect(), isDone: true, continueCursor: "" };
+    }
   },
 });
 

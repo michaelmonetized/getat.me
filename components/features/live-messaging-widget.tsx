@@ -151,12 +151,12 @@ export function LiveMessagingWidget() {
                     <p className="text-center text-muted-foreground py-8">
                       Loading messages...
                     </p>
-                  ) : messages.length === 0 ? (
+                  ) : messages.page && messages.page.length === 0 ? (
                     <p className="text-center text-muted-foreground py-8">
                       No messages yet. Start the conversation!
                     </p>
                   ) : (
-                    messages.map((msg) => (
+                    messages.page?.map((msg) => (
                       <div
                         key={msg._id}
                         className={`flex ${

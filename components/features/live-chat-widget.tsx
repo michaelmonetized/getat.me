@@ -140,12 +140,12 @@ export function LiveChatWidget({ profileUserId, profileHandle }: LiveChatWidgetP
           {!isMinimized && (
             <>
               <CardContent className="flex-1 overflow-y-auto p-4 space-y-3">
-                {messages && messages.length === 0 ? (
+                {messages && messages.page && messages.page.length === 0 ? (
                   <div className="text-center text-muted-foreground py-8">
                     <p>No messages yet. Start the conversation!</p>
                   </div>
                 ) : (
-                  messages?.map((msg) => {
+                  messages?.page?.map((msg) => {
                     const isOwn = msg.senderUserId === user?.id;
                     return (
                       <div
