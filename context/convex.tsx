@@ -7,6 +7,9 @@ import { shadcn } from "@clerk/themes";
 const convexUrl =
   process.env.NEXT_PUBLIC_CONVEX_URL ?? "https://third-oyster-960.convex.cloud";
 const convex = new ConvexReactClient(convexUrl);
+const clerkPublishableKey =
+  process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY ??
+  "pk_test_aGlwLWphd2Zpc2gtMTAuY2xlcmsuYWNjb3VudHMuZGV2JA";
 
 export default function ConvexProvider({
   children,
@@ -15,7 +18,7 @@ export default function ConvexProvider({
 }) {
   return (
     <ClerkProvider
-      publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY!}
+      publishableKey={clerkPublishableKey}
       appearance={{
         theme: shadcn,
       }}
