@@ -129,13 +129,13 @@ const PricingPage = () => {
         }}
       />
     ),
-    []
+    [],
   );
 
   useEffect(() => {
     if (prices) {
       const pricingTableCardPromax = document.querySelector(
-        ".cl-pricingTableCard__promax"
+        ".cl-pricingTableCard__promax",
       );
       if (pricingTableCardPromax) {
         pricingTableCardPromax.classList.add("border-gradient-animated");
@@ -182,7 +182,8 @@ const PricingPage = () => {
           <h1 className="text-5xl md:text-6xl font-bold tracking-tight animate-fade-in-up">
             Plans that grow
             <span className="bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent">
-              {" "}with you
+              {" "}
+              with you
             </span>
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto animate-fade-in-up-delay-1">

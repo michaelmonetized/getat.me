@@ -11,7 +11,7 @@ import {
 
 export async function getCurrentUser(
   ctx: QueryCtx | MutationCtx | ActionCtx,
-  id?: boolean
+  id?: boolean,
 ) {
   const user = await ctx.auth.getUserIdentity();
 
@@ -97,7 +97,7 @@ export const getUserByHandle = query({
       coverUrl: v.optional(v.string()),
       subscriptionPlan: v.optional(v.string()),
     }),
-    v.null()
+    v.null(),
   ),
   handler: async (ctx, args) => {
     const profile = await ctx.db
@@ -359,7 +359,7 @@ export const userHasFeature = query({
     // Check if user has an active subscription with any of the price IDs that grant this feature
     const now = Date.now();
     return subscriptions.some(
-      (sub) => priceIds.includes(sub.priceId) && sub.expires > now
+      (sub) => priceIds.includes(sub.priceId) && sub.expires > now,
     );
   },
 });
@@ -399,7 +399,7 @@ export const getCurrentUserProfile = query({
       avatarUrl: v.optional(v.string()),
       coverUrl: v.optional(v.string()),
     }),
-    v.null()
+    v.null(),
   ),
   handler: async (ctx, args) => {
     let userId = args.userId;
@@ -573,7 +573,6 @@ export const setHandle = mutation({
     }
   },
 });
-
 
 export const getAllPublicHandles = query({
   args: {},

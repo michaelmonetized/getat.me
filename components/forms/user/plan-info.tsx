@@ -28,7 +28,7 @@ export function PlanInfo() {
   // Determine current plan based on highest tier
   // Since plans are ordered by priority (highest first), find first matching plan
   const currentPlan = allPlans.find((plan) =>
-    has?.({ plan: plan.planKey })
+    has?.({ plan: plan.planKey }),
   ) || { name: "FREE", price: { annual: "$0/mo", month: "$0/mo" } };
 
   // Filter plans to show only upgrades based on current plan
@@ -37,11 +37,11 @@ export function PlanInfo() {
       return []; // Don't show anything if they have ProMax
     } else if (currentPlan.name === "Pro") {
       return [getPlanByName("ProMax")].filter((p): p is NonNullable<typeof p> =>
-        Boolean(p)
+        Boolean(p),
       );
     } else if (currentPlan.name === "Premium") {
       return [getPlanByName("Pro"), getPlanByName("ProMax")].filter(
-        (p): p is NonNullable<typeof p> => Boolean(p)
+        (p): p is NonNullable<typeof p> => Boolean(p),
       );
     } else {
       // FREE users see all upgrades

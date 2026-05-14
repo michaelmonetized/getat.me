@@ -27,11 +27,11 @@ export function CommissionsDashboard() {
   const { user } = useUser();
   const commissions = useQuery(
     api.commissions.getCommissions,
-    user?.id ? { userId: user.id } : "skip"
+    user?.id ? { userId: user.id } : "skip",
   );
   const stats = useQuery(
     api.commissions.getCommissionStats,
-    user?.id ? { userId: user.id } : "skip"
+    user?.id ? { userId: user.id } : "skip",
   );
 
   if (!user?.id) {

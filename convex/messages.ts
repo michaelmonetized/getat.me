@@ -8,28 +8,31 @@ function getConversationId(userId1: string, userId2: string): string {
 }
 
 // Helper to get display name from user data
-function getUserDisplayName(user: { handle?: string; first?: string; last?: string } | null, userId: string): string {
+function getUserDisplayName(
+  user: { handle?: string; first?: string; last?: string } | null,
+  userId: string,
+): string {
   if (!user) {
     // Fallback: partially obfuscated value
     return `User...${userId.slice(-4)}`;
   }
-  
+
   if (user.handle) {
     return user.handle;
   }
-  
+
   if (user.first && user.last) {
     return `${user.first} ${user.last}`;
   }
-  
+
   if (user.first) {
     return user.first;
   }
-  
+
   if (user.last) {
     return user.last;
   }
-  
+
   // Fallback: partially obfuscated value
   return `User...${userId.slice(-4)}`;
 }
@@ -48,16 +51,21 @@ export const getConversations = query({
 
     const receivedMessages = await ctx.db
       .query("messages")
-      .withIndex("by_receiverUserId", (q) => q.eq("receiverUserId", args.userId))
+      .withIndex("by_receiverUserId", (q) =>
+        q.eq("receiverUserId", args.userId),
+      )
       .order("desc")
       .take(100); // limit to 100 most recent per direction
 
     // Group by conversation ID
-    const conversations = new Map<string, {
-      otherUserId: string;
-      lastMessage: typeof sentMessages[0] | typeof receivedMessages[0];
-      unreadCount: number;
-    }>();
+    const conversations = new Map<
+      string,
+      {
+        otherUserId: string;
+        lastMessage: (typeof sentMessages)[0] | (typeof receivedMessages)[0];
+        unreadCount: number;
+      }
+    >();
 
     sentMessages.forEach((msg) => {
       const otherUserId = msg.receiverUserId;
@@ -90,9 +98,14 @@ export const getConversations = query({
 
     // Fetch user data for all other users
     const conversationArray = Array.from(conversations.values());
-    const uniqueOtherUserIds = [...new Set(conversationArray.map(c => c.otherUserId))];
-    
-    const userMap = new Map<string, { handle?: string; first?: string; last?: string } | null>();
+    const uniqueOtherUserIds = [
+      ...new Set(conversationArray.map((c) => c.otherUserId)),
+    ];
+
+    const userMap = new Map<
+      string,
+      { handle?: string; first?: string; last?: string } | null
+    >();
     for (const otherUserId of uniqueOtherUserIds) {
       const user = await ctx.db
         .query("users")
@@ -105,7 +118,10 @@ export const getConversations = query({
     return conversationArray
       .map((conv) => ({
         ...conv,
-        otherUserDisplayName: getUserDisplayName(userMap.get(conv.otherUserId) || null, conv.otherUserId),
+        otherUserDisplayName: getUserDisplayName(
+          userMap.get(conv.otherUserId) || null,
+          conv.otherUserId,
+        ),
       }))
       .sort((a, b) => b.lastMessage.createdAt - a.lastMessage.createdAt);
   },
@@ -121,7 +137,9 @@ export const getMessages = query({
     const conversationId = getConversationId(args.userId1, args.userId2);
     return await ctx.db
       .query("messages")
-      .withIndex("by_conversationId", (q) => q.eq("conversationId", conversationId))
+      .withIndex("by_conversationId", (q) =>
+        q.eq("conversationId", conversationId),
+      )
       .order("asc")
       .paginate(args.paginationOpts);
   },
@@ -134,8 +152,11 @@ export const sendMessage = mutation({
     content: v.string(),
   },
   handler: async (ctx, args) => {
-    const conversationId = getConversationId(args.senderUserId, args.receiverUserId);
-    
+    const conversationId = getConversationId(
+      args.senderUserId,
+      args.receiverUserId,
+    );
+
     return await ctx.db.insert("messages", {
       conversationId,
       senderUserId: args.senderUserId,
@@ -157,12 +178,14 @@ export const markMessagesAsRead = mutation({
     const conversationId = getConversationId(args.userId1, args.userId2);
     const messages = await ctx.db
       .query("messages")
-      .withIndex("by_conversationId", (q) => q.eq("conversationId", conversationId))
-      .filter((q) => 
+      .withIndex("by_conversationId", (q) =>
+        q.eq("conversationId", conversationId),
+      )
+      .filter((q) =>
         q.and(
           q.eq(q.field("receiverUserId"), args.readerUserId),
-          q.eq(q.field("read"), false)
-        )
+          q.eq(q.field("read"), false),
+        ),
       )
       .collect();
 
@@ -171,4 +194,3 @@ export const markMessagesAsRead = mutation({
     }
   },
 });
-

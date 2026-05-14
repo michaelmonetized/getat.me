@@ -77,12 +77,13 @@ export default function ContactPage() {
           <h1 className="text-5xl md:text-6xl font-bold tracking-tight animate-fade-in-up">
             Let&rsquo;s
             <span className="bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent">
-              {" "}Talk
+              {" "}
+              Talk
             </span>
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto animate-fade-in-up-delay-1">
-            Questions, feedback, or partnership inquiries? We&rsquo;d love to hear from you.
-            Our team typically responds within 24 hours.
+            Questions, feedback, or partnership inquiries? We&rsquo;d love to
+            hear from you. Our team typically responds within 24 hours.
           </p>
         </div>
       </section>
@@ -98,8 +99,9 @@ export default function ContactPage() {
                   How can we help?
                 </h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  Whether you&rsquo;re curious about features, need help setting up
-                  your page, or want to explore a partnership, we&rsquo;re here for it.
+                  Whether you&rsquo;re curious about features, need help setting
+                  up your page, or want to explore a partnership, we&rsquo;re
+                  here for it.
                 </p>
               </div>
 
@@ -163,10 +165,7 @@ export default function ContactPage() {
             <div className="rounded-xl border border-border/50 bg-card/30 backdrop-blur-xs p-8">
               <form onSubmit={onSubmit} className="space-y-6">
                 <div className="space-y-2">
-                  <label
-                    className="text-sm font-semibold"
-                    htmlFor="name"
-                  >
+                  <label className="text-sm font-semibold" htmlFor="name">
                     Name
                   </label>
                   <Input
@@ -178,10 +177,7 @@ export default function ContactPage() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <label
-                    className="text-sm font-semibold"
-                    htmlFor="email"
-                  >
+                  <label className="text-sm font-semibold" htmlFor="email">
                     Email
                   </label>
                   <Input
@@ -194,10 +190,7 @@ export default function ContactPage() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <label
-                    className="text-sm font-semibold"
-                    htmlFor="message"
-                  >
+                  <label className="text-sm font-semibold" htmlFor="message">
                     Message
                   </label>
                   <Textarea

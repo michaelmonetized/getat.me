@@ -7,19 +7,13 @@ import { useUser } from "@clerk/nextjs";
 import { Id } from "@/convex/_generated/dataModel";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  PiPlus,
-  PiPencilSimple,
-  PiTrash,
-  PiCheck,
-  PiX,
-} from "react-icons/pi";
+import { PiPlus, PiPencilSimple, PiTrash, PiCheck, PiX } from "react-icons/pi";
 
 export function SectionManager() {
   const { user } = useUser();
   const sections = useQuery(
     api.sections.getUserSections,
-    user?.id ? { userId: user.id } : "skip"
+    user?.id ? { userId: user.id } : "skip",
   );
   const createSection = useMutation(api.sections.createSection);
   const updateSection = useMutation(api.sections.updateSection);
@@ -56,7 +50,8 @@ export function SectionManager() {
 
   const handleDelete = async (id: Id<"sections">) => {
     if (!user?.id) return;
-    if (!confirm("Delete this section? Links in it will become uncategorized.")) return;
+    if (!confirm("Delete this section? Links in it will become uncategorized."))
+      return;
     try {
       await deleteSection({ id, userId: user.id });
     } catch (err) {

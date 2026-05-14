@@ -27,7 +27,7 @@ function generateQRMatrix(data: string): boolean[][] {
   // For production, this uses a canvas-based approach
   const size = Math.max(21, Math.ceil(data.length / 2) + 21);
   const matrix: boolean[][] = Array.from({ length: size }, () =>
-    Array(size).fill(false)
+    Array(size).fill(false),
   );
   return matrix;
 }
@@ -72,12 +72,7 @@ function QRCodeSVG({
       for (let row = 0; row < moduleCount; row++) {
         for (let col = 0; col < moduleCount; col++) {
           if (modules[row][col]) {
-            ctx.fillRect(
-              col * cellSize,
-              row * cellSize,
-              cellSize,
-              cellSize
-            );
+            ctx.fillRect(col * cellSize, row * cellSize, cellSize, cellSize);
           }
         }
       }
@@ -102,7 +97,7 @@ function QRCodeSVG({
 function getSocialShareUrl(
   platform: string,
   url: string,
-  text: string
+  text: string,
 ): string {
   const encodedUrl = encodeURIComponent(url);
   const encodedText = encodeURIComponent(text);
@@ -221,11 +216,7 @@ export function ShareProfile({
       </div>
 
       {/* Native Share */}
-      <Button
-        className="w-full"
-        variant="outline"
-        onClick={handleNativeShare}
-      >
+      <Button className="w-full" variant="outline" onClick={handleNativeShare}>
         <PiShareNetworkLight className="h-4 w-4 mr-2" />
         Share
       </Button>

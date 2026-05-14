@@ -26,10 +26,10 @@ export function VerificationBadge({ type }: VerificationBadgeProps) {
   const { toast } = useToast();
   const verification = useQuery(
     api.verifications.getVerification,
-    user?.id ? { userId: user.id, type } : "skip"
+    user?.id ? { userId: user.id, type } : "skip",
   );
   const applyForVerification = useMutation(
-    api.verifications.applyForVerification
+    api.verifications.applyForVerification,
   );
 
   const [additionalInfo, setAdditionalInfo] = useState("");

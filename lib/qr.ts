@@ -56,16 +56,16 @@ function generatorPoly(n: number): number[] {
 // Error correction level L
 const VERSION_INFO: [number, number, number, number][] = [
   [0, 0, 0, 0], // placeholder v0
-  [26, 7, 1, 19],    // v1
-  [44, 10, 1, 34],   // v2
-  [70, 15, 1, 55],   // v3
-  [100, 20, 1, 80],  // v4
+  [26, 7, 1, 19], // v1
+  [44, 10, 1, 34], // v2
+  [70, 15, 1, 55], // v3
+  [100, 20, 1, 80], // v4
   [134, 26, 1, 108], // v5
-  [172, 18, 2, 68],  // v6
-  [196, 20, 2, 78],  // v7
-  [242, 24, 2, 97],  // v8
+  [172, 18, 2, 68], // v6
+  [196, 20, 2, 78], // v7
+  [242, 24, 2, 97], // v8
   [292, 30, 2, 116], // v9
-  [346, 18, 4, 68],  // v10
+  [346, 18, 4, 68], // v10
 ];
 
 function selectVersion(dataLen: number): number {
@@ -76,7 +76,9 @@ function selectVersion(dataLen: number): number {
     const capacity = dataCodewords * 8;
     if (bitsNeeded <= capacity) return v;
   }
-  throw new Error("Data too long for QR code (max ~116 bytes with this implementation)");
+  throw new Error(
+    "Data too long for QR code (max ~116 bytes with this implementation)",
+  );
 }
 
 // ── Bit Buffer ──────────────────────────────────────────────────────────
@@ -103,21 +105,33 @@ class BitBuffer {
 
 // ── Module Placement ────────────────────────────────────────────────────
 
-function createMatrix(version: number): { modules: (boolean | null)[][]; size: number } {
+function createMatrix(version: number): {
+  modules: (boolean | null)[][];
+  size: number;
+} {
   const size = version * 4 + 17;
   const modules: (boolean | null)[][] = Array.from({ length: size }, () =>
-    Array(size).fill(null)
+    Array(size).fill(null),
   );
   return { modules, size };
 }
 
-function setModule(modules: (boolean | null)[][], row: number, col: number, value: boolean) {
+function setModule(
+  modules: (boolean | null)[][],
+  row: number,
+  col: number,
+  value: boolean,
+) {
   if (row >= 0 && row < modules.length && col >= 0 && col < modules.length) {
     modules[row][col] = value;
   }
 }
 
-function placeFinderPattern(modules: (boolean | null)[][], row: number, col: number) {
+function placeFinderPattern(
+  modules: (boolean | null)[][],
+  row: number,
+  col: number,
+) {
   for (let r = -1; r <= 7; r++) {
     for (let c = -1; c <= 7; c++) {
       const inOuter = r === -1 || r === 7 || c === -1 || c === 7;
@@ -126,7 +140,8 @@ function placeFinderPattern(modules: (boolean | null)[][], row: number, col: num
       const inBorder = r === 0 || r === 6 || c === 0 || c === 6;
 
       let val = false;
-      if (inOuter) val = false; // separator
+      if (inOuter)
+        val = false; // separator
       else if (inBorder) val = true;
       else if (inInner) val = true;
       else if (inMiddle) val = false;
@@ -136,7 +151,11 @@ function placeFinderPattern(modules: (boolean | null)[][], row: number, col: num
   }
 }
 
-function placeAlignmentPattern(modules: (boolean | null)[][], row: number, col: number) {
+function placeAlignmentPattern(
+  modules: (boolean | null)[][],
+  row: number,
+  col: number,
+) {
   for (let r = -2; r <= 2; r++) {
     for (let c = -2; c <= 2; c++) {
       const val =
@@ -160,7 +179,11 @@ const ALIGNMENT_POSITIONS: number[][] = [
   [6, 28, 50], // v10
 ];
 
-function placeFixedPatterns(modules: (boolean | null)[][], version: number, size: number) {
+function placeFixedPatterns(
+  modules: (boolean | null)[][],
+  version: number,
+  size: number,
+) {
   // Finder patterns
   placeFinderPattern(modules, 0, 0);
   placeFinderPattern(modules, 0, size - 7);
@@ -274,7 +297,11 @@ function encodeData(data: string, version: number): number[] {
 
 // ── Data Placement ──────────────────────────────────────────────────────
 
-function placeData(modules: (boolean | null)[][], size: number, data: number[]) {
+function placeData(
+  modules: (boolean | null)[][],
+  size: number,
+  data: number[],
+) {
   let bitIndex = 0;
   const totalBits = data.length * 8;
   let direction = -1; // -1 = upward, 1 = downward
@@ -322,7 +349,7 @@ function isDataModule(
   row: number,
   col: number,
   size: number,
-  version: number
+  version: number,
 ): boolean {
   // Finder + separator
   if (row < 9 && col < 9) return false;
@@ -336,12 +363,7 @@ function isDataModule(
   const positions = ALIGNMENT_POSITIONS[version] || [];
   for (const r of positions) {
     for (const c of positions) {
-      if (
-        row >= r - 2 &&
-        row <= r + 2 &&
-        col >= c - 2 &&
-        col <= c + 2
-      ) {
+      if (row >= r - 2 && row <= r + 2 && col >= c - 2 && col <= c + 2) {
         // Skip if it overlaps finder
         if (r < 9 && c < 9) continue;
         if (r < 9 && c >= size - 8) continue;
@@ -365,7 +387,7 @@ function applyMask(
   modules: boolean[][],
   size: number,
   version: number,
-  maskIndex: number
+  maskIndex: number,
 ): boolean[][] {
   const result = modules.map((r) => [...r]);
   const maskFn = MASK_FUNCTIONS[maskIndex];
@@ -387,7 +409,11 @@ const FORMAT_INFO = [
   0x77c4, 0x72f3, 0x7daa, 0x789d, 0x662f, 0x6318, 0x6c41, 0x6976,
 ];
 
-function placeFormatInfo(modules: boolean[][], size: number, maskIndex: number) {
+function placeFormatInfo(
+  modules: boolean[][],
+  size: number,
+  maskIndex: number,
+) {
   const bits = FORMAT_INFO[maskIndex];
 
   for (let i = 0; i < 15; i++) {
@@ -447,8 +473,7 @@ function penaltyScore(modules: boolean[][], size: number): number {
   const percent = (dark * 100) / (size * size);
   const prev5 = Math.floor(percent / 5) * 5;
   const next5 = prev5 + 5;
-  score +=
-    Math.min(Math.abs(prev5 - 50) / 5, Math.abs(next5 - 50) / 5) * 10;
+  score += Math.min(Math.abs(prev5 - 50) / 5, Math.abs(next5 - 50) / 5) * 10;
 
   return score;
 }
@@ -469,7 +494,7 @@ export function generateQR(data: string): boolean[][] {
 
   // Convert nulls to false
   const base: boolean[][] = modules.map((row) =>
-    row.map((cell) => cell === true)
+    row.map((cell) => cell === true),
   );
 
   // Try all masks, pick best

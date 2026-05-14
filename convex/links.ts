@@ -164,7 +164,8 @@ export const updateLink = mutation({
     if (args.clearSection) updateData.sectionId = undefined;
     if (args.publishAt !== undefined) updateData.publishAt = args.publishAt;
     if (args.clearPublishAt) updateData.publishAt = undefined;
-    if (args.unpublishAt !== undefined) updateData.unpublishAt = args.unpublishAt;
+    if (args.unpublishAt !== undefined)
+      updateData.unpublishAt = args.unpublishAt;
     if (args.clearUnpublishAt) updateData.unpublishAt = undefined;
 
     await ctx.db.patch(args.id, updateData);

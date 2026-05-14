@@ -21,11 +21,11 @@ export function ReferralsTables() {
 
   const referralsSent = useQuery(
     api.referrals.getReferralsSent,
-    user?.id ? { userId: user.id } : "skip"
+    user?.id ? { userId: user.id } : "skip",
   );
   const referralsReceived = useQuery(
     api.referrals.getReferralsReceived,
-    user?.id ? { userId: user.id } : "skip"
+    user?.id ? { userId: user.id } : "skip",
   );
 
   if (!user?.id) {

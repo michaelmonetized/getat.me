@@ -14,11 +14,12 @@ const containerVariants = cva(
     defaultVariants: {
       size: "boxed",
     },
-  }
+  },
 );
 
 export interface ContainerProps
-  extends React.HTMLAttributes<HTMLDivElement>,
+  extends
+    React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof containerVariants> {
   children: React.ReactNode;
 }

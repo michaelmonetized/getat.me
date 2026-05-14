@@ -54,7 +54,7 @@ export function SortableLinks({ links, handle, onEdit }: SortableLinksProps) {
     }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
-    })
+    }),
   );
 
   const handleDragEnd = async (event: DragEndEvent) => {

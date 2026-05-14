@@ -25,7 +25,7 @@ export function PostsWidget() {
 
   const posts = useQuery(
     api.posts.getPosts,
-    user?.id ? { userId: user.id } : "skip"
+    user?.id ? { userId: user.id } : "skip",
   );
 
   const deletePost = useMutation(api.posts.deletePost);

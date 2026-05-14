@@ -18,9 +18,18 @@ import {
 import { PiCheck, PiPaintBrushLight, PiLinkLight } from "react-icons/pi";
 
 const COLOR_PRESETS = [
-  "#6366f1", "#8b5cf6", "#ec4899", "#ef4444",
-  "#f97316", "#eab308", "#22c55e", "#06b6d4",
-  "#3b82f6", "#000000", "#ffffff", "#64748b",
+  "#6366f1",
+  "#8b5cf6",
+  "#ec4899",
+  "#ef4444",
+  "#f97316",
+  "#eab308",
+  "#22c55e",
+  "#06b6d4",
+  "#3b82f6",
+  "#000000",
+  "#ffffff",
+  "#64748b",
 ];
 
 const FONTS = [
@@ -36,7 +45,11 @@ const BUTTON_STYLES = [
   { value: "rounded", label: "Rounded", className: "rounded-lg" },
   { value: "pill", label: "Pill", className: "rounded-full" },
   { value: "square", label: "Square", className: "rounded-none" },
-  { value: "outline", label: "Outline", className: "rounded-lg border-2 bg-transparent" },
+  {
+    value: "outline",
+    label: "Outline",
+    className: "rounded-lg border-2 bg-transparent",
+  },
 ];
 
 const BG_TYPES = [
@@ -48,7 +61,7 @@ export function BrandSettings() {
   const { user } = useUser();
   const userProfile = useQuery(
     api.users.getCurrentUserProfile,
-    user?.id ? { userId: user.id } : "skip"
+    user?.id ? { userId: user.id } : "skip",
   );
   const updateBranding = useMutation(api.branding.updateBranding);
 
@@ -65,8 +78,10 @@ export function BrandSettings() {
       if (userProfile.brandColor) setBrandColor(userProfile.brandColor);
       if (userProfile.fontFamily) setFontFamily(userProfile.fontFamily);
       if (userProfile.buttonStyle) setButtonStyle(userProfile.buttonStyle);
-      if (userProfile.backgroundType) setBackgroundType(userProfile.backgroundType);
-      if (userProfile.backgroundColor) setBackgroundColor(userProfile.backgroundColor);
+      if (userProfile.backgroundType)
+        setBackgroundType(userProfile.backgroundType);
+      if (userProfile.backgroundColor)
+        setBackgroundColor(userProfile.backgroundColor);
     }
   }, [userProfile]);
 
@@ -114,11 +129,20 @@ export function BrandSettings() {
                 style={{
                   backgroundColor: color,
                   borderColor: brandColor === color ? "white" : "transparent",
-                  boxShadow: brandColor === color ? `0 0 0 2px ${color}` : "none",
+                  boxShadow:
+                    brandColor === color ? `0 0 0 2px ${color}` : "none",
                 }}
               >
                 {brandColor === color && (
-                  <PiCheck className="h-4 w-4" style={{ color: color === "#ffffff" || color === "#eab308" ? "#000" : "#fff" }} />
+                  <PiCheck
+                    className="h-4 w-4"
+                    style={{
+                      color:
+                        color === "#ffffff" || color === "#eab308"
+                          ? "#000"
+                          : "#fff",
+                    }}
+                  />
                 )}
               </button>
             ))}
@@ -175,10 +199,14 @@ export function BrandSettings() {
                 }`}
                 style={
                   buttonStyle === style.value && style.value !== "outline"
-                    ? { backgroundColor: brandColor, borderColor: brandColor, color: "#fff" }
+                    ? {
+                        backgroundColor: brandColor,
+                        borderColor: brandColor,
+                        color: "#fff",
+                      }
                     : buttonStyle === style.value && style.value === "outline"
-                    ? { borderColor: brandColor, color: brandColor }
-                    : {}
+                      ? { borderColor: brandColor, color: brandColor }
+                      : {}
                 }
               >
                 {style.label}
@@ -235,7 +263,9 @@ export function BrandSettings() {
           >
             <div className="flex flex-col items-center gap-3">
               <div className="w-14 h-14 rounded-full bg-muted/30 border-2 border-white/20" />
-              <div className="text-white text-sm font-bold">@{userProfile?.handle || "yourhandle"}</div>
+              <div className="text-white text-sm font-bold">
+                @{userProfile?.handle || "yourhandle"}
+              </div>
               <div className="text-white/60 text-xs">Your bio goes here</div>
               <div className="w-full max-w-[200px] space-y-2 mt-2">
                 {["My Website", "Portfolio"].map((label) => (
@@ -245,14 +275,18 @@ export function BrandSettings() {
                       buttonStyle === "pill"
                         ? "rounded-full"
                         : buttonStyle === "square"
-                        ? "rounded-none"
-                        : buttonStyle === "outline"
-                        ? "rounded-lg"
-                        : "rounded-lg"
+                          ? "rounded-none"
+                          : buttonStyle === "outline"
+                            ? "rounded-lg"
+                            : "rounded-lg"
                     }`}
                     style={
                       buttonStyle === "outline"
-                        ? { border: `2px solid ${brandColor}`, color: brandColor, backgroundColor: "transparent" }
+                        ? {
+                            border: `2px solid ${brandColor}`,
+                            color: brandColor,
+                            backgroundColor: "transparent",
+                          }
                         : { backgroundColor: brandColor, color: "#fff" }
                     }
                   >

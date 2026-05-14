@@ -25,9 +25,7 @@ export default function Handle({
 
   // Inline mode - just the handle text for embedding in sentences
   if (inline) {
-    return (
-      <span className="font-semibold">@{user.handle}</span>
-    );
+    return <span className="font-semibold">@{user.handle}</span>;
   }
 
   return (

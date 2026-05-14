@@ -104,7 +104,10 @@ export default function PrivacyPage() {
                   "Communicate important updates, security notices, and support responses.",
                   <>
                     Comply with legal obligations and enforce our{" "}
-                    <Link href="/terms" className="text-primary hover:underline">
+                    <Link
+                      href="/terms"
+                      className="text-primary hover:underline"
+                    >
                       Terms
                     </Link>
                     .
@@ -176,9 +179,7 @@ export default function PrivacyPage() {
             <div className="border-t border-border/30" />
 
             <section id="rights" className="space-y-4 scroll-mt-24">
-              <h2 className="text-2xl font-bold tracking-tight">
-                Your rights
-              </h2>
+              <h2 className="text-2xl font-bold tracking-tight">Your rights</h2>
               <ul className="space-y-3">
                 {[
                   "Access, correct, or delete your data.",

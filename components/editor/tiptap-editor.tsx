@@ -31,7 +31,7 @@ export function TiptapEditor({
   const [isUploading, setIsUploading] = useState(false);
   const fileUrl = useQuery(
     api.files.getFileUrl,
-    uploadedStorageId ? { fileId: uploadedStorageId } : "skip"
+    uploadedStorageId ? { fileId: uploadedStorageId } : "skip",
   );
   const pendingUploads = useRef<
     Map<
@@ -69,7 +69,7 @@ export function TiptapEditor({
 
         if (!upload.ok) {
           throw new Error(
-            `Failed to upload image: ${upload.status} ${upload.statusText}`
+            `Failed to upload image: ${upload.status} ${upload.statusText}`,
           );
         }
 
@@ -109,7 +109,7 @@ export function TiptapEditor({
         });
       }
     },
-    [generateUploadUrl]
+    [generateUploadUrl],
   );
 
   const editor = useEditor({
@@ -163,7 +163,7 @@ export function TiptapEditor({
                     const node = schema.nodes.image.create({ src: url });
                     const transaction = view.state.tr.insert(
                       coordinates.pos,
-                      node
+                      node,
                     );
                     view.dispatch(transaction);
                   }

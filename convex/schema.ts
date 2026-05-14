@@ -79,7 +79,7 @@ export default defineSchema({
     status: v.union(
       v.literal("pending"),
       v.literal("confirmed"),
-      v.literal("cancelled")
+      v.literal("cancelled"),
     ),
     createdAt: v.number(),
   })
@@ -156,7 +156,7 @@ export default defineSchema({
     status: v.union(
       v.literal("pending"),
       v.literal("paid"),
-      v.literal("cancelled")
+      v.literal("cancelled"),
     ),
     paidAt: v.optional(v.number()),
     createdAt: v.number(),
@@ -169,13 +169,13 @@ export default defineSchema({
     status: v.union(
       v.literal("pending"),
       v.literal("approved"),
-      v.literal("rejected")
+      v.literal("rejected"),
     ),
     applicationData: v.optional(
       v.object({
         documentUrl: v.optional(v.id("_storage")),
         additionalInfo: v.optional(v.string()),
-      })
+      }),
     ),
     reviewedAt: v.optional(v.number()),
     createdAt: v.number(),
@@ -190,7 +190,7 @@ export default defineSchema({
         linkId: v.optional(v.string()),
         referrer: v.optional(v.string()),
         userAgent: v.optional(v.string()),
-      })
+      }),
     ),
     createdAt: v.number(),
   })

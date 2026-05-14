@@ -1,22 +1,35 @@
 import posthog from "posthog-js";
 
 // Track page views
-export function trackPageView(path: string, properties?: Record<string, unknown>) {
+export function trackPageView(
+  path: string,
+  properties?: Record<string, unknown>,
+) {
   posthog.capture("$pageview", { path, ...properties });
 }
 
 // Track button clicks
-export function trackButtonClick(buttonName: string, properties?: Record<string, unknown>) {
+export function trackButtonClick(
+  buttonName: string,
+  properties?: Record<string, unknown>,
+) {
   posthog.capture("button_clicked", { button_name: buttonName, ...properties });
 }
 
 // Track form submissions
-export function trackFormSubmit(formName: string, properties?: Record<string, unknown>) {
+export function trackFormSubmit(
+  formName: string,
+  properties?: Record<string, unknown>,
+) {
   posthog.capture("form_submitted", { form_name: formName, ...properties });
 }
 
 // Track link clicks
-export function trackLinkClick(linkName: string, href: string, properties?: Record<string, unknown>) {
+export function trackLinkClick(
+  linkName: string,
+  href: string,
+  properties?: Record<string, unknown>,
+) {
   posthog.capture("link_clicked", { link_name: linkName, href, ...properties });
 }
 

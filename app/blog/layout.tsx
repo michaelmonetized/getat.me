@@ -14,9 +14,5 @@ export default function BlogLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <main className="mx-auto max-w-3xl px-4 py-16">
-      {children}
-    </main>
-  );
+  return <main className="mx-auto max-w-3xl px-4 py-16">{children}</main>;
 }

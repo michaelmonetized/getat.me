@@ -17,7 +17,7 @@ export const getPaymentSettings = query({
       createdAt: v.number(),
       updatedAt: v.number(),
     }),
-    v.null()
+    v.null(),
   ),
   handler: async (ctx, args) => {
     let userId = args.userId;

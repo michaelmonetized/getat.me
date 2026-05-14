@@ -16,7 +16,10 @@ interface LiveChatWidgetProps {
   profileHandle: string;
 }
 
-export function LiveChatWidget({ profileUserId, profileHandle }: LiveChatWidgetProps) {
+export function LiveChatWidget({
+  profileUserId,
+  profileHandle,
+}: LiveChatWidgetProps) {
   const { user, isSignedIn } = useUser();
   const { toast } = useToast();
   const [isOpen, setIsOpen] = useState(false);
@@ -27,12 +30,16 @@ export function LiveChatWidget({ profileUserId, profileHandle }: LiveChatWidgetP
   const isLoadingOlderRef = useRef(false);
 
   // Get messages for this conversation
-  const { results: messages, loadMore, status: paginationStatus } = usePaginatedQuery(
+  const {
+    results: messages,
+    loadMore,
+    status: paginationStatus,
+  } = usePaginatedQuery(
     api.messages.getMessages,
     user?.id && isSignedIn
       ? { userId1: user.id, userId2: profileUserId }
       : "skip",
-    { initialNumItems: 50 }
+    { initialNumItems: 50 },
   );
 
   const sendMessage = useMutation(api.messages.sendMessage);
@@ -91,8 +98,11 @@ export function LiveChatWidget({ profileUserId, profileHandle }: LiveChatWidgetP
     // Show button but prompt to sign in when clicked
     return (
       <SignInButton mode="modal">
-        <Button className="fixed bottom-6 right-6 h-14 w-14 rounded-full shadow-lg z-50" size="icon"
-          aria-label="Open chat">
+        <Button
+          className="fixed bottom-6 right-6 h-14 w-14 rounded-full shadow-lg z-50"
+          size="icon"
+          aria-label="Open chat"
+        >
           <MessageCircle className="h-6 w-6" />
         </Button>
       </SignInButton>
@@ -129,7 +139,11 @@ export function LiveChatWidget({ profileUserId, profileHandle }: LiveChatWidgetP
                 className="h-8 w-8 p-0"
                 aria-label={isMinimized ? "Expand chat" : "Minimize chat"}
               >
-                {isMinimized ? <Maximize2 className="h-4 w-4" /> : <Minimize2 className="h-4 w-4" />}
+                {isMinimized ? (
+                  <Maximize2 className="h-4 w-4" />
+                ) : (
+                  <Minimize2 className="h-4 w-4" />
+                )}
               </Button>
               <Button
                 variant="ghost"
@@ -180,7 +194,9 @@ export function LiveChatWidget({ profileUserId, profileHandle }: LiveChatWidgetP
                           <p className="text-sm">{msg.content}</p>
                           <p
                             className={`text-xs mt-1 ${
-                              isOwn ? "text-primary-foreground/70" : "text-muted-foreground"
+                              isOwn
+                                ? "text-primary-foreground/70"
+                                : "text-muted-foreground"
                             }`}
                           >
                             {new Date(msg.createdAt).toLocaleTimeString([], {
@@ -204,7 +220,11 @@ export function LiveChatWidget({ profileUserId, profileHandle }: LiveChatWidgetP
                     placeholder="Type a message..."
                     disabled={isSending}
                   />
-                  <Button type="submit" disabled={isSending || !message.trim()} size="icon">
+                  <Button
+                    type="submit"
+                    disabled={isSending || !message.trim()}
+                    size="icon"
+                  >
                     <Send className="h-4 w-4" />
                   </Button>
                 </div>
@@ -216,4 +236,3 @@ export function LiveChatWidget({ profileUserId, profileHandle }: LiveChatWidgetP
     </>
   );
 }
-

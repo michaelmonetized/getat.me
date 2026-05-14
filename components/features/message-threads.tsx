@@ -23,15 +23,19 @@ export function MessageThreads() {
 
   const conversations = useQuery(
     api.messages.getConversations,
-    user?.id ? { userId: user.id } : "skip"
+    user?.id ? { userId: user.id } : "skip",
   );
 
-  const { results: messages, loadMore, status: paginationStatus } = usePaginatedQuery(
+  const {
+    results: messages,
+    loadMore,
+    status: paginationStatus,
+  } = usePaginatedQuery(
     api.messages.getMessages,
     user?.id && selectedUserId
       ? { userId1: user.id, userId2: selectedUserId }
       : "skip",
-    { initialNumItems: 50 }
+    { initialNumItems: 50 },
   );
 
   const sendMessage = useMutation(api.messages.sendMessage);

@@ -69,7 +69,7 @@ export const Link: typeof NextLink = (({ children, ...props }) => {
           prefetchTimeoutRef.current = null;
         }
       },
-      { rootMargin: "0px", threshold: 0.1 } // Trigger when at least 10% is visible
+      { rootMargin: "0px", threshold: 0.1 }, // Trigger when at least 10% is visible
     );
 
     observer.observe(linkElement);

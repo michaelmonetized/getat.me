@@ -18,7 +18,7 @@ export const pay = action({
       v.object({
         price: v.string(), // priceId
         quantity: v.number(), // defaults to 1 if not set
-      })
+      }),
     ),
   },
   handler: async (ctx, args) => {
@@ -70,7 +70,7 @@ export const fulfill = internalAction({
       const event = stripe.webhooks.constructEvent(
         args.payload,
         args.signature,
-        webhookSecret
+        webhookSecret,
       );
 
       const completedEvent = event.data.object as Stripe.Checkout.Session & {
@@ -79,13 +79,13 @@ export const fulfill = internalAction({
 
       if (event.type === "checkout.session.completed") {
         const subscription = await stripe.subscriptions.retrieve(
-          completedEvent.subscription as string
+          completedEvent.subscription as string,
         );
 
         const userId = completedEvent.metadata.userId;
 
         const priceId = subscription.items.data[0]?.price.id;
-        
+
         await ctx.runMutation(internal.subscriptions.createSubscription, {
           key: "userId",
           value: userId,
@@ -96,16 +96,19 @@ export const fulfill = internalAction({
 
         // Update user's subscription plan
         if (priceId) {
-          await ctx.runMutation(internal.subscriptions.updateUserSubscriptionPlan, {
-            userId,
-            priceId,
-          });
+          await ctx.runMutation(
+            internal.subscriptions.updateUserSubscriptionPlan,
+            {
+              userId,
+              priceId,
+            },
+          );
         }
       }
 
       if (event.type === "invoice.payment_succeeded") {
         const subscription = await stripe.subscriptions.retrieve(
-          completedEvent.subscription as string
+          completedEvent.subscription as string,
         );
 
         await ctx.runMutation(internal.subscriptions.renewSubscription, {

@@ -40,7 +40,7 @@ function generateICS(appointment: {
   message?: string;
 }) {
   const date = new Date(
-    `${appointment.appointmentDate}T${appointment.appointmentTime}`
+    `${appointment.appointmentDate}T${appointment.appointmentTime}`,
   );
   const endDate = new Date(date.getTime() + 30 * 60 * 1000); // 30 minutes later
 
@@ -99,19 +99,19 @@ export function AppointmentsTable() {
   const { toast } = useToast();
   const appointments = useQuery(
     api.booking.getAllAppointments,
-    user?.id ? { userId: user.id } : "skip"
+    user?.id ? { userId: user.id } : "skip",
   ) as Appointment[] | undefined;
 
   // Get user handle for profile URL
   const userProfile = useQuery(
     api.users.getCurrentUserProfile,
-    user?.id ? { userId: user.id } : "skip"
+    user?.id ? { userId: user.id } : "skip",
   );
 
   const cancelAppointment = useMutation(api.booking.cancelAppointment);
   const rescheduleAppointment = useMutation(api.booking.rescheduleAppointment);
   const [processingId, setProcessingId] = useState<Id<"appointments"> | null>(
-    null
+    null,
   );
 
   const handleAddToCalendar = (appointment: Appointment) => {
@@ -128,7 +128,7 @@ export function AppointmentsTable() {
 
   const handleReschedule = async (
     appointmentId: Id<"appointments">,
-    appointment: Appointment
+    appointment: Appointment,
   ) => {
     if (!user?.id) return;
     setProcessingId(appointmentId);
@@ -139,7 +139,7 @@ export function AppointmentsTable() {
       const handle = userProfile?.handle || user.id;
       const profileUrl = `${window.location.origin}/${handle}`;
       const appointmentDateTime = new Date(
-        `${appointment.appointmentDate}T${appointment.appointmentTime}`
+        `${appointment.appointmentDate}T${appointment.appointmentTime}`,
       ).toLocaleString();
 
       const emailHtml = `
@@ -178,7 +178,7 @@ export function AppointmentsTable() {
 
   const handleCancel = async (
     appointmentId: Id<"appointments">,
-    appointment: Appointment
+    appointment: Appointment,
   ) => {
     setProcessingId(appointmentId);
     try {
@@ -186,7 +186,7 @@ export function AppointmentsTable() {
 
       // Send email to booker
       const appointmentDateTime = new Date(
-        `${appointment.appointmentDate}T${appointment.appointmentTime}`
+        `${appointment.appointmentDate}T${appointment.appointmentTime}`,
       ).toLocaleString();
 
       const emailHtml = `
@@ -244,10 +244,10 @@ export function AppointmentsTable() {
     })
     .sort((a, b) => {
       const dateA = new Date(
-        `${a.appointmentDate}T${a.appointmentTime}`
+        `${a.appointmentDate}T${a.appointmentTime}`,
       ).getTime();
       const dateB = new Date(
-        `${b.appointmentDate}T${b.appointmentTime}`
+        `${b.appointmentDate}T${b.appointmentTime}`,
       ).getTime();
       return dateA - dateB; // Sort upcoming by date ascending
     });
@@ -260,16 +260,16 @@ export function AppointmentsTable() {
     })
     .sort((a, b) => {
       const dateA = new Date(
-        `${a.appointmentDate}T${a.appointmentTime}`
+        `${a.appointmentDate}T${a.appointmentTime}`,
       ).getTime();
       const dateB = new Date(
-        `${b.appointmentDate}T${b.appointmentTime}`
+        `${b.appointmentDate}T${b.appointmentTime}`,
       ).getTime();
       return dateB - dateA; // Sort past by date descending
     });
 
   const cancelledAppointments = appointments.filter(
-    (apt) => apt.status === "cancelled"
+    (apt) => apt.status === "cancelled",
   );
 
   return (
@@ -309,7 +309,7 @@ export function AppointmentsTable() {
                   <TableBody>
                     {activeAppointments.map((appointment) => {
                       const appointmentDateTime = new Date(
-                        `${appointment.appointmentDate}T${appointment.appointmentTime}`
+                        `${appointment.appointmentDate}T${appointment.appointmentTime}`,
                       );
                       const isProcessing = processingId === appointment._id;
                       const appointmentId = appointment._id;
@@ -391,7 +391,7 @@ export function AppointmentsTable() {
                   <TableBody>
                     {pastAppointments.map((appointment) => {
                       const appointmentDateTime = new Date(
-                        `${appointment.appointmentDate}T${appointment.appointmentTime}`
+                        `${appointment.appointmentDate}T${appointment.appointmentTime}`,
                       );
                       return (
                         <TableRow key={appointment._id} className="opacity-60">
@@ -434,7 +434,7 @@ export function AppointmentsTable() {
                   <TableBody>
                     {cancelledAppointments.map((appointment) => {
                       const appointmentDateTime = new Date(
-                        `${appointment.appointmentDate}T${appointment.appointmentTime}`
+                        `${appointment.appointmentDate}T${appointment.appointmentTime}`,
                       );
                       return (
                         <TableRow key={appointment._id} className="opacity-50">

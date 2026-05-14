@@ -16,7 +16,7 @@ export function CoverUpload() {
 
   const userProfile = useQuery(
     api.users.getCurrentUserProfile,
-    user?.id ? { userId: user.id } : "skip"
+    user?.id ? { userId: user.id } : "skip",
   );
   const generateUploadUrl = useMutation(api.files.generateUploadUrl);
   const uploadCover = useMutation(api.users.uploadCover);
@@ -51,7 +51,7 @@ export function CoverUpload() {
 
       if (!upload.ok) {
         throw new Error(
-          `Failed to upload image: ${upload.status} ${upload.statusText}`
+          `Failed to upload image: ${upload.status} ${upload.statusText}`,
         );
       }
 
@@ -85,7 +85,7 @@ export function CoverUpload() {
       dataTransfer.items.add(file);
       fileInputRef.current.files = dataTransfer.files;
       fileInputRef.current.dispatchEvent(
-        new Event("change", { bubbles: true })
+        new Event("change", { bubbles: true }),
       );
     }
   };

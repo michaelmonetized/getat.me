@@ -12,7 +12,7 @@ export function Navbar() {
   const { user } = useUser();
   const userProfile = useQuery(
     api.users.getCurrentUserProfile,
-    user?.id ? { userId: user.id } : "skip"
+    user?.id ? { userId: user.id } : "skip",
   );
 
   const [mobileOpen, setMobileOpen] = useState(false);

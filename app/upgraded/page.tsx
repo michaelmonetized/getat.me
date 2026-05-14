@@ -16,7 +16,7 @@ export default function UpgradedPage() {
   const { has } = useAuth();
   const userProfile = useQuery(
     api.users.getCurrentUserProfile,
-    user?.id ? { userId: user.id } : "skip"
+    user?.id ? { userId: user.id } : "skip",
   );
 
   // Convert plans object to array with planKey
@@ -27,9 +27,7 @@ export default function UpgradedPage() {
   ];
 
   // Determine current plan based on highest tier
-  const currentPlan = allPlans.find((plan) =>
-    has?.({ plan: plan.planKey })
-  );
+  const currentPlan = allPlans.find((plan) => has?.({ plan: plan.planKey }));
 
   // Redirect to profile if user has handle
   useEffect(() => {
@@ -71,7 +69,8 @@ export default function UpgradedPage() {
             </div>
           )}
           <p className="text-muted-foreground text-lg">
-            Thank you for upgrading! You now have access to all premium features.
+            Thank you for upgrading! You now have access to all premium
+            features.
           </p>
         </div>
       </section>

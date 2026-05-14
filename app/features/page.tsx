@@ -71,7 +71,7 @@ const FeatureCard = ({
               variant="outline"
               className={cn(
                 "text-[0.65rem] px-2 py-0.5",
-                badge_colors[c.toLowerCase() as keyof typeof badge_colors]
+                badge_colors[c.toLowerCase() as keyof typeof badge_colors],
               )}
             >
               {c}
@@ -105,10 +105,12 @@ const FeatureSection = ({
     <div className="container mx-auto px-4">
       <div className="mb-16 text-center space-y-4">
         {SectionIcon && (
-          <div className={cn(
-            "inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold",
-            accentColor || "border-primary/20 bg-primary/10 text-primary"
-          )}>
+          <div
+            className={cn(
+              "inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold",
+              accentColor || "border-primary/20 bg-primary/10 text-primary",
+            )}
+          >
             <SectionIcon className="h-4 w-4" />
             <span>{title}</span>
           </div>
@@ -284,7 +286,12 @@ export default function FeaturesPage() {
                   <PiArrowRightLight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
-              <Button asChild variant="outline" size="lg" className="text-base px-8 h-12">
+              <Button
+                asChild
+                variant="outline"
+                size="lg"
+                className="text-base px-8 h-12"
+              >
                 <Link href="/pricing">View Pricing</Link>
               </Button>
             </div>
@@ -352,7 +359,12 @@ export default function FeaturesPage() {
                   <PiArrowRightLight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
-              <Button asChild variant="outline" size="lg" className="text-base px-8 h-12">
+              <Button
+                asChild
+                variant="outline"
+                size="lg"
+                className="text-base px-8 h-12"
+              >
                 <Link href="/pricing">See Plans & Pricing</Link>
               </Button>
             </div>

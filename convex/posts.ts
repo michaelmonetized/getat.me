@@ -45,41 +45,49 @@ export const getAllPosts = query({
     // Enrich with metadata
     const enrichedPosts: PostWithMeta[] = await Promise.all(
       posts.map(async (post) => {
-        const [likeCount, replyCount, repostCount, userLike, userRepost, repostOf] =
-          await Promise.all([
-            ctx.db
-              .query("likes")
-              .withIndex("by_postId", (q) => q.eq("postId", post._id))
-              .collect()
-              .then((likes) => likes.length),
-            ctx.db
-              .query("posts")
-              .withIndex("by_parentId", (q) => q.eq("parentId", post._id))
-              .collect()
-              .then((replies) => replies.length),
-            ctx.db
-              .query("posts")
-              .withIndex("by_repostOfId", (q) => q.eq("repostOfId", post._id))
-              .collect()
-              .then((reposts) => reposts.length),
-            args.currentUserId
-              ? ctx.db
-                  .query("likes")
-                  .withIndex("by_userId_postId", (q) =>
-                    q.eq("userId", args.currentUserId!).eq("postId", post._id)
-                  )
-                  .first()
-              : null,
-            args.currentUserId
-              ? ctx.db
-                  .query("posts")
-                  .withIndex("by_repostOfId_userId", (q) =>
-                    q.eq("repostOfId", post._id).eq("userId", args.currentUserId!)
-                  )
-                  .first()
-              : null,
-            post.repostOfId ? ctx.db.get(post.repostOfId) : null,
-          ]);
+        const [
+          likeCount,
+          replyCount,
+          repostCount,
+          userLike,
+          userRepost,
+          repostOf,
+        ] = await Promise.all([
+          ctx.db
+            .query("likes")
+            .withIndex("by_postId", (q) => q.eq("postId", post._id))
+            .collect()
+            .then((likes) => likes.length),
+          ctx.db
+            .query("posts")
+            .withIndex("by_parentId", (q) => q.eq("parentId", post._id))
+            .collect()
+            .then((replies) => replies.length),
+          ctx.db
+            .query("posts")
+            .withIndex("by_repostOfId", (q) => q.eq("repostOfId", post._id))
+            .collect()
+            .then((reposts) => reposts.length),
+          args.currentUserId
+            ? ctx.db
+                .query("likes")
+                .withIndex("by_userId_postId", (q) =>
+                  q.eq("userId", args.currentUserId!).eq("postId", post._id),
+                )
+                .first()
+            : null,
+          args.currentUserId
+            ? ctx.db
+                .query("posts")
+                .withIndex("by_repostOfId_userId", (q) =>
+                  q
+                    .eq("repostOfId", post._id)
+                    .eq("userId", args.currentUserId!),
+                )
+                .first()
+            : null,
+          post.repostOfId ? ctx.db.get(post.repostOfId) : null,
+        ]);
 
         return {
           ...post,
@@ -90,7 +98,7 @@ export const getAllPosts = query({
           isRepostedByUser: !!userRepost,
           repostOf,
         };
-      })
+      }),
     );
 
     return enrichedPosts;
@@ -127,7 +135,7 @@ export const getPost = query({
           ? ctx.db
               .query("likes")
               .withIndex("by_userId_postId", (q) =>
-                q.eq("userId", args.currentUserId!).eq("postId", post._id)
+                q.eq("userId", args.currentUserId!).eq("postId", post._id),
               )
               .first()
           : null,
@@ -135,7 +143,7 @@ export const getPost = query({
           ? ctx.db
               .query("posts")
               .withIndex("by_repostOfId_userId", (q) =>
-                q.eq("repostOfId", post._id).eq("userId", args.currentUserId!)
+                q.eq("repostOfId", post._id).eq("userId", args.currentUserId!),
               )
               .first()
           : null,
@@ -190,7 +198,7 @@ export const getReplies = query({
               ? ctx.db
                   .query("likes")
                   .withIndex("by_userId_postId", (q) =>
-                    q.eq("userId", args.currentUserId!).eq("postId", reply._id)
+                    q.eq("userId", args.currentUserId!).eq("postId", reply._id),
                   )
                   .first()
               : null,
@@ -198,7 +206,9 @@ export const getReplies = query({
               ? ctx.db
                   .query("posts")
                   .withIndex("by_repostOfId_userId", (q) =>
-                    q.eq("repostOfId", reply._id).eq("userId", args.currentUserId!)
+                    q
+                      .eq("repostOfId", reply._id)
+                      .eq("userId", args.currentUserId!),
                   )
                   .first()
               : null,
@@ -213,7 +223,7 @@ export const getReplies = query({
           isRepostedByUser: !!userRepost,
           repostOf: null,
         };
-      })
+      }),
     );
 
     return enrichedReplies;
@@ -327,7 +337,7 @@ export const likePost = mutation({
     const existingLike = await ctx.db
       .query("likes")
       .withIndex("by_userId_postId", (q) =>
-        q.eq("userId", args.userId).eq("postId", args.postId)
+        q.eq("userId", args.userId).eq("postId", args.postId),
       )
       .first();
 
@@ -352,7 +362,7 @@ export const unlikePost = mutation({
     const existingLike = await ctx.db
       .query("likes")
       .withIndex("by_userId_postId", (q) =>
-        q.eq("userId", args.userId).eq("postId", args.postId)
+        q.eq("userId", args.userId).eq("postId", args.postId),
       )
       .first();
 
@@ -371,7 +381,7 @@ export const toggleLike = mutation({
     const existingLike = await ctx.db
       .query("likes")
       .withIndex("by_userId_postId", (q) =>
-        q.eq("userId", args.userId).eq("postId", args.postId)
+        q.eq("userId", args.userId).eq("postId", args.postId),
       )
       .first();
 
@@ -409,7 +419,7 @@ export const repost = mutation({
       const existingRepost = await ctx.db
         .query("posts")
         .withIndex("by_repostOfId_userId", (q) =>
-          q.eq("repostOfId", args.postId).eq("userId", args.userId)
+          q.eq("repostOfId", args.postId).eq("userId", args.userId),
         )
         .filter((q) => q.eq(q.field("content"), ""))
         .first();
@@ -438,7 +448,7 @@ export const undoRepost = mutation({
     const existingRepost = await ctx.db
       .query("posts")
       .withIndex("by_repostOfId_userId", (q) =>
-        q.eq("repostOfId", args.postId).eq("userId", args.userId)
+        q.eq("repostOfId", args.postId).eq("userId", args.userId),
       )
       .filter((q) => q.eq(q.field("content"), ""))
       .first();

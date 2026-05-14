@@ -72,10 +72,7 @@ export default function TermsPage() {
               <p className="text-muted-foreground leading-relaxed">
                 By creating an account or using Get At Me you agree to these
                 Terms and our{" "}
-                <Link
-                  className="text-primary hover:underline"
-                  href="/privacy"
-                >
+                <Link className="text-primary hover:underline" href="/privacy">
                   Privacy Policy
                 </Link>
                 .
@@ -186,9 +183,7 @@ export default function TermsPage() {
             <div className="border-t border-border/30" />
 
             <section id="termination" className="space-y-4 scroll-mt-24">
-              <h2 className="text-2xl font-bold tracking-tight">
-                Termination
-              </h2>
+              <h2 className="text-2xl font-bold tracking-tight">Termination</h2>
               <p className="text-muted-foreground leading-relaxed">
                 You can stop using the service at any time. We may suspend or
                 terminate your access if you violate these Terms.

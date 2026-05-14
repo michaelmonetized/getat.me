@@ -26,8 +26,8 @@ export default function ThanksPage() {
           </h1>
 
           <p className="text-xl text-muted-foreground max-w-xl mx-auto leading-relaxed animate-fade-in-up-delay-1">
-            We&rsquo;ve received your message and will get back to you within
-            24 hours. We appreciate you reaching out.
+            We&rsquo;ve received your message and will get back to you within 24
+            hours. We appreciate you reaching out.
           </p>
         </div>
       </section>
@@ -44,7 +44,8 @@ export default function ThanksPage() {
               Explore Get At Me
             </h2>
             <p className="text-muted-foreground">
-              Check out what we have to offer while we put together a response for you.
+              Check out what we have to offer while we put together a response
+              for you.
             </p>
           </div>
 

@@ -1,11 +1,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   PiMegaphoneLight,
   PiTargetLight,
@@ -60,7 +55,8 @@ export default function AdvertisingPage() {
           <h1 className="text-5xl md:text-6xl font-bold tracking-tight animate-fade-in-up">
             Advertise on
             <span className="bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent">
-              {" "}Get At Me
+              {" "}
+              Get At Me
             </span>
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto animate-fade-in-up-delay-1">
@@ -123,9 +119,7 @@ export default function AdvertisingPage() {
       <section className="py-20 md:py-28 px-4 border-t border-border/30 bg-card/10">
         <div className="max-w-4xl mx-auto">
           <div className="text-center space-y-4 mb-16">
-            <h2 className="text-4xl font-bold tracking-tight">
-              How it works
-            </h2>
+            <h2 className="text-4xl font-bold tracking-tight">How it works</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Simple, straightforward, and designed for mutual success.
             </p>
@@ -152,10 +146,7 @@ export default function AdvertisingPage() {
                   "Launch your campaign, track results in real time, and scale what works.",
               },
             ].map((item, index) => (
-              <div
-                key={index}
-                className="relative text-center space-y-4 p-6"
-              >
+              <div key={index} className="relative text-center space-y-4 p-6">
                 <div className="text-6xl font-black text-primary/10 absolute top-0 right-4 select-none">
                   {item.step}
                 </div>
@@ -182,8 +173,8 @@ export default function AdvertisingPage() {
             Ready to partner?
           </h2>
           <p className="text-lg text-muted-foreground max-w-xl mx-auto">
-            We work with brands of all sizes. Tell us about your goals and
-            we will put together a proposal tailored to your needs.
+            We work with brands of all sizes. Tell us about your goals and we
+            will put together a proposal tailored to your needs.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button asChild size="lg" className="px-8 h-12 text-base">
@@ -192,7 +183,12 @@ export default function AdvertisingPage() {
                 <PiArrowRightLight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
-            <Button asChild variant="outline" size="lg" className="px-8 h-12 text-base">
+            <Button
+              asChild
+              variant="outline"
+              size="lg"
+              className="px-8 h-12 text-base"
+            >
               <a href="mailto:contact@getatme.com">Email Directly</a>
             </Button>
           </div>

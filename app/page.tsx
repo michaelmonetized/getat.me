@@ -42,12 +42,7 @@ const jsonLd = {
     "Custom themes & branding",
   ],
 };
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { SignedIn, SignedOut, SignUpButton } from "@clerk/nextjs";
 import AddPostForm from "@/components/forms/user/add-post";
 import { Container } from "@/components/layout/container";
@@ -136,7 +131,9 @@ export default function HomePage() {
               </div>
               <div className="hidden sm:block h-8 w-px bg-border/40" />
               <div className="space-y-1">
-                <p className="text-2xl font-bold text-foreground">Bookings + Payments</p>
+                <p className="text-2xl font-bold text-foreground">
+                  Bookings + Payments
+                </p>
                 <p className="text-xs text-muted-foreground uppercase tracking-wider">
                   Built Right In
                 </p>
@@ -231,7 +228,12 @@ export default function HomePage() {
               </div>
 
               <div className="text-center mt-12">
-                <Button asChild variant="outline" size="lg" className="text-base">
+                <Button
+                  asChild
+                  variant="outline"
+                  size="lg"
+                  className="text-base"
+                >
                   <Link href="/features">
                     Explore All Features
                     <PiArrowRightLight className="ml-2 h-4 w-4" />
@@ -248,11 +250,13 @@ export default function HomePage() {
                 <h2 className="text-4xl md:text-5xl font-bold tracking-tight">
                   Up and running in
                   <span className="bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent">
-                    {" "}three steps
+                    {" "}
+                    three steps
                   </span>
                 </h2>
                 <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                  No coding required. No complicated setup. Just create, customize, and share.
+                  No coding required. No complicated setup. Just create,
+                  customize, and share.
                 </p>
               </div>
 
@@ -280,7 +284,10 @@ export default function HomePage() {
                       "Drop your link anywhere -- bio, email signature, business card. Watch your audience convert.",
                   },
                 ].map((item, index) => (
-                  <div key={index} className="relative text-center space-y-4 p-6">
+                  <div
+                    key={index}
+                    className="relative text-center space-y-4 p-6"
+                  >
                     <div className="text-6xl font-black text-primary/10 absolute top-0 right-4 select-none">
                       {item.step}
                     </div>
@@ -311,8 +318,8 @@ export default function HomePage() {
                 Ready to stand out?
               </h2>
               <p className="text-xl text-muted-foreground max-w-xl mx-auto">
-                Join creators, consultants, and service pros who chose connection
-                over clicks. Your link page starts free.
+                Join creators, consultants, and service pros who chose
+                connection over clicks. Your link page starts free.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <SignUpButton mode="modal" fallbackRedirectUrl="/onboarding">

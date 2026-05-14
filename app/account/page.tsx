@@ -11,7 +11,7 @@ export default function AccountPage() {
   const { user, isLoaded: userLoaded } = useUser();
   const userProfile = useQuery(
     api.users.getCurrentUserProfile,
-    user?.id ? { userId: user.id } : "skip"
+    user?.id ? { userId: user.id } : "skip",
   );
 
   useEffect(() => {

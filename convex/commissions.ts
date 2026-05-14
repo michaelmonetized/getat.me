@@ -11,15 +11,21 @@ export const getCommissions = query({
       referrerUserId: v.string(),
       referralId: v.id("referrals"),
       amount: v.number(),
-      status: v.union(v.literal("pending"), v.literal("paid"), v.literal("cancelled")),
+      status: v.union(
+        v.literal("pending"),
+        v.literal("paid"),
+        v.literal("cancelled"),
+      ),
       paidAt: v.optional(v.number()),
       createdAt: v.number(),
-    })
+    }),
   ),
   handler: async (ctx, args) => {
     return await ctx.db
       .query("commissions")
-      .withIndex("by_referrerUserId", (q) => q.eq("referrerUserId", args.userId))
+      .withIndex("by_referrerUserId", (q) =>
+        q.eq("referrerUserId", args.userId),
+      )
       .order("desc")
       .collect();
   },
@@ -38,7 +44,9 @@ export const getCommissionStats = query({
   handler: async (ctx, args) => {
     const commissions = await ctx.db
       .query("commissions")
-      .withIndex("by_referrerUserId", (q) => q.eq("referrerUserId", args.userId))
+      .withIndex("by_referrerUserId", (q) =>
+        q.eq("referrerUserId", args.userId),
+      )
       .collect();
 
     const stats = {
@@ -82,7 +90,11 @@ export const createCommission = mutation({
 export const updateCommissionStatus = mutation({
   args: {
     commissionId: v.id("commissions"),
-    status: v.union(v.literal("pending"), v.literal("paid"), v.literal("cancelled")),
+    status: v.union(
+      v.literal("pending"),
+      v.literal("paid"),
+      v.literal("cancelled"),
+    ),
   },
   returns: v.null(),
   handler: async (ctx, args) => {
@@ -101,4 +113,3 @@ export const updateCommissionStatus = mutation({
     return null;
   },
 });
-

@@ -40,7 +40,7 @@ export default function FlipClockCountdown({
               <div className="flip-clock-value">{value}</div>
               <div className="flip-clock-label">{key}</div>
             </div>
-          )
+          ),
       )}
     </div>
   );

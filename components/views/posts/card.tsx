@@ -40,7 +40,12 @@ interface PostCardProps {
   depth?: number;
 }
 
-export function PostCard({ post, onReplyCreated, isReply = false, depth = 0 }: PostCardProps) {
+export function PostCard({
+  post,
+  onReplyCreated,
+  isReply = false,
+  depth = 0,
+}: PostCardProps) {
   const router = useRouter();
   const auth = useCurrentUser();
   const { has } = useAuth();
@@ -59,7 +64,7 @@ export function PostCard({ post, onReplyCreated, isReply = false, depth = 0 }: P
   // Fetch replies when expanded
   const replies = useQuery(
     api.posts.getReplies,
-    showReplies ? { postId: post._id, currentUserId: auth?.user?.id } : "skip"
+    showReplies ? { postId: post._id, currentUserId: auth?.user?.id } : "skip",
   );
 
   const { user: postUser } = useUser(post.userId);
@@ -67,7 +72,8 @@ export function PostCard({ post, onReplyCreated, isReply = false, depth = 0 }: P
 
   // For reposts, determine if we should show the original content
   const isRepost = !!post.repostOfId && !!post.repostOf;
-  const displayContent = isRepost && !post.content ? post.repostOf?.content : post.content;
+  const displayContent =
+    isRepost && !post.content ? post.repostOf?.content : post.content;
 
   const isSignedIn = !!auth?.user?.id;
   // Compare against auth.user.id directly — avoids an extra useUser call per card
@@ -144,7 +150,10 @@ export function PostCard({ post, onReplyCreated, isReply = false, depth = 0 }: P
         title: "ProMax required",
         description: "Upgrade to ProMax to reply to posts.",
         action: (
-          <ToastAction altText="View pricing" onClick={() => router.push("/pricing")}>
+          <ToastAction
+            altText="View pricing"
+            onClick={() => router.push("/pricing")}
+          >
             View pricing
           </ToastAction>
         ),
@@ -204,7 +213,10 @@ export function PostCard({ post, onReplyCreated, isReply = false, depth = 0 }: P
         title: "ProMax required",
         description: "Upgrade to ProMax to repost.",
         action: (
-          <ToastAction altText="View pricing" onClick={() => router.push("/pricing")}>
+          <ToastAction
+            altText="View pricing"
+            onClick={() => router.push("/pricing")}
+          >
             View pricing
           </ToastAction>
         ),
@@ -251,7 +263,9 @@ export function PostCard({ post, onReplyCreated, isReply = false, depth = 0 }: P
           {isRepost && (
             <div className="flex items-center gap-1 text-xs text-muted-foreground mb-2">
               <PiArrowsClockwiseLight className="h-3 w-3" />
-              <span><Handle user={postUser} inline /> reposted</span>
+              <span>
+                <Handle user={postUser} inline /> reposted
+              </span>
             </div>
           )}
           <Handle user={isRepost ? repostOriginalUser : postUser} />
@@ -386,7 +400,8 @@ export function PostCard({ post, onReplyCreated, isReply = false, depth = 0 }: P
               className="text-muted-foreground hover:text-foreground w-full justify-start"
             >
               <PiArrowBendDownRightLight className="h-4 w-4 mr-2" />
-              {showReplies ? "Hide" : "Show"} {post.replyCount} {post.replyCount === 1 ? "reply" : "replies"}
+              {showReplies ? "Hide" : "Show"} {post.replyCount}{" "}
+              {post.replyCount === 1 ? "reply" : "replies"}
             </Button>
           </div>
         )}

@@ -17,7 +17,7 @@ export function AnalyticsDashboard() {
   const { user } = useUser();
   const analytics = useQuery(
     api.analytics.getAnalytics,
-    user?.id ? { userId: user.id, days: 30 } : "skip"
+    user?.id ? { userId: user.id, days: 30 } : "skip",
   );
 
   if (!user?.id) {

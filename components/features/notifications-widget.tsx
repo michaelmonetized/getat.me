@@ -16,10 +16,10 @@ export function NotificationsWidget() {
   const { toast } = useToast();
   const settings = useQuery(
     api.notifications.getNotificationSettings,
-    user?.id ? { userId: user.id } : "skip"
+    user?.id ? { userId: user.id } : "skip",
   );
   const updateSettings = useMutation(
-    api.notifications.updateNotificationSettings
+    api.notifications.updateNotificationSettings,
   );
 
   const [emailNotifications, setEmailNotifications] = useState(true);
@@ -41,7 +41,7 @@ export function NotificationsWidget() {
   const handleToggle = async (
     setting: string,
     value: boolean,
-    setter: (value: boolean) => void
+    setter: (value: boolean) => void,
   ) => {
     if (!user?.id) return;
     setter(value);
@@ -121,7 +121,7 @@ export function NotificationsWidget() {
               handleToggle(
                 "bookingNotifications",
                 checked,
-                setBookingNotifications
+                setBookingNotifications,
               )
             }
           />
@@ -141,7 +141,7 @@ export function NotificationsWidget() {
               handleToggle(
                 "messageNotifications",
                 checked,
-                setMessageNotifications
+                setMessageNotifications,
               )
             }
           />
@@ -163,7 +163,7 @@ export function NotificationsWidget() {
               handleToggle(
                 "referralNotifications",
                 checked,
-                setReferralNotifications
+                setReferralNotifications,
               )
             }
           />
@@ -183,7 +183,7 @@ export function NotificationsWidget() {
               handleToggle(
                 "reviewNotifications",
                 checked,
-                setReviewNotifications
+                setReviewNotifications,
               )
             }
           />

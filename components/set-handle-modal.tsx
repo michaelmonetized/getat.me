@@ -25,7 +25,7 @@ export function SetHandleModal() {
   const { isSignedIn, user, isLoaded: userLoaded } = useUser();
   const userProfile = useQuery(
     api.users.getCurrentUserProfile,
-    user?.id ? { userId: user.id } : "skip"
+    user?.id ? { userId: user.id } : "skip",
   );
   const setHandleMutation = useMutation(api.users.setHandle);
 
@@ -63,7 +63,7 @@ export function SetHandleModal() {
     // Check handle format (alphanumeric, underscore, hyphen)
     if (!/^[a-z0-9_-]+$/.test(handle.trim())) {
       setError(
-        "Handle can only contain lowercase letters, numbers, underscores, and hyphens"
+        "Handle can only contain lowercase letters, numbers, underscores, and hyphens",
       );
       setIsChecking(false);
       return;
@@ -101,7 +101,7 @@ export function SetHandleModal() {
                 value={handle}
                 onChange={(e) => {
                   setHandle(
-                    e.target.value.toLowerCase().replace(/[^a-z0-9_-]/g, "")
+                    e.target.value.toLowerCase().replace(/[^a-z0-9_-]/g, ""),
                   );
                   setError("");
                 }}

@@ -55,22 +55,27 @@ export default function OnboardingPage() {
 
   const userProfile = useQuery(
     api.users.getCurrentUserProfile,
-    user?.id ? { userId: user.id } : "skip"
+    user?.id ? { userId: user.id } : "skip",
   );
 
   // Check handle availability
   const handleAvailability = useQuery(
     api.users.getUserByHandle,
-    debouncedHandle.length >= 3 ? { handle: debouncedHandle } : "skip"
+    debouncedHandle.length >= 3 ? { handle: debouncedHandle } : "skip",
   );
 
   const setHandleMutation = useMutation(api.users.setHandle);
 
   // Derive availability state
   const isHandleValid = handle.length >= 3 && /^[a-z0-9_-]+$/.test(handle);
-  const isCheckingAvailability = debouncedHandle !== handle && handle.length >= 3;
-  const isAvailable = handleAvailability === null && !isCheckingAvailability && isHandleValid;
-  const isTaken = handleAvailability !== null && handleAvailability !== undefined && !isCheckingAvailability;
+  const isCheckingAvailability =
+    debouncedHandle !== handle && handle.length >= 3;
+  const isAvailable =
+    handleAvailability === null && !isCheckingAvailability && isHandleValid;
+  const isTaken =
+    handleAvailability !== null &&
+    handleAvailability !== undefined &&
+    !isCheckingAvailability;
 
   // Redirect if user already has a handle
   if (userLoaded && user?.id && userProfile?.handle) {
@@ -106,7 +111,7 @@ export default function OnboardingPage() {
 
     if (!/^[a-z0-9_-]+$/.test(handle.trim())) {
       setError(
-        "Handle can only contain lowercase letters, numbers, underscores, and hyphens"
+        "Handle can only contain lowercase letters, numbers, underscores, and hyphens",
       );
       return;
     }
@@ -186,7 +191,11 @@ export default function OnboardingPage() {
               </div>
               <div className="font-mono text-lg">
                 getat.me/
-                <span className={handle ? "text-primary font-bold" : "text-muted-foreground"}>
+                <span
+                  className={
+                    handle ? "text-primary font-bold" : "text-muted-foreground"
+                  }
+                >
                   {handle || "yourhandle"}
                 </span>
               </div>
@@ -205,7 +214,7 @@ export default function OnboardingPage() {
                   value={handle}
                   onChange={(e) => {
                     setHandle(
-                      e.target.value.toLowerCase().replace(/[^a-z0-9_-]/g, "")
+                      e.target.value.toLowerCase().replace(/[^a-z0-9_-]/g, ""),
                     );
                     setError("");
                   }}
@@ -250,9 +259,7 @@ export default function OnboardingPage() {
                   This handle is already taken
                 </p>
               )}
-              {error && (
-                <p className="text-sm text-destructive">{error}</p>
-              )}
+              {error && <p className="text-sm text-destructive">{error}</p>}
               <p className="text-xs text-muted-foreground">
                 Lowercase letters, numbers, underscores, and hyphens only
               </p>

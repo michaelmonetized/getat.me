@@ -21,7 +21,7 @@ export const getBookingAvailability = query({
       saturday: v.boolean(),
       sunday: v.boolean(),
     }),
-    v.null()
+    v.null(),
   ),
   handler: async (ctx, args) => {
     const existing = await ctx.db
@@ -57,8 +57,10 @@ export const updateBookingAvailability = mutation({
     const data = {
       userId: args.userId,
       enabled: args.enabled ?? existing?.enabled ?? true,
-      defaultStartTime: args.defaultStartTime ?? existing?.defaultStartTime ?? "09:00",
-      defaultEndTime: args.defaultEndTime ?? existing?.defaultEndTime ?? "17:00",
+      defaultStartTime:
+        args.defaultStartTime ?? existing?.defaultStartTime ?? "09:00",
+      defaultEndTime:
+        args.defaultEndTime ?? existing?.defaultEndTime ?? "17:00",
       monday: args.monday ?? existing?.monday ?? true,
       tuesday: args.tuesday ?? existing?.tuesday ?? true,
       wednesday: args.wednesday ?? existing?.wednesday ?? true,
@@ -83,10 +85,12 @@ export const updateBookingAvailability = mutation({
         saturday?: boolean;
         sunday?: boolean;
       } = { userId: args.userId };
-      
+
       if (args.enabled !== undefined) updateData.enabled = args.enabled;
-      if (args.defaultStartTime !== undefined) updateData.defaultStartTime = args.defaultStartTime;
-      if (args.defaultEndTime !== undefined) updateData.defaultEndTime = args.defaultEndTime;
+      if (args.defaultStartTime !== undefined)
+        updateData.defaultStartTime = args.defaultStartTime;
+      if (args.defaultEndTime !== undefined)
+        updateData.defaultEndTime = args.defaultEndTime;
       if (args.monday !== undefined) updateData.monday = args.monday;
       if (args.tuesday !== undefined) updateData.tuesday = args.tuesday;
       if (args.wednesday !== undefined) updateData.wednesday = args.wednesday;
@@ -94,7 +98,7 @@ export const updateBookingAvailability = mutation({
       if (args.friday !== undefined) updateData.friday = args.friday;
       if (args.saturday !== undefined) updateData.saturday = args.saturday;
       if (args.sunday !== undefined) updateData.sunday = args.sunday;
-      
+
       return await ctx.db.patch(existing._id, updateData);
     } else {
       // Create new with defaults
@@ -116,8 +120,8 @@ export const getAppointments = query({
       .filter((q) =>
         q.and(
           q.gte(q.field("appointmentDate"), args.startDate),
-          q.lte(q.field("appointmentDate"), args.endDate)
-        )
+          q.lte(q.field("appointmentDate"), args.endDate),
+        ),
       )
       .collect();
   },
@@ -132,11 +136,15 @@ export const getAllAppointments = query({
       .query("appointments")
       .withIndex("by_userId", (q) => q.eq("userId", args.userId))
       .collect();
-    
+
     // Sort by date and time (most recent first)
     return appointments.sort((a, b) => {
-      const dateA = new Date(`${a.appointmentDate}T${a.appointmentTime}`).getTime();
-      const dateB = new Date(`${b.appointmentDate}T${b.appointmentTime}`).getTime();
+      const dateA = new Date(
+        `${a.appointmentDate}T${a.appointmentTime}`,
+      ).getTime();
+      const dateB = new Date(
+        `${b.appointmentDate}T${b.appointmentTime}`,
+      ).getTime();
       return dateB - dateA;
     });
   },
@@ -176,7 +184,10 @@ export const createAppointment = mutation({
     }
 
     const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
-    if (!dateRegex.test(args.appointmentDate) || isNaN(Date.parse(args.appointmentDate))) {
+    if (
+      !dateRegex.test(args.appointmentDate) ||
+      isNaN(Date.parse(args.appointmentDate))
+    ) {
       throw new Error("Invalid date format. Use YYYY-MM-DD");
     }
 
@@ -189,7 +200,7 @@ export const createAppointment = mutation({
     const existing = await ctx.db
       .query("appointments")
       .withIndex("by_userId_date", (q) =>
-        q.eq("userId", args.userId).eq("appointmentDate", args.appointmentDate)
+        q.eq("userId", args.userId).eq("appointmentDate", args.appointmentDate),
       )
       .filter((q) => q.eq(q.field("appointmentTime"), args.appointmentTime))
       .filter((q) => q.neq(q.field("status"), "cancelled"))

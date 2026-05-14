@@ -8,14 +8,14 @@ export async function POST(request: Request): Promise<NextResponse> {
   if (!filename) {
     return NextResponse.json(
       { error: "Filename is required" },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
   if (!request.body) {
     return NextResponse.json(
       { error: "Request body is required" },
-      { status: 400 }
+      { status: 400 },
     );
   }
 

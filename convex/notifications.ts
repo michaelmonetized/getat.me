@@ -16,7 +16,7 @@ export const getNotificationSettings = query({
       reviewNotifications: v.boolean(),
       updatedAt: v.number(),
     }),
-    v.null()
+    v.null(),
   ),
   handler: async (ctx, args) => {
     return await ctx.db
@@ -81,4 +81,3 @@ export const updateNotificationSettings = mutation({
     }
   },
 });
-

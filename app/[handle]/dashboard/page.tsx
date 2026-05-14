@@ -29,7 +29,13 @@ import {
 } from "react-icons/pi";
 
 // Mini bar chart component
-function MiniChart({ data, color = "bg-primary" }: { data: number[]; color?: string }) {
+function MiniChart({
+  data,
+  color = "bg-primary",
+}: {
+  data: number[];
+  color?: string;
+}) {
   const max = Math.max(...data, 1);
   return (
     <div className="flex items-end gap-0.5 h-12">
@@ -71,12 +77,27 @@ function MetricCard({
               <Icon className="h-4 w-4" />
               {title}
             </div>
-            <div className="text-3xl font-bold tracking-tight">{value.toLocaleString()}</div>
+            <div className="text-3xl font-bold tracking-tight">
+              {value.toLocaleString()}
+            </div>
             {trend !== undefined && (
-              <div className={`flex items-center gap-1 text-xs ${trend >= 0 ? "text-green-600" : "text-red-500"}`}>
-                {trend >= 0 ? <PiTrendUpLight className="h-3 w-3" /> : <PiTrendDownLight className="h-3 w-3" />}
-                <span>{trend >= 0 ? "+" : ""}{trend}%</span>
-                {trendLabel && <span className="text-muted-foreground ml-1">{trendLabel}</span>}
+              <div
+                className={`flex items-center gap-1 text-xs ${trend >= 0 ? "text-green-600" : "text-red-500"}`}
+              >
+                {trend >= 0 ? (
+                  <PiTrendUpLight className="h-3 w-3" />
+                ) : (
+                  <PiTrendDownLight className="h-3 w-3" />
+                )}
+                <span>
+                  {trend >= 0 ? "+" : ""}
+                  {trend}%
+                </span>
+                {trendLabel && (
+                  <span className="text-muted-foreground ml-1">
+                    {trendLabel}
+                  </span>
+                )}
               </div>
             )}
           </div>
@@ -113,15 +134,23 @@ function QuickAction({
 }) {
   return (
     <Link href={href}>
-      <Card className={`group cursor-pointer transition-all hover:shadow-md ${variant === "primary" ? "border-primary/50 bg-primary/5" : ""}`}>
+      <Card
+        className={`group cursor-pointer transition-all hover:shadow-md ${variant === "primary" ? "border-primary/50 bg-primary/5" : ""}`}
+      >
         <CardContent className="pt-6">
           <div className="flex items-center gap-4">
-            <div className={`p-3 rounded-xl ${variant === "primary" ? "bg-primary text-primary-foreground" : "bg-muted"}`}>
+            <div
+              className={`p-3 rounded-xl ${variant === "primary" ? "bg-primary text-primary-foreground" : "bg-muted"}`}
+            >
               <Icon className="h-5 w-5" />
             </div>
             <div className="flex-1 min-w-0">
-              <div className="font-medium group-hover:text-primary transition-colors">{title}</div>
-              <div className="text-sm text-muted-foreground truncate">{description}</div>
+              <div className="font-medium group-hover:text-primary transition-colors">
+                {title}
+              </div>
+              <div className="text-sm text-muted-foreground truncate">
+                {description}
+              </div>
             </div>
             <PiArrowUpRightLight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors shrink-0" />
           </div>
@@ -143,11 +172,11 @@ export default function DashboardPage() {
   const userByHandle = useQuery(api.users.getUserByHandle, { handle });
   const currentUserProfile = useQuery(
     api.users.getCurrentUserProfile,
-    currentUser?.id ? { userId: currentUser.id } : "skip"
+    currentUser?.id ? { userId: currentUser.id } : "skip",
   );
   const analytics = useQuery(
     api.analytics.getAnalytics,
-    currentUser?.id ? { userId: currentUser.id, days: 30 } : "skip"
+    currentUser?.id ? { userId: currentUser.id, days: 30 } : "skip",
   );
   const links = useQuery(api.links.getDashboardLinksByHandle, { handle });
 
@@ -172,7 +201,9 @@ export default function DashboardPage() {
     return (
       <div className="flex min-h-screen items-center justify-center">
         <div className="text-center space-y-4">
-          <div className="animate-pulse text-muted-foreground">Loading dashboard...</div>
+          <div className="animate-pulse text-muted-foreground">
+            Loading dashboard...
+          </div>
         </div>
       </div>
     );
@@ -187,18 +218,32 @@ export default function DashboardPage() {
   const last7Days = analytics.eventsByDay.slice(-7);
   const prev7Days = analytics.eventsByDay.slice(-14, -7);
 
-  const sumEvents = (days: typeof last7Days, type: "pageViews" | "linkClicks" | "bookingRequests" | "messages") =>
-    days.reduce((sum, d) => sum + d[type], 0);
+  const sumEvents = (
+    days: typeof last7Days,
+    type: "pageViews" | "linkClicks" | "bookingRequests" | "messages",
+  ) => days.reduce((sum, d) => sum + d[type], 0);
 
   const calcTrend = (current: number, previous: number) => {
     if (previous === 0) return current > 0 ? 100 : 0;
     return Math.round(((current - previous) / previous) * 100);
   };
 
-  const viewsTrend = calcTrend(sumEvents(last7Days, "pageViews"), sumEvents(prev7Days, "pageViews"));
-  const clicksTrend = calcTrend(sumEvents(last7Days, "linkClicks"), sumEvents(prev7Days, "linkClicks"));
-  const bookingsTrend = calcTrend(sumEvents(last7Days, "bookingRequests"), sumEvents(prev7Days, "bookingRequests"));
-  const messagesTrend = calcTrend(sumEvents(last7Days, "messages"), sumEvents(prev7Days, "messages"));
+  const viewsTrend = calcTrend(
+    sumEvents(last7Days, "pageViews"),
+    sumEvents(prev7Days, "pageViews"),
+  );
+  const clicksTrend = calcTrend(
+    sumEvents(last7Days, "linkClicks"),
+    sumEvents(prev7Days, "linkClicks"),
+  );
+  const bookingsTrend = calcTrend(
+    sumEvents(last7Days, "bookingRequests"),
+    sumEvents(prev7Days, "bookingRequests"),
+  );
+  const messagesTrend = calcTrend(
+    sumEvents(last7Days, "messages"),
+    sumEvents(prev7Days, "messages"),
+  );
 
   // Chart data (last 14 days)
   const chartDays = analytics.eventsByDay.slice(-14);
@@ -208,7 +253,9 @@ export default function DashboardPage() {
   const messagesChartData = chartDays.map((d) => d.messages);
 
   const hasUnlimitedLinks = has?.({ feature: "unlimited_links" }) ?? false;
-  const isPro = userByHandle?.subscriptionPlan === "pro" || userByHandle?.subscriptionPlan === "promax";
+  const isPro =
+    userByHandle?.subscriptionPlan === "pro" ||
+    userByHandle?.subscriptionPlan === "promax";
   const linkCount = links?.length ?? 0;
   const linkLimit = hasUnlimitedLinks ? Infinity : 3;
   const nearLinkLimit = !hasUnlimitedLinks && linkCount >= 2;
@@ -222,7 +269,8 @@ export default function DashboardPage() {
             <div>
               <h1 className="text-2xl font-bold tracking-tight">Dashboard</h1>
               <p className="text-muted-foreground">
-                Welcome back, @{handle}. Here&apos;s how your page is performing.
+                Welcome back, @{handle}. Here&apos;s how your page is
+                performing.
               </p>
             </div>
             <div className="flex items-center gap-3">
@@ -261,10 +309,15 @@ export default function DashboardPage() {
                     You&apos;re approaching your link limit
                   </div>
                   <div className="text-sm text-amber-700 dark:text-amber-300">
-                    Free accounts can have up to 3 links. Upgrade to Pro for unlimited links.
+                    Free accounts can have up to 3 links. Upgrade to Pro for
+                    unlimited links.
                   </div>
                 </div>
-                <Button asChild variant="outline" className="border-amber-500/50 hover:bg-amber-500/10">
+                <Button
+                  asChild
+                  variant="outline"
+                  className="border-amber-500/50 hover:bg-amber-500/10"
+                >
                   <Link href="/pricing">Upgrade</Link>
                 </Button>
               </div>
@@ -277,7 +330,9 @@ export default function DashboardPage() {
           <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
             <PiChartLineUpLight className="h-5 w-5 text-muted-foreground" />
             Performance Overview
-            <span className="text-sm font-normal text-muted-foreground ml-2">Last 30 days</span>
+            <span className="text-sm font-normal text-muted-foreground ml-2">
+              Last 30 days
+            </span>
           </h2>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             <MetricCard
@@ -322,10 +377,14 @@ export default function DashboardPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <div className="text-2xl font-bold">{linkCount}</div>
-                  <div className="text-sm text-muted-foreground">Active Links</div>
+                  <div className="text-sm text-muted-foreground">
+                    Active Links
+                  </div>
                 </div>
                 <div className="text-muted-foreground">
-                  {!hasUnlimitedLinks && <span className="text-xs">/ {linkLimit} max</span>}
+                  {!hasUnlimitedLinks && (
+                    <span className="text-xs">/ {linkLimit} max</span>
+                  )}
                 </div>
               </div>
             </CardContent>
@@ -334,8 +393,12 @@ export default function DashboardPage() {
             <CardContent className="pt-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <div className="text-2xl font-bold capitalize">{userByHandle?.subscriptionPlan || "Free"}</div>
-                  <div className="text-sm text-muted-foreground">Current Plan</div>
+                  <div className="text-2xl font-bold capitalize">
+                    {userByHandle?.subscriptionPlan || "Free"}
+                  </div>
+                  <div className="text-sm text-muted-foreground">
+                    Current Plan
+                  </div>
                 </div>
                 {!isPro && (
                   <Button size="sm" variant="outline" asChild>
@@ -349,7 +412,9 @@ export default function DashboardPage() {
             <CardContent className="pt-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <div className="text-2xl font-bold capitalize">{userByHandle?.theme || "Default"}</div>
+                  <div className="text-2xl font-bold capitalize">
+                    {userByHandle?.theme || "Default"}
+                  </div>
                   <div className="text-sm text-muted-foreground">Theme</div>
                 </div>
               </div>
@@ -359,8 +424,12 @@ export default function DashboardPage() {
             <CardContent className="pt-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <div className="text-2xl font-bold">{analytics.totalEvents}</div>
-                  <div className="text-sm text-muted-foreground">Total Events</div>
+                  <div className="text-2xl font-bold">
+                    {analytics.totalEvents}
+                  </div>
+                  <div className="text-sm text-muted-foreground">
+                    Total Events
+                  </div>
                 </div>
               </div>
             </CardContent>
@@ -427,7 +496,9 @@ export default function DashboardPage() {
                 <div className="text-center py-12 text-muted-foreground">
                   <PiChartLineUpLight className="h-12 w-12 mx-auto mb-4 opacity-50" />
                   <p>No activity recorded yet.</p>
-                  <p className="text-sm mt-1">Share your profile to start tracking visits!</p>
+                  <p className="text-sm mt-1">
+                    Share your profile to start tracking visits!
+                  </p>
                 </div>
               ) : (
                 <div className="space-y-2">
@@ -438,21 +509,35 @@ export default function DashboardPage() {
                     <div className="text-right">Bookings</div>
                     <div className="text-right">Messages</div>
                   </div>
-                  {analytics.eventsByDay.slice(-14).reverse().map((day) => (
-                    <div key={day.date} className="grid grid-cols-5 text-sm py-2 border-b border-border/50 last:border-0">
-                      <div className="font-medium">
-                        {new Date(day.date).toLocaleDateString("en-US", {
-                          weekday: "short",
-                          month: "short",
-                          day: "numeric",
-                        })}
+                  {analytics.eventsByDay
+                    .slice(-14)
+                    .reverse()
+                    .map((day) => (
+                      <div
+                        key={day.date}
+                        className="grid grid-cols-5 text-sm py-2 border-b border-border/50 last:border-0"
+                      >
+                        <div className="font-medium">
+                          {new Date(day.date).toLocaleDateString("en-US", {
+                            weekday: "short",
+                            month: "short",
+                            day: "numeric",
+                          })}
+                        </div>
+                        <div className="text-right tabular-nums">
+                          {day.pageViews}
+                        </div>
+                        <div className="text-right tabular-nums">
+                          {day.linkClicks}
+                        </div>
+                        <div className="text-right tabular-nums">
+                          {day.bookingRequests}
+                        </div>
+                        <div className="text-right tabular-nums">
+                          {day.messages}
+                        </div>
                       </div>
-                      <div className="text-right tabular-nums">{day.pageViews}</div>
-                      <div className="text-right tabular-nums">{day.linkClicks}</div>
-                      <div className="text-right tabular-nums">{day.bookingRequests}</div>
-                      <div className="text-right tabular-nums">{day.messages}</div>
-                    </div>
-                  ))}
+                    ))}
                 </div>
               )}
             </CardContent>
@@ -463,7 +548,10 @@ export default function DashboardPage() {
         {showShare && (
           <ShareProfile
             handle={handle}
-            brandColor={(userByHandle as unknown as Record<string, string | undefined>)?.brandColor}
+            brandColor={
+              (userByHandle as unknown as Record<string, string | undefined>)
+                ?.brandColor
+            }
             onClose={() => setShowShare(false)}
           />
         )}
@@ -474,9 +562,12 @@ export default function DashboardPage() {
             <CardContent className="pt-6">
               <div className="flex flex-col md:flex-row md:items-center gap-6">
                 <div className="flex-1">
-                  <h3 className="text-xl font-bold mb-2">Unlock Pro Features</h3>
+                  <h3 className="text-xl font-bold mb-2">
+                    Unlock Pro Features
+                  </h3>
                   <p className="text-muted-foreground">
-                    Get unlimited links, booking forms, live chat, advanced analytics, and more with a Pro subscription.
+                    Get unlimited links, booking forms, live chat, advanced
+                    analytics, and more with a Pro subscription.
                   </p>
                 </div>
                 <Button size="lg" asChild>

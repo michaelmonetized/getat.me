@@ -62,12 +62,14 @@ export default function FAQPage() {
           <h1 className="text-5xl md:text-6xl font-bold tracking-tight animate-fade-in-up">
             Frequently Asked
             <span className="bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent">
-              {" "}Questions
+              {" "}
+              Questions
             </span>
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto animate-fade-in-up-delay-1">
-            Everything you need to know about plans, features, and using Get At Me.
-            Can&rsquo;t find what you&rsquo;re looking for? Reach out to our team.
+            Everything you need to know about plans, features, and using Get At
+            Me. Can&rsquo;t find what you&rsquo;re looking for? Reach out to our
+            team.
           </p>
         </div>
       </section>
@@ -112,7 +114,8 @@ export default function FAQPage() {
             Still have questions?
           </h2>
           <p className="text-muted-foreground text-lg">
-            Our team is happy to help. Send us a message and we&rsquo;ll get back to you within 24 hours.
+            Our team is happy to help. Send us a message and we&rsquo;ll get
+            back to you within 24 hours.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center pt-2">
             <Button asChild size="lg">

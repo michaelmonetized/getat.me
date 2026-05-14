@@ -7,10 +7,20 @@ import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { Button } from "@/components/ui/button";
-import { PiDotsSixVertical, PiPencilSimple, PiTrash, PiClock, PiCalendarCheck, PiCalendarX } from "react-icons/pi";
+import {
+  PiDotsSixVertical,
+  PiPencilSimple,
+  PiTrash,
+  PiClock,
+  PiCalendarCheck,
+  PiCalendarX,
+} from "react-icons/pi";
 import { trackProfileLinkClicked } from "@/lib/analytics";
 
-function getScheduleStatus(link: { publishAt?: number; unpublishAt?: number }): "live" | "scheduled" | "expired" {
+function getScheduleStatus(link: {
+  publishAt?: number;
+  unpublishAt?: number;
+}): "live" | "scheduled" | "expired" {
   const now = Date.now();
   if (link.publishAt && link.publishAt > now) return "scheduled";
   if (link.unpublishAt && link.unpublishAt <= now) return "expired";
@@ -77,8 +87,10 @@ export function SortableItem({ link, handle, onEdit }: SortableItemProps) {
         eventType: "link_click",
         eventData: {
           linkId: link._id,
-          referrer: typeof window !== "undefined" ? document.referrer : undefined,
-          userAgent: typeof window !== "undefined" ? navigator.userAgent : undefined,
+          referrer:
+            typeof window !== "undefined" ? document.referrer : undefined,
+          userAgent:
+            typeof window !== "undefined" ? navigator.userAgent : undefined,
         },
       });
       if (handle) {

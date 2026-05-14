@@ -21,7 +21,7 @@ export function LiveMessagingWidget() {
   const { toast } = useToast();
   const conversations = useQuery(
     api.messages.getConversations,
-    user?.id ? { userId: user.id } : "skip"
+    user?.id ? { userId: user.id } : "skip",
   );
   const sendMessage = useMutation(api.messages.sendMessage);
   const markAsRead = useMutation(api.messages.markMessagesAsRead);
@@ -32,7 +32,11 @@ export function LiveMessagingWidget() {
   const [messageContent, setMessageContent] = useState("");
   const [isSending, setIsSending] = useState(false);
 
-  const { results: messages, loadMore, status: paginationStatus } = usePaginatedQuery(
+  const {
+    results: messages,
+    loadMore,
+    status: paginationStatus,
+  } = usePaginatedQuery(
     api.messages.getMessages,
     user?.id && selectedConversation
       ? {
@@ -40,7 +44,7 @@ export function LiveMessagingWidget() {
           userId2: selectedConversation,
         }
       : "skip",
-    { initialNumItems: 50 }
+    { initialNumItems: 50 },
   );
 
   const handleSendMessage = async () => {

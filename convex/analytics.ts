@@ -19,7 +19,7 @@ export const getAnalytics = query({
         linkClicks: v.number(),
         bookingRequests: v.number(),
         messages: v.number(),
-      })
+      }),
     ),
   }),
   handler: async (ctx, args) => {
@@ -29,7 +29,7 @@ export const getAnalytics = query({
     const events = await ctx.db
       .query("analytics")
       .withIndex("by_userId_createdAt", (q) =>
-        q.eq("userId", args.userId).gte("createdAt", startTime)
+        q.eq("userId", args.userId).gte("createdAt", startTime),
       )
       .collect();
 
@@ -105,7 +105,7 @@ export const trackEvent = mutation({
         linkId: v.optional(v.string()),
         referrer: v.optional(v.string()),
         userAgent: v.optional(v.string()),
-      })
+      }),
     ),
   },
   returns: v.id("analytics"),
@@ -118,4 +118,3 @@ export const trackEvent = mutation({
     });
   },
 });
-

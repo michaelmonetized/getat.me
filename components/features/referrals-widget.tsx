@@ -3,7 +3,13 @@
 import { useUser } from "@clerk/nextjs";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -29,7 +35,7 @@ export function ReferralsWidget({ userId, handle }: ReferralsWidgetProps) {
 
   const referrerProfile = useQuery(
     api.users.getCurrentUserProfile,
-    user?.id ? { userId: user.id } : "skip"
+    user?.id ? { userId: user.id } : "skip",
   );
   const referredUser = useQuery(api.users.getUserByID, { userId });
   const createReferral = useMutation(api.referrals.createReferral);
@@ -151,59 +157,58 @@ export function ReferralsWidget({ userId, handle }: ReferralsWidgetProps) {
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="first-name">First Name *</Label>
-            <Input
-              id="first-name"
-              type="text"
-              placeholder="John"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-              required
-            />
-          </div>
+            <div className="space-y-2">
+              <Label htmlFor="first-name">First Name *</Label>
+              <Input
+                id="first-name"
+                type="text"
+                placeholder="John"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                required
+              />
+            </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="ref-email">Email *</Label>
-            <Input
-              id="ref-email"
-              type="email"
-              placeholder="john@example.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
+            <div className="space-y-2">
+              <Label htmlFor="ref-email">Email *</Label>
+              <Input
+                id="ref-email"
+                type="email"
+                placeholder="john@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="ref-phone">Phone</Label>
-            <Input
-              id="ref-phone"
-              type="tel"
-              placeholder="(555) 123-4567"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-            />
-          </div>
+            <div className="space-y-2">
+              <Label htmlFor="ref-phone">Phone</Label>
+              <Input
+                id="ref-phone"
+                type="tel"
+                placeholder="(555) 123-4567"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+              />
+            </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="ref-message">Message</Label>
-            <Textarea
-              id="ref-message"
-              placeholder="Why are you referring them?"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              rows={3}
-            />
-          </div>
+            <div className="space-y-2">
+              <Label htmlFor="ref-message">Message</Label>
+              <Textarea
+                id="ref-message"
+                placeholder="Why are you referring them?"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                rows={3}
+              />
+            </div>
 
-          <Button type="submit" className="w-full" disabled={isSubmitting}>
-            {isSubmitting ? "Sending..." : "Send Referral"}
-          </Button>
-        </form>
+            <Button type="submit" className="w-full" disabled={isSubmitting}>
+              {isSubmitting ? "Sending..." : "Send Referral"}
+            </Button>
+          </form>
         )}
       </CardContent>
     </Card>
   );
 }
-

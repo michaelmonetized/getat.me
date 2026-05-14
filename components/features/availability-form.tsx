@@ -26,7 +26,7 @@ export function AvailabilityForm() {
   const { toast } = useToast();
   const availability = useQuery(
     api.booking.getBookingAvailability,
-    user?.id ? { userId: user.id } : "skip"
+    user?.id ? { userId: user.id } : "skip",
   );
   const updateAvailability = useMutation(api.booking.updateBookingAvailability);
 

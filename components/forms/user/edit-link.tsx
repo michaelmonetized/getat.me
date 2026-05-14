@@ -49,13 +49,17 @@ export function EditLinkForm({ link, onClose }: EditLinkFormProps) {
   const [anchor, setAnchor] = useState(link.anchor);
   const [href, setHref] = useState(link.href);
   const [sectionId, setSectionId] = useState<string>(link.sectionId ?? "");
-  const [publishAt, setPublishAt] = useState(timestampToDatetimeLocal(link.publishAt));
-  const [unpublishAt, setUnpublishAt] = useState(timestampToDatetimeLocal(link.unpublishAt));
+  const [publishAt, setPublishAt] = useState(
+    timestampToDatetimeLocal(link.publishAt),
+  );
+  const [unpublishAt, setUnpublishAt] = useState(
+    timestampToDatetimeLocal(link.unpublishAt),
+  );
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
   const sections = useQuery(
     api.sections.getUserSections,
-    user?.id ? { userId: user.id } : "skip"
+    user?.id ? { userId: user.id } : "skip",
   );
 
   const updateLink = useMutation(api.links.updateLink);

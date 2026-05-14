@@ -13,7 +13,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { PiCalendar, PiClock, PiEnvelope, PiUser, PiPhone, PiArrowLeft } from "react-icons/pi";
+import {
+  PiCalendar,
+  PiClock,
+  PiEnvelope,
+  PiUser,
+  PiPhone,
+  PiArrowLeft,
+} from "react-icons/pi";
 import { useState, useMemo, useEffect, useCallback } from "react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -33,7 +40,7 @@ function generateTimeSlots(startTime: string, endTime: string): string[] {
     const hour = Math.floor(minutes / 60);
     const min = minutes % 60;
     slots.push(
-      `${String(hour).padStart(2, "0")}:${String(min).padStart(2, "0")}`
+      `${String(hour).padStart(2, "0")}:${String(min).padStart(2, "0")}`,
     );
   }
 
@@ -65,7 +72,7 @@ function getAvailableDays(
     saturday: boolean;
     sunday: boolean;
   },
-  count: number = 3
+  count: number = 3,
 ): Date[] {
   const days: Date[] = [];
   const today = new Date();
@@ -107,7 +114,7 @@ export function PublicBookingWidget({ userId }: PublicBookingWidgetProps) {
   const { toast } = useToast();
   const availability = useQuery(
     api.booking.getBookingAvailability,
-    userId ? { userId } : "skip"
+    userId ? { userId } : "skip",
   );
   const updateAvailability = useMutation(api.booking.updateBookingAvailability);
 
@@ -145,7 +152,7 @@ export function PublicBookingWidget({ userId }: PublicBookingWidgetProps) {
     api.booking.getAppointments,
     userId && availability
       ? { userId, startDate: startDateStr, endDate: endDateStr }
-      : "skip"
+      : "skip",
   );
   const createAppointment = useMutation(api.booking.createAppointment);
 
@@ -164,7 +171,7 @@ export function PublicBookingWidget({ userId }: PublicBookingWidgetProps) {
     if (!availability) return [];
     return generateTimeSlots(
       availability.defaultStartTime,
-      availability.defaultEndTime
+      availability.defaultEndTime,
     );
   }, [availability]);
 
@@ -178,12 +185,12 @@ export function PublicBookingWidget({ userId }: PublicBookingWidgetProps) {
             (apt) =>
               apt.appointmentDate === dateStr &&
               apt.status !== "cancelled" &&
-              apt.appointmentTime
+              apt.appointmentTime,
           )
-          .map((apt) => apt.appointmentTime)
+          .map((apt) => apt.appointmentTime),
       );
     },
-    [appointments]
+    [appointments],
   );
 
   // Generate available days and filter out days with no available slots

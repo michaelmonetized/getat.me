@@ -3,16 +3,15 @@ import { SignIn } from "@clerk/nextjs";
 export default function SignInPage() {
   return (
     <div className="flex min-h-screen items-center justify-center px-4 py-12">
-      <SignIn 
+      <SignIn
         redirectUrl="/account"
         appearance={{
           elements: {
             rootBox: "mx-auto",
-            card: "shadow-none"
-          }
+            card: "shadow-none",
+          },
         }}
       />
     </div>
   );
 }
-

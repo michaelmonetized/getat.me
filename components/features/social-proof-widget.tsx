@@ -10,11 +10,11 @@ export function SocialProofWidget() {
   const { user } = useUser();
   const recommendations = useQuery(
     api.recommendations.getRecommendations,
-    user?.id ? { userId: user.id } : "skip"
+    user?.id ? { userId: user.id } : "skip",
   );
   const stats = useQuery(
     api.recommendations.getRecommendationStats,
-    user?.id ? { userId: user.id } : "skip"
+    user?.id ? { userId: user.id } : "skip",
   );
 
   if (!user?.id) {

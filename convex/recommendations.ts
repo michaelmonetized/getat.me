@@ -8,7 +8,9 @@ export const getRecommendations = query({
   handler: async (ctx, args) => {
     return await ctx.db
       .query("recommendations")
-      .withIndex("by_recommendedUserId", (q) => q.eq("recommendedUserId", args.userId))
+      .withIndex("by_recommendedUserId", (q) =>
+        q.eq("recommendedUserId", args.userId),
+      )
       .collect();
   },
 });
@@ -22,7 +24,9 @@ export const getUserRecommendation = query({
     return await ctx.db
       .query("recommendations")
       .withIndex("by_recommended_recommender", (q) =>
-        q.eq("recommendedUserId", args.recommendedUserId).eq("recommenderUserId", args.recommenderUserId)
+        q
+          .eq("recommendedUserId", args.recommendedUserId)
+          .eq("recommenderUserId", args.recommenderUserId),
       )
       .first();
   },
@@ -40,7 +44,9 @@ export const createRecommendation = mutation({
     const existing = await ctx.db
       .query("recommendations")
       .withIndex("by_recommended_recommender", (q) =>
-        q.eq("recommendedUserId", args.recommendedUserId).eq("recommenderUserId", args.recommenderUserId)
+        q
+          .eq("recommendedUserId", args.recommendedUserId)
+          .eq("recommenderUserId", args.recommenderUserId),
       )
       .first();
 
@@ -70,14 +76,19 @@ export const getRecommendationStats = query({
   handler: async (ctx, args) => {
     const recommendations = await ctx.db
       .query("recommendations")
-      .withIndex("by_recommendedUserId", (q) => q.eq("recommendedUserId", args.userId))
+      .withIndex("by_recommendedUserId", (q) =>
+        q.eq("recommendedUserId", args.userId),
+      )
       .collect();
 
     if (recommendations.length === 0) {
       return { count: 0, averageRating: 0 };
     }
 
-    const totalRating = recommendations.reduce((sum, rec) => sum + rec.rating, 0);
+    const totalRating = recommendations.reduce(
+      (sum, rec) => sum + rec.rating,
+      0,
+    );
     const averageRating = totalRating / recommendations.length;
 
     return {
@@ -86,4 +97,3 @@ export const getRecommendationStats = query({
     };
   },
 });
-

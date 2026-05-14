@@ -25,7 +25,7 @@ export function PaymentWidget() {
   const { toast } = useToast();
   const paymentSettings = useQuery(
     api.payments.getPaymentSettings,
-    user?.id ? { userId: user.id } : "skip"
+    user?.id ? { userId: user.id } : "skip",
   );
   const updatePaymentSettings = useMutation(api.payments.updatePaymentSettings);
 

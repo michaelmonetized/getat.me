@@ -34,7 +34,7 @@ export function TemplatePickerModal({
       templates = templates.filter(
         (t) =>
           t.name.toLowerCase().includes(q) ||
-          t.description.toLowerCase().includes(q)
+          t.description.toLowerCase().includes(q),
       );
     }
     return templates;
@@ -120,9 +120,7 @@ export function TemplatePickerModal({
                       onClick={() => onSelect(template)}
                       className="flex items-center gap-3 p-3 rounded-lg border text-left hover:bg-muted/50 dark:hover:bg-muted/30 transition-colors"
                     >
-                      <span className="text-2xl shrink-0">
-                        {template.icon}
-                      </span>
+                      <span className="text-2xl shrink-0">{template.icon}</span>
                       <div className="min-w-0">
                         <div className="font-medium text-sm truncate">
                           {template.name}
@@ -135,7 +133,7 @@ export function TemplatePickerModal({
                   ))}
                 </div>
               </div>
-            )
+            ),
           )}
         </div>
       </div>

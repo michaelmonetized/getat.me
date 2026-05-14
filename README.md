@@ -163,10 +163,10 @@ open http://localhost:3000
 
 ### Build Commands
 
-| Environment | Build Command |
-|-------------|---------------|
+| Environment             | Build Command                                        |
+| ----------------------- | ---------------------------------------------------- |
 | **Development/Preview** | `bun run build` (schema must be deployed separately) |
-| **Production** | `npx convex deploy --yes --cmd 'bun run build'` |
+| **Production**          | `npx convex deploy --yes --cmd 'bun run build'`      |
 
 ### Why These Commands?
 
@@ -191,6 +191,7 @@ In Vercel project settings:
 - **Production branch (main):** Build Command = `npx convex deploy --yes --cmd 'bun run build'`
 
 Ensure the following environment variables are set in Vercel:
+
 - `CONVEX_DEPLOY_KEY` — For production deployments
 - `NEXT_PUBLIC_CONVEX_URL` — Your Convex deployment URL
 - All Clerk, Stripe, PostHog, and Sentry keys

@@ -14,7 +14,7 @@ export function BioForm() {
 
   const userProfile = useQuery(
     api.users.getCurrentUserProfile,
-    user?.id ? { userId: user.id } : "skip"
+    user?.id ? { userId: user.id } : "skip",
   );
   const updateUser = useMutation(api.users.updateUser);
 

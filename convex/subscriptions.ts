@@ -13,7 +13,9 @@ export const createSubscription = internalMutation({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const user = await ctx.db
       .query("users")
-      .withIndex(`by_${args.key}` as "by_userId", (q) => q.eq("userId" as never, args.value))
+      .withIndex(`by_${args.key}` as "by_userId", (q) =>
+        q.eq("userId" as never, args.value),
+      )
       .first();
 
     if (!user) {
@@ -42,7 +44,7 @@ export const getSubscriptionsBy = query({
         return await ctx.db
           .query("subscriptions")
           .withIndex("by_subscriptionId", (q) =>
-            q.eq("subscriptionId", args.value)
+            q.eq("subscriptionId", args.value),
           )
           .first();
       case "priceId":
@@ -69,7 +71,9 @@ export const renewSubscription = internalMutation({
   handler: async (ctx, args) => {
     const subscription = await ctx.db
       .query("subscriptions")
-      .withIndex("by_subscriptionId", (q) => q.eq("subscriptionId", args.subscriptionId))
+      .withIndex("by_subscriptionId", (q) =>
+        q.eq("subscriptionId", args.subscriptionId),
+      )
       .first();
 
     if (!subscription || Array.isArray(subscription)) {
@@ -83,9 +87,9 @@ export const renewSubscription = internalMutation({
 // Helper function to map priceId to plan slug
 function getPlanSlugFromPriceId(priceId: string): string | undefined {
   const plans = {
-    "cplan_34pOGvuXdApGqi7sL9jOGmt0NUu": "premium",
-    "cplan_34mvyFU9PuD9UMnKRtBd8SKF8Lf": "pro",
-    "cplan_34mwfWNyDG0w7w1feCVi4tmm6y9": "promax",
+    cplan_34pOGvuXdApGqi7sL9jOGmt0NUu: "premium",
+    cplan_34mvyFU9PuD9UMnKRtBd8SKF8Lf: "pro",
+    cplan_34mwfWNyDG0w7w1feCVi4tmm6y9: "promax",
   };
   return plans[priceId as keyof typeof plans];
 }

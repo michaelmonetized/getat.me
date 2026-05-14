@@ -55,7 +55,13 @@ function BrandedLink({
   buttonClasses,
   buttonStyleObj,
 }: {
-  link: { _id: Id<"links">; userId: string; anchor: string; href: string; icon?: string };
+  link: {
+    _id: Id<"links">;
+    userId: string;
+    anchor: string;
+    href: string;
+    icon?: string;
+  };
   handle: string;
   brandColor: string;
   buttonStyle?: string;
@@ -71,8 +77,10 @@ function BrandedLink({
         eventType: "link_click",
         eventData: {
           linkId: link._id,
-          referrer: typeof window !== "undefined" ? document.referrer : undefined,
-          userAgent: typeof window !== "undefined" ? navigator.userAgent : undefined,
+          referrer:
+            typeof window !== "undefined" ? document.referrer : undefined,
+          userAgent:
+            typeof window !== "undefined" ? navigator.userAgent : undefined,
         },
       });
       trackPageView(`/${handle}`);
@@ -114,7 +122,7 @@ export default function ProfilePage() {
   const trackEvent = useMutation(api.analytics.trackEvent);
   const currentUserProfile = useQuery(
     api.users.getCurrentUserProfile,
-    currentUser?.id ? { userId: currentUser.id } : "skip"
+    currentUser?.id ? { userId: currentUser.id } : "skip",
   );
   const links = useQuery(api.links.getUserLinksByHandle, { handle });
   const sections = useQuery(api.sections.getSectionsByHandle, { handle });
@@ -139,8 +147,10 @@ export default function ProfilePage() {
         userId: userByHandle.userId,
         eventType: "page_view",
         eventData: {
-          referrer: typeof window !== "undefined" ? document.referrer : undefined,
-          userAgent: typeof window !== "undefined" ? navigator.userAgent : undefined,
+          referrer:
+            typeof window !== "undefined" ? document.referrer : undefined,
+          userAgent:
+            typeof window !== "undefined" ? navigator.userAgent : undefined,
         },
       }).catch((err) => console.error("Failed to track page view:", err));
       // Track in PostHog
@@ -172,7 +182,7 @@ export default function ProfilePage() {
   }, [branding?.fontFamily]);
 
   const { user: profileUser, error: profileUserError } = useCombinedUser(
-    userByHandle?.userId ?? ""
+    userByHandle?.userId ?? "",
   );
   if (profileUserError) {
     console.error("Failed to load profile user:", profileUserError);
@@ -228,7 +238,11 @@ export default function ProfilePage() {
       brandingStyle.backgroundColor = branding.backgroundColor;
     }
   }
-  if (branding?.backgroundImageUrl && branding?.backgroundType === "image" && !isOwner) {
+  if (
+    branding?.backgroundImageUrl &&
+    branding?.backgroundType === "image" &&
+    !isOwner
+  ) {
     brandingStyle.backgroundImage = `url(${branding.backgroundImageUrl})`;
     brandingStyle.backgroundSize = "cover";
     brandingStyle.backgroundPosition = "center";
@@ -236,17 +250,25 @@ export default function ProfilePage() {
 
   const getButtonClasses = () => {
     switch (branding?.buttonStyle) {
-      case "pill": return "rounded-full";
-      case "square": return "rounded-none";
-      case "outline": return "rounded-lg border-2 bg-transparent";
-      default: return "rounded-lg";
+      case "pill":
+        return "rounded-full";
+      case "square":
+        return "rounded-none";
+      case "outline":
+        return "rounded-lg border-2 bg-transparent";
+      default:
+        return "rounded-lg";
     }
   };
 
   const getButtonStyle = (): React.CSSProperties => {
     if (!branding?.brandColor) return {};
     if (branding.buttonStyle === "outline") {
-      return { borderColor: branding.brandColor, color: branding.brandColor, backgroundColor: "transparent" };
+      return {
+        borderColor: branding.brandColor,
+        color: branding.brandColor,
+        backgroundColor: "transparent",
+      };
     }
     return { backgroundColor: branding.brandColor, color: "#fff" };
   };
@@ -387,7 +409,7 @@ export default function ProfilePage() {
                   {/* Render links grouped by section */}
                   {sections?.map((section) => {
                     const sectionLinks = links?.filter(
-                      (l) => l.sectionId === section._id
+                      (l) => l.sectionId === section._id,
                     );
                     if (!sectionLinks || sectionLinks.length === 0) return null;
                     return (
@@ -417,7 +439,7 @@ export default function ProfilePage() {
                                 isOwner={false}
                                 onEdit={() => {}}
                               />
-                            )
+                            ),
                           )}
                         </div>
                       </CollapsibleSection>
@@ -445,7 +467,7 @@ export default function ProfilePage() {
                           isOwner={false}
                           onEdit={() => {}}
                         />
-                      )
+                      ),
                     )}
                 </div>
               )}
@@ -464,10 +486,7 @@ export default function ProfilePage() {
 
               {/* Posts list - visible to everyone */}
               {userByHandle && (
-                <PostsList
-                  user={profileUser}
-                  currentUserId={currentUser?.id}
-                />
+                <PostsList user={profileUser} currentUserId={currentUser?.id} />
               )}
 
               {/* Booking Widget - Only show to visitors when owner has Pro */}
@@ -561,7 +580,10 @@ export default function ProfilePage() {
       {/* Share Button - Floating */}
       <ShareButton
         handle={handle}
-        brandColor={(userByHandle as unknown as Record<string, string | undefined>)?.brandColor}
+        brandColor={
+          (userByHandle as unknown as Record<string, string | undefined>)
+            ?.brandColor
+        }
       />
     </div>
   );
