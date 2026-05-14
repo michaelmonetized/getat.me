@@ -4,7 +4,9 @@ import { ConvexReactClient } from "convex/react";
 import { useAuth, ClerkProvider } from "@clerk/nextjs";
 import { shadcn } from "@clerk/themes";
 
-const convex = new ConvexReactClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
+const convexUrl =
+  process.env.NEXT_PUBLIC_CONVEX_URL ?? "https://third-oyster-960.convex.cloud";
+const convex = new ConvexReactClient(convexUrl);
 
 export default function ConvexProvider({
   children,
