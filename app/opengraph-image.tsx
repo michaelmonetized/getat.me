@@ -7,99 +7,105 @@ export const contentType = "image/png";
 
 export default async function Image() {
   return new ImageResponse(
-    <div
-      style={{
-        height: "100%",
-        width: "100%",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        background:
-          "linear-gradient(135deg, #0f0f0f 0%, #1a1a2e 50%, #16213e 100%)",
-        fontFamily: "system-ui, sans-serif",
-      }}
-    >
-      {/* Accent glow */}
+    (
       <div
         style={{
-          position: "absolute",
-          top: "-100px",
-          left: "50%",
-          transform: "translateX(-50%)",
-          width: "600px",
-          height: "400px",
-          background:
-            "radial-gradient(circle, rgba(99,102,241,0.3) 0%, transparent 70%)",
-          display: "flex",
-        }}
-      />
-      <div
-        style={{
-          position: "absolute",
-          bottom: "-50px",
-          left: "0",
-          width: "300px",
-          height: "300px",
-          background:
-            "radial-gradient(circle, rgba(168,85,247,0.2) 0%, transparent 70%)",
-          display: "flex",
-        }}
-      />
-
-      <div
-        style={{
+          height: "100%",
+          width: "100%",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          gap: "24px",
+          justifyContent: "center",
+          background:
+            "linear-gradient(135deg, #0f0f0f 0%, #1a1a2e 50%, #16213e 100%)",
+          fontFamily: "system-ui, sans-serif",
         }}
       >
-        {/* Logo text */}
+        {/* Accent glow */}
         <div
           style={{
-            fontSize: "80px",
-            fontWeight: 800,
-            letterSpacing: "-2px",
+            position: "absolute",
+            top: "-100px",
+            left: "50%",
+            transform: "translateX(-50%)",
+            width: "600px",
+            height: "400px",
+            background:
+              "radial-gradient(circle, rgba(99,102,241,0.3) 0%, transparent 70%)",
             display: "flex",
           }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            bottom: "-50px",
+            left: "0",
+            width: "300px",
+            height: "300px",
+            background:
+              "radial-gradient(circle, rgba(168,85,247,0.2) 0%, transparent 70%)",
+            display: "flex",
+          }}
+        />
+
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: "24px",
+          }}
         >
-          <span style={{ color: "#ffffff" }}>GetAt</span>
-          <span
+          {/* Logo text */}
+          <div
             style={{
-              background: "linear-gradient(90deg, #6366f1, #a855f7)",
-              backgroundClip: "text",
-              color: "transparent",
+              fontSize: "80px",
+              fontWeight: 800,
+              letterSpacing: "-2px",
+              display: "flex",
             }}
           >
-            .Me
-          </span>
-        </div>
+            <span style={{ color: "#ffffff" }}>GetAt</span>
+            <span
+              style={{
+                background: "linear-gradient(90deg, #6366f1, #a855f7)",
+                backgroundClip: "text",
+                color: "transparent",
+              }}
+            >
+              .Me
+            </span>
+          </div>
 
-        {/* Tagline */}
-        <div
-          style={{
-            fontSize: "28px",
-            color: "rgba(255,255,255,0.7)",
-            maxWidth: "700px",
-            textAlign: "center",
-            lineHeight: 1.4,
-            display: "flex",
-          }}
-        >
-          Turn your audience into fans & customers
-        </div>
+          {/* Tagline */}
+          <div
+            style={{
+              fontSize: "28px",
+              color: "rgba(255,255,255,0.7)",
+              maxWidth: "700px",
+              textAlign: "center",
+              lineHeight: 1.4,
+              display: "flex",
+            }}
+          >
+            Turn your audience into fans & customers
+          </div>
 
-        {/* Features pills */}
-        <div
-          style={{
-            display: "flex",
-            gap: "12px",
-            marginTop: "16px",
-          }}
-        >
-          {["Link Page", "Bookings", "Payments", "Referrals", "Messaging"].map(
-            (feature) => (
+          {/* Features pills */}
+          <div
+            style={{
+              display: "flex",
+              gap: "12px",
+              marginTop: "16px",
+            }}
+          >
+            {[
+              "Link Page",
+              "Bookings",
+              "Payments",
+              "Referrals",
+              "Messaging",
+            ].map((feature) => (
               <div
                 key={feature}
                 style={{
@@ -114,25 +120,25 @@ export default async function Image() {
               >
                 {feature}
               </div>
-            ),
-          )}
+            ))}
+          </div>
+        </div>
+
+        {/* Domain */}
+        <div
+          style={{
+            position: "absolute",
+            bottom: "32px",
+            right: "40px",
+            fontSize: "20px",
+            color: "rgba(255,255,255,0.4)",
+            display: "flex",
+          }}
+        >
+          getat.me
         </div>
       </div>
-
-      {/* Domain */}
-      <div
-        style={{
-          position: "absolute",
-          bottom: "32px",
-          right: "40px",
-          fontSize: "20px",
-          color: "rgba(255,255,255,0.4)",
-          display: "flex",
-        }}
-      >
-        getat.me
-      </div>
-    </div>,
+    ),
     { ...size },
   );
 }
