@@ -8,10 +8,7 @@ export function Footer() {
       <Container size="boxed" className="py-8 text-xs text-muted-foreground">
         <p className="text-center">
           Made with ♥︎ in <abbr title="North Carolina">NC</abbr> by{" "}
-          <Link
-            href="https://www.michaechurley.com/"
-            className="hover:text-foreground"
-          >
+          <Link href="https://www.michaechurley.com/" className="hover:text-foreground">
             Michael C. Hurley
           </Link>
         </p>

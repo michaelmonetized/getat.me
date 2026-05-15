@@ -18,9 +18,7 @@ export function NotificationsWidget() {
     api.notifications.getNotificationSettings,
     user?.id ? { userId: user.id } : "skip",
   );
-  const updateSettings = useMutation(
-    api.notifications.updateNotificationSettings,
-  );
+  const updateSettings = useMutation(api.notifications.updateNotificationSettings);
 
   const [emailNotifications, setEmailNotifications] = useState(true);
   const [bookingNotifications, setBookingNotifications] = useState(true);
@@ -94,9 +92,7 @@ export function NotificationsWidget() {
         <div className="flex items-center justify-between">
           <div className="space-y-0.5">
             <Label htmlFor="email-notifications">Email Notifications</Label>
-            <p className="text-sm text-muted-foreground">
-              Receive notifications via email
-            </p>
+            <p className="text-sm text-muted-foreground">Receive notifications via email</p>
           </div>
           <Switch
             id="email-notifications"
@@ -110,19 +106,13 @@ export function NotificationsWidget() {
         <div className="flex items-center justify-between">
           <div className="space-y-0.5">
             <Label htmlFor="booking-notifications">Booking Notifications</Label>
-            <p className="text-sm text-muted-foreground">
-              Get notified about new booking requests
-            </p>
+            <p className="text-sm text-muted-foreground">Get notified about new booking requests</p>
           </div>
           <Switch
             id="booking-notifications"
             checked={bookingNotifications}
             onCheckedChange={(checked) =>
-              handleToggle(
-                "bookingNotifications",
-                checked,
-                setBookingNotifications,
-              )
+              handleToggle("bookingNotifications", checked, setBookingNotifications)
             }
           />
         </div>
@@ -130,41 +120,27 @@ export function NotificationsWidget() {
         <div className="flex items-center justify-between">
           <div className="space-y-0.5">
             <Label htmlFor="message-notifications">Message Notifications</Label>
-            <p className="text-sm text-muted-foreground">
-              Get notified about new messages
-            </p>
+            <p className="text-sm text-muted-foreground">Get notified about new messages</p>
           </div>
           <Switch
             id="message-notifications"
             checked={messageNotifications}
             onCheckedChange={(checked) =>
-              handleToggle(
-                "messageNotifications",
-                checked,
-                setMessageNotifications,
-              )
+              handleToggle("messageNotifications", checked, setMessageNotifications)
             }
           />
         </div>
 
         <div className="flex items-center justify-between">
           <div className="space-y-0.5">
-            <Label htmlFor="referral-notifications">
-              Referral Notifications
-            </Label>
-            <p className="text-sm text-muted-foreground">
-              Get notified about new referrals
-            </p>
+            <Label htmlFor="referral-notifications">Referral Notifications</Label>
+            <p className="text-sm text-muted-foreground">Get notified about new referrals</p>
           </div>
           <Switch
             id="referral-notifications"
             checked={referralNotifications}
             onCheckedChange={(checked) =>
-              handleToggle(
-                "referralNotifications",
-                checked,
-                setReferralNotifications,
-              )
+              handleToggle("referralNotifications", checked, setReferralNotifications)
             }
           />
         </div>
@@ -172,19 +148,13 @@ export function NotificationsWidget() {
         <div className="flex items-center justify-between">
           <div className="space-y-0.5">
             <Label htmlFor="review-notifications">Review Notifications</Label>
-            <p className="text-sm text-muted-foreground">
-              Get notified about new reviews
-            </p>
+            <p className="text-sm text-muted-foreground">Get notified about new reviews</p>
           </div>
           <Switch
             id="review-notifications"
             checked={reviewNotifications}
             onCheckedChange={(checked) =>
-              handleToggle(
-                "reviewNotifications",
-                checked,
-                setReviewNotifications,
-              )
+              handleToggle("reviewNotifications", checked, setReviewNotifications)
             }
           />
         </div>

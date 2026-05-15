@@ -11,9 +11,7 @@ export function CollapsibleAvailabilityForm() {
   return (
     <div className="space-y-4 w-full block relative">
       <div className="flex items-center justify-between gap-4 w-full">
-        <h3 className="text-lg font-semibold grow w-full">
-          Custom Availability Settings
-        </h3>
+        <h3 className="text-lg font-semibold grow w-full">Custom Availability Settings</h3>
         <div className="justify-self-end self-end grow-0 shrink w-fit">
           <Button
             onClick={() => setIsOpen(!isOpen)}
@@ -21,11 +19,7 @@ export function CollapsibleAvailabilityForm() {
             size="sm"
             variant="secondary"
           >
-            {isOpen ? (
-              <PiEyeLight className="h-4 w-4" />
-            ) : (
-              <PiEyeClosedLight className="h-4 w-4" />
-            )}
+            {isOpen ? <PiEyeLight className="h-4 w-4" /> : <PiEyeClosedLight className="h-4 w-4" />}
           </Button>
         </div>
       </div>

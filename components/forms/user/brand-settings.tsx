@@ -78,10 +78,8 @@ export function BrandSettings() {
       if (userProfile.brandColor) setBrandColor(userProfile.brandColor);
       if (userProfile.fontFamily) setFontFamily(userProfile.fontFamily);
       if (userProfile.buttonStyle) setButtonStyle(userProfile.buttonStyle);
-      if (userProfile.backgroundType)
-        setBackgroundType(userProfile.backgroundType);
-      if (userProfile.backgroundColor)
-        setBackgroundColor(userProfile.backgroundColor);
+      if (userProfile.backgroundType) setBackgroundType(userProfile.backgroundType);
+      if (userProfile.backgroundColor) setBackgroundColor(userProfile.backgroundColor);
     }
   }, [userProfile]);
 
@@ -129,18 +127,14 @@ export function BrandSettings() {
                 style={{
                   backgroundColor: color,
                   borderColor: brandColor === color ? "white" : "transparent",
-                  boxShadow:
-                    brandColor === color ? `0 0 0 2px ${color}` : "none",
+                  boxShadow: brandColor === color ? `0 0 0 2px ${color}` : "none",
                 }}
               >
                 {brandColor === color && (
                   <PiCheck
                     className="h-4 w-4"
                     style={{
-                      color:
-                        color === "#ffffff" || color === "#eab308"
-                          ? "#000"
-                          : "#fff",
+                      color: color === "#ffffff" || color === "#eab308" ? "#000" : "#fff",
                     }}
                   />
                 )}
@@ -158,10 +152,7 @@ export function BrandSettings() {
             <Button variant="outline" size="sm" onClick={handleCustomHex}>
               Apply
             </Button>
-            <div
-              className="w-9 h-9 rounded-lg border"
-              style={{ backgroundColor: brandColor }}
-            />
+            <div className="w-9 h-9 rounded-lg border" style={{ backgroundColor: brandColor }} />
           </div>
         </div>
 
@@ -254,10 +245,7 @@ export function BrandSettings() {
           <div
             className="rounded-xl p-6 border overflow-hidden"
             style={{
-              background:
-                backgroundType === "gradient"
-                  ? backgroundColor
-                  : backgroundColor,
+              background: backgroundType === "gradient" ? backgroundColor : backgroundColor,
               fontFamily,
             }}
           >

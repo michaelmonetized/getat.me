@@ -25,10 +25,7 @@ export async function POST(request: Request) {
 
   const resend = getResendClient();
   if (!resend) {
-    return Response.json(
-      { error: "Email service is not configured" },
-      { status: 503 },
-    );
+    return Response.json({ error: "Email service is not configured" }, { status: 503 });
   }
 
   try {

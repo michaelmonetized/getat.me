@@ -57,10 +57,8 @@ export const updateBookingAvailability = mutation({
     const data = {
       userId: args.userId,
       enabled: args.enabled ?? existing?.enabled ?? true,
-      defaultStartTime:
-        args.defaultStartTime ?? existing?.defaultStartTime ?? "09:00",
-      defaultEndTime:
-        args.defaultEndTime ?? existing?.defaultEndTime ?? "17:00",
+      defaultStartTime: args.defaultStartTime ?? existing?.defaultStartTime ?? "09:00",
+      defaultEndTime: args.defaultEndTime ?? existing?.defaultEndTime ?? "17:00",
       monday: args.monday ?? existing?.monday ?? true,
       tuesday: args.tuesday ?? existing?.tuesday ?? true,
       wednesday: args.wednesday ?? existing?.wednesday ?? true,
@@ -87,10 +85,8 @@ export const updateBookingAvailability = mutation({
       } = { userId: args.userId };
 
       if (args.enabled !== undefined) updateData.enabled = args.enabled;
-      if (args.defaultStartTime !== undefined)
-        updateData.defaultStartTime = args.defaultStartTime;
-      if (args.defaultEndTime !== undefined)
-        updateData.defaultEndTime = args.defaultEndTime;
+      if (args.defaultStartTime !== undefined) updateData.defaultStartTime = args.defaultStartTime;
+      if (args.defaultEndTime !== undefined) updateData.defaultEndTime = args.defaultEndTime;
       if (args.monday !== undefined) updateData.monday = args.monday;
       if (args.tuesday !== undefined) updateData.tuesday = args.tuesday;
       if (args.wednesday !== undefined) updateData.wednesday = args.wednesday;
@@ -139,12 +135,8 @@ export const getAllAppointments = query({
 
     // Sort by date and time (most recent first)
     return appointments.sort((a, b) => {
-      const dateA = new Date(
-        `${a.appointmentDate}T${a.appointmentTime}`,
-      ).getTime();
-      const dateB = new Date(
-        `${b.appointmentDate}T${b.appointmentTime}`,
-      ).getTime();
+      const dateA = new Date(`${a.appointmentDate}T${a.appointmentTime}`).getTime();
+      const dateB = new Date(`${b.appointmentDate}T${b.appointmentTime}`).getTime();
       return dateB - dateA;
     });
   },
@@ -184,10 +176,7 @@ export const createAppointment = mutation({
     }
 
     const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
-    if (
-      !dateRegex.test(args.appointmentDate) ||
-      isNaN(Date.parse(args.appointmentDate))
-    ) {
+    if (!dateRegex.test(args.appointmentDate) || isNaN(Date.parse(args.appointmentDate))) {
       throw new Error("Invalid date format. Use YYYY-MM-DD");
     }
 

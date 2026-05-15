@@ -16,13 +16,9 @@ interface TemplatePickerModalProps {
   onClose: () => void;
 }
 
-export function TemplatePickerModal({
-  onSelect,
-  onClose,
-}: TemplatePickerModalProps) {
+export function TemplatePickerModal({ onSelect, onClose }: TemplatePickerModalProps) {
   const [search, setSearch] = useState("");
-  const [activeCategory, setActiveCategory] =
-    useState<LinkTemplateCategory | null>(null);
+  const [activeCategory, setActiveCategory] = useState<LinkTemplateCategory | null>(null);
 
   const filtered = useMemo(() => {
     let templates = LINK_TEMPLATES;
@@ -32,9 +28,7 @@ export function TemplatePickerModal({
     if (search.trim()) {
       const q = search.toLowerCase();
       templates = templates.filter(
-        (t) =>
-          t.name.toLowerCase().includes(q) ||
-          t.description.toLowerCase().includes(q),
+        (t) => t.name.toLowerCase().includes(q) || t.description.toLowerCase().includes(q),
       );
     }
     return templates;
@@ -53,10 +47,7 @@ export function TemplatePickerModal({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       {/* Backdrop */}
-      <div
-        className="absolute inset-0 bg-black/50 dark:bg-black/70"
-        onClick={onClose}
-      />
+      <div className="absolute inset-0 bg-black/50 dark:bg-black/70" onClick={onClose} />
 
       {/* Modal */}
       <div className="relative z-10 w-full max-w-xl max-h-[80vh] mx-4 bg-background rounded-xl border shadow-xl flex flex-col overflow-hidden">
@@ -107,34 +98,28 @@ export function TemplatePickerModal({
               No templates match your search.
             </p>
           )}
-          {LINK_TEMPLATE_CATEGORIES.filter((cat) => grouped.has(cat)).map(
-            (cat) => (
-              <div key={cat}>
-                <h3 className="text-sm font-medium text-muted-foreground mb-3">
-                  {cat}
-                </h3>
-                <div className="grid grid-cols-2 gap-2">
-                  {grouped.get(cat)!.map((template) => (
-                    <button
-                      key={template.id}
-                      onClick={() => onSelect(template)}
-                      className="flex items-center gap-3 p-3 rounded-lg border text-left hover:bg-muted/50 dark:hover:bg-muted/30 transition-colors"
-                    >
-                      <span className="text-2xl shrink-0">{template.icon}</span>
-                      <div className="min-w-0">
-                        <div className="font-medium text-sm truncate">
-                          {template.name}
-                        </div>
-                        <div className="text-xs text-muted-foreground truncate">
-                          {template.description}
-                        </div>
+          {LINK_TEMPLATE_CATEGORIES.filter((cat) => grouped.has(cat)).map((cat) => (
+            <div key={cat}>
+              <h3 className="text-sm font-medium text-muted-foreground mb-3">{cat}</h3>
+              <div className="grid grid-cols-2 gap-2">
+                {grouped.get(cat)!.map((template) => (
+                  <button
+                    key={template.id}
+                    onClick={() => onSelect(template)}
+                    className="flex items-center gap-3 p-3 rounded-lg border text-left hover:bg-muted/50 dark:hover:bg-muted/30 transition-colors"
+                  >
+                    <span className="text-2xl shrink-0">{template.icon}</span>
+                    <div className="min-w-0">
+                      <div className="font-medium text-sm truncate">{template.name}</div>
+                      <div className="text-xs text-muted-foreground truncate">
+                        {template.description}
                       </div>
-                    </button>
-                  ))}
-                </div>
+                    </div>
+                  </button>
+                ))}
               </div>
-            ),
-          )}
+            </div>
+          ))}
         </div>
       </div>
     </div>

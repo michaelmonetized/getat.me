@@ -3,13 +3,7 @@
 import { useUser } from "@clerk/nextjs";
 import { useQuery, usePaginatedQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PiChatCircle, PiPaperPlaneTilt } from "react-icons/pi";
@@ -26,9 +20,7 @@ export function LiveMessagingWidget() {
   const sendMessage = useMutation(api.messages.sendMessage);
   const markAsRead = useMutation(api.messages.markMessagesAsRead);
 
-  const [selectedConversation, setSelectedConversation] = useState<
-    string | null
-  >(null);
+  const [selectedConversation, setSelectedConversation] = useState<string | null>(null);
   const [messageContent, setMessageContent] = useState("");
   const [isSending, setIsSending] = useState(false);
 
@@ -126,18 +118,12 @@ export function LiveMessagingWidget() {
                 {conversations.map((conv) => (
                   <Button
                     key={conv.otherUserId}
-                    variant={
-                      selectedConversation === conv.otherUserId
-                        ? "default"
-                        : "outline"
-                    }
+                    variant={selectedConversation === conv.otherUserId ? "default" : "outline"}
                     className="w-full justify-start"
                     onClick={() => handleSelectConversation(conv.otherUserId)}
                   >
                     <div className="flex-1 text-left">
-                      <div className="font-medium">
-                        {conv.otherUserDisplayName}
-                      </div>
+                      <div className="font-medium">{conv.otherUserDisplayName}</div>
                       {conv.unreadCount > 0 && (
                         <div className="text-xs text-muted-foreground">
                           {conv.unreadCount} unread
@@ -162,9 +148,7 @@ export function LiveMessagingWidget() {
                     </button>
                   )}
                   {messages === undefined ? (
-                    <p className="text-center text-muted-foreground py-8">
-                      Loading messages...
-                    </p>
+                    <p className="text-center text-muted-foreground py-8">Loading messages...</p>
                   ) : messages.length === 0 ? (
                     <p className="text-center text-muted-foreground py-8">
                       No messages yet. Start the conversation!
@@ -174,9 +158,7 @@ export function LiveMessagingWidget() {
                       <div
                         key={msg._id}
                         className={`flex ${
-                          msg.senderUserId === user.id
-                            ? "justify-end"
-                            : "justify-start"
+                          msg.senderUserId === user.id ? "justify-end" : "justify-start"
                         }`}
                       >
                         <div

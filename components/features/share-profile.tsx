@@ -26,9 +26,7 @@ function generateQRMatrix(data: string): boolean[][] {
   // that creates a visual QR-like pattern and rely on a lightweight lib
   // For production, this uses a canvas-based approach
   const size = Math.max(21, Math.ceil(data.length / 2) + 21);
-  const matrix: boolean[][] = Array.from({ length: size }, () =>
-    Array(size).fill(false),
-  );
+  const matrix: boolean[][] = Array.from({ length: size }, () => Array(size).fill(false));
   return matrix;
 }
 
@@ -94,11 +92,7 @@ function QRCodeSVG({
 
 // ── Social Share URLs ───────────────────────────────────────────────────
 
-function getSocialShareUrl(
-  platform: string,
-  url: string,
-  text: string,
-): string {
+function getSocialShareUrl(platform: string, url: string, text: string): string {
   const encodedUrl = encodeURIComponent(url);
   const encodedText = encodeURIComponent(text);
 
@@ -136,12 +130,7 @@ interface ShareProfileProps {
   inline?: boolean;
 }
 
-export function ShareProfile({
-  handle,
-  brandColor,
-  onClose,
-  inline = false,
-}: ShareProfileProps) {
+export function ShareProfile({ handle, brandColor, onClose, inline = false }: ShareProfileProps) {
   const { toast } = useToast();
   const [canvasEl, setCanvasEl] = useState<HTMLCanvasElement | null>(null);
   const profileUrl =
@@ -223,12 +212,7 @@ export function ShareProfile({
 
       {/* QR Code */}
       <div className="flex flex-col items-center gap-3">
-        <QRCodeSVG
-          value={profileUrl}
-          size={200}
-          fgColor={qrColor}
-          onCanvasReady={setCanvasEl}
-        />
+        <QRCodeSVG value={profileUrl} size={200} fgColor={qrColor} onCanvasReady={setCanvasEl} />
         <Button variant="outline" size="sm" onClick={handleDownloadQR}>
           <PiDownloadSimpleLight className="h-4 w-4 mr-1" />
           Download QR
@@ -237,9 +221,7 @@ export function ShareProfile({
 
       {/* Social Share */}
       <div className="space-y-2">
-        <p className="text-sm font-medium text-muted-foreground">
-          Share on social
-        </p>
+        <p className="text-sm font-medium text-muted-foreground">Share on social</p>
         <div className="grid grid-cols-5 gap-2">
           {socialPlatforms.map(({ id, label, icon: Icon }) => (
             <a
@@ -266,10 +248,7 @@ export function ShareProfile({
   // Modal overlay
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
-      <div
-        className="absolute inset-0 bg-black/50 dark:bg-black/70"
-        onClick={onClose}
-      />
+      <div className="absolute inset-0 bg-black/50 dark:bg-black/70" onClick={onClose} />
       <Card className="relative z-10 w-full max-w-md mx-4">
         <CardContent className="pt-6">{content}</CardContent>
       </Card>
@@ -279,13 +258,7 @@ export function ShareProfile({
 
 // ── Small share button for public profiles ──────────────────────────────
 
-export function ShareButton({
-  handle,
-  brandColor,
-}: {
-  handle: string;
-  brandColor?: string;
-}) {
+export function ShareButton({ handle, brandColor }: { handle: string; brandColor?: string }) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -299,11 +272,7 @@ export function ShareButton({
         Share
       </button>
       {open && (
-        <ShareProfile
-          handle={handle}
-          brandColor={brandColor}
-          onClose={() => setOpen(false)}
-        />
+        <ShareProfile handle={handle} brandColor={brandColor} onClose={() => setOpen(false)} />
       )}
     </>
   );

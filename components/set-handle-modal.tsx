@@ -43,9 +43,7 @@ export function SetHandleModal() {
   // userProfile === null means user doesn't exist in Convex yet
   // userProfile?.handle is falsy means user exists but has no handle
   const shouldShowModal =
-    userLoaded &&
-    isSignedIn &&
-    (userProfile === null || !(userProfile as User).handle);
+    userLoaded && isSignedIn && (userProfile === null || !(userProfile as User).handle);
 
   if (!shouldShowModal) return <></>;
 
@@ -62,9 +60,7 @@ export function SetHandleModal() {
 
     // Check handle format (alphanumeric, underscore, hyphen)
     if (!/^[a-z0-9_-]+$/.test(handle.trim())) {
-      setError(
-        "Handle can only contain lowercase letters, numbers, underscores, and hyphens",
-      );
+      setError("Handle can only contain lowercase letters, numbers, underscores, and hyphens");
       setIsChecking(false);
       return;
     }
@@ -100,9 +96,7 @@ export function SetHandleModal() {
                 id="handle"
                 value={handle}
                 onChange={(e) => {
-                  setHandle(
-                    e.target.value.toLowerCase().replace(/[^a-z0-9_-]/g, ""),
-                  );
+                  setHandle(e.target.value.toLowerCase().replace(/[^a-z0-9_-]/g, ""));
                   setError("");
                 }}
                 placeholder="yourhandle"
@@ -111,8 +105,7 @@ export function SetHandleModal() {
               />
               {error && <p className="text-sm text-destructive">{error}</p>}
               <p className="text-xs text-muted-foreground">
-                Must be unique and contain only lowercase letters, numbers,
-                underscores, and hyphens
+                Must be unique and contain only lowercase letters, numbers, underscores, and hyphens
               </p>
             </div>
           </CardContent>

@@ -2,13 +2,7 @@
 
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { PiSparkle } from "react-icons/pi";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -45,15 +39,9 @@ export function PublicPostsWidget({ userId }: PublicPostsWidgetProps) {
       <CardContent>
         <div className="space-y-6">
           {posts.map((post) => (
-            <div
-              key={post._id}
-              className="border-b last:border-b-0 pb-6 last:pb-0"
-            >
+            <div key={post._id} className="border-b last:border-b-0 pb-6 last:pb-0">
               <div className="prose prose-sm dark:prose-invert max-w-none">
-                <ReactMarkdown
-                  remarkPlugins={[remarkGfm]}
-                  rehypePlugins={[rehypeRaw]}
-                >
+                <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
                   {post.content}
                 </ReactMarkdown>
               </div>

@@ -77,10 +77,8 @@ function BrandedLink({
         eventType: "link_click",
         eventData: {
           linkId: link._id,
-          referrer:
-            typeof window !== "undefined" ? document.referrer : undefined,
-          userAgent:
-            typeof window !== "undefined" ? navigator.userAgent : undefined,
+          referrer: typeof window !== "undefined" ? document.referrer : undefined,
+          userAgent: typeof window !== "undefined" ? navigator.userAgent : undefined,
         },
       });
       trackPageView(`/${handle}`);
@@ -131,11 +129,7 @@ export default function ProfilePage() {
   const hasUnlimitedLinks = has?.({ feature: "unlimited_links" }) ?? false;
 
   const isOwner = useMemo(() => {
-    return (
-      currentUserProfile &&
-      userByHandle &&
-      currentUserProfile.userId === userByHandle.userId
-    );
+    return currentUserProfile && userByHandle && currentUserProfile.userId === userByHandle.userId;
   }, [currentUserProfile, userByHandle]);
 
   // Track page view (only once, only for non-owners)
@@ -147,10 +141,8 @@ export default function ProfilePage() {
         userId: userByHandle.userId,
         eventType: "page_view",
         eventData: {
-          referrer:
-            typeof window !== "undefined" ? document.referrer : undefined,
-          userAgent:
-            typeof window !== "undefined" ? navigator.userAgent : undefined,
+          referrer: typeof window !== "undefined" ? document.referrer : undefined,
+          userAgent: typeof window !== "undefined" ? navigator.userAgent : undefined,
         },
       }).catch((err) => console.error("Failed to track page view:", err));
       // Track in PostHog
@@ -203,12 +195,8 @@ export default function ProfilePage() {
     return (
       <div className="flex min-h-screen items-center justify-center">
         <div className="text-center space-y-4">
-          <h1 className="text-2xl font-black handle-heading">
-            @{handle} not found
-          </h1>
-          <p className="text-muted-foreground">
-            The user @{handle} doesn&apos;t exist.
-          </p>
+          <h1 className="text-2xl font-black handle-heading">@{handle} not found</h1>
+          <p className="text-muted-foreground">The user @{handle} doesn&apos;t exist.</p>
           <SignedOut>
             <div className="space-y-4">
               <h2 className="text-lg font-bold">Claim this handle</h2>
@@ -222,9 +210,7 @@ export default function ProfilePage() {
     );
   }
 
-  const linkToEdit = editingLink
-    ? links?.find((l) => l._id === editingLink)
-    : null;
+  const linkToEdit = editingLink ? links?.find((l) => l._id === editingLink) : null;
 
   // Build branding styles
   const brandingStyle: React.CSSProperties = {};
@@ -238,11 +224,7 @@ export default function ProfilePage() {
       brandingStyle.backgroundColor = branding.backgroundColor;
     }
   }
-  if (
-    branding?.backgroundImageUrl &&
-    branding?.backgroundType === "image" &&
-    !isOwner
-  ) {
+  if (branding?.backgroundImageUrl && branding?.backgroundType === "image" && !isOwner) {
     brandingStyle.backgroundImage = `url(${branding.backgroundImageUrl})`;
     brandingStyle.backgroundSize = "cover";
     brandingStyle.backgroundPosition = "center";
@@ -323,16 +305,12 @@ export default function ProfilePage() {
               </div>
               {/* Handle and Bio - Positioned to the right, vertically centered */}
               <div className="flex-1 min-w-0 space-y-1">
-                <h1 className="text-2xl font-black handle-heading">
-                  @{handle}
-                </h1>
+                <h1 className="text-2xl font-black handle-heading">@{handle}</h1>
                 {isOwner ? (
                   <BioForm />
                 ) : (
                   userByHandle.bio && (
-                    <p className="text-base text-muted-foreground">
-                      {userByHandle.bio}
-                    </p>
+                    <p className="text-base text-muted-foreground">{userByHandle.bio}</p>
                   )
                 )}
               </div>
@@ -363,14 +341,8 @@ export default function ProfilePage() {
             <div className="lg:col-span-3 space-y-6">
               {userByHandle && (
                 <>
-                  <RecommendationsWidget
-                    userId={userByHandle.userId}
-                    handle={handle}
-                  />
-                  <ReferralsWidget
-                    userId={userByHandle.userId}
-                    handle={handle}
-                  />
+                  <RecommendationsWidget userId={userByHandle.userId} handle={handle} />
+                  <ReferralsWidget userId={userByHandle.userId} handle={handle} />
                 </>
               )}
             </div>
@@ -408,9 +380,7 @@ export default function ProfilePage() {
                 <div className="space-y-4">
                   {/* Render links grouped by section */}
                   {sections?.map((section) => {
-                    const sectionLinks = links?.filter(
-                      (l) => l.sectionId === section._id,
-                    );
+                    const sectionLinks = links?.filter((l) => l.sectionId === section._id);
                     if (!sectionLinks || sectionLinks.length === 0) return null;
                     return (
                       <CollapsibleSection
@@ -485,9 +455,7 @@ export default function ProfilePage() {
               )}
 
               {/* Posts list - visible to everyone */}
-              {userByHandle && (
-                <PostsList user={profileUser} currentUserId={currentUser?.id} />
-              )}
+              {userByHandle && <PostsList user={profileUser} currentUserId={currentUser?.id} />}
 
               {/* Booking Widget - Only show to visitors when owner has Pro */}
               {!isOwner && userByHandle && (
@@ -565,25 +533,17 @@ export default function ProfilePage() {
       )}
 
       {/* Edit Link Modal */}
-      {linkToEdit && (
-        <EditLinkForm link={linkToEdit} onClose={() => setEditingLink(null)} />
-      )}
+      {linkToEdit && <EditLinkForm link={linkToEdit} onClose={() => setEditingLink(null)} />}
 
       {/* Live Chat Widget - Floating */}
       {!isOwner && userByHandle && (
-        <LiveChatWidget
-          profileUserId={userByHandle.userId}
-          profileHandle={handle}
-        />
+        <LiveChatWidget profileUserId={userByHandle.userId} profileHandle={handle} />
       )}
 
       {/* Share Button - Floating */}
       <ShareButton
         handle={handle}
-        brandColor={
-          (userByHandle as unknown as Record<string, string | undefined>)
-            ?.brandColor
-        }
+        brandColor={(userByHandle as unknown as Record<string, string | undefined>)?.brandColor}
       />
     </div>
   );

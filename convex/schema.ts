@@ -76,11 +76,7 @@ export default defineSchema({
     message: v.optional(v.string()),
     appointmentDate: v.string(), // ISO date string
     appointmentTime: v.string(), // "09:00" format
-    status: v.union(
-      v.literal("pending"),
-      v.literal("confirmed"),
-      v.literal("cancelled"),
-    ),
+    status: v.union(v.literal("pending"), v.literal("confirmed"), v.literal("cancelled")),
     createdAt: v.number(),
   })
     .index("by_userId", ["userId"])
@@ -94,10 +90,7 @@ export default defineSchema({
   })
     .index("by_recommendedUserId", ["recommendedUserId"])
     .index("by_recommenderUserId", ["recommenderUserId"])
-    .index("by_recommended_recommender", [
-      "recommendedUserId",
-      "recommenderUserId",
-    ]),
+    .index("by_recommended_recommender", ["recommendedUserId", "recommenderUserId"]),
   referrals: defineTable({
     referrerUserId: v.string(), // User sending the referral
     referredUserId: v.string(), // User being referred
@@ -153,11 +146,7 @@ export default defineSchema({
     referrerUserId: v.string(), // User who earned the commission
     referralId: v.id("referrals"), // Reference to the referral
     amount: v.number(), // Commission amount in cents
-    status: v.union(
-      v.literal("pending"),
-      v.literal("paid"),
-      v.literal("cancelled"),
-    ),
+    status: v.union(v.literal("pending"), v.literal("paid"), v.literal("cancelled")),
     paidAt: v.optional(v.number()),
     createdAt: v.number(),
   })
@@ -166,11 +155,7 @@ export default defineSchema({
   verifications: defineTable({
     userId: v.string(),
     type: v.union(v.literal("verified"), v.literal("vetted")),
-    status: v.union(
-      v.literal("pending"),
-      v.literal("approved"),
-      v.literal("rejected"),
-    ),
+    status: v.union(v.literal("pending"), v.literal("approved"), v.literal("rejected")),
     applicationData: v.optional(
       v.object({
         documentUrl: v.optional(v.id("_storage")),

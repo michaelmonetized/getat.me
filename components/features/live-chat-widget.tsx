@@ -16,10 +16,7 @@ interface LiveChatWidgetProps {
   profileHandle: string;
 }
 
-export function LiveChatWidget({
-  profileUserId,
-  profileHandle,
-}: LiveChatWidgetProps) {
+export function LiveChatWidget({ profileUserId, profileHandle }: LiveChatWidgetProps) {
   const { user, isSignedIn } = useUser();
   const { toast } = useToast();
   const [isOpen, setIsOpen] = useState(false);
@@ -36,9 +33,7 @@ export function LiveChatWidget({
     status: paginationStatus,
   } = usePaginatedQuery(
     api.messages.getMessages,
-    user?.id && isSignedIn
-      ? { userId1: user.id, userId2: profileUserId }
-      : "skip",
+    user?.id && isSignedIn ? { userId1: user.id, userId2: profileUserId } : "skip",
     { initialNumItems: 50 },
   );
 
@@ -194,9 +189,7 @@ export function LiveChatWidget({
                           <p className="text-sm">{msg.content}</p>
                           <p
                             className={`text-xs mt-1 ${
-                              isOwn
-                                ? "text-primary-foreground/70"
-                                : "text-muted-foreground"
+                              isOwn ? "text-primary-foreground/70" : "text-muted-foreground"
                             }`}
                           >
                             {new Date(msg.createdAt).toLocaleTimeString([], {
@@ -220,11 +213,7 @@ export function LiveChatWidget({
                     placeholder="Type a message..."
                     disabled={isSending}
                   />
-                  <Button
-                    type="submit"
-                    disabled={isSending || !message.trim()}
-                    size="icon"
-                  >
+                  <Button type="submit" disabled={isSending || !message.trim()} size="icon">
                     <Send className="h-4 w-4" />
                   </Button>
                 </div>

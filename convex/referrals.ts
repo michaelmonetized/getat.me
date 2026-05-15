@@ -8,9 +8,7 @@ export const getReferralsSent = query({
   handler: async (ctx, args) => {
     return await ctx.db
       .query("referrals")
-      .withIndex("by_referrerUserId", (q) =>
-        q.eq("referrerUserId", args.userId),
-      )
+      .withIndex("by_referrerUserId", (q) => q.eq("referrerUserId", args.userId))
       .order("desc")
       .collect();
   },
@@ -23,9 +21,7 @@ export const getReferralsReceived = query({
   handler: async (ctx, args) => {
     return await ctx.db
       .query("referrals")
-      .withIndex("by_referredUserId", (q) =>
-        q.eq("referredUserId", args.userId),
-      )
+      .withIndex("by_referredUserId", (q) => q.eq("referredUserId", args.userId))
       .order("desc")
       .collect();
   },

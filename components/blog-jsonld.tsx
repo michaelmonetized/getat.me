@@ -7,12 +7,7 @@ interface BlogJsonLdProps {
   publishedTime: string;
 }
 
-export function BlogJsonLd({
-  title,
-  description,
-  slug,
-  publishedTime,
-}: BlogJsonLdProps) {
+export function BlogJsonLd({ title, description, slug, publishedTime }: BlogJsonLdProps) {
   const jsonLd = JSON.stringify({
     "@context": "https://schema.org",
     "@type": "BlogPosting",

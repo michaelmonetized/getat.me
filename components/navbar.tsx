@@ -49,10 +49,7 @@ export function Navbar() {
                 >
                   Dashboard
                 </Link>
-                <Link
-                  href={`/${userProfile.handle}`}
-                  className="text-sm hover:underline"
-                >
+                <Link href={`/${userProfile.handle}`} className="text-sm hover:underline">
                   Profile
                 </Link>
               </>
@@ -72,11 +69,7 @@ export function Navbar() {
           className="md:hidden inline-flex items-center justify-center rounded-md p-2 hover:bg-accent focus:outline-hidden focus:ring-2 focus:ring-ring"
           onClick={() => setMobileOpen((v) => !v)}
         >
-          {mobileOpen ? (
-            <PiX className="h-6 w-6" />
-          ) : (
-            <PiList className="h-6 w-6" />
-          )}
+          {mobileOpen ? <PiX className="h-6 w-6" /> : <PiList className="h-6 w-6" />}
         </button>
       </div>
 

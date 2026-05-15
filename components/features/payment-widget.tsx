@@ -117,15 +117,9 @@ export function PaymentWidget() {
         <div className="flex items-center justify-between">
           <div className="space-y-0.5">
             <Label htmlFor="payments-enabled">Enable Payments</Label>
-            <p className="text-sm text-muted-foreground">
-              Allow customers to pay for appointments
-            </p>
+            <p className="text-sm text-muted-foreground">Allow customers to pay for appointments</p>
           </div>
-          <Switch
-            id="payments-enabled"
-            checked={enabled}
-            onCheckedChange={handleToggle}
-          />
+          <Switch id="payments-enabled" checked={enabled} onCheckedChange={handleToggle} />
         </div>
 
         {enabled && (
@@ -154,9 +148,7 @@ export function PaymentWidget() {
                 step="0.01"
                 min="0"
                 value={defaultPrice / 100}
-                onChange={(e) =>
-                  setDefaultPrice(Math.round(parseFloat(e.target.value) * 100))
-                }
+                onChange={(e) => setDefaultPrice(Math.round(parseFloat(e.target.value) * 100))}
                 placeholder="0.00"
               />
               <p className="text-xs text-muted-foreground">

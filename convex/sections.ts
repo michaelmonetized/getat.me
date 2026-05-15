@@ -97,8 +97,7 @@ export const updateSection = mutation({
     const updateData: Record<string, unknown> = {};
     if (args.name !== undefined) updateData.name = args.name;
     if (args.icon !== undefined) updateData.icon = args.icon;
-    if (args.description !== undefined)
-      updateData.description = args.description;
+    if (args.description !== undefined) updateData.description = args.description;
 
     await ctx.db.patch(args.id, updateData);
     return null;

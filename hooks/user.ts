@@ -29,17 +29,11 @@ function useUserVerified(userId: string) {
 }
 
 function useUserVetted(userId: string) {
-  return useQuery(
-    api.verifications.getVerification,
-    userId ? { userId, type: "vetted" } : "skip",
-  );
+  return useQuery(api.verifications.getVerification, userId ? { userId, type: "vetted" } : "skip");
 }
 
 function useUser(userId: string): UseUserResult {
-  const userFromConvex = useQuery(
-    api.users.getUserByID,
-    userId ? { userId } : "skip",
-  );
+  const userFromConvex = useQuery(api.users.getUserByID, userId ? { userId } : "skip");
   const [userFromClerk, setUserFromClerk] = useState<ClerkUser | null>(null);
   const [error, setError] = useState<Error | null>(null);
   const [isLoadingClerk, setIsLoadingClerk] = useState(false);
@@ -106,18 +100,8 @@ function useUser(userId: string): UseUserResult {
 }
 
 function useUserByHandle(handle: string): UseUserResult {
-  const convexUser = useQuery(
-    api.users.getUserByHandle,
-    handle ? { handle } : "skip",
-  );
+  const convexUser = useQuery(api.users.getUserByHandle, handle ? { handle } : "skip");
   return useUser(convexUser?.userId ?? "");
 }
 
-export {
-  useUserVerified,
-  useUserVetted,
-  useUser,
-  useUserByHandle,
-  type User,
-  type UseUserResult,
-};
+export { useUserVerified, useUserVetted, useUser, useUserByHandle, type User, type UseUserResult };

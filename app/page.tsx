@@ -92,9 +92,9 @@ export default function HomePage() {
               </h1>
 
               <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed animate-fade-in-up-delay-1">
-                Get At Me gives you a beautiful, high-converting link page with
-                bookings, payments, referrals, and live messaging -- everything
-                you need to grow your brand from a single link.
+                Get At Me gives you a beautiful, high-converting link page with bookings, payments,
+                referrals, and live messaging -- everything you need to grow your brand from a
+                single link.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up-delay-2">
@@ -104,12 +104,7 @@ export default function HomePage() {
                     <PiArrowRightLight className="ml-2 h-4 w-4" />
                   </Button>
                 </SignUpButton>
-                <Button
-                  asChild
-                  variant="outline"
-                  size="lg"
-                  className="text-base px-8 h-12"
-                >
+                <Button asChild variant="outline" size="lg" className="text-base px-8 h-12">
                   <Link href="/pricing">See Plans & Pricing</Link>
                 </Button>
               </div>
@@ -131,9 +126,7 @@ export default function HomePage() {
               </div>
               <div className="hidden sm:block h-8 w-px bg-border/40" />
               <div className="space-y-1">
-                <p className="text-2xl font-bold text-foreground">
-                  Bookings + Payments
-                </p>
+                <p className="text-2xl font-bold text-foreground">Bookings + Payments</p>
                 <p className="text-xs text-muted-foreground uppercase tracking-wider">
                   Built Right In
                 </p>
@@ -160,8 +153,8 @@ export default function HomePage() {
                   More than a link page
                 </h2>
                 <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                  Every feature is designed to help you build real relationships
-                  with your audience, not just collect clicks.
+                  Every feature is designed to help you build real relationships with your audience,
+                  not just collect clicks.
                 </p>
               </div>
 
@@ -210,30 +203,21 @@ export default function HomePage() {
                   >
                     <CardHeader>
                       <div className="flex items-start justify-between gap-4">
-                        <CardTitle className="text-lg font-bold">
-                          {feature.title}
-                        </CardTitle>
+                        <CardTitle className="text-lg font-bold">{feature.title}</CardTitle>
                         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary transition-all duration-300 group-hover:scale-110 group-hover:bg-primary/20">
                           <feature.icon className="h-5 w-5" />
                         </div>
                       </div>
                     </CardHeader>
                     <CardContent>
-                      <p className="text-muted-foreground leading-relaxed">
-                        {feature.description}
-                      </p>
+                      <p className="text-muted-foreground leading-relaxed">{feature.description}</p>
                     </CardContent>
                   </Card>
                 ))}
               </div>
 
               <div className="text-center mt-12">
-                <Button
-                  asChild
-                  variant="outline"
-                  size="lg"
-                  className="text-base"
-                >
+                <Button asChild variant="outline" size="lg" className="text-base">
                   <Link href="/features">
                     Explore All Features
                     <PiArrowRightLight className="ml-2 h-4 w-4" />
@@ -255,8 +239,7 @@ export default function HomePage() {
                   </span>
                 </h2>
                 <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                  No coding required. No complicated setup. Just create,
-                  customize, and share.
+                  No coding required. No complicated setup. Just create, customize, and share.
                 </p>
               </div>
 
@@ -284,10 +267,7 @@ export default function HomePage() {
                       "Drop your link anywhere -- bio, email signature, business card. Watch your audience convert.",
                   },
                 ].map((item, index) => (
-                  <div
-                    key={index}
-                    className="relative text-center space-y-4 p-6"
-                  >
+                  <div key={index} className="relative text-center space-y-4 p-6">
                     <div className="text-6xl font-black text-primary/10 absolute top-0 right-4 select-none">
                       {item.step}
                     </div>
@@ -295,9 +275,7 @@ export default function HomePage() {
                       <item.icon className="h-7 w-7" />
                     </div>
                     <h3 className="text-xl font-bold">{item.title}</h3>
-                    <p className="text-muted-foreground leading-relaxed">
-                      {item.description}
-                    </p>
+                    <p className="text-muted-foreground leading-relaxed">{item.description}</p>
                   </div>
                 ))}
               </div>
@@ -314,12 +292,10 @@ export default function HomePage() {
               <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 animate-float">
                 <PiCheckCircleLight className="h-8 w-8 text-primary" />
               </div>
-              <h2 className="text-4xl md:text-5xl font-bold tracking-tight">
-                Ready to stand out?
-              </h2>
+              <h2 className="text-4xl md:text-5xl font-bold tracking-tight">Ready to stand out?</h2>
               <p className="text-xl text-muted-foreground max-w-xl mx-auto">
-                Join creators, consultants, and service pros who chose
-                connection over clicks. Your link page starts free.
+                Join creators, consultants, and service pros who chose connection over clicks. Your
+                link page starts free.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <SignUpButton mode="modal" fallbackRedirectUrl="/onboarding">
@@ -334,10 +310,7 @@ export default function HomePage() {
         </div>
       </SignedOut>
       <SignedIn>
-        <Container
-          size="boxed"
-          className="space-y-6 pt-20 justify-start items-stretch w-full"
-        >
+        <Container size="boxed" className="space-y-6 pt-20 justify-start items-stretch w-full">
           <h1>Welcome back!</h1>
           <AddPostForm />
           <PostsList />

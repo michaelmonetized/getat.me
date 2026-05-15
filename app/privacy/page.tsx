@@ -27,16 +27,12 @@ export default function PrivacyPage() {
             <PiShieldCheckLight className="h-4 w-4" />
             <span>Your Data, Your Control</span>
           </div>
-          <h1 className="text-5xl md:text-6xl font-bold tracking-tight">
-            Privacy Policy
-          </h1>
+          <h1 className="text-5xl md:text-6xl font-bold tracking-tight">Privacy Policy</h1>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Your privacy matters. This page explains what we collect, why we
-            collect it, and how you can control it.
+            Your privacy matters. This page explains what we collect, why we collect it, and how you
+            can control it.
           </p>
-          <p className="text-xs text-muted-foreground">
-            Last updated: January 27, 2025
-          </p>
+          <p className="text-xs text-muted-foreground">Last updated: January 27, 2025</p>
         </div>
       </section>
 
@@ -65,12 +61,9 @@ export default function PrivacyPage() {
           {/* Content */}
           <div className="space-y-12">
             <section id="info-we-collect" className="space-y-4 scroll-mt-24">
-              <h2 className="text-2xl font-bold tracking-tight">
-                Information we collect
-              </h2>
+              <h2 className="text-2xl font-bold tracking-tight">Information we collect</h2>
               <p className="text-muted-foreground leading-relaxed">
-                We collect information to operate Get At Me and provide you with
-                a reliable service.
+                We collect information to operate Get At Me and provide you with a reliable service.
               </p>
               <ul className="space-y-3">
                 {[
@@ -79,10 +72,7 @@ export default function PrivacyPage() {
                   "Usage data: interactions, device info, IP, and log data to improve performance and security.",
                   "Payment data: processed by our payment partners (e.g., Stripe). We do not store full card numbers.",
                 ].map((item, i) => (
-                  <li
-                    key={i}
-                    className="flex items-start gap-3 text-muted-foreground"
-                  >
+                  <li key={i} className="flex items-start gap-3 text-muted-foreground">
                     <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary/60" />
                     <span className="leading-relaxed">{item}</span>
                   </li>
@@ -93,9 +83,7 @@ export default function PrivacyPage() {
             <div className="border-t border-border/30" />
 
             <section id="how-we-use" className="space-y-4 scroll-mt-24">
-              <h2 className="text-2xl font-bold tracking-tight">
-                How we use information
-              </h2>
+              <h2 className="text-2xl font-bold tracking-tight">How we use information</h2>
               <ul className="space-y-3">
                 {[
                   "Provide and personalize the service you request.",
@@ -104,19 +92,13 @@ export default function PrivacyPage() {
                   "Communicate important updates, security notices, and support responses.",
                   <>
                     Comply with legal obligations and enforce our{" "}
-                    <Link
-                      href="/terms"
-                      className="text-primary hover:underline"
-                    >
+                    <Link href="/terms" className="text-primary hover:underline">
                       Terms
                     </Link>
                     .
                   </>,
                 ].map((item, i) => (
-                  <li
-                    key={i}
-                    className="flex items-start gap-3 text-muted-foreground"
-                  >
+                  <li key={i} className="flex items-start gap-3 text-muted-foreground">
                     <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary/60" />
                     <span className="leading-relaxed">{item}</span>
                   </li>
@@ -127,41 +109,32 @@ export default function PrivacyPage() {
             <div className="border-t border-border/30" />
 
             <section id="cookies" className="space-y-4 scroll-mt-24">
-              <h2 className="text-2xl font-bold tracking-tight">
-                Cookies & tracking
-              </h2>
+              <h2 className="text-2xl font-bold tracking-tight">Cookies & tracking</h2>
               <p className="text-muted-foreground leading-relaxed">
-                We use essential cookies to keep you signed in and remember
-                preferences. With your consent, we may use analytics to
-                understand usage and improve the product.
+                We use essential cookies to keep you signed in and remember preferences. With your
+                consent, we may use analytics to understand usage and improve the product.
               </p>
             </section>
 
             <div className="border-t border-border/30" />
 
             <section id="sharing" className="space-y-4 scroll-mt-24">
-              <h2 className="text-2xl font-bold tracking-tight">
-                Sharing with third parties
-              </h2>
+              <h2 className="text-2xl font-bold tracking-tight">Sharing with third parties</h2>
               <p className="text-muted-foreground leading-relaxed">
-                We share data only with trusted providers necessary to deliver
-                the service (e.g., authentication, hosting, payments, analytics,
-                email). These providers process data on our behalf under
-                appropriate agreements.
+                We share data only with trusted providers necessary to deliver the service (e.g.,
+                authentication, hosting, payments, analytics, email). These providers process data
+                on our behalf under appropriate agreements.
               </p>
             </section>
 
             <div className="border-t border-border/30" />
 
             <section id="retention" className="space-y-4 scroll-mt-24">
-              <h2 className="text-2xl font-bold tracking-tight">
-                Data retention
-              </h2>
+              <h2 className="text-2xl font-bold tracking-tight">Data retention</h2>
               <p className="text-muted-foreground leading-relaxed">
-                We keep data for as long as your account is active or as needed
-                to provide the service, comply with legal obligations, resolve
-                disputes, and enforce agreements. You can request deletion at
-                any time.
+                We keep data for as long as your account is active or as needed to provide the
+                service, comply with legal obligations, resolve disputes, and enforce agreements.
+                You can request deletion at any time.
               </p>
             </section>
 
@@ -170,9 +143,9 @@ export default function PrivacyPage() {
             <section id="security" className="space-y-4 scroll-mt-24">
               <h2 className="text-2xl font-bold tracking-tight">Security</h2>
               <p className="text-muted-foreground leading-relaxed">
-                We implement industry-standard safeguards to protect
-                information. No method of transmission or storage is 100%
-                secure; we continuously work to improve our protections.
+                We implement industry-standard safeguards to protect information. No method of
+                transmission or storage is 100% secure; we continuously work to improve our
+                protections.
               </p>
             </section>
 
@@ -187,10 +160,7 @@ export default function PrivacyPage() {
                   "Object to or restrict certain processing where applicable.",
                   "Withdraw consent where processing is based on consent.",
                 ].map((item, i) => (
-                  <li
-                    key={i}
-                    className="flex items-start gap-3 text-muted-foreground"
-                  >
+                  <li key={i} className="flex items-start gap-3 text-muted-foreground">
                     <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary/60" />
                     <span className="leading-relaxed">{item}</span>
                   </li>
@@ -201,24 +171,20 @@ export default function PrivacyPage() {
             <div className="border-t border-border/30" />
 
             <section id="children" className="space-y-4 scroll-mt-24">
-              <h2 className="text-2xl font-bold tracking-tight">
-                Children&rsquo;s privacy
-              </h2>
+              <h2 className="text-2xl font-bold tracking-tight">Children&rsquo;s privacy</h2>
               <p className="text-muted-foreground leading-relaxed">
-                Get At Me is not directed to children under 13. We do not
-                knowingly collect personal information from children.
+                Get At Me is not directed to children under 13. We do not knowingly collect personal
+                information from children.
               </p>
             </section>
 
             <div className="border-t border-border/30" />
 
             <section id="changes" className="space-y-4 scroll-mt-24">
-              <h2 className="text-2xl font-bold tracking-tight">
-                Changes to this policy
-              </h2>
+              <h2 className="text-2xl font-bold tracking-tight">Changes to this policy</h2>
               <p className="text-muted-foreground leading-relaxed">
-                We may update this policy from time to time. We will post the
-                updated date at the top of this page.
+                We may update this policy from time to time. We will post the updated date at the
+                top of this page.
               </p>
             </section>
 
@@ -228,10 +194,7 @@ export default function PrivacyPage() {
               <h2 className="text-2xl font-bold tracking-tight">Contact</h2>
               <p className="text-muted-foreground leading-relaxed">
                 Questions about this policy? Email{" "}
-                <a
-                  className="text-primary hover:underline"
-                  href="mailto:contact@getatme.com"
-                >
+                <a className="text-primary hover:underline" href="mailto:contact@getatme.com">
                   contact@getatme.com
                 </a>
                 .

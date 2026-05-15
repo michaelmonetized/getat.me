@@ -45,49 +45,41 @@ export const getAllPosts = query({
     // Enrich with metadata
     const enrichedPosts: PostWithMeta[] = await Promise.all(
       posts.map(async (post) => {
-        const [
-          likeCount,
-          replyCount,
-          repostCount,
-          userLike,
-          userRepost,
-          repostOf,
-        ] = await Promise.all([
-          ctx.db
-            .query("likes")
-            .withIndex("by_postId", (q) => q.eq("postId", post._id))
-            .collect()
-            .then((likes) => likes.length),
-          ctx.db
-            .query("posts")
-            .withIndex("by_parentId", (q) => q.eq("parentId", post._id))
-            .collect()
-            .then((replies) => replies.length),
-          ctx.db
-            .query("posts")
-            .withIndex("by_repostOfId", (q) => q.eq("repostOfId", post._id))
-            .collect()
-            .then((reposts) => reposts.length),
-          args.currentUserId
-            ? ctx.db
-                .query("likes")
-                .withIndex("by_userId_postId", (q) =>
-                  q.eq("userId", args.currentUserId!).eq("postId", post._id),
-                )
-                .first()
-            : null,
-          args.currentUserId
-            ? ctx.db
-                .query("posts")
-                .withIndex("by_repostOfId_userId", (q) =>
-                  q
-                    .eq("repostOfId", post._id)
-                    .eq("userId", args.currentUserId!),
-                )
-                .first()
-            : null,
-          post.repostOfId ? ctx.db.get(post.repostOfId) : null,
-        ]);
+        const [likeCount, replyCount, repostCount, userLike, userRepost, repostOf] =
+          await Promise.all([
+            ctx.db
+              .query("likes")
+              .withIndex("by_postId", (q) => q.eq("postId", post._id))
+              .collect()
+              .then((likes) => likes.length),
+            ctx.db
+              .query("posts")
+              .withIndex("by_parentId", (q) => q.eq("parentId", post._id))
+              .collect()
+              .then((replies) => replies.length),
+            ctx.db
+              .query("posts")
+              .withIndex("by_repostOfId", (q) => q.eq("repostOfId", post._id))
+              .collect()
+              .then((reposts) => reposts.length),
+            args.currentUserId
+              ? ctx.db
+                  .query("likes")
+                  .withIndex("by_userId_postId", (q) =>
+                    q.eq("userId", args.currentUserId!).eq("postId", post._id),
+                  )
+                  .first()
+              : null,
+            args.currentUserId
+              ? ctx.db
+                  .query("posts")
+                  .withIndex("by_repostOfId_userId", (q) =>
+                    q.eq("repostOfId", post._id).eq("userId", args.currentUserId!),
+                  )
+                  .first()
+              : null,
+            post.repostOfId ? ctx.db.get(post.repostOfId) : null,
+          ]);
 
         return {
           ...post,
@@ -114,41 +106,40 @@ export const getPost = query({
     const post = await ctx.db.get(args.postId);
     if (!post) return null;
 
-    const [likeCount, replyCount, repostCount, userLike, userRepost, repostOf] =
-      await Promise.all([
-        ctx.db
-          .query("likes")
-          .withIndex("by_postId", (q) => q.eq("postId", post._id))
-          .collect()
-          .then((likes) => likes.length),
-        ctx.db
-          .query("posts")
-          .withIndex("by_parentId", (q) => q.eq("parentId", post._id))
-          .collect()
-          .then((replies) => replies.length),
-        ctx.db
-          .query("posts")
-          .withIndex("by_repostOfId", (q) => q.eq("repostOfId", post._id))
-          .collect()
-          .then((reposts) => reposts.length),
-        args.currentUserId
-          ? ctx.db
-              .query("likes")
-              .withIndex("by_userId_postId", (q) =>
-                q.eq("userId", args.currentUserId!).eq("postId", post._id),
-              )
-              .first()
-          : null,
-        args.currentUserId
-          ? ctx.db
-              .query("posts")
-              .withIndex("by_repostOfId_userId", (q) =>
-                q.eq("repostOfId", post._id).eq("userId", args.currentUserId!),
-              )
-              .first()
-          : null,
-        post.repostOfId ? ctx.db.get(post.repostOfId) : null,
-      ]);
+    const [likeCount, replyCount, repostCount, userLike, userRepost, repostOf] = await Promise.all([
+      ctx.db
+        .query("likes")
+        .withIndex("by_postId", (q) => q.eq("postId", post._id))
+        .collect()
+        .then((likes) => likes.length),
+      ctx.db
+        .query("posts")
+        .withIndex("by_parentId", (q) => q.eq("parentId", post._id))
+        .collect()
+        .then((replies) => replies.length),
+      ctx.db
+        .query("posts")
+        .withIndex("by_repostOfId", (q) => q.eq("repostOfId", post._id))
+        .collect()
+        .then((reposts) => reposts.length),
+      args.currentUserId
+        ? ctx.db
+            .query("likes")
+            .withIndex("by_userId_postId", (q) =>
+              q.eq("userId", args.currentUserId!).eq("postId", post._id),
+            )
+            .first()
+        : null,
+      args.currentUserId
+        ? ctx.db
+            .query("posts")
+            .withIndex("by_repostOfId_userId", (q) =>
+              q.eq("repostOfId", post._id).eq("userId", args.currentUserId!),
+            )
+            .first()
+        : null,
+      post.repostOfId ? ctx.db.get(post.repostOfId) : null,
+    ]);
 
     return {
       ...post,
@@ -177,42 +168,39 @@ export const getReplies = query({
     // Enrich replies with metadata
     const enrichedReplies: PostWithMeta[] = await Promise.all(
       replies.map(async (reply) => {
-        const [likeCount, replyCount, repostCount, userLike, userRepost] =
-          await Promise.all([
-            ctx.db
-              .query("likes")
-              .withIndex("by_postId", (q) => q.eq("postId", reply._id))
-              .collect()
-              .then((likes) => likes.length),
-            ctx.db
-              .query("posts")
-              .withIndex("by_parentId", (q) => q.eq("parentId", reply._id))
-              .collect()
-              .then((r) => r.length),
-            ctx.db
-              .query("posts")
-              .withIndex("by_repostOfId", (q) => q.eq("repostOfId", reply._id))
-              .collect()
-              .then((r) => r.length),
-            args.currentUserId
-              ? ctx.db
-                  .query("likes")
-                  .withIndex("by_userId_postId", (q) =>
-                    q.eq("userId", args.currentUserId!).eq("postId", reply._id),
-                  )
-                  .first()
-              : null,
-            args.currentUserId
-              ? ctx.db
-                  .query("posts")
-                  .withIndex("by_repostOfId_userId", (q) =>
-                    q
-                      .eq("repostOfId", reply._id)
-                      .eq("userId", args.currentUserId!),
-                  )
-                  .first()
-              : null,
-          ]);
+        const [likeCount, replyCount, repostCount, userLike, userRepost] = await Promise.all([
+          ctx.db
+            .query("likes")
+            .withIndex("by_postId", (q) => q.eq("postId", reply._id))
+            .collect()
+            .then((likes) => likes.length),
+          ctx.db
+            .query("posts")
+            .withIndex("by_parentId", (q) => q.eq("parentId", reply._id))
+            .collect()
+            .then((r) => r.length),
+          ctx.db
+            .query("posts")
+            .withIndex("by_repostOfId", (q) => q.eq("repostOfId", reply._id))
+            .collect()
+            .then((r) => r.length),
+          args.currentUserId
+            ? ctx.db
+                .query("likes")
+                .withIndex("by_userId_postId", (q) =>
+                  q.eq("userId", args.currentUserId!).eq("postId", reply._id),
+                )
+                .first()
+            : null,
+          args.currentUserId
+            ? ctx.db
+                .query("posts")
+                .withIndex("by_repostOfId_userId", (q) =>
+                  q.eq("repostOfId", reply._id).eq("userId", args.currentUserId!),
+                )
+                .first()
+            : null,
+        ]);
 
         return {
           ...reply,
@@ -336,9 +324,7 @@ export const likePost = mutation({
     // Check if already liked
     const existingLike = await ctx.db
       .query("likes")
-      .withIndex("by_userId_postId", (q) =>
-        q.eq("userId", args.userId).eq("postId", args.postId),
-      )
+      .withIndex("by_userId_postId", (q) => q.eq("userId", args.userId).eq("postId", args.postId))
       .first();
 
     if (existingLike) {
@@ -361,9 +347,7 @@ export const unlikePost = mutation({
   handler: async (ctx, args) => {
     const existingLike = await ctx.db
       .query("likes")
-      .withIndex("by_userId_postId", (q) =>
-        q.eq("userId", args.userId).eq("postId", args.postId),
-      )
+      .withIndex("by_userId_postId", (q) => q.eq("userId", args.userId).eq("postId", args.postId))
       .first();
 
     if (existingLike) {
@@ -380,9 +364,7 @@ export const toggleLike = mutation({
   handler: async (ctx, args) => {
     const existingLike = await ctx.db
       .query("likes")
-      .withIndex("by_userId_postId", (q) =>
-        q.eq("userId", args.userId).eq("postId", args.postId),
-      )
+      .withIndex("by_userId_postId", (q) => q.eq("userId", args.userId).eq("postId", args.postId))
       .first();
 
     if (existingLike) {

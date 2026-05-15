@@ -15,8 +15,7 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: "Linktree vs GetAt.Me — Which Link-in-Bio Is Right for You?",
-    description:
-      "An honest comparison of Linktree and GetAt.Me for creators and consultants.",
+    description: "An honest comparison of Linktree and GetAt.Me for creators and consultants.",
     type: "article",
     publishedTime: "2026-03-09T12:00:00Z",
   },
@@ -46,26 +45,24 @@ export default function LinktreeVsGetatMe() {
         </header>
 
         <p className="lead">
-          Linktree is the default. Everyone knows it, everyone uses it. But
-          &quot;default&quot; doesn&apos;t mean &quot;best.&quot; Here&apos;s an
-          honest look at how GetAt.Me stacks up — and where each one wins.
+          Linktree is the default. Everyone knows it, everyone uses it. But &quot;default&quot;
+          doesn&apos;t mean &quot;best.&quot; Here&apos;s an honest look at how GetAt.Me stacks up —
+          and where each one wins.
         </p>
 
         <h2>The Core Difference</h2>
         <p>
-          Linktree is a list of links. That&apos;s what it was built for, and it
-          does that well. GetAt.Me is a <strong>relationship platform</strong>{" "}
-          disguised as a link-in-bio. It handles links, sure — but also
-          bookings, payments, reviews, referrals, and analytics, all in one
-          page.
+          Linktree is a list of links. That&apos;s what it was built for, and it does that well.
+          GetAt.Me is a <strong>relationship platform</strong> disguised as a link-in-bio. It
+          handles links, sure — but also bookings, payments, reviews, referrals, and analytics, all
+          in one page.
         </p>
 
         <h2>Design &amp; Customization</h2>
         <p>
-          Linktree gives you themes and colors. GetAt.Me gives you{" "}
-          <strong>sections</strong> — drag-and-drop blocks for different content
-          types. Your page looks like a real landing page, not a stack of
-          buttons.
+          Linktree gives you themes and colors. GetAt.Me gives you <strong>sections</strong> —
+          drag-and-drop blocks for different content types. Your page looks like a real landing
+          page, not a stack of buttons.
         </p>
 
         <h2>Features Comparison</h2>
@@ -120,34 +117,30 @@ export default function LinktreeVsGetatMe() {
 
         <h2>Pricing</h2>
         <p>
-          Linktree&apos;s free tier is fine for hobby use. Pro starts at $5/mo.
-          GetAt.Me&apos;s free tier includes features that Linktree locks behind
-          their $24/mo Premium plan — bookings, payments, and analytics.
+          Linktree&apos;s free tier is fine for hobby use. Pro starts at $5/mo. GetAt.Me&apos;s free
+          tier includes features that Linktree locks behind their $24/mo Premium plan — bookings,
+          payments, and analytics.
         </p>
 
         <h2>Who Should Use What?</h2>
         <p>
-          <strong>Pick Linktree</strong> if you literally just need a list of
-          links and nothing else. It&apos;s simple and everyone recognizes it.
+          <strong>Pick Linktree</strong> if you literally just need a list of links and nothing
+          else. It&apos;s simple and everyone recognizes it.
         </p>
         <p>
-          <strong>Pick GetAt.Me</strong> if you&apos;re a creator, consultant,
-          or service provider who wants their link-in-bio to actually{" "}
-          <em>do something</em> — book calls, collect payments, gather reviews,
-          and grow through referrals.
+          <strong>Pick GetAt.Me</strong> if you&apos;re a creator, consultant, or service provider
+          who wants their link-in-bio to actually <em>do something</em> — book calls, collect
+          payments, gather reviews, and grow through referrals.
         </p>
 
         <h2>The Bottom Line</h2>
         <p>
-          Linktree is a menu. GetAt.Me is a storefront. If your bio link is your
-          primary touchpoint with your audience, you want the one that converts
-          — not just the one that redirects.
+          Linktree is a menu. GetAt.Me is a storefront. If your bio link is your primary touchpoint
+          with your audience, you want the one that converts — not just the one that redirects.
         </p>
 
         <div className="mt-12 rounded-xl border border-neutral-800 bg-neutral-900 p-8 text-center">
-          <p className="text-lg font-semibold">
-            Ready to upgrade your bio link?
-          </p>
+          <p className="text-lg font-semibold">Ready to upgrade your bio link?</p>
           <Link
             href="/register"
             className="mt-4 inline-block rounded-lg bg-blue-600 px-6 py-3 font-semibold text-white no-underline transition hover:bg-blue-500"

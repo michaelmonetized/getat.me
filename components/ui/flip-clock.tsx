@@ -14,11 +14,7 @@ function getTimeParts(time: number) {
   return { years, months, weeks, days, hours, minutes, seconds };
 }
 
-export default function FlipClockCountdown({
-  targetTime,
-}: {
-  targetTime: number;
-}) {
+export default function FlipClockCountdown({ targetTime }: { targetTime: number }) {
   const [newTime, setNewTime] = useState(targetTime);
 
   const [newTimeParts, setNewTimeParts] = useState<Record<string, number>>({});

@@ -31,24 +31,18 @@ export function SocialProofWidget() {
           <div className="rounded-lg border p-4">
             <div className="flex items-center justify-between">
               <div>
-                <div className="text-sm text-muted-foreground">
-                  Average Rating
-                </div>
+                <div className="text-sm text-muted-foreground">Average Rating</div>
                 <div
                   className="mt-1 flex items-center gap-2"
                   role="img"
                   aria-label={`Average rating: ${stats.averageRating.toFixed(1)} out of 5 stars`}
                 >
                   <PiStar className="h-5 w-5 fill-yellow-400 text-yellow-400" />
-                  <span className="text-2xl font-bold">
-                    {stats.averageRating.toFixed(1)}
-                  </span>
+                  <span className="text-2xl font-bold">{stats.averageRating.toFixed(1)}</span>
                 </div>
               </div>
               <div className="text-right">
-                <div className="text-sm text-muted-foreground">
-                  Total Reviews
-                </div>
+                <div className="text-sm text-muted-foreground">Total Reviews</div>
                 <div className="mt-1 text-2xl font-bold">{stats.count}</div>
               </div>
             </div>
@@ -76,9 +70,7 @@ export function SocialProofWidget() {
                         <PiStar
                           key={star}
                           className={`h-4 w-4 ${
-                            star <= rec.rating
-                              ? "fill-yellow-400 text-yellow-400"
-                              : "text-gray-300"
+                            star <= rec.rating ? "fill-yellow-400 text-yellow-400" : "text-gray-300"
                           }`}
                           aria-hidden="true"
                         />

@@ -82,8 +82,8 @@ export default function ContactPage() {
             </span>
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto animate-fade-in-up-delay-1">
-            Questions, feedback, or partnership inquiries? We&rsquo;d love to
-            hear from you. Our team typically responds within 24 hours.
+            Questions, feedback, or partnership inquiries? We&rsquo;d love to hear from you. Our
+            team typically responds within 24 hours.
           </p>
         </div>
       </section>
@@ -95,13 +95,10 @@ export default function ContactPage() {
             {/* Left Column - Info & Context */}
             <div className="space-y-8">
               <div>
-                <h2 className="text-2xl font-bold tracking-tight mb-3">
-                  How can we help?
-                </h2>
+                <h2 className="text-2xl font-bold tracking-tight mb-3">How can we help?</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  Whether you&rsquo;re curious about features, need help setting
-                  up your page, or want to explore a partnership, we&rsquo;re
-                  here for it.
+                  Whether you&rsquo;re curious about features, need help setting up your page, or
+                  want to explore a partnership, we&rsquo;re here for it.
                 </p>
               </div>
 
@@ -139,9 +136,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <p className="font-semibold text-sm">Location</p>
-                    <p className="text-sm text-muted-foreground">
-                      North Carolina, USA
-                    </p>
+                    <p className="text-sm text-muted-foreground">North Carolina, USA</p>
                   </div>
                 </div>
               </div>
@@ -149,8 +144,8 @@ export default function ContactPage() {
               <div className="rounded-lg border border-border/40 bg-card/30 p-5 space-y-3">
                 <p className="text-sm font-semibold">Looking for answers?</p>
                 <p className="text-sm text-muted-foreground">
-                  Check our FAQ for quick answers to common questions about
-                  plans, features, and more.
+                  Check our FAQ for quick answers to common questions about plans, features, and
+                  more.
                 </p>
                 <Button asChild variant="outline" size="sm">
                   <Link href="/faq">
@@ -204,9 +199,7 @@ export default function ContactPage() {
                 <div className="flex justify-end pt-2">
                   <Button type="submit" size="lg" disabled={isSubmitting}>
                     {isSubmitting ? "Sending..." : "Send Message"}
-                    {!isSubmitting && (
-                      <PiArrowRightLight className="ml-2 h-4 w-4" />
-                    )}
+                    {!isSubmitting && <PiArrowRightLight className="ml-2 h-4 w-4" />}
                   </Button>
                 </div>
               </form>

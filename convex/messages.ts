@@ -51,9 +51,7 @@ export const getConversations = query({
 
     const receivedMessages = await ctx.db
       .query("messages")
-      .withIndex("by_receiverUserId", (q) =>
-        q.eq("receiverUserId", args.userId),
-      )
+      .withIndex("by_receiverUserId", (q) => q.eq("receiverUserId", args.userId))
       .order("desc")
       .take(100); // limit to 100 most recent per direction
 
@@ -98,14 +96,9 @@ export const getConversations = query({
 
     // Fetch user data for all other users
     const conversationArray = Array.from(conversations.values());
-    const uniqueOtherUserIds = [
-      ...new Set(conversationArray.map((c) => c.otherUserId)),
-    ];
+    const uniqueOtherUserIds = [...new Set(conversationArray.map((c) => c.otherUserId))];
 
-    const userMap = new Map<
-      string,
-      { handle?: string; first?: string; last?: string } | null
-    >();
+    const userMap = new Map<string, { handle?: string; first?: string; last?: string } | null>();
     for (const otherUserId of uniqueOtherUserIds) {
       const user = await ctx.db
         .query("users")
@@ -137,9 +130,7 @@ export const getMessages = query({
     const conversationId = getConversationId(args.userId1, args.userId2);
     return await ctx.db
       .query("messages")
-      .withIndex("by_conversationId", (q) =>
-        q.eq("conversationId", conversationId),
-      )
+      .withIndex("by_conversationId", (q) => q.eq("conversationId", conversationId))
       .order("asc")
       .paginate(args.paginationOpts);
   },
@@ -152,10 +143,7 @@ export const sendMessage = mutation({
     content: v.string(),
   },
   handler: async (ctx, args) => {
-    const conversationId = getConversationId(
-      args.senderUserId,
-      args.receiverUserId,
-    );
+    const conversationId = getConversationId(args.senderUserId, args.receiverUserId);
 
     return await ctx.db.insert("messages", {
       conversationId,
@@ -178,14 +166,9 @@ export const markMessagesAsRead = mutation({
     const conversationId = getConversationId(args.userId1, args.userId2);
     const messages = await ctx.db
       .query("messages")
-      .withIndex("by_conversationId", (q) =>
-        q.eq("conversationId", conversationId),
-      )
+      .withIndex("by_conversationId", (q) => q.eq("conversationId", conversationId))
       .filter((q) =>
-        q.and(
-          q.eq(q.field("receiverUserId"), args.readerUserId),
-          q.eq(q.field("read"), false),
-        ),
+        q.and(q.eq(q.field("receiverUserId"), args.readerUserId), q.eq(q.field("read"), false)),
       )
       .collect();
 

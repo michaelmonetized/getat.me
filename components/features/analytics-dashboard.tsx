@@ -44,36 +44,28 @@ export function AnalyticsDashboard() {
                   <PiEyeLight className="h-4 w-4" />
                   Page Views
                 </div>
-                <div className="mt-1 text-2xl font-bold">
-                  {analytics.pageViews}
-                </div>
+                <div className="mt-1 text-2xl font-bold">{analytics.pageViews}</div>
               </div>
               <div className="rounded-lg border p-4">
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <PiCursorClickLight className="h-4 w-4" />
                   Link Clicks
                 </div>
-                <div className="mt-1 text-2xl font-bold">
-                  {analytics.linkClicks}
-                </div>
+                <div className="mt-1 text-2xl font-bold">{analytics.linkClicks}</div>
               </div>
               <div className="rounded-lg border p-4">
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <PiCalendarLight className="h-4 w-4" />
                   Booking Requests
                 </div>
-                <div className="mt-1 text-2xl font-bold">
-                  {analytics.bookingRequests}
-                </div>
+                <div className="mt-1 text-2xl font-bold">{analytics.bookingRequests}</div>
               </div>
               <div className="rounded-lg border p-4">
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <PiChatCircleLight className="h-4 w-4" />
                   Messages
                 </div>
-                <div className="mt-1 text-2xl font-bold">
-                  {analytics.messages}
-                </div>
+                <div className="mt-1 text-2xl font-bold">{analytics.messages}</div>
               </div>
             </div>
 
@@ -94,24 +86,17 @@ export function AnalyticsDashboard() {
                       </div>
                       <div className="grid grid-cols-4 gap-2 text-xs">
                         <div>
-                          <span className="text-muted-foreground">Views:</span>{" "}
-                          {day.pageViews}
+                          <span className="text-muted-foreground">Views:</span> {day.pageViews}
                         </div>
                         <div>
-                          <span className="text-muted-foreground">Clicks:</span>{" "}
-                          {day.linkClicks}
+                          <span className="text-muted-foreground">Clicks:</span> {day.linkClicks}
                         </div>
                         <div>
-                          <span className="text-muted-foreground">
-                            Bookings:
-                          </span>{" "}
+                          <span className="text-muted-foreground">Bookings:</span>{" "}
                           {day.bookingRequests}
                         </div>
                         <div>
-                          <span className="text-muted-foreground">
-                            Messages:
-                          </span>{" "}
-                          {day.messages}
+                          <span className="text-muted-foreground">Messages:</span> {day.messages}
                         </div>
                       </div>
                     </div>

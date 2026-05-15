@@ -28,9 +28,7 @@ export function VerificationBadge({ type }: VerificationBadgeProps) {
     api.verifications.getVerification,
     user?.id ? { userId: user.id, type } : "skip",
   );
-  const applyForVerification = useMutation(
-    api.verifications.applyForVerification,
-  );
+  const applyForVerification = useMutation(api.verifications.applyForVerification);
 
   const [additionalInfo, setAdditionalInfo] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -116,20 +114,18 @@ export function VerificationBadge({ type }: VerificationBadgeProps) {
             </div>
             {verification.status === "pending" && (
               <p className="mt-2 text-sm text-muted-foreground">
-                Your application is under review. We&apos;ll notify you once a
-                decision has been made.
+                Your application is under review. We&apos;ll notify you once a decision has been
+                made.
               </p>
             )}
             {verification.status === "rejected" && (
               <p className="mt-2 text-sm text-muted-foreground">
-                Your application was rejected. You can submit a new application
-                below.
+                Your application was rejected. You can submit a new application below.
               </p>
             )}
             {verification.applicationData?.additionalInfo && (
               <p className="mt-2 text-sm text-muted-foreground">
-                <strong>Your application:</strong>{" "}
-                {verification.applicationData.additionalInfo}
+                <strong>Your application:</strong> {verification.applicationData.additionalInfo}
               </p>
             )}
           </div>
@@ -138,9 +134,7 @@ export function VerificationBadge({ type }: VerificationBadgeProps) {
         {(!verification || verification.status === "rejected") && (
           <div className="space-y-4 border-t pt-4">
             <div className="space-y-2">
-              <Label htmlFor="additional-info">
-                Additional Information (Optional)
-              </Label>
+              <Label htmlFor="additional-info">Additional Information (Optional)</Label>
               <Textarea
                 id="additional-info"
                 placeholder={`Tell us why you should be ${type === "verified" ? "verified" : "vetted"}...`}

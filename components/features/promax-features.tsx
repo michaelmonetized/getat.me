@@ -17,8 +17,7 @@ export function ProMaxFeatures() {
       <div>
         <h2 className="text-2xl font-bold mb-4">ProMax Features</h2>
         <p className="text-muted-foreground mb-6">
-          Unlock payment processing, verification, and advanced customization
-          with ProMax.
+          Unlock payment processing, verification, and advanced customization with ProMax.
         </p>
       </div>
 

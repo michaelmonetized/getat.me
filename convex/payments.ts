@@ -74,10 +74,8 @@ export const updatePaymentSettings = mutation({
 
     if (args.enabled !== undefined) updateData.enabled = args.enabled;
     if (args.currency !== undefined) updateData.currency = args.currency;
-    if (args.defaultPrice !== undefined)
-      updateData.defaultPrice = args.defaultPrice;
-    if (args.stripeAccountId !== undefined)
-      updateData.stripeAccountId = args.stripeAccountId;
+    if (args.defaultPrice !== undefined) updateData.defaultPrice = args.defaultPrice;
+    if (args.stripeAccountId !== undefined) updateData.stripeAccountId = args.stripeAccountId;
 
     if (existing) {
       await ctx.db.patch(existing._id, updateData);

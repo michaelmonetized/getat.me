@@ -1,13 +1,7 @@
 "use client";
 
 import { SignedIn, useAuth } from "@clerk/nextjs";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CheckoutButton } from "@clerk/clerk-react/experimental";
 import Link from "next/link";
@@ -44,10 +38,7 @@ export function FeatureGate({
         }
 
         if (requiredPlan === "pro") {
-          return (
-            (has?.({ plan: "pro" }) ?? false) ||
-            (has?.({ plan: "promax" }) ?? false)
-          );
+          return (has?.({ plan: "pro" }) ?? false) || (has?.({ plan: "promax" }) ?? false);
         }
 
         if (requiredPlan === "premium") {
@@ -98,11 +89,7 @@ export function FeatureGate({
         <div className="space-y-4">
           <p className="text-sm text-muted-foreground">
             This feature is available on the{" "}
-            {requiredPlan === "premium"
-              ? "Premium"
-              : requiredPlan === "pro"
-                ? "Pro"
-                : "ProMax"}{" "}
+            {requiredPlan === "premium" ? "Premium" : requiredPlan === "pro" ? "Pro" : "ProMax"}{" "}
             plan.
           </p>
           {upgradePlan && (

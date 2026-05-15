@@ -67,11 +67,7 @@ export const fulfill = internalAction({
 
     const webhookSecret = process.env.STRIPE_CONVEX_WEBHOOK_SECRET!;
     try {
-      const event = stripe.webhooks.constructEvent(
-        args.payload,
-        args.signature,
-        webhookSecret,
-      );
+      const event = stripe.webhooks.constructEvent(args.payload, args.signature, webhookSecret);
 
       const completedEvent = event.data.object as Stripe.Checkout.Session & {
         metadata: Metadata;
@@ -96,13 +92,10 @@ export const fulfill = internalAction({
 
         // Update user's subscription plan
         if (priceId) {
-          await ctx.runMutation(
-            internal.subscriptions.updateUserSubscriptionPlan,
-            {
-              userId,
-              priceId,
-            },
-          );
+          await ctx.runMutation(internal.subscriptions.updateUserSubscriptionPlan, {
+            userId,
+            priceId,
+          });
         }
       }
 

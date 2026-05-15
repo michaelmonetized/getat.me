@@ -55,20 +55,14 @@ export function CommissionsDashboard() {
                 <PiMoneyLight className="h-4 w-4" />
                 Total Earned
               </div>
-              <div className="mt-1 text-2xl font-bold">
-                {formatCurrency(stats.totalEarned)}
-              </div>
+              <div className="mt-1 text-2xl font-bold">{formatCurrency(stats.totalEarned)}</div>
             </div>
             <div className="rounded-lg border p-4">
               <div className="text-sm text-muted-foreground">Pending</div>
-              <div className="mt-1 text-2xl font-bold">
-                {formatCurrency(stats.pending)}
-              </div>
+              <div className="mt-1 text-2xl font-bold">{formatCurrency(stats.pending)}</div>
             </div>
             <div className="rounded-lg border p-4">
-              <div className="text-sm text-muted-foreground">
-                Total Commissions
-              </div>
+              <div className="text-sm text-muted-foreground">Total Commissions</div>
               <div className="mt-1 text-2xl font-bold">{stats.count}</div>
             </div>
           </div>
@@ -93,9 +87,7 @@ export function CommissionsDashboard() {
             <TableBody>
               {commissions.map((commission) => (
                 <TableRow key={commission._id}>
-                  <TableCell className="font-medium">
-                    {formatCurrency(commission.amount)}
-                  </TableCell>
+                  <TableCell className="font-medium">{formatCurrency(commission.amount)}</TableCell>
                   <TableCell>
                     <span
                       className={`inline-flex rounded-full px-2 py-1 text-xs font-semibold ${
@@ -109,13 +101,9 @@ export function CommissionsDashboard() {
                       {commission.status}
                     </span>
                   </TableCell>
+                  <TableCell>{new Date(commission.createdAt).toLocaleDateString()}</TableCell>
                   <TableCell>
-                    {new Date(commission.createdAt).toLocaleDateString()}
-                  </TableCell>
-                  <TableCell>
-                    {commission.paidAt
-                      ? new Date(commission.paidAt).toLocaleDateString()
-                      : "-"}
+                    {commission.paidAt ? new Date(commission.paidAt).toLocaleDateString() : "-"}
                   </TableCell>
                 </TableRow>
               ))}

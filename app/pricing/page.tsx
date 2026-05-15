@@ -10,11 +10,7 @@ import {
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { useEffect, useMemo } from "react";
-import {
-  PiTagLight,
-  PiArrowRightLight,
-  PiCheckCircleLight,
-} from "react-icons/pi";
+import { PiTagLight, PiArrowRightLight, PiCheckCircleLight } from "react-icons/pi";
 
 const PricingPage = () => {
   const prices = useMemo(
@@ -28,8 +24,7 @@ const PricingPage = () => {
             rootBox: "w-full my-20",
 
             // Main pricing table container
-            pricingTable:
-              "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 w-full",
+            pricingTable: "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 w-full",
 
             // Individual pricing card
             pricingTableCard:
@@ -45,8 +40,7 @@ const PricingPage = () => {
             pricingTableCardFeeContainer: "flex items-baseline gap-2 mb-2",
             pricingTableCardFee: "text-3xl font-bold text-primary",
             pricingTableCardFeePeriod: "text-sm text-muted-foreground",
-            pricingTableCardFeePeriodNotice:
-              "text-xs text-muted-foreground font-medium",
+            pricingTableCardFeePeriodNotice: "text-xs text-muted-foreground font-medium",
 
             // Period toggle switch
             pricingTableCardPeriodToggle: "mt-4",
@@ -62,13 +56,11 @@ const PricingPage = () => {
             pricingTableCardFeaturesListItemTitle: "text-muted-foreground",
 
             // Card footer
-            pricingTableCardFooter:
-              "mt-auto pt-4 border-t border-border text-right",
+            pricingTableCardFooter: "mt-auto pt-4 border-t border-border text-right",
             // Match Button (default, size=lg) from components/ui/button.tsx
             pricingTableCardFooterButton:
               "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-accent text-accent-foreground hover:bg-accent/90 h-11 px-8 w-fit ml-auto border-foreground/50",
-            pricingTableCardFooterNotice:
-              "text-xs text-center text-muted-foreground",
+            pricingTableCardFooterNotice: "text-xs text-center text-muted-foreground",
 
             // Badge elements
             badge:
@@ -81,8 +73,7 @@ const PricingPage = () => {
             drawerBackdrop: "bg-black/50 backdrop-blur-xs",
 
             // Drawer root
-            drawerRoot:
-              "bg-card border border-border shadow-xl rounded-t-xl md:rounded-xl",
+            drawerRoot: "bg-card border border-border shadow-xl rounded-t-xl md:rounded-xl",
             drawerContent: "bg-card rounded-t-xl md:rounded-xl",
 
             // Drawer header
@@ -91,8 +82,7 @@ const PricingPage = () => {
             planDetailBadgeAvatarTitleDescriptionContainer: "space-y-4",
             planDetailTitleDescriptionContainer: "space-y-3",
             planDetailTitle: "text-3xl font-bold text-card-foreground",
-            planDetailDescription:
-              "text-base text-muted-foreground leading-relaxed",
+            planDetailDescription: "text-base text-muted-foreground leading-relaxed",
 
             // Plan detail fee container
             planDetailFeeContainer: "flex items-baseline gap-2 my-4",
@@ -113,13 +103,10 @@ const PricingPage = () => {
 
             // Plan detail features list
             planDetailFeaturesList: "space-y-1",
-            planDetailFeaturesListItem:
-              "border-b border-border last:border-0 py-6",
+            planDetailFeaturesListItem: "border-b border-border last:border-0 py-6",
             planDetailFeaturesListItemContent: "space-y-2",
-            planDetailFeaturesListItemTitle:
-              "text-lg font-semibold text-card-foreground mb-2",
-            planDetailFeaturesListItemDescription:
-              "text-sm text-muted-foreground leading-relaxed",
+            planDetailFeaturesListItemTitle: "text-lg font-semibold text-card-foreground mb-2",
+            planDetailFeaturesListItemDescription: "text-sm text-muted-foreground leading-relaxed",
 
             // Ultrafine customizations
             pricingTableCard__promax:
@@ -134,9 +121,7 @@ const PricingPage = () => {
 
   useEffect(() => {
     if (prices) {
-      const pricingTableCardPromax = document.querySelector(
-        ".cl-pricingTableCard__promax",
-      );
+      const pricingTableCardPromax = document.querySelector(".cl-pricingTableCard__promax");
       if (pricingTableCardPromax) {
         pricingTableCardPromax.classList.add("border-gradient-animated");
       }
@@ -187,8 +172,8 @@ const PricingPage = () => {
             </span>
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto animate-fade-in-up-delay-1">
-            Start free, upgrade when you are ready. Every plan is designed to
-            unlock more value as your audience grows.
+            Start free, upgrade when you are ready. Every plan is designed to unlock more value as
+            your audience grows.
           </p>
         </div>
       </section>
@@ -206,9 +191,7 @@ const PricingPage = () => {
       <section className="py-16 md:py-24 border-t border-border/40">
         <div className="mx-auto max-w-3xl px-4">
           <div className="text-center space-y-4 mb-12">
-            <h2 className="text-3xl font-bold tracking-tight">
-              Pricing Questions
-            </h2>
+            <h2 className="text-3xl font-bold tracking-tight">Pricing Questions</h2>
             <p className="text-muted-foreground text-lg">
               Common questions about billing, plans, and payments.
             </p>
@@ -238,8 +221,8 @@ const PricingPage = () => {
             </div>
             <h3 className="text-2xl font-bold">Still not sure?</h3>
             <p className="text-muted-foreground">
-              Start with the free plan. No credit card, no commitment. Upgrade
-              whenever you are ready.
+              Start with the free plan. No credit card, no commitment. Upgrade whenever you are
+              ready.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button asChild size="lg">

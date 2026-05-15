@@ -9,10 +9,7 @@ import {
   query,
 } from "./_generated/server";
 
-export async function getCurrentUser(
-  ctx: QueryCtx | MutationCtx | ActionCtx,
-  id?: boolean,
-) {
+export async function getCurrentUser(ctx: QueryCtx | MutationCtx | ActionCtx, id?: boolean) {
   const user = await ctx.auth.getUserIdentity();
 
   if (id) {
@@ -37,12 +34,8 @@ export const getUserByID = query({
     }
 
     // Get URLs for avatar and cover
-    const avatarUrl = user.avatar
-      ? await ctx.storage.getUrl(user.avatar)
-      : undefined;
-    const coverUrl = user.cover
-      ? await ctx.storage.getUrl(user.cover)
-      : undefined;
+    const avatarUrl = user.avatar ? await ctx.storage.getUrl(user.avatar) : undefined;
+    const coverUrl = user.cover ? await ctx.storage.getUrl(user.cover) : undefined;
 
     return {
       ...user,
@@ -110,12 +103,8 @@ export const getUserByHandle = query({
     }
 
     // Get URLs for avatar and cover
-    const avatarUrl = profile.avatar
-      ? await ctx.storage.getUrl(profile.avatar)
-      : undefined;
-    const coverUrl = profile.cover
-      ? await ctx.storage.getUrl(profile.cover)
-      : undefined;
+    const avatarUrl = profile.avatar ? await ctx.storage.getUrl(profile.avatar) : undefined;
+    const coverUrl = profile.cover ? await ctx.storage.getUrl(profile.cover) : undefined;
 
     return {
       ...profile,
@@ -339,10 +328,7 @@ export const userHasFeature = query({
     // Map of feature names to price IDs that grant those features
     // ProMax plan has unlimited_links feature
     const featurePriceIds: Record<string, string[]> = {
-      unlimited_links: [
-        "cplan_34mvyFU9PuD9UMnKRtBd8SKF8Lf",
-        "cplan_34mwfWNyDG0w7w1feCVi4tmm6y9",
-      ], // Pro and ProMax
+      unlimited_links: ["cplan_34mvyFU9PuD9UMnKRtBd8SKF8Lf", "cplan_34mwfWNyDG0w7w1feCVi4tmm6y9"], // Pro and ProMax
     };
 
     const priceIds = featurePriceIds[args.feature];
@@ -358,9 +344,7 @@ export const userHasFeature = query({
 
     // Check if user has an active subscription with any of the price IDs that grant this feature
     const now = Date.now();
-    return subscriptions.some(
-      (sub) => priceIds.includes(sub.priceId) && sub.expires > now,
-    );
+    return subscriptions.some((sub) => priceIds.includes(sub.priceId) && sub.expires > now);
   },
 });
 
@@ -426,12 +410,8 @@ export const getCurrentUserProfile = query({
     }
 
     // Get URLs for avatar and cover
-    const avatarUrl = profile.avatar
-      ? await ctx.storage.getUrl(profile.avatar)
-      : undefined;
-    const coverUrl = profile.cover
-      ? await ctx.storage.getUrl(profile.cover)
-      : undefined;
+    const avatarUrl = profile.avatar ? await ctx.storage.getUrl(profile.avatar) : undefined;
+    const coverUrl = profile.cover ? await ctx.storage.getUrl(profile.cover) : undefined;
 
     return {
       ...profile,

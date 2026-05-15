@@ -3,9 +3,7 @@
 import { clerkClient, User } from "@clerk/nextjs/server";
 import { type ClerkUser } from "@/lib/types";
 
-export async function getClerkUser(
-  clerkUserID: string,
-): Promise<ClerkUser | null> {
+export async function getClerkUser(clerkUserID: string): Promise<ClerkUser | null> {
   try {
     const client = await clerkClient();
     const user = (await client.users.getUser(clerkUserID)) as User;

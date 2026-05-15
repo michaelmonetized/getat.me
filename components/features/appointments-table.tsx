@@ -4,13 +4,7 @@ import { useUser } from "@clerk/nextjs";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
   PiCalendarLight,
@@ -39,9 +33,7 @@ function generateICS(appointment: {
   phone?: string;
   message?: string;
 }) {
-  const date = new Date(
-    `${appointment.appointmentDate}T${appointment.appointmentTime}`,
-  );
+  const date = new Date(`${appointment.appointmentDate}T${appointment.appointmentTime}`);
   const endDate = new Date(date.getTime() + 30 * 60 * 1000); // 30 minutes later
 
   const formatDate = (d: Date) => {
@@ -110,9 +102,7 @@ export function AppointmentsTable() {
 
   const cancelAppointment = useMutation(api.booking.cancelAppointment);
   const rescheduleAppointment = useMutation(api.booking.rescheduleAppointment);
-  const [processingId, setProcessingId] = useState<Id<"appointments"> | null>(
-    null,
-  );
+  const [processingId, setProcessingId] = useState<Id<"appointments"> | null>(null);
 
   const handleAddToCalendar = (appointment: Appointment) => {
     if (!appointments || !Array.isArray(appointments)) return;
@@ -126,10 +116,7 @@ export function AppointmentsTable() {
     });
   };
 
-  const handleReschedule = async (
-    appointmentId: Id<"appointments">,
-    appointment: Appointment,
-  ) => {
+  const handleReschedule = async (appointmentId: Id<"appointments">, appointment: Appointment) => {
     if (!user?.id) return;
     setProcessingId(appointmentId);
     try {
@@ -176,10 +163,7 @@ export function AppointmentsTable() {
     }
   };
 
-  const handleCancel = async (
-    appointmentId: Id<"appointments">,
-    appointment: Appointment,
-  ) => {
+  const handleCancel = async (appointmentId: Id<"appointments">, appointment: Appointment) => {
     setProcessingId(appointmentId);
     try {
       await cancelAppointment({ appointmentId });
@@ -243,12 +227,8 @@ export function AppointmentsTable() {
       return aptDate >= now;
     })
     .sort((a, b) => {
-      const dateA = new Date(
-        `${a.appointmentDate}T${a.appointmentTime}`,
-      ).getTime();
-      const dateB = new Date(
-        `${b.appointmentDate}T${b.appointmentTime}`,
-      ).getTime();
+      const dateA = new Date(`${a.appointmentDate}T${a.appointmentTime}`).getTime();
+      const dateB = new Date(`${b.appointmentDate}T${b.appointmentTime}`).getTime();
       return dateA - dateB; // Sort upcoming by date ascending
     });
 
@@ -259,18 +239,12 @@ export function AppointmentsTable() {
       return aptDate < now;
     })
     .sort((a, b) => {
-      const dateA = new Date(
-        `${a.appointmentDate}T${a.appointmentTime}`,
-      ).getTime();
-      const dateB = new Date(
-        `${b.appointmentDate}T${b.appointmentTime}`,
-      ).getTime();
+      const dateA = new Date(`${a.appointmentDate}T${a.appointmentTime}`).getTime();
+      const dateB = new Date(`${b.appointmentDate}T${b.appointmentTime}`).getTime();
       return dateB - dateA; // Sort past by date descending
     });
 
-  const cancelledAppointments = appointments.filter(
-    (apt) => apt.status === "cancelled",
-  );
+  const cancelledAppointments = appointments.filter((apt) => apt.status === "cancelled");
 
   return (
     <Card>
@@ -285,16 +259,12 @@ export function AppointmentsTable() {
         {activeAppointments.length === 0 &&
         pastAppointments.length === 0 &&
         cancelledAppointments.length === 0 ? (
-          <p className="text-center text-muted-foreground py-8">
-            No appointments scheduled yet
-          </p>
+          <p className="text-center text-muted-foreground py-8">No appointments scheduled yet</p>
         ) : (
           <div className="space-y-6">
             {activeAppointments.length > 0 && (
               <div>
-                <h3 className="text-lg font-semibold mb-4">
-                  Upcoming Appointments
-                </h3>
+                <h3 className="text-lg font-semibold mb-4">Upcoming Appointments</h3>
                 <Table>
                   <TableHeader>
                     <TableRow>
@@ -344,9 +314,7 @@ export function AppointmentsTable() {
                               <Button
                                 variant="outline"
                                 size="sm"
-                                onClick={() =>
-                                  handleReschedule(appointmentId, appointment)
-                                }
+                                onClick={() => handleReschedule(appointmentId, appointment)}
                                 disabled={isProcessing}
                                 title="Reschedule"
                               >
@@ -355,9 +323,7 @@ export function AppointmentsTable() {
                               <Button
                                 variant="outline"
                                 size="sm"
-                                onClick={() =>
-                                  handleCancel(appointmentId, appointment)
-                                }
+                                onClick={() => handleCancel(appointmentId, appointment)}
                                 disabled={isProcessing}
                                 title="Cancel"
                               >
@@ -375,9 +341,7 @@ export function AppointmentsTable() {
 
             {pastAppointments.length > 0 && (
               <div>
-                <h3 className="text-lg font-semibold mb-4">
-                  Past Appointments
-                </h3>
+                <h3 className="text-lg font-semibold mb-4">Past Appointments</h3>
                 <Table>
                   <TableHeader>
                     <TableRow>
@@ -419,9 +383,7 @@ export function AppointmentsTable() {
 
             {cancelledAppointments.length > 0 && (
               <div>
-                <h3 className="text-lg font-semibold mb-4">
-                  Cancelled Appointments
-                </h3>
+                <h3 className="text-lg font-semibold mb-4">Cancelled Appointments</h3>
                 <Table>
                   <TableHeader>
                     <TableRow>
@@ -449,9 +411,7 @@ export function AppointmentsTable() {
                           <TableCell>{appointment.name}</TableCell>
                           <TableCell>{appointment.email}</TableCell>
                           <TableCell>
-                            <span className="text-sm text-muted-foreground">
-                              Cancelled
-                            </span>
+                            <span className="text-sm text-muted-foreground">Cancelled</span>
                           </TableCell>
                         </TableRow>
                       );

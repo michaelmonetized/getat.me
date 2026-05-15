@@ -26,14 +26,12 @@ export function LimitBanner() {
         <h3 className="text-lg font-bold mb-3">Limit reached!</h3>
         <div className="space-y-2.5 text-sm text-muted-foreground">
           <p>
-            Upgrade to Pro to add more links, and allow visitors to book time
-            with you, receive referrals, list other pros you recommend, and
-            send/receive messages live.
+            Upgrade to Pro to add more links, and allow visitors to book time with you, receive
+            referrals, list other pros you recommend, and send/receive messages live.
           </p>
           <p>
-            Upgrade to ProMax to charge customers for bookings, set custom
-            booking availability, get verified, create rich media posts, and get
-            paid commission for referrals sent.
+            Upgrade to ProMax to charge customers for bookings, set custom booking availability, get
+            verified, create rich media posts, and get paid commission for referrals sent.
           </p>
         </div>
       </div>

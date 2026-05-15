@@ -62,9 +62,7 @@ export function ThemeSelector() {
               selectedTheme === theme ? "bg-muted/50" : "hover:bg-muted/30"
             } space-x-4`}
           >
-            <span className={selectedTheme === theme ? "font-medium" : ""}>
-              {theme}
-            </span>
+            <span className={selectedTheme === theme ? "font-medium" : ""}>{theme}</span>
             <span className="flex items-center justify-end space-x-4 justify-self-end">
               <span
                 className={`theme-${theme.toLowerCase()} flex items-center justify-center space-x-4`}

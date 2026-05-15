@@ -32,9 +32,7 @@ export function MessageThreads() {
     status: paginationStatus,
   } = usePaginatedQuery(
     api.messages.getMessages,
-    user?.id && selectedUserId
-      ? { userId1: user.id, userId2: selectedUserId }
-      : "skip",
+    user?.id && selectedUserId ? { userId1: user.id, userId2: selectedUserId } : "skip",
     { initialNumItems: 50 },
   );
 
@@ -100,11 +98,7 @@ export function MessageThreads() {
   return (
     <Card>
       <CardHeader>
-        <FeatureTitle
-          Icon={PiChatCircleLight}
-          title="Messages"
-          description="Your conversations"
-        />
+        <FeatureTitle Icon={PiChatCircleLight} title="Messages" description="Your conversations" />
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-12 gap-4 h-[600px]">
@@ -172,9 +166,7 @@ export function MessageThreads() {
                               <p className="text-sm">{msg.content}</p>
                               <p
                                 className={`text-xs mt-1 ${
-                                  isOwn
-                                    ? "text-primary-foreground/70"
-                                    : "text-muted-foreground"
+                                  isOwn ? "text-primary-foreground/70" : "text-muted-foreground"
                                 }`}
                               >
                                 {new Date(msg.createdAt).toLocaleString()}
@@ -196,11 +188,7 @@ export function MessageThreads() {
                       placeholder="Type a message..."
                       disabled={isSending}
                     />
-                    <Button
-                      type="submit"
-                      disabled={isSending || !message.trim()}
-                      size="icon"
-                    >
+                    <Button type="submit" disabled={isSending || !message.trim()} size="icon">
                       <PiPaperPlaneTiltLight className="h-4 w-4" />
                     </Button>
                   </div>
@@ -270,18 +258,14 @@ function ConversationItem({
           </div>
           <p
             className={`text-sm truncate ${
-              isSelected
-                ? "text-primary-foreground/70"
-                : "text-muted-foreground"
+              isSelected ? "text-primary-foreground/70" : "text-muted-foreground"
             }`}
           >
             {lastMessage.content}
           </p>
           <p
             className={`text-xs ${
-              isSelected
-                ? "text-primary-foreground/50"
-                : "text-muted-foreground"
+              isSelected ? "text-primary-foreground/50" : "text-muted-foreground"
             }`}
           >
             {new Date(lastMessage.createdAt).toLocaleDateString()}

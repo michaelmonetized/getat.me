@@ -13,9 +13,7 @@ export const createSubscription = internalMutation({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const user = await ctx.db
       .query("users")
-      .withIndex(`by_${args.key}` as "by_userId", (q) =>
-        q.eq("userId" as never, args.value),
-      )
+      .withIndex(`by_${args.key}` as "by_userId", (q) => q.eq("userId" as never, args.value))
       .first();
 
     if (!user) {
@@ -43,9 +41,7 @@ export const getSubscriptionsBy = query({
       case "subscriptionId":
         return await ctx.db
           .query("subscriptions")
-          .withIndex("by_subscriptionId", (q) =>
-            q.eq("subscriptionId", args.value),
-          )
+          .withIndex("by_subscriptionId", (q) => q.eq("subscriptionId", args.value))
           .first();
       case "priceId":
         return await ctx.db
@@ -71,9 +67,7 @@ export const renewSubscription = internalMutation({
   handler: async (ctx, args) => {
     const subscription = await ctx.db
       .query("subscriptions")
-      .withIndex("by_subscriptionId", (q) =>
-        q.eq("subscriptionId", args.subscriptionId),
-      )
+      .withIndex("by_subscriptionId", (q) => q.eq("subscriptionId", args.subscriptionId))
       .first();
 
     if (!subscription || Array.isArray(subscription)) {

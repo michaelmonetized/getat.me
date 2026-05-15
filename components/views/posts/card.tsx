@@ -10,13 +10,7 @@ import { Id } from "@/convex/_generated/dataModel";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardFooter,
-  CardTitle,
-} from "../../ui/card";
+import { Card, CardContent, CardHeader, CardFooter, CardTitle } from "../../ui/card";
 import { Button } from "../../ui/button";
 import { Textarea } from "../../ui/textarea";
 import {
@@ -40,12 +34,7 @@ interface PostCardProps {
   depth?: number;
 }
 
-export function PostCard({
-  post,
-  onReplyCreated,
-  isReply = false,
-  depth = 0,
-}: PostCardProps) {
+export function PostCard({ post, onReplyCreated, isReply = false, depth = 0 }: PostCardProps) {
   const router = useRouter();
   const auth = useCurrentUser();
   const { has } = useAuth();
@@ -72,16 +61,14 @@ export function PostCard({
 
   // For reposts, determine if we should show the original content
   const isRepost = !!post.repostOfId && !!post.repostOf;
-  const displayContent =
-    isRepost && !post.content ? post.repostOf?.content : post.content;
+  const displayContent = isRepost && !post.content ? post.repostOf?.content : post.content;
 
   const isSignedIn = !!auth?.user?.id;
   // Compare against auth.user.id directly — avoids an extra useUser call per card
   const isMyPost = postUser?.userId === (auth?.user?.id ?? "");
   // ProMax users can reply and repost (dev mode bypasses)
   const canReplyRepost =
-    process.env.NODE_ENV === "development" ||
-    (has?.({ plan: "promax" }) ?? false);
+    process.env.NODE_ENV === "development" || (has?.({ plan: "promax" }) ?? false);
 
   const handleDelete = async (postId: string) => {
     if (!confirm("Are you sure you want to delete this post?")) return;
@@ -150,10 +137,7 @@ export function PostCard({
         title: "ProMax required",
         description: "Upgrade to ProMax to reply to posts.",
         action: (
-          <ToastAction
-            altText="View pricing"
-            onClick={() => router.push("/pricing")}
-          >
+          <ToastAction altText="View pricing" onClick={() => router.push("/pricing")}>
             View pricing
           </ToastAction>
         ),
@@ -213,10 +197,7 @@ export function PostCard({
         title: "ProMax required",
         description: "Upgrade to ProMax to repost.",
         action: (
-          <ToastAction
-            altText="View pricing"
-            onClick={() => router.push("/pricing")}
-          >
+          <ToastAction altText="View pricing" onClick={() => router.push("/pricing")}>
             View pricing
           </ToastAction>
         ),
@@ -275,20 +256,14 @@ export function PostCard({
         {/* Quote text for quote reposts */}
         {isRepost && post.content && (
           <div className="prose prose-sm max-w-none mb-3 pb-3 border-b">
-            <ReactMarkdown
-              remarkPlugins={[remarkGfm]}
-              rehypePlugins={[rehypeRaw]}
-            >
+            <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
               {post.content}
             </ReactMarkdown>
           </div>
         )}
         {/* Main content (or original post content for pure reposts) */}
         <div className="prose prose-sm max-w-none">
-          <ReactMarkdown
-            remarkPlugins={[remarkGfm]}
-            rehypePlugins={[rehypeRaw]}
-          >
+          <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
             {displayContent}
           </ReactMarkdown>
         </div>

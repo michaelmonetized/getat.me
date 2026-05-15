@@ -60,9 +60,8 @@ export default function AdvertisingPage() {
             </span>
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto animate-fade-in-up-delay-1">
-            Reach creators, consultants, and service professionals who are
-            building their brands. Put your product in front of people who care
-            about growth.
+            Reach creators, consultants, and service professionals who are building their brands.
+            Put your product in front of people who care about growth.
           </p>
           <div className="animate-fade-in-up-delay-2">
             <Button asChild size="lg" className="px-8 h-12 text-base">
@@ -79,12 +78,10 @@ export default function AdvertisingPage() {
       <section className="py-20 md:py-28 px-4">
         <div className="max-w-6xl mx-auto">
           <div className="text-center space-y-4 mb-16">
-            <h2 className="text-4xl font-bold tracking-tight">
-              Why advertise with us
-            </h2>
+            <h2 className="text-4xl font-bold tracking-tight">Why advertise with us</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Get At Me connects brands with an engaged audience of
-              professionals who are actively investing in their online presence.
+              Get At Me connects brands with an engaged audience of professionals who are actively
+              investing in their online presence.
             </p>
           </div>
 
@@ -99,15 +96,11 @@ export default function AdvertisingPage() {
                     <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary transition-all duration-300 group-hover:scale-110 group-hover:bg-primary/20">
                       <benefit.icon className="h-6 w-6" />
                     </div>
-                    <CardTitle className="text-xl font-bold pt-2">
-                      {benefit.title}
-                    </CardTitle>
+                    <CardTitle className="text-xl font-bold pt-2">{benefit.title}</CardTitle>
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-muted-foreground leading-relaxed">
-                    {benefit.description}
-                  </p>
+                  <p className="text-muted-foreground leading-relaxed">{benefit.description}</p>
                 </CardContent>
               </Card>
             ))}
@@ -151,9 +144,7 @@ export default function AdvertisingPage() {
                   {item.step}
                 </div>
                 <h3 className="relative text-xl font-bold">{item.title}</h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  {item.description}
-                </p>
+                <p className="text-muted-foreground leading-relaxed">{item.description}</p>
               </div>
             ))}
           </div>
@@ -169,12 +160,10 @@ export default function AdvertisingPage() {
           <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-primary/10">
             <PiEnvelopeSimpleLight className="h-7 w-7 text-primary" />
           </div>
-          <h2 className="text-4xl font-bold tracking-tight">
-            Ready to partner?
-          </h2>
+          <h2 className="text-4xl font-bold tracking-tight">Ready to partner?</h2>
           <p className="text-lg text-muted-foreground max-w-xl mx-auto">
-            We work with brands of all sizes. Tell us about your goals and we
-            will put together a proposal tailored to your needs.
+            We work with brands of all sizes. Tell us about your goals and we will put together a
+            proposal tailored to your needs.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button asChild size="lg" className="px-8 h-12 text-base">
@@ -183,12 +172,7 @@ export default function AdvertisingPage() {
                 <PiArrowRightLight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
-            <Button
-              asChild
-              variant="outline"
-              size="lg"
-              className="px-8 h-12 text-base"
-            >
+            <Button asChild variant="outline" size="lg" className="px-8 h-12 text-base">
               <a href="mailto:contact@getatme.com">Email Directly</a>
             </Button>
           </div>

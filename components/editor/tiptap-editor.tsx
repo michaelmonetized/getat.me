@@ -26,18 +26,14 @@ export function TiptapEditor({
   editable = true,
 }: TiptapEditorProps) {
   const generateUploadUrl = useMutation(api.files.generateUploadUrl);
-  const [uploadedStorageId, setUploadedStorageId] =
-    useState<Id<"_storage"> | null>(null);
+  const [uploadedStorageId, setUploadedStorageId] = useState<Id<"_storage"> | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const fileUrl = useQuery(
     api.files.getFileUrl,
     uploadedStorageId ? { fileId: uploadedStorageId } : "skip",
   );
   const pendingUploads = useRef<
-    Map<
-      Id<"_storage">,
-      { resolve: (url: string) => void; reject: (error: Error) => void }
-    >
+    Map<Id<"_storage">, { resolve: (url: string) => void; reject: (error: Error) => void }>
   >(new Map());
 
   // Handle completed uploads
@@ -68,9 +64,7 @@ export function TiptapEditor({
         });
 
         if (!upload.ok) {
-          throw new Error(
-            `Failed to upload image: ${upload.status} ${upload.statusText}`,
-          );
+          throw new Error(`Failed to upload image: ${upload.status} ${upload.statusText}`);
         }
 
         const response = await upload.json();
@@ -161,10 +155,7 @@ export function TiptapEditor({
 
                   if (coordinates) {
                     const node = schema.nodes.image.create({ src: url });
-                    const transaction = view.state.tr.insert(
-                      coordinates.pos,
-                      node,
-                    );
+                    const transaction = view.state.tr.insert(coordinates.pos, node);
                     view.dispatch(transaction);
                   }
                 }
@@ -192,8 +183,7 @@ export function TiptapEditor({
                   if (url) {
                     const { schema } = view.state;
                     const node = schema.nodes.image.create({ src: url });
-                    const transaction =
-                      view.state.tr.replaceSelectionWith(node);
+                    const transaction = view.state.tr.replaceSelectionWith(node);
                     view.dispatch(transaction);
                   }
                 })
@@ -277,9 +267,7 @@ export function TiptapEditor({
           </button>
           <button
             type="button"
-            onClick={() =>
-              editor.chain().focus().toggleHeading({ level: 1 }).run()
-            }
+            onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
             className={`px-3 py-1 rounded text-sm font-medium ${
               editor.isActive("heading", { level: 1 })
                 ? "bg-primary text-primary-foreground"
@@ -290,9 +278,7 @@ export function TiptapEditor({
           </button>
           <button
             type="button"
-            onClick={() =>
-              editor.chain().focus().toggleHeading({ level: 2 }).run()
-            }
+            onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
             className={`px-3 py-1 rounded text-sm font-medium ${
               editor.isActive("heading", { level: 2 })
                 ? "bg-primary text-primary-foreground"

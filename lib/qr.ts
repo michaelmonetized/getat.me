@@ -76,9 +76,7 @@ function selectVersion(dataLen: number): number {
     const capacity = dataCodewords * 8;
     if (bitsNeeded <= capacity) return v;
   }
-  throw new Error(
-    "Data too long for QR code (max ~116 bytes with this implementation)",
-  );
+  throw new Error("Data too long for QR code (max ~116 bytes with this implementation)");
 }
 
 // ── Bit Buffer ──────────────────────────────────────────────────────────
@@ -110,28 +108,17 @@ function createMatrix(version: number): {
   size: number;
 } {
   const size = version * 4 + 17;
-  const modules: (boolean | null)[][] = Array.from({ length: size }, () =>
-    Array(size).fill(null),
-  );
+  const modules: (boolean | null)[][] = Array.from({ length: size }, () => Array(size).fill(null));
   return { modules, size };
 }
 
-function setModule(
-  modules: (boolean | null)[][],
-  row: number,
-  col: number,
-  value: boolean,
-) {
+function setModule(modules: (boolean | null)[][], row: number, col: number, value: boolean) {
   if (row >= 0 && row < modules.length && col >= 0 && col < modules.length) {
     modules[row][col] = value;
   }
 }
 
-function placeFinderPattern(
-  modules: (boolean | null)[][],
-  row: number,
-  col: number,
-) {
+function placeFinderPattern(modules: (boolean | null)[][], row: number, col: number) {
   for (let r = -1; r <= 7; r++) {
     for (let c = -1; c <= 7; c++) {
       const inOuter = r === -1 || r === 7 || c === -1 || c === 7;
@@ -151,15 +138,10 @@ function placeFinderPattern(
   }
 }
 
-function placeAlignmentPattern(
-  modules: (boolean | null)[][],
-  row: number,
-  col: number,
-) {
+function placeAlignmentPattern(modules: (boolean | null)[][], row: number, col: number) {
   for (let r = -2; r <= 2; r++) {
     for (let c = -2; c <= 2; c++) {
-      const val =
-        Math.abs(r) === 2 || Math.abs(c) === 2 || (r === 0 && c === 0);
+      const val = Math.abs(r) === 2 || Math.abs(c) === 2 || (r === 0 && c === 0);
       setModule(modules, row + r, col + c, val);
     }
   }
@@ -179,11 +161,7 @@ const ALIGNMENT_POSITIONS: number[][] = [
   [6, 28, 50], // v10
 ];
 
-function placeFixedPatterns(
-  modules: (boolean | null)[][],
-  version: number,
-  size: number,
-) {
+function placeFixedPatterns(modules: (boolean | null)[][], version: number, size: number) {
   // Finder patterns
   placeFinderPattern(modules, 0, 0);
   placeFinderPattern(modules, 0, size - 7);
@@ -297,11 +275,7 @@ function encodeData(data: string, version: number): number[] {
 
 // ── Data Placement ──────────────────────────────────────────────────────
 
-function placeData(
-  modules: (boolean | null)[][],
-  size: number,
-  data: number[],
-) {
+function placeData(modules: (boolean | null)[][], size: number, data: number[]) {
   let bitIndex = 0;
   const totalBits = data.length * 8;
   let direction = -1; // -1 = upward, 1 = downward
@@ -316,9 +290,7 @@ function placeData(
         const actualCol = col - c;
         if (modules[row][actualCol] === null) {
           const bit =
-            bitIndex < totalBits
-              ? (data[Math.floor(bitIndex / 8)] >> (7 - (bitIndex % 8))) & 1
-              : 0;
+            bitIndex < totalBits ? (data[Math.floor(bitIndex / 8)] >> (7 - (bitIndex % 8))) & 1 : 0;
           modules[row][actualCol] = bit === 1;
           bitIndex++;
         }
@@ -345,12 +317,7 @@ const MASK_FUNCTIONS: MaskFn[] = [
   (r, c) => (((r + c) % 2) + ((r * c) % 3)) % 2 === 0,
 ];
 
-function isDataModule(
-  row: number,
-  col: number,
-  size: number,
-  version: number,
-): boolean {
+function isDataModule(row: number, col: number, size: number, version: number): boolean {
   // Finder + separator
   if (row < 9 && col < 9) return false;
   if (row < 9 && col >= size - 8) return false;
@@ -405,15 +372,9 @@ function applyMask(
 // ── Format Info ─────────────────────────────────────────────────────────
 
 // Precomputed format info strings for EC level L (01) with mask patterns 0-7
-const FORMAT_INFO = [
-  0x77c4, 0x72f3, 0x7daa, 0x789d, 0x662f, 0x6318, 0x6c41, 0x6976,
-];
+const FORMAT_INFO = [0x77c4, 0x72f3, 0x7daa, 0x789d, 0x662f, 0x6318, 0x6c41, 0x6976];
 
-function placeFormatInfo(
-  modules: boolean[][],
-  size: number,
-  maskIndex: number,
-) {
+function placeFormatInfo(modules: boolean[][], size: number, maskIndex: number) {
   const bits = FORMAT_INFO[maskIndex];
 
   for (let i = 0; i < 15; i++) {
@@ -493,9 +454,7 @@ export function generateQR(data: string): boolean[][] {
   placeData(modules, size, encoded);
 
   // Convert nulls to false
-  const base: boolean[][] = modules.map((row) =>
-    row.map((cell) => cell === true),
-  );
+  const base: boolean[][] = modules.map((row) => row.map((cell) => cell === true));
 
   // Try all masks, pick best
   let bestMask = 0;

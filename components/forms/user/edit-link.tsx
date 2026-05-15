@@ -49,18 +49,11 @@ export function EditLinkForm({ link, onClose }: EditLinkFormProps) {
   const [anchor, setAnchor] = useState(link.anchor);
   const [href, setHref] = useState(link.href);
   const [sectionId, setSectionId] = useState<string>(link.sectionId ?? "");
-  const [publishAt, setPublishAt] = useState(
-    timestampToDatetimeLocal(link.publishAt),
-  );
-  const [unpublishAt, setUnpublishAt] = useState(
-    timestampToDatetimeLocal(link.unpublishAt),
-  );
+  const [publishAt, setPublishAt] = useState(timestampToDatetimeLocal(link.publishAt));
+  const [unpublishAt, setUnpublishAt] = useState(timestampToDatetimeLocal(link.unpublishAt));
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
-  const sections = useQuery(
-    api.sections.getUserSections,
-    user?.id ? { userId: user.id } : "skip",
-  );
+  const sections = useQuery(api.sections.getUserSections, user?.id ? { userId: user.id } : "skip");
 
   const updateLink = useMutation(api.links.updateLink);
 
@@ -125,10 +118,7 @@ export function EditLinkForm({ link, onClose }: EditLinkFormProps) {
               <CardTitle>Edit Link</CardTitle>
               <CardDescription>Update your link details</CardDescription>
             </div>
-            <button
-              onClick={onClose}
-              className="text-muted-foreground hover:text-foreground"
-            >
+            <button onClick={onClose} className="text-muted-foreground hover:text-foreground">
               <PiX className="h-4 w-4" />
             </button>
           </div>
@@ -186,9 +176,7 @@ export function EditLinkForm({ link, onClose }: EditLinkFormProps) {
                 onChange={(e) => setPublishAt(e.target.value)}
                 disabled={isSubmitting}
               />
-              <p className="text-xs text-muted-foreground">
-                Leave empty to publish immediately
-              </p>
+              <p className="text-xs text-muted-foreground">Leave empty to publish immediately</p>
             </div>
             <div className="space-y-2">
               <Label htmlFor="unpublishAt">Unpublish At</Label>

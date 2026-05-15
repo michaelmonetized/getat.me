@@ -11,11 +11,7 @@ export const getVerification = query({
       _id: v.id("verifications"),
       userId: v.string(),
       type: v.union(v.literal("verified"), v.literal("vetted")),
-      status: v.union(
-        v.literal("pending"),
-        v.literal("approved"),
-        v.literal("rejected"),
-      ),
+      status: v.union(v.literal("pending"), v.literal("approved"), v.literal("rejected")),
       applicationData: v.optional(
         v.object({
           documentUrl: v.optional(v.id("_storage")),
@@ -30,9 +26,7 @@ export const getVerification = query({
   handler: async (ctx, args) => {
     return await ctx.db
       .query("verifications")
-      .withIndex("by_userId_type", (q) =>
-        q.eq("userId", args.userId).eq("type", args.type),
-      )
+      .withIndex("by_userId_type", (q) => q.eq("userId", args.userId).eq("type", args.type))
       .first();
   },
 });
@@ -44,22 +38,14 @@ export const getVerificationStatus = query({
   returns: v.object({
     verified: v.union(
       v.object({
-        status: v.union(
-          v.literal("pending"),
-          v.literal("approved"),
-          v.literal("rejected"),
-        ),
+        status: v.union(v.literal("pending"), v.literal("approved"), v.literal("rejected")),
         createdAt: v.number(),
       }),
       v.null(),
     ),
     vetted: v.union(
       v.object({
-        status: v.union(
-          v.literal("pending"),
-          v.literal("approved"),
-          v.literal("rejected"),
-        ),
+        status: v.union(v.literal("pending"), v.literal("approved"), v.literal("rejected")),
         createdAt: v.number(),
       }),
       v.null(),
@@ -68,16 +54,12 @@ export const getVerificationStatus = query({
   handler: async (ctx, args) => {
     const verified = await ctx.db
       .query("verifications")
-      .withIndex("by_userId_type", (q) =>
-        q.eq("userId", args.userId).eq("type", "verified"),
-      )
+      .withIndex("by_userId_type", (q) => q.eq("userId", args.userId).eq("type", "verified"))
       .first();
 
     const vetted = await ctx.db
       .query("verifications")
-      .withIndex("by_userId_type", (q) =>
-        q.eq("userId", args.userId).eq("type", "vetted"),
-      )
+      .withIndex("by_userId_type", (q) => q.eq("userId", args.userId).eq("type", "vetted"))
       .first();
 
     return {
@@ -109,9 +91,7 @@ export const applyForVerification = mutation({
     // Check if application already exists
     const existing = await ctx.db
       .query("verifications")
-      .withIndex("by_userId_type", (q) =>
-        q.eq("userId", args.userId).eq("type", args.type),
-      )
+      .withIndex("by_userId_type", (q) => q.eq("userId", args.userId).eq("type", args.type))
       .first();
 
     if (existing) {

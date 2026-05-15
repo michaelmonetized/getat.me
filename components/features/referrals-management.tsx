@@ -1,13 +1,7 @@
 "use client";
 
 import { useUser } from "@clerk/nextjs";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ReferralsTables } from "./referrals-tables";
 import { PiUsers } from "react-icons/pi";
 
@@ -27,9 +21,7 @@ export function ReferralsManagement() {
           </div>
           <div className="flex-1">
             <CardTitle>Referrals</CardTitle>
-            <CardDescription>
-              Manage your professional referrals
-            </CardDescription>
+            <CardDescription>Manage your professional referrals</CardDescription>
           </div>
         </div>
       </CardHeader>

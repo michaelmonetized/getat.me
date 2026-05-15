@@ -11,10 +11,7 @@ import { PiPlus, PiPencilSimple, PiTrash, PiCheck, PiX } from "react-icons/pi";
 
 export function SectionManager() {
   const { user } = useUser();
-  const sections = useQuery(
-    api.sections.getUserSections,
-    user?.id ? { userId: user.id } : "skip",
-  );
+  const sections = useQuery(api.sections.getUserSections, user?.id ? { userId: user.id } : "skip");
   const createSection = useMutation(api.sections.createSection);
   const updateSection = useMutation(api.sections.updateSection);
   const deleteSection = useMutation(api.sections.deleteSection);
@@ -50,8 +47,7 @@ export function SectionManager() {
 
   const handleDelete = async (id: Id<"sections">) => {
     if (!user?.id) return;
-    if (!confirm("Delete this section? Links in it will become uncategorized."))
-      return;
+    if (!confirm("Delete this section? Links in it will become uncategorized.")) return;
     try {
       await deleteSection({ id, userId: user.id });
     } catch (err) {
@@ -67,10 +63,7 @@ export function SectionManager() {
 
       {/* Existing sections */}
       {sections?.map((section) => (
-        <div
-          key={section._id}
-          className="flex items-center gap-2 bg-muted/50 rounded-lg px-3 py-2"
-        >
+        <div key={section._id} className="flex items-center gap-2 bg-muted/50 rounded-lg px-3 py-2">
           {editingId === section._id ? (
             <>
               <Input

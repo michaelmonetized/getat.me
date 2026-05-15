@@ -71,9 +71,7 @@ export function BookingWidget() {
       });
       toast({
         title: enabled ? "Booking enabled" : "Booking disabled",
-        description: enabled
-          ? "Visitors can now book time with you"
-          : "Booking is now disabled",
+        description: enabled ? "Visitors can now book time with you" : "Booking is now disabled",
       });
     } catch (error) {
       console.error(error);
@@ -127,11 +125,7 @@ export function BookingWidget() {
         <div className="space-y-0.5 w-full">
           <Label htmlFor="booking-enabled" className="flex items-center gap-2">
             <span className="text-lg">Enable Booking</span>
-            <Switch
-              id="booking-enabled"
-              checked={isEnabled}
-              onCheckedChange={handleToggle}
-            />
+            <Switch id="booking-enabled" checked={isEnabled} onCheckedChange={handleToggle} />
           </Label>
           <p className="text-sm text-muted-foreground">
             Allow visitors to book appointments with you.

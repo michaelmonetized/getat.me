@@ -85,15 +85,8 @@ export function SortableLinks({ links, handle, onEdit }: SortableLinksProps) {
   }
 
   return (
-    <DndContext
-      sensors={sensors}
-      collisionDetection={closestCenter}
-      onDragEnd={handleDragEnd}
-    >
-      <SortableContext
-        items={items.map((item) => item._id)}
-        strategy={verticalListSortingStrategy}
-      >
+    <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+      <SortableContext items={items.map((item) => item._id)} strategy={verticalListSortingStrategy}>
         <div className="space-y-3">
           {items.map((link) => (
             <SortableItem

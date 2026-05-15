@@ -50,9 +50,7 @@ export function CoverUpload() {
       });
 
       if (!upload.ok) {
-        throw new Error(
-          `Failed to upload image: ${upload.status} ${upload.statusText}`,
-        );
+        throw new Error(`Failed to upload image: ${upload.status} ${upload.statusText}`);
       }
 
       const response = await upload.json();
@@ -84,9 +82,7 @@ export function CoverUpload() {
       const dataTransfer = new DataTransfer();
       dataTransfer.items.add(file);
       fileInputRef.current.files = dataTransfer.files;
-      fileInputRef.current.dispatchEvent(
-        new Event("change", { bubbles: true }),
-      );
+      fileInputRef.current.dispatchEvent(new Event("change", { bubbles: true }));
     }
   };
 

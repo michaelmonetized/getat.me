@@ -68,14 +68,10 @@ export default function OnboardingPage() {
 
   // Derive availability state
   const isHandleValid = handle.length >= 3 && /^[a-z0-9_-]+$/.test(handle);
-  const isCheckingAvailability =
-    debouncedHandle !== handle && handle.length >= 3;
-  const isAvailable =
-    handleAvailability === null && !isCheckingAvailability && isHandleValid;
+  const isCheckingAvailability = debouncedHandle !== handle && handle.length >= 3;
+  const isAvailable = handleAvailability === null && !isCheckingAvailability && isHandleValid;
   const isTaken =
-    handleAvailability !== null &&
-    handleAvailability !== undefined &&
-    !isCheckingAvailability;
+    handleAvailability !== null && handleAvailability !== undefined && !isCheckingAvailability;
 
   // Redirect if user already has a handle
   if (userLoaded && user?.id && userProfile?.handle) {
@@ -110,9 +106,7 @@ export default function OnboardingPage() {
     }
 
     if (!/^[a-z0-9_-]+$/.test(handle.trim())) {
-      setError(
-        "Handle can only contain lowercase letters, numbers, underscores, and hyphens",
-      );
+      setError("Handle can only contain lowercase letters, numbers, underscores, and hyphens");
       return;
     }
 
@@ -191,11 +185,7 @@ export default function OnboardingPage() {
               </div>
               <div className="font-mono text-lg">
                 getat.me/
-                <span
-                  className={
-                    handle ? "text-primary font-bold" : "text-muted-foreground"
-                  }
-                >
+                <span className={handle ? "text-primary font-bold" : "text-muted-foreground"}>
                   {handle || "yourhandle"}
                 </span>
               </div>
@@ -213,9 +203,7 @@ export default function OnboardingPage() {
                   id="handle"
                   value={handle}
                   onChange={(e) => {
-                    setHandle(
-                      e.target.value.toLowerCase().replace(/[^a-z0-9_-]/g, ""),
-                    );
+                    setHandle(e.target.value.toLowerCase().replace(/[^a-z0-9_-]/g, ""));
                     setError("");
                   }}
                   placeholder="yourhandle"
@@ -230,12 +218,8 @@ export default function OnboardingPage() {
                       {isCheckingAvailability && (
                         <PiSpinnerLight className="h-5 w-5 animate-spin text-muted-foreground" />
                       )}
-                      {isAvailable && (
-                        <PiCheckCircleLight className="h-5 w-5 text-green-500" />
-                      )}
-                      {isTaken && (
-                        <PiXCircleLight className="h-5 w-5 text-red-500" />
-                      )}
+                      {isAvailable && <PiCheckCircleLight className="h-5 w-5 text-green-500" />}
+                      {isTaken && <PiXCircleLight className="h-5 w-5 text-red-500" />}
                     </>
                   )}
                 </div>

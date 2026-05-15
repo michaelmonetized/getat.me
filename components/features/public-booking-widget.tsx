@@ -2,25 +2,12 @@
 
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  PiCalendar,
-  PiClock,
-  PiEnvelope,
-  PiUser,
-  PiPhone,
-  PiArrowLeft,
-} from "react-icons/pi";
+import { PiCalendar, PiClock, PiEnvelope, PiUser, PiPhone, PiArrowLeft } from "react-icons/pi";
 import { useState, useMemo, useEffect, useCallback } from "react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -39,9 +26,7 @@ function generateTimeSlots(startTime: string, endTime: string): string[] {
   for (let minutes = start; minutes < end; minutes += 30) {
     const hour = Math.floor(minutes / 60);
     const min = minutes % 60;
-    slots.push(
-      `${String(hour).padStart(2, "0")}:${String(min).padStart(2, "0")}`,
-    );
+    slots.push(`${String(hour).padStart(2, "0")}:${String(min).padStart(2, "0")}`);
   }
 
   return slots;
@@ -112,10 +97,7 @@ function getAvailableDays(
 
 export function PublicBookingWidget({ userId }: PublicBookingWidgetProps) {
   const { toast } = useToast();
-  const availability = useQuery(
-    api.booking.getBookingAvailability,
-    userId ? { userId } : "skip",
-  );
+  const availability = useQuery(api.booking.getBookingAvailability, userId ? { userId } : "skip");
   const updateAvailability = useMutation(api.booking.updateBookingAvailability);
 
   // Auto-initialize booking availability if it doesn't exist
@@ -150,9 +132,7 @@ export function PublicBookingWidget({ userId }: PublicBookingWidgetProps) {
 
   const appointments = useQuery(
     api.booking.getAppointments,
-    userId && availability
-      ? { userId, startDate: startDateStr, endDate: endDateStr }
-      : "skip",
+    userId && availability ? { userId, startDate: startDateStr, endDate: endDateStr } : "skip",
   );
   const createAppointment = useMutation(api.booking.createAppointment);
 
@@ -169,10 +149,7 @@ export function PublicBookingWidget({ userId }: PublicBookingWidgetProps) {
   // Generate time slots
   const timeSlots = useMemo(() => {
     if (!availability) return [];
-    return generateTimeSlots(
-      availability.defaultStartTime,
-      availability.defaultEndTime,
-    );
+    return generateTimeSlots(availability.defaultStartTime, availability.defaultEndTime);
   }, [availability]);
 
   // Get booked time slots for a specific date
@@ -183,9 +160,7 @@ export function PublicBookingWidget({ userId }: PublicBookingWidgetProps) {
         appointments
           .filter(
             (apt) =>
-              apt.appointmentDate === dateStr &&
-              apt.status !== "cancelled" &&
-              apt.appointmentTime,
+              apt.appointmentDate === dateStr && apt.status !== "cancelled" && apt.appointmentTime,
           )
           .map((apt) => apt.appointmentTime),
       );
@@ -261,9 +236,7 @@ export function PublicBookingWidget({ userId }: PublicBookingWidgetProps) {
       toast({
         title: "Error",
         description:
-          error instanceof Error
-            ? error.message
-            : "Failed to book appointment. Please try again.",
+          error instanceof Error ? error.message : "Failed to book appointment. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -398,8 +371,7 @@ export function PublicBookingWidget({ userId }: PublicBookingWidgetProps) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 transition-all duration-300">
           {availableDays.length === 0 ? (
             <div className="col-span-3 text-center py-8 text-muted-foreground">
-              No available time slots in the next few days. Please check back
-              later.
+              No available time slots in the next few days. Please check back later.
             </div>
           ) : (
             availableDays.map((date) => {
@@ -416,9 +388,7 @@ export function PublicBookingWidget({ userId }: PublicBookingWidgetProps) {
                 <div key={dateStr} className="space-y-2">
                   <div className="text-center">
                     <p className="font-semibold">{dayName}</p>
-                    <p className="text-sm text-muted-foreground">
-                      {isToday ? "Today" : dateLabel}
-                    </p>
+                    <p className="text-sm text-muted-foreground">{isToday ? "Today" : dateLabel}</p>
                   </div>
                   <div className="space-y-1 max-h-64 overflow-y-auto">
                     {timeSlots.map((time) => {
@@ -436,14 +406,10 @@ export function PublicBookingWidget({ userId }: PublicBookingWidgetProps) {
                           <PiClock className="h-3 w-3 mr-2" />
                           {time}
                           {isBooked && (
-                            <span className="ml-auto text-xs text-muted-foreground">
-                              Booked
-                            </span>
+                            <span className="ml-auto text-xs text-muted-foreground">Booked</span>
                           )}
                           {isPast && (
-                            <span className="ml-auto text-xs text-muted-foreground">
-                              Past
-                            </span>
+                            <span className="ml-auto text-xs text-muted-foreground">Past</span>
                           )}
                         </Button>
                       );

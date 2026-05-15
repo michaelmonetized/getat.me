@@ -2,13 +2,7 @@
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-  CardContent,
-} from "@/components/ui/card";
+import { Card, CardFooter, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import {
   PiBellLight,
   PiCalendarLight,
@@ -115,12 +109,8 @@ const FeatureSection = ({
             <span>{title}</span>
           </div>
         )}
-        <h2 className="text-4xl font-bold tracking-tight md:text-5xl">
-          {title}
-        </h2>
-        <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
-          {description}
-        </p>
+        <h2 className="text-4xl font-bold tracking-tight md:text-5xl">{title}</h2>
+        <p className="mx-auto max-w-2xl text-lg text-muted-foreground">{description}</p>
       </div>
       <div className="gap-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
         {features.map((feature, index) => (
@@ -276,8 +266,8 @@ export default function FeaturesPage() {
               </span>
             </h1>
             <p className="mx-auto max-w-2xl text-xl text-muted-foreground leading-relaxed animate-fade-in-up-delay-1">
-              Create a truly engaging link page that connects you with your
-              audience. From simple links to bookings, payments, and more.
+              Create a truly engaging link page that connects you with your audience. From simple
+              links to bookings, payments, and more.
             </p>
             <div className="flex flex-col items-center justify-center gap-4 sm:flex-row animate-fade-in-up-delay-2">
               <Button asChild size="lg" className="text-base px-8 h-12">
@@ -286,12 +276,7 @@ export default function FeaturesPage() {
                   <PiArrowRightLight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
-              <Button
-                asChild
-                variant="outline"
-                size="lg"
-                className="text-base px-8 h-12"
-              >
+              <Button asChild variant="outline" size="lg" className="text-base px-8 h-12">
                 <Link href="/pricing">View Pricing</Link>
               </Button>
             </div>
@@ -345,12 +330,10 @@ export default function FeaturesPage() {
             <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 animate-float">
               <PiCheckCircleLight className="h-8 w-8 text-primary" />
             </div>
-            <h2 className="text-4xl font-bold tracking-tight md:text-5xl">
-              Ready to Get Started?
-            </h2>
+            <h2 className="text-4xl font-bold tracking-tight md:text-5xl">Ready to Get Started?</h2>
             <p className="text-lg text-muted-foreground max-w-xl mx-auto">
-              Join thousands of creators, professionals, and businesses using
-              Get At Me to connect with their audience.
+              Join thousands of creators, professionals, and businesses using Get At Me to connect
+              with their audience.
             </p>
             <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Button asChild size="lg" className="text-base px-8 h-12">
@@ -359,12 +342,7 @@ export default function FeaturesPage() {
                   <PiArrowRightLight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
-              <Button
-                asChild
-                variant="outline"
-                size="lg"
-                className="text-base px-8 h-12"
-              >
+              <Button asChild variant="outline" size="lg" className="text-base px-8 h-12">
                 <Link href="/pricing">See Plans & Pricing</Link>
               </Button>
             </div>

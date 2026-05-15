@@ -42,14 +42,9 @@ interface SortableItemProps {
 }
 
 export function SortableItem({ link, handle, onEdit }: SortableItemProps) {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({ id: link._id });
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+    id: link._id,
+  });
 
   const deleteLink = useMutation(api.links.deleteLink);
   const trackEvent = useMutation(api.analytics.trackEvent);
@@ -87,10 +82,8 @@ export function SortableItem({ link, handle, onEdit }: SortableItemProps) {
         eventType: "link_click",
         eventData: {
           linkId: link._id,
-          referrer:
-            typeof window !== "undefined" ? document.referrer : undefined,
-          userAgent:
-            typeof window !== "undefined" ? navigator.userAgent : undefined,
+          referrer: typeof window !== "undefined" ? document.referrer : undefined,
+          userAgent: typeof window !== "undefined" ? navigator.userAgent : undefined,
         },
       });
       if (handle) {

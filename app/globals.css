@@ -529,12 +529,7 @@
       inset: 0;
       z-index: -2;
       border-radius: var(--radius);
-      background: conic-gradient(
-        from var(--i),
-        var(--primary),
-        var(--secondary),
-        var(--primary)
-      );
+      background: conic-gradient(from var(--i), var(--primary), var(--secondary), var(--primary));
       width: calc(100% + 3px);
       height: calc(100% + 3px);
       top: 50%;
@@ -567,12 +562,7 @@
   .border-gradient-grayscale-animated {
     &::before,
     &::after {
-      background: conic-gradient(
-        from var(--i),
-        var(--background),
-        var(--card),
-        var(--background)
-      );
+      background: conic-gradient(from var(--i), var(--background), var(--card), var(--background));
     }
   }
 

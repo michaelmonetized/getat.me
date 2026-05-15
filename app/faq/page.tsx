@@ -8,11 +8,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import {
-  PiQuestionLight,
-  PiEnvelopeSimpleLight,
-  PiArrowRightLight,
-} from "react-icons/pi";
+import { PiQuestionLight, PiEnvelopeSimpleLight, PiArrowRightLight } from "react-icons/pi";
 
 export default function FAQPage() {
   const faqs = [
@@ -67,9 +63,8 @@ export default function FAQPage() {
             </span>
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto animate-fade-in-up-delay-1">
-            Everything you need to know about plans, features, and using Get At
-            Me. Can&rsquo;t find what you&rsquo;re looking for? Reach out to our
-            team.
+            Everything you need to know about plans, features, and using Get At Me. Can&rsquo;t find
+            what you&rsquo;re looking for? Reach out to our team.
           </p>
         </div>
       </section>
@@ -110,12 +105,10 @@ export default function FAQPage() {
           <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-primary/10">
             <PiEnvelopeSimpleLight className="h-7 w-7 text-primary" />
           </div>
-          <h2 className="text-3xl font-bold tracking-tight">
-            Still have questions?
-          </h2>
+          <h2 className="text-3xl font-bold tracking-tight">Still have questions?</h2>
           <p className="text-muted-foreground text-lg">
-            Our team is happy to help. Send us a message and we&rsquo;ll get
-            back to you within 24 hours.
+            Our team is happy to help. Send us a message and we&rsquo;ll get back to you within 24
+            hours.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center pt-2">
             <Button asChild size="lg">

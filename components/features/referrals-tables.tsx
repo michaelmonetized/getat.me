@@ -58,9 +58,7 @@ export function ReferralsTables() {
                 </CardHeader>
                 <CardContent>
                   {referralsSent === undefined ? (
-                    <p className="text-center text-muted-foreground py-8">
-                      Loading...
-                    </p>
+                    <p className="text-center text-muted-foreground py-8">Loading...</p>
                   ) : referralsSent.length === 0 ? (
                     <p className="text-center text-muted-foreground py-8">
                       You {"haven't"} sent any referrals yet
@@ -79,11 +77,7 @@ export function ReferralsTables() {
                       </TableHeader>
                       <TableBody>
                         {referralsSent.map((referral) => (
-                          <ReferralRow
-                            key={referral._id}
-                            referral={referral}
-                            type="sent"
-                          />
+                          <ReferralRow key={referral._id} referral={referral} type="sent" />
                         ))}
                       </TableBody>
                     </Table>
@@ -99,9 +93,7 @@ export function ReferralsTables() {
                 </CardHeader>
                 <CardContent>
                   {referralsReceived === undefined ? (
-                    <p className="text-center text-muted-foreground py-8">
-                      Loading...
-                    </p>
+                    <p className="text-center text-muted-foreground py-8">Loading...</p>
                   ) : referralsReceived.length === 0 ? (
                     <p className="text-center text-muted-foreground py-8">
                       You {"haven't"} received any referrals yet
@@ -120,11 +112,7 @@ export function ReferralsTables() {
                       </TableHeader>
                       <TableBody>
                         {referralsReceived.map((referral) => (
-                          <ReferralRow
-                            key={referral._id}
-                            referral={referral}
-                            type="received"
-                          />
+                          <ReferralRow key={referral._id} referral={referral} type="received" />
                         ))}
                       </TableBody>
                     </Table>
@@ -155,8 +143,7 @@ function ReferralRow({
   };
   type: "sent" | "received";
 }) {
-  const otherUserId =
-    type === "sent" ? referral.referredUserId : referral.referrerUserId;
+  const otherUserId = type === "sent" ? referral.referredUserId : referral.referrerUserId;
   const otherUser = useQuery(api.users.getUserByID, { userId: otherUserId });
 
   return (
@@ -165,9 +152,7 @@ function ReferralRow({
       <TableCell>{referral.referredFirstName}</TableCell>
       <TableCell>{referral.referredEmail}</TableCell>
       <TableCell>{referral.referredPhone || "-"}</TableCell>
-      <TableCell className="max-w-xs truncate">
-        {referral.message || "-"}
-      </TableCell>
+      <TableCell className="max-w-xs truncate">{referral.message || "-"}</TableCell>
       <TableCell>{new Date(referral.createdAt).toLocaleDateString()}</TableCell>
     </TableRow>
   );

@@ -3,13 +3,7 @@
 import { useUser } from "@clerk/nextjs";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
@@ -39,9 +33,7 @@ export function RecommendationsWidget({ userId }: RecommendationsWidgetProps) {
   // Get user's existing recommendation
   const existingRecommendation = useQuery(
     api.recommendations.getUserRecommendation,
-    user?.id && userId
-      ? { recommendedUserId: userId, recommenderUserId: user.id }
-      : "skip",
+    user?.id && userId ? { recommendedUserId: userId, recommenderUserId: user.id } : "skip",
   );
 
   // Get all recommendations and stats
@@ -49,14 +41,9 @@ export function RecommendationsWidget({ userId }: RecommendationsWidgetProps) {
     api.recommendations.getRecommendations,
     userId ? { userId } : "skip",
   );
-  const stats = useQuery(
-    api.recommendations.getRecommendationStats,
-    userId ? { userId } : "skip",
-  );
+  const stats = useQuery(api.recommendations.getRecommendationStats, userId ? { userId } : "skip");
 
-  const createRecommendation = useMutation(
-    api.recommendations.createRecommendation,
-  );
+  const createRecommendation = useMutation(api.recommendations.createRecommendation);
 
   // Load pending recommendation from storage after sign-in
   useEffect(() => {
@@ -135,8 +122,7 @@ export function RecommendationsWidget({ userId }: RecommendationsWidgetProps) {
   };
 
   // Get recommender avatars (limit to recent ones)
-  const recommenderIds =
-    allRecommendations?.slice(0, 12).map((rec) => rec.recommenderUserId) || [];
+  const recommenderIds = allRecommendations?.slice(0, 12).map((rec) => rec.recommenderUserId) || [];
 
   return (
     <div className="space-y-6">
@@ -183,11 +169,7 @@ export function RecommendationsWidget({ userId }: RecommendationsWidgetProps) {
                 />
               </div>
               <SignUpButton mode="modal">
-                <Button
-                  type="submit"
-                  className="w-full"
-                  disabled={rating === 0}
-                >
+                <Button type="submit" className="w-full" disabled={rating === 0}>
                   Submit Recommendation
                 </Button>
               </SignUpButton>
@@ -199,19 +181,13 @@ export function RecommendationsWidget({ userId }: RecommendationsWidgetProps) {
                   <PiStar
                     key={star}
                     className={`h-6 w-6 ${
-                      star <= rating
-                        ? "fill-yellow-400 text-yellow-400"
-                        : "text-muted-foreground"
+                      star <= rating ? "fill-yellow-400 text-yellow-400" : "text-muted-foreground"
                     }`}
                   />
                 ))}
               </div>
-              {review && (
-                <p className="text-sm text-muted-foreground">{review}</p>
-              )}
-              <p className="text-xs text-muted-foreground">
-                Your recommendation
-              </p>
+              {review && <p className="text-sm text-muted-foreground">{review}</p>}
+              <p className="text-xs text-muted-foreground">Your recommendation</p>
             </div>
           ) : (
             <form onSubmit={onSubmit} className="space-y-4">
@@ -248,11 +224,7 @@ export function RecommendationsWidget({ userId }: RecommendationsWidgetProps) {
                   rows={4}
                 />
               </div>
-              <Button
-                type="submit"
-                className="w-full"
-                disabled={rating === 0 || isSubmitting}
-              >
+              <Button type="submit" className="w-full" disabled={rating === 0 || isSubmitting}>
                 {isSubmitting ? "Submitting..." : "Submit Recommendation"}
               </Button>
             </form>
@@ -296,11 +268,7 @@ function RecommenderAvatar({ userId }: { userId: string }) {
     <div className="w-10 h-10 rounded-full bg-muted overflow-hidden border-2 border-border">
       {user.avatarUrl ? (
         // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={user.avatarUrl}
-          alt=""
-          className="w-full h-full object-cover"
-        />
+        <img src={user.avatarUrl} alt="" className="w-full h-full object-cover" />
       ) : (
         <div className="w-full h-full flex items-center justify-center text-xs font-semibold">
           {(user.handle || user.first || "?")[0].toUpperCase()}

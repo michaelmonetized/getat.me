@@ -3,13 +3,7 @@
 import { useUser } from "@clerk/nextjs";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -148,9 +142,7 @@ export function ReferralsWidget({ userId, handle }: ReferralsWidgetProps) {
       <CardContent>
         {!user ? (
           <div className="space-y-4">
-            <p className="text-sm text-muted-foreground">
-              Sign in to refer someone to @{handle}
-            </p>
+            <p className="text-sm text-muted-foreground">Sign in to refer someone to @{handle}</p>
             <SignInButton mode="modal">
               <Button className="w-full">Sign In to Send Referral</Button>
             </SignInButton>

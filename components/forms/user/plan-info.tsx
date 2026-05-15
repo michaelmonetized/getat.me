@@ -12,8 +12,7 @@ import { Label } from "@/components/ui/label";
 
 export function PlanInfo() {
   const { has } = useAuth();
-  const [planPeriod, setPlanPeriod] =
-    useState<BillingSubscriptionPlanPeriod>("annual");
+  const [planPeriod, setPlanPeriod] = useState<BillingSubscriptionPlanPeriod>("annual");
 
   // Convert plans object to array with planKey and ordered by priority (highest first)
   const allPlans = [
@@ -27,18 +26,17 @@ export function PlanInfo() {
 
   // Determine current plan based on highest tier
   // Since plans are ordered by priority (highest first), find first matching plan
-  const currentPlan = allPlans.find((plan) =>
-    has?.({ plan: plan.planKey }),
-  ) || { name: "FREE", price: { annual: "$0/mo", month: "$0/mo" } };
+  const currentPlan = allPlans.find((plan) => has?.({ plan: plan.planKey })) || {
+    name: "FREE",
+    price: { annual: "$0/mo", month: "$0/mo" },
+  };
 
   // Filter plans to show only upgrades based on current plan
   const getUpgradePlans = () => {
     if (currentPlan.name === "ProMax") {
       return []; // Don't show anything if they have ProMax
     } else if (currentPlan.name === "Pro") {
-      return [getPlanByName("ProMax")].filter((p): p is NonNullable<typeof p> =>
-        Boolean(p),
-      );
+      return [getPlanByName("ProMax")].filter((p): p is NonNullable<typeof p> => Boolean(p));
     } else if (currentPlan.name === "Premium") {
       return [getPlanByName("Pro"), getPlanByName("ProMax")].filter(
         (p): p is NonNullable<typeof p> => Boolean(p),
@@ -55,9 +53,7 @@ export function PlanInfo() {
     <div className="space-y-6">
       <Card className="border-none shadow-none bg-transparent">
         <CardHeader className="pb-3 px-0">
-          <CardTitle className="text-base font-semibold">
-            Current Plan:
-          </CardTitle>
+          <CardTitle className="text-base font-semibold">Current Plan:</CardTitle>
         </CardHeader>
         <CardContent className="px-0">
           <p className="text-sm font-medium">
@@ -72,18 +68,14 @@ export function PlanInfo() {
       {upgradePlans.length > 0 && (
         <Card className="border-none shadow-none bg-transparent">
           <CardHeader className="pb-3 px-0">
-            <CardTitle className="text-base font-semibold">
-              Upgrade Plan:
-            </CardTitle>
+            <CardTitle className="text-base font-semibold">Upgrade Plan:</CardTitle>
           </CardHeader>
           <CardContent className="px-0 space-y-2">
             <Label htmlFor="plan-period">
               <Switch
                 id="plan-period"
                 checked={planPeriod === "annual"}
-                onCheckedChange={(checked) =>
-                  setPlanPeriod(checked ? "annual" : "month")
-                }
+                onCheckedChange={(checked) => setPlanPeriod(checked ? "annual" : "month")}
               />
               <span className="text-sm font-medium">
                 {planPeriod === "annual" ? "Annually" : "Monthly"}

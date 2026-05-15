@@ -59,9 +59,7 @@ export default function UpgradedPage() {
               <PiCheckCircleLight className="h-12 w-12 text-primary" />
             </div>
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
-            Upgrade Successful!
-          </h1>
+          <h1 className="text-4xl md:text-5xl font-bold tracking-tight">Upgrade Successful!</h1>
           {currentPlan && (
             <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-2 text-sm font-semibold text-primary">
               <PiSparkleLight className="h-4 w-4" />
@@ -69,8 +67,7 @@ export default function UpgradedPage() {
             </div>
           )}
           <p className="text-muted-foreground text-lg">
-            Thank you for upgrading! You now have access to all premium
-            features.
+            Thank you for upgrading! You now have access to all premium features.
           </p>
         </div>
       </section>
@@ -79,9 +76,7 @@ export default function UpgradedPage() {
         <div className="mx-auto w-full max-w-xl px-4 text-center space-y-6">
           {userProfile?.handle ? (
             <>
-              <p className="text-muted-foreground">
-                Redirecting you to your profile page...
-              </p>
+              <p className="text-muted-foreground">Redirecting you to your profile page...</p>
               <Button asChild size="lg">
                 <Link href={`/${userProfile.handle}`}>Go to My Profile</Link>
               </Button>

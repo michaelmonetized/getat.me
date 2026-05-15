@@ -86,9 +86,7 @@ export function AddLinkForm() {
           >
             <PiGridFour className="h-4 w-4" />
           </Button>
-          {icon && (
-            <span className="flex items-center text-xl shrink-0">{icon}</span>
-          )}
+          {icon && <span className="flex items-center text-xl shrink-0">{icon}</span>}
           <div className="flex-1 relative">
             <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-sm pointer-events-none">
               https://

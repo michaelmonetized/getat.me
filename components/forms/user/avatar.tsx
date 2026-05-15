@@ -50,9 +50,7 @@ export function AvatarUpload() {
       });
 
       if (!upload.ok) {
-        throw new Error(
-          `Failed to upload image: ${upload.status} ${upload.statusText}`,
-        );
+        throw new Error(`Failed to upload image: ${upload.status} ${upload.statusText}`);
       }
 
       const response = await upload.json();
@@ -84,9 +82,7 @@ export function AvatarUpload() {
       const dataTransfer = new DataTransfer();
       dataTransfer.items.add(file);
       fileInputRef.current.files = dataTransfer.files;
-      fileInputRef.current.dispatchEvent(
-        new Event("change", { bubbles: true }),
-      );
+      fileInputRef.current.dispatchEvent(new Event("change", { bubbles: true }));
     }
   };
 
@@ -129,11 +125,7 @@ export function AvatarUpload() {
         {avatarUrl ? (
           <>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={avatarUrl}
-              alt="Profile"
-              className="w-full h-full object-cover"
-            />
+            <img src={avatarUrl} alt="Profile" className="w-full h-full object-cover" />
             <div
               className={`
                 absolute inset-0 bg-black/60 flex items-center justify-center
@@ -144,9 +136,7 @@ export function AvatarUpload() {
               {isUploading ? (
                 <div className="flex flex-col items-center gap-2">
                   <Spinner className="text-white" size="md" />
-                  <p className="text-white text-xs text-center px-3 leading-tight">
-                    Uploading...
-                  </p>
+                  <p className="text-white text-xs text-center px-3 leading-tight">Uploading...</p>
                 </div>
               ) : (
                 <p className="text-white text-xs text-center px-3 leading-tight">
@@ -172,9 +162,7 @@ export function AvatarUpload() {
           </div>
         )}
       </div>
-      {error && (
-        <p className="text-sm text-destructive text-center mt-2">{error}</p>
-      )}
+      {error && <p className="text-sm text-destructive text-center mt-2">{error}</p>}
     </div>
   );
 }

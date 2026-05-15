@@ -32,9 +32,7 @@ export default function Handle({
     <div className={cn(className, "flex-col")} {...props}>
       <div className={cn(className)} {...props}>
         {withAvatar && <Avatar user={user} />}
-        <span className="text-2xl font-black handle-heading">
-          @{user.handle}
-        </span>
+        <span className="text-2xl font-black handle-heading">@{user.handle}</span>
         {user.verified && <Verified />}
         {user.vetted && <Vetted />}
         <Plan user={user} />

@@ -547,10 +547,7 @@ export const seed = internalMutation({
         await ctx.db.insert("links", {
           userId: profile.user.userId,
           ...linkData,
-          sectionId:
-            sectionIndex !== undefined
-              ? (sectionIds[sectionIndex] as any)
-              : undefined,
+          sectionId: sectionIndex !== undefined ? (sectionIds[sectionIndex] as any) : undefined,
         });
       }
 

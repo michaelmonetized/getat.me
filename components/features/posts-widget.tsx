@@ -3,13 +3,7 @@
 import { useUser } from "@clerk/nextjs";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { Id } from "@/convex/_generated/dataModel";
@@ -23,10 +17,7 @@ export function PostsWidget() {
   const { user } = useUser();
   const { toast } = useToast();
 
-  const posts = useQuery(
-    api.posts.getPosts,
-    user?.id ? { userId: user.id } : "skip",
-  );
+  const posts = useQuery(api.posts.getPosts, user?.id ? { userId: user.id } : "skip");
 
   const deletePost = useMutation(api.posts.deletePost);
 
@@ -84,10 +75,7 @@ export function PostsWidget() {
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex-1">
                       <div className="prose prose-sm dark:prose-invert max-w-none">
-                        <ReactMarkdown
-                          remarkPlugins={[remarkGfm]}
-                          rehypePlugins={[rehypeRaw]}
-                        >
+                        <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
                           {post.content}
                         </ReactMarkdown>
                       </div>

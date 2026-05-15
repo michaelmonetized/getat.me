@@ -39,8 +39,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "GetAt.Me — The Relationship-First Link-In-Bio",
-    description:
-      "Turn attention into loyal relationships. The modern link-in-bio platform.",
+    description: "Turn attention into loyal relationships. The modern link-in-bio platform.",
     creator: "@MichaelH_rley",
   },
   alternates: {

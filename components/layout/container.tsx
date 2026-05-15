@@ -23,12 +23,7 @@ export interface ContainerProps
   children: React.ReactNode;
 }
 
-export function Container({
-  children,
-  size,
-  className,
-  ...props
-}: ContainerProps) {
+export function Container({ children, size, className, ...props }: ContainerProps) {
   return (
     <div className={cn(containerVariants({ size }), className)} {...props}>
       {children}

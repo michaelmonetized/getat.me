@@ -1,10 +1,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import {
-  PiCheckCircleLight,
-  PiArrowRightLight,
-  PiShootingStarLight,
-} from "react-icons/pi";
+import { PiCheckCircleLight, PiArrowRightLight, PiShootingStarLight } from "react-icons/pi";
 
 export default function ThanksPage() {
   return (
@@ -26,8 +22,8 @@ export default function ThanksPage() {
           </h1>
 
           <p className="text-xl text-muted-foreground max-w-xl mx-auto leading-relaxed animate-fade-in-up-delay-1">
-            We&rsquo;ve received your message and will get back to you within 24
-            hours. We appreciate you reaching out.
+            We&rsquo;ve received your message and will get back to you within 24 hours. We
+            appreciate you reaching out.
           </p>
         </div>
       </section>
@@ -40,12 +36,9 @@ export default function ThanksPage() {
               <PiShootingStarLight className="h-4 w-4" />
               <span>While You Wait</span>
             </div>
-            <h2 className="text-2xl font-bold tracking-tight">
-              Explore Get At Me
-            </h2>
+            <h2 className="text-2xl font-bold tracking-tight">Explore Get At Me</h2>
             <p className="text-muted-foreground">
-              Check out what we have to offer while we put together a response
-              for you.
+              Check out what we have to offer while we put together a response for you.
             </p>
           </div>
 
