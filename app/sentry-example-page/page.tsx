@@ -44,7 +44,7 @@ export default function Page() {
           Click the button below, and view the sample error on the Sentry{" "}
           <a
             target="_blank"
-            href="https://hustle-launch-cq.sentry.io/issues/?project=4510300500066304"
+            href="https://hustle-launch-cq.sentry.io/issues/?project=4510804881768448"
           >
             Issues Page
           </a>
